@@ -83,7 +83,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
             className="btn-coral"
             style={{ fontSize: '0.88rem', padding: '0.55rem 1.25rem' }}
           >
-            Apply Now 🚀
+            Apply Now
           </button>
         </div>
 

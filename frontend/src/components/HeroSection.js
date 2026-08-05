@@ -3,24 +3,44 @@ import React from 'react';
 export default function HeroSection({ onExploreClick, onVerifyClick }) {
   const domains = [
     {
-      icon: "💻",
-      title: "Software Development",
-      description: "Building robust, scalable full-stack applications with clean MVC architecture and modern tools."
+      title: "Frontend Development",
+      description: "Building responsive, modern user interfaces with React, JavaScript ES6+, and CSS3."
     },
     {
-      icon: "🧠",
-      title: "AI & Data Science",
-      description: "Leveraging raw data, machine learning, and predictive analytics to drive intelligent insights."
+      title: "Backend Development",
+      description: "Designing REST APIs, microservices, databases, and secure backend systems."
     },
     {
-      icon: "🎨",
-      title: "UI/UX Product Design",
-      description: "Designing modern Figma interfaces, user journey maps, and high-converting design systems."
+      title: "Full Stack Development",
+      description: "End-to-end web engineering combining modern React clients with Node.js servers."
     },
     {
-      icon: "📈",
-      title: "Marketing & Strategy",
-      description: "Growth marketing, SEO optimization, social campaigns, and strategic brand positioning."
+      title: "Mobile App Development",
+      description: "Cross-platform mobile applications for iOS and Android using React Native and Flutter."
+    },
+    {
+      title: "Artificial Intelligence & Machine Learning",
+      description: "Training predictive models, natural language algorithms, and deploying AI solutions."
+    },
+    {
+      title: "Data Science",
+      description: "Data wrangling, statistical modeling, exploratory analytics, and visualization."
+    },
+    {
+      title: "Cybersecurity",
+      description: "Network security auditing, penetration testing, and web vulnerability assessments."
+    },
+    {
+      title: "UI/UX Design",
+      description: "User research, wireframing, high-fidelity Figma design systems, and prototyping."
+    },
+    {
+      title: "Cloud & DevOps",
+      description: "CI/CD pipeline automation, Docker containerization, and cloud infrastructure."
+    },
+    {
+      title: "Software Testing",
+      description: "Manual and automated QA testing, Jest unit tests, and E2E Cypress test suites."
     }
   ];
 
@@ -41,7 +61,7 @@ export default function HeroSection({ onExploreClick, onVerifyClick }) {
           <div>
             <div style={{ marginBottom: '1.25rem' }}>
               <span className="badge badge-coral" style={{ padding: '0.4rem 1.25rem', fontSize: '0.85rem' }}>
-                ⚡ Official Career Gateway by Velora Global
+                Official Career Gateway by Velora Global
               </span>
             </div>
 
@@ -101,7 +121,7 @@ export default function HeroSection({ onExploreClick, onVerifyClick }) {
                 }}
               />
 
-              {/* Floating Floating Badge */}
+              {/* Floating Badge */}
               <div className="corporate-card" style={{
                 position: 'absolute',
                 bottom: '1.5rem',
@@ -125,7 +145,7 @@ export default function HeroSection({ onExploreClick, onVerifyClick }) {
 
         </div>
 
-        {/* "What We Offer" Section */}
+        {/* "What We Offer" Section (10 Domains Grid) */}
         <div style={{ marginBottom: '5rem' }}>
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
             <span style={{ fontSize: '0.85rem', color: '#2563eb', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Domain Specializations</span>
@@ -135,31 +155,21 @@ export default function HeroSection({ onExploreClick, onVerifyClick }) {
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '1.5rem'
+            gap: '1.25rem'
           }}>
             {domains.map((d, i) => (
-              <div key={i} className="corporate-card" style={{ padding: '2rem', textAlign: 'left' }}>
-                <div style={{
-                  width: '48px',
-                  height: '48px',
-                  borderRadius: '12px',
-                  background: '#eff6ff',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.5rem',
-                  marginBottom: '1.25rem'
-                }}>
-                  {d.icon}
-                </div>
-                <h3 style={{ fontSize: '1.2rem', color: '#0b0f19', marginBottom: '0.5rem' }}>{d.title}</h3>
-                <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.5' }}>{d.description}</p>
+              <div key={i} className="corporate-card" style={{ padding: '1.75rem', textAlign: 'left' }}>
+                <span className="badge badge-blue" style={{ marginBottom: '0.75rem', fontSize: '0.72rem' }}>
+                  {d.title}
+                </span>
+                <h3 style={{ fontSize: '1.15rem', color: '#0b0f19', marginBottom: '0.5rem' }}>{d.title}</h3>
+                <p style={{ color: '#64748b', fontSize: '0.88rem', lineHeight: '1.5' }}>{d.description}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Dark Callout Banner (Matching Midnight #0B0F19 reference) */}
+        {/* Dark Callout Banner (Midnight #0B0F19) */}
         <div style={{
           background: '#0b0f19',
           borderRadius: '20px',
@@ -182,7 +192,7 @@ export default function HeroSection({ onExploreClick, onVerifyClick }) {
           </div>
 
           <button onClick={onExploreClick} className="btn-coral" style={{ padding: '0.9rem 2.2rem', fontSize: '1rem' }}>
-            Get In Touch ➔
+            Get In Touch
           </button>
         </div>
 

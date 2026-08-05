@@ -19,7 +19,19 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
     resumeUrl: 'https://example.com/resume/aarav.pdf'
   });
 
-  const domains = ['All', 'Technology', 'Design', 'Data Science', 'Business', 'Marketing'];
+  const domains = [
+    'All',
+    'Frontend Development',
+    'Backend Development',
+    'Full Stack Development',
+    'Mobile App Development',
+    'Artificial Intelligence & Machine Learning',
+    'Data Science',
+    'Cybersecurity',
+    'UI/UX Design',
+    'Cloud & DevOps',
+    'Software Testing'
+  ];
 
   useEffect(() => {
     const fetchPrograms = async () => {
@@ -54,7 +66,7 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
         resumeUrl: formData.resumeUrl
       });
 
-      setApplySuccessMsg('🎉 Application submitted successfully to Velora Global!');
+      setApplySuccessMsg('Application submitted successfully to Velora Global!');
       setTimeout(() => {
         setShowApplyModal(false);
         setApplySuccessMsg('');
@@ -72,35 +84,48 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
       <div className="container">
         
         {/* Section Header */}
-        <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 3rem auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 3rem auto' }}>
           <span className="badge badge-blue" style={{ marginBottom: '0.75rem' }}>Featured Programs</span>
           <h2 style={{ fontSize: '2.5rem', color: '#0b0f19', marginBottom: '0.75rem' }}>
             Internship Opportunities by <span className="text-coral">Domain</span>
           </h2>
           <p style={{ color: '#64748b', fontSize: '1.05rem' }}>
-            Discover curated internships across modern tech, design, data, and business fields.
+            Explore accredited internship opportunities across engineering, artificial intelligence, security, cloud, and design.
           </p>
         </div>
 
         {/* Filter Bar & Search */}
         <div style={{
           display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          flexDirection: 'column',
           gap: '1.5rem',
           marginBottom: '2.5rem'
         }}>
-          {/* Domain Filter Buttons */}
-          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+          
+          {/* Search Bar Top */}
+          <form onSubmit={handleSearchSubmit} style={{ display: 'flex', gap: '0.5rem', width: '100%', maxWidth: '500px', margin: '0 auto' }}>
+            <input 
+              type="text" 
+              placeholder="Search by role, programming language, or framework..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ width: '100%', fontSize: '0.95rem' }}
+            />
+            <button type="submit" className="btn-primary" style={{ padding: '0.65rem 1.4rem' }}>
+              Search
+            </button>
+          </form>
+
+          {/* Domain Filter Pills */}
+          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
             {domains.map((dom) => (
               <button
                 key={dom}
                 onClick={() => setSelectedDomain(dom)}
                 style={{
-                  padding: '0.6rem 1.25rem',
+                  padding: '0.55rem 1.15rem',
                   borderRadius: '9999px',
-                  fontSize: '0.88rem',
+                  fontSize: '0.85rem',
                   fontWeight: '600',
                   background: selectedDomain === dom ? '#2563eb' : '#ffffff',
                   border: selectedDomain === dom ? '1px solid #2563eb' : '1px solid #e2e8f0',
@@ -113,19 +138,6 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
             ))}
           </div>
 
-          {/* Search Bar */}
-          <form onSubmit={handleSearchSubmit} style={{ display: 'flex', gap: '0.5rem', flex: '1', maxWidth: '380px' }}>
-            <input 
-              type="text" 
-              placeholder="Search keyword or skill..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ width: '100%', fontSize: '0.9rem' }}
-            />
-            <button type="submit" className="btn-primary" style={{ padding: '0.6rem 1.25rem' }}>
-              Search
-            </button>
-          </form>
         </div>
 
         {/* Programs Grid */}
@@ -138,17 +150,13 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
             <div key={prog.id} className="corporate-card" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                  <span className={`badge ${
-                    prog.domain === 'Technology' ? 'badge-blue' :
-                    prog.domain === 'Design' ? 'badge-coral' :
-                    prog.domain === 'Data Science' ? 'badge-green' : 'badge-gold'
-                  }`}>
+                  <span className="badge badge-blue" style={{ fontSize: '0.75rem' }}>
                     {prog.domain}
                   </span>
-                  <span style={{ fontSize: '0.82rem', color: '#64748b', fontWeight: '600' }}>⏱ {prog.duration}</span>
+                  <span style={{ fontSize: '0.82rem', color: '#64748b', fontWeight: '600' }}>Duration: {prog.duration}</span>
                 </div>
 
-                <h3 style={{ fontSize: '1.3rem', color: '#0b0f19', marginBottom: '0.75rem', lineHeight: '1.3' }}>
+                <h3 style={{ fontSize: '1.25rem', color: '#0b0f19', marginBottom: '0.75rem', lineHeight: '1.3' }}>
                   {prog.title}
                 </h3>
 
@@ -189,7 +197,7 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
                   className="btn-coral"
                   style={{ padding: '0.55rem 1.1rem', fontSize: '0.85rem' }}
                 >
-                  Apply Now ➔
+                  Apply Now
                 </button>
               </div>
             </div>

@@ -1,7 +1,14 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 const dns = require('dns');
-const fs = require('fs');
-const path = require('path');
+
+// Force IPv4 and Google DNS for SRV resolution
+try {
+  if (dns.setDefaultResultOrder) {
+    dns.setDefaultResultOrder('ipv4first');
+  }
+  dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
+} catch (e) {}
 
 const User = require('./models/User');
 const Program = require('./models/Program');
@@ -10,19 +17,6 @@ const Task = require('./models/Task');
 const Evaluation = require('./models/Evaluation');
 const Certificate = require('./models/Certificate');
 
-const DB_FILE = path.join(__dirname, 'db.json');
-
-// Force IPv4 and set Google Public DNS to resolve MongoDB Atlas SRV records
-try {
-  if (dns.setDefaultResultOrder) {
-    dns.setDefaultResultOrder('ipv4first');
-  }
-  dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
-} catch (e) {
-  // Ignore if DNS server override fails
-}
-
-// Comprehensive seed dataset for Velora Global platform across all 10 domains
 const initialData = {
   users: [
     {
@@ -298,85 +292,40 @@ const initialData = {
   ]
 };
 
-let isConnectedToMongo = false;
-
-async function connectDB() {
-  const mongoURI = process.env.MONGODB_URI;
-  if (!mongoURI || mongoURI.includes('<db_password>')) {
-    console.log("ℹ️ Operating on persistent storage layer (db.json).");
-    return false;
-  }
-
+async function seedAtlas() {
+  const uri = process.env.MONGODB_URI;
+  console.log("Connecting to MongoDB Atlas...");
+  
   try {
-    await mongoose.connect(mongoURI, {
-      serverSelectionTimeoutMS: 5000,
-      family: 4
-    });
-    isConnectedToMongo = true;
-    console.log("🟢 Connected directly to MongoDB Atlas Database: velora_global");
-    await seedAtlasData();
-    return true;
+    await mongoose.connect(uri, { family: 4, serverSelectionTimeoutMS: 8000 });
+    console.log("Connected successfully to MongoDB Atlas database: velora_global");
+
+    await User.deleteMany({});
+    await Program.deleteMany({});
+    await Application.deleteMany({});
+    await Task.deleteMany({});
+    await Evaluation.deleteMany({});
+    await Certificate.deleteMany({});
+
+    console.log("Inserting users...");
+    await User.insertMany(initialData.users);
+    console.log("Inserting 10 domain programs...");
+    await Program.insertMany(initialData.programs);
+    console.log("Inserting applications...");
+    await Application.insertMany(initialData.applications);
+    console.log("Inserting tasks...");
+    await Task.insertMany(initialData.tasks);
+    console.log("Inserting evaluations...");
+    await Evaluation.insertMany(initialData.evaluations);
+    console.log("Inserting certificates...");
+    await Certificate.insertMany(initialData.certificates);
+
+    console.log("🎉 SUCCESS! All collections created and populated in MongoDB Atlas database: velora_global");
+    process.exit(0);
   } catch (err) {
-    console.warn("⚠️ MongoDB Atlas connection notice:", err.message);
-    // Fallback sync to ensure app responds smoothly to all API routes
-    initializeLocalDb();
-    return false;
+    console.error("❌ Atlas Seeding Error:", err.message);
+    process.exit(1);
   }
 }
 
-async function seedAtlasData() {
-  try {
-    const userCount = await User.countDocuments();
-    if (userCount === 0) {
-      console.log("🌱 Populating MongoDB Atlas database with 10 internship domains and leadership records...");
-      await User.insertMany(initialData.users);
-      await Program.insertMany(initialData.programs);
-      await Application.insertMany(initialData.applications);
-      await Task.insertMany(initialData.tasks);
-      await Evaluation.insertMany(initialData.evaluations);
-      await Certificate.insertMany(initialData.certificates);
-      console.log("✅ MongoDB Atlas database successfully populated!");
-    } else {
-      console.log(`✅ MongoDB Atlas database active. Found ${userCount} user records.`);
-    }
-  } catch (err) {
-    console.error("Error populating Atlas data:", err.message);
-  }
-}
-
-// Local File DB storage fallback functions
-function initializeLocalDb() {
-  if (!fs.existsSync(DB_FILE)) {
-    fs.writeFileSync(DB_FILE, JSON.stringify(initialData, null, 2), 'utf8');
-  }
-}
-
-function readLocalDb() {
-  initializeLocalDb();
-  try {
-    const raw = fs.readFileSync(DB_FILE, 'utf8');
-    const parsed = JSON.parse(raw);
-    if (!parsed.programs || parsed.programs.length < 10) {
-      parsed.programs = initialData.programs;
-      writeLocalDb(parsed);
-    }
-    return parsed;
-  } catch (err) {
-    return initialData;
-  }
-}
-
-function writeLocalDb(data) {
-  try {
-    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf8');
-  } catch (err) {
-    console.error("Error writing local db file:", err);
-  }
-}
-
-module.exports = {
-  connectDB,
-  readLocalDb,
-  writeLocalDb,
-  getIsConnected: () => isConnectedToMongo
-};
+seedAtlas();

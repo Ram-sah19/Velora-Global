@@ -1,26 +1,50 @@
-const UserModel = require('../models/User');
+const User = require('../models/User');
 
-exports.getUsers = (req, res) => {
-  const users = UserModel.getAll();
-  res.json(users);
+exports.getUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
-exports.getFounders = (req, res) => {
-  const founders = UserModel.getFounders();
-  res.json(founders);
+exports.getFounders = async (req, res) => {
+  try {
+    const founders = await User.find({ userType: 'admin' });
+    res.json(founders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
-exports.registerStudent = (req, res) => {
-  const { name, email } = req.body;
-  if (!name || !email) {
-    return res.status(400).json({ error: 'Name and email are required' });
-  }
+exports.registerStudent = async (req, res) => {
+  try {
+    const { name, email, university, fieldOfStudy, skills, bio } = req.body;
+    if (!name || !email) {
+      return res.status(400).json({ error: 'Name and email are required' });
+    }
 
-  const existing = UserModel.findByEmail(email);
-  if (existing) {
-    return res.json({ message: 'User already exists', user: existing });
-  }
+    const existing = await User.findOne({ email: email.toLowerCase() });
+    if (existing) {
+      return res.json({ message: 'User already exists', user: existing });
+    }
 
-  const newUser = UserModel.create(req.body);
-  res.status(201).json({ message: 'Registration successful', user: newUser });
+    const newUser = await User.create({
+      id: `user-student-${Date.now()}`,
+      name,
+      email: email.toLowerCase(),
+      role: 'Student Candidate',
+      userType: 'student',
+      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}`,
+      university: university || 'Not specified',
+      fieldOfStudy: fieldOfStudy || 'General',
+      skills: skills || [],
+      bio: bio || 'Eager to gain real-world project experience with Velora Global.'
+    });
+
+    res.status(201).json({ message: 'Registration successful', user: newUser });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
