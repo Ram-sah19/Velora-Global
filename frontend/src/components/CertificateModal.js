@@ -1,4 +1,5 @@
 import React from 'react';
+import VeloraLogo from './VeloraLogo';
 
 export default function CertificateModal({ certificate, onClose }) {
   if (!certificate) return null;
@@ -18,7 +19,7 @@ export default function CertificateModal({ certificate, onClose }) {
           color: '#0f172a',
           padding: '3rem',
           borderRadius: '16px',
-          border: '12px solid #1e293b',
+          border: '12px solid #0b0f19',
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)',
           fontFamily: 'serif',
           position: 'relative'
@@ -53,46 +54,24 @@ export default function CertificateModal({ certificate, onClose }) {
           position: 'relative'
         }}>
           
-          {/* Header Seal */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
-            <div style={{
-              width: '50px',
-              height: '50px',
-              borderRadius: '50%',
-              background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-              color: 'white',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '1.8rem',
-              fontWeight: 'bold',
-              boxShadow: '0 0 15px rgba(245, 158, 11, 0.4)'
-            }}>
-              ★
-            </div>
-            <div style={{ textAlign: 'left' }}>
-              <h2 style={{ fontSize: '1.8rem', fontWeight: '800', fontFamily: "'Outfit', sans-serif", letterSpacing: '0.05em', color: '#0f172a' }}>
-                VELORA GLOBAL
-              </h2>
-              <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#64748b', fontFamily: 'sans-serif' }}>
-                Official Internship Certification Authority
-              </span>
-            </div>
+          {/* Official Velora Logo Header */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem' }}>
+            <VeloraLogo width={52} height={52} showText={true} textColor="#0b0f19" />
           </div>
 
-          <h1 style={{ fontSize: '2.6rem', fontWeight: '400', fontFamily: 'Georgia, serif', color: '#1e293b', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          <h1 style={{ fontSize: '2.5rem', fontWeight: '400', fontFamily: 'Georgia, serif', color: '#0b0f19', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
             Certificate of Completion
           </h1>
-          <p style={{ fontSize: '1rem', fontStyle: 'italic', color: '#64748b', marginBottom: '2rem' }}>
+          <p style={{ fontSize: '1rem', fontStyle: 'italic', color: '#64748b', marginBottom: '1.75rem' }}>
             This is proudly awarded to
           </p>
 
-          <h2 style={{ fontSize: '2.8rem', fontWeight: '700', color: '#0f172a', fontFamily: "'Outfit', sans-serif", textDecoration: 'underline', textDecorationColor: '#6366f1', marginBottom: '1.5rem' }}>
+          <h2 style={{ fontSize: '2.6rem', fontWeight: '700', color: '#0b0f19', fontFamily: "'Outfit', sans-serif", textDecoration: 'underline', textDecorationColor: '#e5a93c', marginBottom: '1.5rem' }}>
             {certificate.studentName}
           </h2>
 
-          <p style={{ fontSize: '1.1rem', color: '#334155', maxWidth: '650px', margin: '0 auto 2rem auto', lineHeight: '1.7', fontFamily: 'Georgia, serif' }}>
-            for successfully completing the rigorous <strong>{certificate.duration}</strong> practical program in <strong>{certificate.programTitle}</strong> at <strong>Velora Global</strong> with an overall performance grade of <strong style={{ color: '#10b981' }}>{certificate.grade}</strong>.
+          <p style={{ fontSize: '1.05rem', color: '#334155', maxWidth: '650px', margin: '0 auto 2rem auto', lineHeight: '1.7', fontFamily: 'Georgia, serif' }}>
+            for successfully completing the <strong>{certificate.duration}</strong> practical program in <strong>{certificate.programTitle}</strong> at <strong>Velora Global</strong> with an overall performance grade of <strong style={{ color: '#059669' }}>{certificate.grade}</strong>.
           </p>
 
           {/* Verification Code Box */}
@@ -121,10 +100,10 @@ export default function CertificateModal({ certificate, onClose }) {
             borderTop: '1px solid #e2e8f0'
           }}>
             <div>
-              <div style={{ fontFamily: "'Brush Script MT', cursive, sans-serif", fontSize: '1.8rem', color: '#1e293b', marginBottom: '0.25rem' }}>
+              <div style={{ fontFamily: "'Brush Script MT', cursive, sans-serif", fontSize: '1.8rem', color: '#0b0f19', marginBottom: '0.25rem' }}>
                 Rambilas Sah
               </div>
-              <div style={{ borderTop: '1px solid #94a3b8', paddingTop: '0.35rem', fontSize: '0.85rem', fontWeight: 'bold', color: '#0f172a', fontFamily: 'sans-serif' }}>
+              <div style={{ borderTop: '1px solid #94a3b8', paddingTop: '0.35rem', fontSize: '0.85rem', fontWeight: 'bold', color: '#0b0f19', fontFamily: 'sans-serif' }}>
                 Rambilas Sah
               </div>
               <span style={{ fontSize: '0.75rem', color: '#64748b', fontFamily: 'sans-serif' }}>Founder & CEO</span>
@@ -146,16 +125,16 @@ export default function CertificateModal({ certificate, onClose }) {
                 textAlign: 'center',
                 padding: '0.25rem'
               }}>
-                [QR Verified Code]
+                [QR Verified]
               </div>
-              <span style={{ fontSize: '0.7rem', color: '#94a3b8', fontFamily: 'sans-serif' }}>Scan to Verify</span>
+              <span style={{ fontSize: '0.7rem', color: '#64748b', fontFamily: 'sans-serif' }}>Scan to Verify</span>
             </div>
 
             <div>
-              <div style={{ fontFamily: "'Brush Script MT', cursive, sans-serif", fontSize: '1.8rem', color: '#1e293b', marginBottom: '0.25rem' }}>
+              <div style={{ fontFamily: "'Brush Script MT', cursive, sans-serif", fontSize: '1.8rem', color: '#0b0f19', marginBottom: '0.25rem' }}>
                 Puja & Rohit
               </div>
-              <div style={{ borderTop: '1px solid #94a3b8', paddingTop: '0.35rem', fontSize: '0.85rem', fontWeight: 'bold', color: '#0f172a', fontFamily: 'sans-serif' }}>
+              <div style={{ borderTop: '1px solid #94a3b8', paddingTop: '0.35rem', fontSize: '0.85rem', fontWeight: 'bold', color: '#0b0f19', fontFamily: 'sans-serif' }}>
                 Puja R. & Rohit S.
               </div>
               <span style={{ fontSize: '0.75rem', color: '#64748b', fontFamily: 'sans-serif' }}>Co-Founders</span>
@@ -168,8 +147,8 @@ export default function CertificateModal({ certificate, onClose }) {
         <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
           <button 
             onClick={handlePrint}
-            className="btn-primary"
-            style={{ padding: '0.85rem 2rem', fontSize: '1rem', background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}
+            className="btn-coral"
+            style={{ padding: '0.85rem 2rem', fontSize: '1rem' }}
           >
             🖨️ Print / Save Official Certificate PDF
           </button>

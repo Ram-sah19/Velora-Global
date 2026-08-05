@@ -29,19 +29,19 @@ export default function CertificateVerifier() {
         
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-          <span className="badge badge-green" style={{ marginBottom: '0.75rem' }}>Public Verification Portal</span>
-          <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>
-            Verify Official <span className="gradient-text">Velora Global</span> Credentials
+          <span className="badge badge-coral" style={{ marginBottom: '0.75rem' }}>Credential Verification</span>
+          <h2 style={{ fontSize: '2.5rem', color: '#0b0f19', marginBottom: '1rem' }}>
+            Verify Official <span className="text-blue">Velora Global</span> Certificate
           </h2>
-          <p style={{ color: '#94a3b8', fontSize: '1.05rem' }}>
-            Employers, recruiters, and educational institutions can instantly verify the validity and performance records of Velora Global certificate holders.
+          <p style={{ color: '#64748b', fontSize: '1.05rem' }}>
+            Instantly verify authentic internship completion credentials issued by Velora Global.
           </p>
         </div>
 
         {/* Verification Form Card */}
-        <div className="glass-card" style={{ padding: '2.5rem', marginBottom: '2.5rem' }}>
+        <div className="corporate-card" style={{ padding: '2.5rem', marginBottom: '2.5rem' }}>
           <form onSubmit={handleVerify} style={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}>
-            <label style={{ fontSize: '0.9rem', color: '#94a3b8' }}>Enter Certificate ID / Reference Number</label>
+            <label style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600' }}>Enter Certificate ID / Reference Number</label>
             <div style={{ display: 'flex', gap: '0.75rem' }}>
               <input 
                 type="text" 
@@ -62,48 +62,48 @@ export default function CertificateVerifier() {
         {searched && (
           <div>
             {result && result.valid ? (
-              <div className="glass-card" style={{ padding: '2.5rem', border: '1px solid rgba(16, 185, 129, 0.4)', background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(18, 24, 38, 0.9) 100%)' }}>
+              <div className="corporate-card" style={{ padding: '2.5rem', border: '2px solid #10b981', background: '#ecfdf5' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
                   <span style={{ fontSize: '2rem' }}>✅</span>
                   <div>
-                    <h3 style={{ fontSize: '1.5rem', color: '#34d399' }}>Official Certificate Verified</h3>
-                    <span style={{ fontSize: '0.82rem', color: '#94a3b8' }}>Authentic Credential Issued by Velora Global</span>
+                    <h3 style={{ fontSize: '1.5rem', color: '#059669' }}>Official Certificate Verified</h3>
+                    <span style={{ fontSize: '0.82rem', color: '#64748b', fontWeight: '600' }}>Authentic Credential Issued by Velora Global</span>
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', padding: '1.25rem', background: 'rgba(255, 255, 255, 0.04)', borderRadius: '12px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', padding: '1.25rem', background: '#ffffff', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
                   <div>
-                    <span style={{ fontSize: '0.8rem', color: '#94a3b8', display: 'block' }}>Student Candidate</span>
-                    <strong style={{ fontSize: '1.1rem', color: '#f8fafc' }}>{result.certificate.studentName}</strong>
+                    <span style={{ fontSize: '0.8rem', color: '#64748b', display: 'block' }}>Student Candidate</span>
+                    <strong style={{ fontSize: '1.1rem', color: '#0b0f19' }}>{result.certificate.studentName}</strong>
                   </div>
                   <div>
-                    <span style={{ fontSize: '0.8rem', color: '#94a3b8', display: 'block' }}>Program & Domain</span>
-                    <strong style={{ fontSize: '1.1rem', color: '#f8fafc' }}>{result.certificate.programTitle}</strong>
+                    <span style={{ fontSize: '0.8rem', color: '#64748b', display: 'block' }}>Program & Domain</span>
+                    <strong style={{ fontSize: '1.1rem', color: '#0b0f19' }}>{result.certificate.programTitle}</strong>
                   </div>
                   <div>
-                    <span style={{ fontSize: '0.8rem', color: '#94a3b8', display: 'block' }}>Overall Grade</span>
-                    <strong style={{ fontSize: '1.1rem', color: '#10b981' }}>{result.certificate.grade}</strong>
+                    <span style={{ fontSize: '0.8rem', color: '#64748b', display: 'block' }}>Overall Grade</span>
+                    <strong style={{ fontSize: '1.1rem', color: '#059669' }}>{result.certificate.grade}</strong>
                   </div>
                   <div>
-                    <span style={{ fontSize: '0.8rem', color: '#94a3b8', display: 'block' }}>Issue Date</span>
-                    <strong style={{ fontSize: '1.1rem', color: '#f8fafc' }}>{result.certificate.issueDate}</strong>
+                    <span style={{ fontSize: '0.8rem', color: '#64748b', display: 'block' }}>Issue Date</span>
+                    <strong style={{ fontSize: '1.1rem', color: '#0b0f19' }}>{result.certificate.issueDate}</strong>
                   </div>
                   <div>
-                    <span style={{ fontSize: '0.8rem', color: '#94a3b8', display: 'block' }}>Founder Signature</span>
-                    <strong style={{ fontSize: '1.1rem', color: '#f59e0b' }}>{result.certificate.founderSignature} (Founder & CEO)</strong>
+                    <span style={{ fontSize: '0.8rem', color: '#64748b', display: 'block' }}>Founder Signature</span>
+                    <strong style={{ fontSize: '1.1rem', color: '#2563eb' }}>{result.certificate.founderSignature} (Founder & CEO)</strong>
                   </div>
                   <div>
-                    <span style={{ fontSize: '0.8rem', color: '#94a3b8', display: 'block' }}>Co-Founders</span>
-                    <strong style={{ fontSize: '1.1rem', color: '#6366f1' }}>Puja Rouniyar & Rohit Sah</strong>
+                    <span style={{ fontSize: '0.8rem', color: '#64748b', display: 'block' }}>Co-Founders</span>
+                    <strong style={{ fontSize: '1.1rem', color: '#ff6b6b' }}>Puja Rouniyar & Rohit Sah</strong>
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="glass-card" style={{ padding: '2.5rem', border: '1px solid rgba(244, 63, 94, 0.4)', textAlign: 'center' }}>
+              <div className="corporate-card" style={{ padding: '2.5rem', border: '2px solid #ff6b6b', background: '#fff5f5', textAlign: 'center' }}>
                 <span style={{ fontSize: '2.5rem', display: 'block', marginBottom: '0.5rem' }}>⚠️</span>
-                <h3 style={{ fontSize: '1.4rem', color: '#f43f5e', marginBottom: '0.5rem' }}>Certificate Not Found</h3>
-                <p style={{ color: '#94a3b8', fontSize: '0.95rem' }}>
-                  The Certificate ID <strong>"{certId}"</strong> was not matched in official Velora Global records. Please double-check the code or contact support.
+                <h3 style={{ fontSize: '1.4rem', color: '#e03131', marginBottom: '0.5rem' }}>Certificate Not Found</h3>
+                <p style={{ color: '#64748b', fontSize: '0.95rem' }}>
+                  The Certificate ID <strong>"{certId}"</strong> was not matched in official Velora Global records.
                 </p>
               </div>
             )}

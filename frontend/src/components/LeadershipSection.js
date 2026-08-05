@@ -26,17 +26,17 @@ export default function LeadershipSection() {
   ];
 
   return (
-    <section style={{ padding: '4rem 0', background: 'rgba(15, 23, 42, 0.4)' }}>
+    <section style={{ padding: '4rem 0', background: '#ffffff', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
       <div className="container">
         
         {/* Section Header */}
         <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 3rem auto' }}>
-          <span className="badge badge-cyan" style={{ marginBottom: '0.75rem' }}>Leadership & Founding Team</span>
-          <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>
-            Meet the Founders of <span className="gradient-text">Velora Global</span>
+          <span className="badge badge-coral" style={{ marginBottom: '0.75rem' }}>Founding Leadership</span>
+          <h2 style={{ fontSize: '2.5rem', color: '#0b0f19', marginBottom: '0.75rem' }}>
+            Meet the Team Behind <span className="text-blue">Velora Global</span>
           </h2>
-          <p style={{ color: '#94a3b8', fontSize: '1.05rem' }}>
-            Driven by a shared passion for educational transformation, practical skill development, and creating verified career pathways for talented students worldwide.
+          <p style={{ color: '#64748b', fontSize: '1.05rem' }}>
+            Driven by educational transformation, practical skill development, and creating verified career pathways.
           </p>
         </div>
 
@@ -47,7 +47,7 @@ export default function LeadershipSection() {
           gap: '2rem'
         }}>
           {team.map((member, idx) => (
-            <div key={idx} className="glass-card" style={{ padding: '2rem', textAlign: 'center' }}>
+            <div key={idx} className="corporate-card" style={{ padding: '2.25rem', textAlign: 'center' }}>
               <div style={{ position: 'relative', width: '120px', height: '120px', margin: '0 auto 1.5rem auto' }}>
                 <img 
                   src={member.image} 
@@ -57,27 +57,27 @@ export default function LeadershipSection() {
                     height: '100%',
                     borderRadius: '50%',
                     objectFit: 'cover',
-                    border: '3px solid #6366f1',
-                    boxShadow: '0 0 20px rgba(99, 102, 241, 0.3)'
+                    border: '3px solid #2563eb',
+                    boxShadow: '0 4px 15px rgba(37, 99, 235, 0.25)'
                   }}
                 />
-                <span className="badge badge-gold" style={{
+                <span className="badge badge-coral" style={{
                   position: 'absolute',
-                  bottom: '-5px',
+                  bottom: '-8px',
                   left: '50%',
                   transform: 'translateX(-50%)',
-                  fontSize: '0.7rem',
+                  fontSize: '0.72rem',
                   whiteSpace: 'nowrap'
                 }}>
                   {member.badge}
                 </span>
               </div>
 
-              <h3 style={{ fontSize: '1.35rem', marginBottom: '0.25rem' }}>{member.name}</h3>
-              <div style={{ color: '#6366f1', fontWeight: '600', fontSize: '0.9rem', marginBottom: '1rem' }}>
+              <h3 style={{ fontSize: '1.35rem', color: '#0b0f19', marginBottom: '0.25rem' }}>{member.name}</h3>
+              <div style={{ color: '#2563eb', fontWeight: '700', fontSize: '0.9rem', marginBottom: '1rem' }}>
                 {member.role}
               </div>
-              <p style={{ color: '#94a3b8', fontSize: '0.92rem', lineHeight: '1.6' }}>
+              <p style={{ color: '#64748b', fontSize: '0.92rem', lineHeight: '1.6' }}>
                 {member.bio}
               </p>
             </div>

@@ -31,7 +31,7 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
       }
     };
     fetchPrograms();
-  }, [selectedDomain]);
+  }, [selectedDomain, searchQuery]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -54,7 +54,7 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
         resumeUrl: formData.resumeUrl
       });
 
-      setApplySuccessMsg('🎉 Application submitted successfully to Velora Global! Track status in your Student Workspace.');
+      setApplySuccessMsg('🎉 Application submitted successfully to Velora Global!');
       setTimeout(() => {
         setShowApplyModal(false);
         setApplySuccessMsg('');
@@ -73,12 +73,12 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
         
         {/* Section Header */}
         <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 3rem auto' }}>
-          <span className="badge badge-indigo" style={{ marginBottom: '0.75rem' }}>Explore Opportunities</span>
-          <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>
-            Internship Programs by <span className="gradient-text">Domain</span>
+          <span className="badge badge-blue" style={{ marginBottom: '0.75rem' }}>Featured Programs</span>
+          <h2 style={{ fontSize: '2.5rem', color: '#0b0f19', marginBottom: '0.75rem' }}>
+            Internship Opportunities by <span className="text-coral">Domain</span>
           </h2>
-          <p style={{ color: '#94a3b8', fontSize: '1.05rem' }}>
-            Discover curated internships designed to match your educational field and career aspirations. Work on real industry tasks and receive accredited feedback.
+          <p style={{ color: '#64748b', fontSize: '1.05rem' }}>
+            Discover curated internships across modern tech, design, data, and business fields.
           </p>
         </div>
 
@@ -98,13 +98,14 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
                 key={dom}
                 onClick={() => setSelectedDomain(dom)}
                 style={{
-                  padding: '0.6rem 1.2rem',
+                  padding: '0.6rem 1.25rem',
                   borderRadius: '9999px',
-                  fontSize: '0.9rem',
+                  fontSize: '0.88rem',
                   fontWeight: '600',
-                  background: selectedDomain === dom ? '#6366f1' : 'rgba(255, 255, 255, 0.05)',
-                  border: selectedDomain === dom ? '1px solid #818cf8' : '1px solid rgba(255, 255, 255, 0.08)',
-                  color: selectedDomain === dom ? '#ffffff' : '#94a3b8'
+                  background: selectedDomain === dom ? '#2563eb' : '#ffffff',
+                  border: selectedDomain === dom ? '1px solid #2563eb' : '1px solid #e2e8f0',
+                  color: selectedDomain === dom ? '#ffffff' : '#64748b',
+                  boxShadow: 'var(--shadow-sm)'
                 }}
               >
                 {dom}
@@ -113,15 +114,15 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
           </div>
 
           {/* Search Bar */}
-          <form onSubmit={handleSearchSubmit} style={{ display: 'flex', gap: '0.5rem', flex: '1', maxWidth: '350px' }}>
+          <form onSubmit={handleSearchSubmit} style={{ display: 'flex', gap: '0.5rem', flex: '1', maxWidth: '380px' }}>
             <input 
               type="text" 
-              placeholder="Search by keyword, skill, or role..."
+              placeholder="Search keyword or skill..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{ width: '100%', fontSize: '0.9rem' }}
             />
-            <button type="submit" className="btn-primary" style={{ padding: '0.6rem 1rem' }}>
+            <button type="submit" className="btn-primary" style={{ padding: '0.6rem 1.25rem' }}>
               Search
             </button>
           </form>
@@ -134,36 +135,38 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
           gap: '1.75rem'
         }}>
           {programs.map((prog) => (
-            <div key={prog.id} className="glass-card" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div key={prog.id} className="corporate-card" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
                   <span className={`badge ${
-                    prog.domain === 'Technology' ? 'badge-indigo' :
-                    prog.domain === 'Design' ? 'badge-cyan' :
+                    prog.domain === 'Technology' ? 'badge-blue' :
+                    prog.domain === 'Design' ? 'badge-coral' :
                     prog.domain === 'Data Science' ? 'badge-green' : 'badge-gold'
                   }`}>
                     {prog.domain}
                   </span>
-                  <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>⏱ {prog.duration}</span>
+                  <span style={{ fontSize: '0.82rem', color: '#64748b', fontWeight: '600' }}>⏱ {prog.duration}</span>
                 </div>
 
-                <h3 style={{ fontSize: '1.3rem', marginBottom: '0.75rem', lineHeight: '1.3' }}>
+                <h3 style={{ fontSize: '1.3rem', color: '#0b0f19', marginBottom: '0.75rem', lineHeight: '1.3' }}>
                   {prog.title}
                 </h3>
 
-                <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '1.25rem', display: '-webkit-box', WebkitLineClamp: '3', WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '1.25rem', display: '-webkit-box', WebkitLineClamp: '3', WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                   {prog.description}
                 </p>
 
-                {/* Skills tags */}
+                {/* Technology pill tags */}
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1.5rem' }}>
                   {prog.skillsRequired.map((skill, i) => (
                     <span key={i} style={{
-                      fontSize: '0.75rem',
-                      background: 'rgba(255, 255, 255, 0.06)',
-                      padding: '0.2rem 0.6rem',
+                      fontSize: '0.78rem',
+                      background: '#f1f5f9',
+                      border: '1px solid #e2e8f0',
+                      padding: '0.25rem 0.65rem',
                       borderRadius: '6px',
-                      color: '#cbd5e1'
+                      color: '#0b0f19',
+                      fontWeight: '600'
                     }}>
                       {skill}
                     </span>
@@ -172,10 +175,10 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
               </div>
 
               {/* Card Footer */}
-              <div style={{ paddingTop: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ paddingTop: '1rem', borderTop: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
-                  <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8' }}>Stipend / Support</span>
-                  <span style={{ fontSize: '0.9rem', fontWeight: '700', color: '#10b981' }}>{prog.stipend}</span>
+                  <span style={{ display: 'block', fontSize: '0.75rem', color: '#64748b' }}>Stipend / Support</span>
+                  <span style={{ fontSize: '0.95rem', fontWeight: '700', color: '#10b981' }}>{prog.stipend}</span>
                 </div>
 
                 <button 
@@ -183,8 +186,8 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
                     setSelectedProgram(prog);
                     setShowApplyModal(true);
                   }}
-                  className="btn-primary"
-                  style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}
+                  className="btn-coral"
+                  style={{ padding: '0.55rem 1.1rem', fontSize: '0.85rem' }}
                 >
                   Apply Now ➔
                 </button>
@@ -203,30 +206,33 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
               onClick={() => setShowApplyModal(false)}
               style={{
                 position: 'absolute',
-                top: '1rem',
-                right: '1rem',
-                background: 'transparent',
-                color: '#94a3b8',
-                fontSize: '1.5rem'
+                top: '1.25rem',
+                right: '1.25rem',
+                background: '#f1f5f9',
+                color: '#64748b',
+                borderRadius: '50%',
+                width: '32px',
+                height: '32px',
+                fontSize: '1rem'
               }}
             >
               ✕
             </button>
 
-            <span className="badge badge-indigo" style={{ marginBottom: '0.5rem' }}>{selectedProgram.domain}</span>
-            <h2 style={{ fontSize: '1.8rem', marginBottom: '0.5rem' }}>{selectedProgram.title}</h2>
-            <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
+            <span className="badge badge-blue" style={{ marginBottom: '0.5rem' }}>{selectedProgram.domain}</span>
+            <h2 style={{ fontSize: '1.8rem', color: '#0b0f19', marginBottom: '0.35rem' }}>{selectedProgram.title}</h2>
+            <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
               Duration: <strong>{selectedProgram.duration}</strong> • Location: <strong>{selectedProgram.locationType}</strong>
             </p>
 
             {applySuccessMsg ? (
-              <div style={{ padding: '2rem', textAlign: 'center', background: 'rgba(16, 185, 129, 0.1)', border: '1px solid #10b981', borderRadius: '12px', color: '#34d399' }}>
-                <p style={{ fontSize: '1.1rem', fontWeight: '600' }}>{applySuccessMsg}</p>
+              <div style={{ padding: '2rem', textAlign: 'center', background: '#ecfdf5', border: '1px solid #10b981', borderRadius: '12px', color: '#059669' }}>
+                <p style={{ fontSize: '1.1rem', fontWeight: '700' }}>{applySuccessMsg}</p>
               </div>
             ) : (
               <form onSubmit={handleApplySubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.85rem', color: '#94a3b8', marginBottom: '0.35rem' }}>Applicant Name</label>
+                  <label style={{ display: 'block', fontSize: '0.85rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '600' }}>Applicant Name</label>
                   <input 
                     type="text"
                     required
@@ -237,7 +243,7 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.85rem', color: '#94a3b8', marginBottom: '0.35rem' }}>Email Address</label>
+                  <label style={{ display: 'block', fontSize: '0.85rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '600' }}>Email Address</label>
                   <input 
                     type="email"
                     required
@@ -248,10 +254,9 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.85rem', color: '#94a3b8', marginBottom: '0.35rem' }}>Portfolio / GitHub URL</label>
+                  <label style={{ display: 'block', fontSize: '0.85rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '600' }}>Portfolio / GitHub Link</label>
                   <input 
                     type="url"
-                    placeholder="https://github.com/username or portfolio link"
                     value={formData.portfolioUrl}
                     onChange={(e) => setFormData({...formData, portfolioUrl: e.target.value})}
                     style={{ width: '100%' }}
@@ -259,7 +264,7 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.85rem', color: '#94a3b8', marginBottom: '0.35rem' }}>Statement of Purpose / Why Velora Global?</label>
+                  <label style={{ display: 'block', fontSize: '0.85rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '600' }}>Statement of Purpose</label>
                   <textarea 
                     rows={3}
                     required
@@ -270,19 +275,11 @@ export default function DomainExplorer({ activeRole = 'student', onApplySuccess 
                 </div>
 
                 <div style={{ marginTop: '0.5rem', display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
-                  <button 
-                    type="button" 
-                    onClick={() => setShowApplyModal(false)}
-                    className="btn-secondary"
-                  >
+                  <button type="button" onClick={() => setShowApplyModal(false)} className="btn-secondary">
                     Cancel
                   </button>
-                  <button 
-                    type="submit" 
-                    disabled={submitting}
-                    className="btn-primary"
-                  >
-                    {submitting ? 'Submitting...' : 'Confirm & Submit Application'}
+                  <button type="submit" disabled={submitting} className="btn-coral">
+                    {submitting ? 'Submitting...' : 'Confirm Application'}
                   </button>
                 </div>
               </form>
