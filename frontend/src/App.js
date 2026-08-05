@@ -26,6 +26,7 @@ export default function App() {
       {/* Main Content Area */}
       <main style={{ flex: 1 }}>
         
+        {/* Home Overview Page */}
         {activeTab === 'home' && (
           <>
             <HeroSection 
@@ -33,13 +34,10 @@ export default function App() {
               onVerifyClick={() => setActiveTab('verify')}
             />
             <LeadershipSection />
-            <DomainExplorer 
-              activeRole={activeRole} 
-              onApplySuccess={() => setActiveTab('student')}
-            />
           </>
         )}
 
+        {/* Explore Internship Programs Page */}
         {activeTab === 'programs' && (
           <DomainExplorer 
             activeRole={activeRole}
@@ -47,18 +45,21 @@ export default function App() {
           />
         )}
 
+        {/* Student Workspace Portal */}
         {activeTab === 'student' && (
           <StudentPortal 
             onOpenCertificate={(cert) => setActiveCertificate(cert)}
           />
         )}
 
+        {/* Executive Dashboard */}
         {activeTab === 'admin' && (
           <AdminDashboard 
             onCertificateGenerated={(cert) => setActiveCertificate(cert)}
           />
         )}
 
+        {/* Public Certificate Verification Page */}
         {activeTab === 'verify' && (
           <CertificateVerifier />
         )}
