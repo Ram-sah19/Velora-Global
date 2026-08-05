@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
+import StudentJourneySection from './components/StudentJourneySection';
+import FeaturesSection from './components/FeaturesSection';
 import LeadershipSection from './components/LeadershipSection';
+import FaqSection from './components/FaqSection';
 import DomainExplorer from './components/DomainExplorer';
 import StudentPortal from './components/StudentPortal';
 import AdminDashboard from './components/AdminDashboard';
@@ -26,14 +29,28 @@ export default function App() {
       {/* Main Content Area */}
       <main style={{ flex: 1 }}>
         
-        {/* Home Overview Page */}
+        {/* Full Executive Home Page */}
         {activeTab === 'home' && (
           <>
+            {/* Hero & Interactive Domain Navigator */}
             <HeroSection 
               onExploreClick={() => setActiveTab('programs')}
               onVerifyClick={() => setActiveTab('verify')}
             />
+
+            {/* Step-by-Step Student Journey */}
+            <StudentJourneySection 
+              onApplyClick={() => setActiveTab('programs')}
+            />
+
+            {/* Why Velora Global Platform Features */}
+            <FeaturesSection />
+
+            {/* Founding Leadership Section (Rambilas Sah, Puja Rouniyar, Rohit Sah) */}
             <LeadershipSection />
+
+            {/* Frequently Asked Questions */}
+            <FaqSection />
           </>
         )}
 

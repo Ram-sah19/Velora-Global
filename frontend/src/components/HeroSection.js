@@ -196,8 +196,12 @@ export default function HeroSection({ onExploreClick, onVerifyClick }) {
             }}>
               {/* Leader Image */}
               <img 
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" 
-                alt="Rambilas Sah - Founder"
+                src="/media/rambilas_sah.jpg" 
+                alt="Rambilas Sah - Founder & CEO"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "/images/rambilas_sah.jpg";
+                }}
                 style={{
                   width: '100%',
                   height: '100%',
