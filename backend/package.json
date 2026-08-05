@@ -1,0 +1,16 @@
+{
+  "name": "velora-global-backend",
+  "version": "1.0.0",
+  "description": "Express MERN Backend for Velora Global Internship & Career Development Platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.19.2",
+    "mongoose": "^8.3.1"
+  }
+}
