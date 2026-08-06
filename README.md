@@ -88,7 +88,7 @@ src/
 Verify your connection string in `backend/.env`:
 ```env
 PORT=5000
-MONGODB_URI=mongodb+srv://ram6070246_db_user:jkHUZssys6IyCqXo@cluster0.7iotdng.mongodb.net/velora_global?retryWrites=true&w=majority&appName=Cluster0
+MONGODB_URI=mongodb+srv://<YOUR_DB_USER>:<YOUR_DB_PASSWORD>@cluster0.7iotdng.mongodb.net/velora_global?retryWrites=true&w=majority
 ```
 
 ### 2. Seed MongoDB Atlas Database
