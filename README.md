@@ -1,6 +1,6 @@
 # Velora Global — Internship & Career Development Platform
 
-> **Official Career Gateway delivering industry-aligned internship opportunities with purpose, precision, and verified credentials.**
+> **Official Career Gateway delivering industry-aligned internship & training opportunities with purpose, precision, and verified credentials.**
 
 ---
 
@@ -15,35 +15,25 @@ Founding Leadership:
 
 ---
 
-## 🚀 Key Features & Capabilities
+## 🚀 Dedicated Program Pages
 
-### 1. 10 Specialized Technology & Design Domains
-- **Frontend Development**: React.js, JavaScript ES6+, HTML5 & CSS3, TailwindCSS.
-- **Backend Development**: Node.js, Express.js, REST APIs, MongoDB.
-- **Full Stack Development**: MERN Stack, MVC Architecture, End-to-End Delivery.
-- **Mobile App Development**: React Native, Flutter, Cross-Platform Mobile UI.
-- **Artificial Intelligence & Machine Learning**: Python, PyTorch, TensorFlow, NLP.
-- **Data Science**: Python, Pandas, NumPy, SQL, Data Visualization.
-- **Cybersecurity**: Network Security Auditing, Penetration Testing, Linux.
-- **UI/UX Design**: Figma, User Journey Mapping, Design Systems, Prototyping.
-- **Cloud & DevOps**: Docker, Kubernetes, AWS/GCP, CI/CD Pipelines.
-- **Software Testing**: Jest, Cypress, Automated QA, E2E Test Suites.
+### 1. 🎯 Practical Internships Page (`/internships`)
+- **Focus**: Real-world production project work, 5-criteria evaluation, and QR-verified certificate.
+- **Duration Pricing Options**:
+  - `2 Weeks`: **NPR 199**
+  - `1 Month`: **NPR 299**
+  - `2 Months`: **NPR 500**
+  - `3 Months`: **NPR 1,000**
+  - `6 Months`: **NPR 7,000**
 
-### 2. Executive Leadership & Team Hub (`/team`)
-- Dedicated **Our Team** page featuring executive profiles for **Rambilas Sah**, **Puja Rouniyar**, and **Rohit Sah**.
-- Highlights direct contact links, core guiding principles, and executive leadership bios.
-
-### 3. 5-Criteria Objective Evaluation Engine
-Projects submitted by interns are evaluated across 5 core criteria:
-1. **Quality of Work**
-2. **Technical Skills & Mastery**
-3. **Creativity & Innovation**
-4. **Completion of Requirements**
-5. **Professional Approach**
-
-### 4. Official QR-Verified Certificates
-- Generates official certificates with a unique ID format (`VG-2026-XXXXX`).
-- Features a public QR-verification portal where employers can validate credential authenticity.
+### 2. 🚀 Training Programs Page (`/training`)
+- **Focus**: Structured skill curriculum modules, hands-on lab projects, co-founder mentorship, and practical internship placement.
+- **Duration Pricing Options**:
+  - `1 Week`: **NPR 500**
+  - `2 Weeks`: **NPR 700**
+  - `3 Weeks`: **NPR 950**
+  - `1 Month`: **NPR 1,200** *(Base)*
+  - `2 Months`: **NPR 5,000**
 
 ---
 
@@ -52,7 +42,7 @@ Projects submitted by interns are evaluated across 5 core criteria:
 ```text
 src/
 ├── components/                  # Global shared UI components
-│   ├── Navbar.js                # Top Navigation Header with Our Team link
+│   ├── Navbar.js                # Top Navigation Header with separate Internships & Training links
 │   ├── Footer.js                # Global Midnight Footer
 │   ├── VeloraLogo.js            # Monogram SVG Logo
 │   └── CertificateModal.js      # Printable Certificate Modal
@@ -65,14 +55,14 @@ src/
 │   │   └── FaqSection.js        # Frequently Asked Questions Accordion
 │   ├── TeamPage/                # Dedicated Executive Team Module
 │   │   └── TeamPage.js          # Rambilas Sah, Puja Rouniyar & Rohit Sah Profiles
-│   ├── ProgramsPage/            # Explore Programs Module
-│   │   └── ProgramsPage.js
+│   ├── InternshipsPage/         # Dedicated Practical Internships Module
+│   │   └── InternshipsPage.js   # NPR 199 to NPR 7,000 Duration Calculator
+│   ├── TrainingPage/            # Dedicated Guided Training Module
+│   │   └── TrainingPage.js      # NPR 500 to NPR 5,000 Training Calculator
 │   ├── StudentPortalPage/       # Student Workspace Module
 │   │   └── StudentPortalPage.js
-│   ├── AdminDashboardPage/      # Founder Panel Module
-│   │   └── AdminDashboardPage.js
-│   └── CertificateVerifyPage/   # Public Credential Verification Module
-│       └── CertificateVerifyPage.js
+│   └── AdminDashboardPage/      # Founder Panel Module
+│       └── AdminDashboardPage.js
 ├── services/
 │   └── api.js                   # API Client Service
 ├── App.js                       # Root Application Router
@@ -96,7 +86,10 @@ src/
 
 ### 1. Configure Environment Variables
 Verify your connection string in `backend/.env`:
-
+```env
+PORT=5000
+MONGODB_URI=mongodb+srv://ram6070246_db_user:jkHUZssys6IyCqXo@cluster0.7iotdng.mongodb.net/velora_global?retryWrites=true&w=majority&appName=Cluster0
+```
 
 ### 2. Seed MongoDB Atlas Database
 In the root directory, run the database seed script:

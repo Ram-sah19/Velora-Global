@@ -51,17 +51,31 @@ export default function Navbar({ activeTab, setActiveTab }) {
           </button>
 
           <button 
-            onClick={() => setActiveTab('programs')}
+            onClick={() => setActiveTab('internships')}
             style={{
               padding: '0.5rem 1.1rem',
               borderRadius: '9999px',
               fontSize: '0.88rem',
               fontWeight: '600',
-              background: activeTab === 'programs' ? '#2563eb' : 'transparent',
-              color: activeTab === 'programs' ? '#ffffff' : '#64748b'
+              background: activeTab === 'internships' ? '#ff6b6b' : 'transparent',
+              color: activeTab === 'internships' ? '#ffffff' : '#64748b'
             }}
           >
             Explore Internships
+          </button>
+
+          <button 
+            onClick={() => setActiveTab('training')}
+            style={{
+              padding: '0.5rem 1.1rem',
+              borderRadius: '9999px',
+              fontSize: '0.88rem',
+              fontWeight: '600',
+              background: activeTab === 'training' ? '#2563eb' : 'transparent',
+              color: activeTab === 'training' ? '#ffffff' : '#64748b'
+            }}
+          >
+            Training Programs
           </button>
 
           <button 
@@ -82,7 +96,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
         {/* Action Button */}
         <div>
           <button 
-            onClick={() => setActiveTab('programs')}
+            onClick={() => setActiveTab('internships')}
             className="btn-coral"
             style={{ fontSize: '0.88rem', padding: '0.55rem 1.25rem' }}
           >

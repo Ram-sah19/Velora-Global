@@ -4,7 +4,7 @@ export default function HeroSection({ onExploreClick }) {
   const [selectedDomainIndex, setSelectedDomainIndex] = useState(0);
 
   const categories = [
-    { id: 'eng', label: 'Software Engineering' },
+    { id: 'eng', label: 'Software Development' },
     { id: 'ai', label: 'AI & Data Science' },
     { id: 'ops', label: 'Cloud, Security & QA' },
     { id: 'design', label: 'Product & Design' }
@@ -19,7 +19,7 @@ export default function HeroSection({ onExploreClick }) {
       title: "Frontend Development",
       category: "Web Engineering",
       tech: ["React.js", "JavaScript ES6+", "HTML5 & CSS3", "TailwindCSS"],
-      stipend: "$300 - $450 / month",
+      stipend: "NPR 299 (Internship) / NPR 1,200 (Training + Internship)",
       duration: "6 Weeks",
       deliverables: ["Responsive UI Component Library", "Lighthouse Performance Optimization", "State Management Integration"],
       description: "Build high-performance, responsive web interfaces with component-driven architecture and modern design systems."
@@ -30,7 +30,7 @@ export default function HeroSection({ onExploreClick }) {
       title: "Backend Development",
       category: "System Architecture",
       tech: ["Node.js", "Express.js", "MongoDB Atlas", "RESTful APIs", "JWT"],
-      stipend: "$350 - $500 / month",
+      stipend: "NPR 299 (Internship) / NPR 1,200 (Training + Internship)",
       duration: "8 Weeks",
       deliverables: ["Microservice REST Endpoints", "Database CRUD Operations", "Secure JWT Authentication"],
       description: "Design scalable backend APIs, database schemas, serverless logic, and secure authentication protocols."
@@ -41,7 +41,7 @@ export default function HeroSection({ onExploreClick }) {
       title: "Full Stack Development",
       category: "Full Lifecycle",
       tech: ["React.js", "Node.js", "Express", "MongoDB", "MVC Architecture"],
-      stipend: "$400 - $600 / month",
+      stipend: "NPR 299 (Internship) / NPR 1,200 (Training + Internship)",
       duration: "8 Weeks",
       deliverables: ["End-to-End MERN Application", "Production Web Bundle Build", "REST & DB Integration"],
       description: "End-to-end web engineering integrating responsive client applications with robust server endpoints and database layers."
@@ -52,7 +52,7 @@ export default function HeroSection({ onExploreClick }) {
       title: "Mobile App Development",
       category: "Cross-Platform",
       tech: ["React Native", "Flutter", "iOS & Android UI", "REST APIs"],
-      stipend: "$350 - $500 / month",
+      stipend: "NPR 299 (Internship) / NPR 1,200 (Training + Internship)",
       duration: "8 Weeks",
       deliverables: ["Cross-Platform Mobile App", "Push Notification Setup", "Mobile Storage Sync"],
       description: "Create fluid, native-feel mobile applications for iOS and Android with real-time state management and mobile API integration."
@@ -63,7 +63,7 @@ export default function HeroSection({ onExploreClick }) {
       title: "Artificial Intelligence & Machine Learning",
       category: "Intelligent Systems",
       tech: ["Python", "PyTorch", "TensorFlow", "Scikit-Learn", "Model Deployment"],
-      stipend: "$450 - $650 / month",
+      stipend: "NPR 299 (Internship) / NPR 1,200 (Training + Internship)",
       duration: "8 Weeks",
       deliverables: ["Predictive ML Classification Model", "NLP Sentiment Pipeline", "AI Model Inference API"],
       description: "Develop predictive machine learning models, natural language processing pipelines, and production AI inference APIs."
@@ -74,7 +74,7 @@ export default function HeroSection({ onExploreClick }) {
       title: "Data Science",
       category: "Analytics & Insights",
       tech: ["Python", "Pandas & NumPy", "SQL", "Data Visualization", "PowerBI"],
-      stipend: "$400 - $600 / month",
+      stipend: "NPR 299 (Internship) / NPR 1,200 (Training + Internship)",
       duration: "8 Weeks",
       deliverables: ["Exploratory Data Analysis Report", "Predictive Business Model", "Interactive Dashboard"],
       description: "Transform raw complex datasets into actionable business intelligence through statistical analysis and exploratory models."
@@ -85,7 +85,7 @@ export default function HeroSection({ onExploreClick }) {
       title: "Cybersecurity",
       category: "Security Auditing",
       tech: ["Network Security", "Ethical Hacking", "Vulnerability Scanning", "Linux"],
-      stipend: "$350 - $500 / month",
+      stipend: "NPR 299 (Internship) / NPR 1,200 (Training + Internship)",
       duration: "6 Weeks",
       deliverables: ["Web Application Vulnerability Audit", "Security Patch Documentation", "Encryption Setup"],
       description: "Identify system vulnerabilities, conduct security audits, enforce encryption standards, and fortify application infrastructure."
@@ -96,7 +96,7 @@ export default function HeroSection({ onExploreClick }) {
       title: "UI/UX Design",
       category: "Product Experience",
       tech: ["Figma", "User Journey Mapping", "Design Systems", "Prototyping"],
-      stipend: "$300 - $450 / month",
+      stipend: "NPR 299 (Internship) / NPR 1,200 (Training + Internship)",
       duration: "6 Weeks",
       deliverables: ["Multi-Device UI Design System", "Interactive Figma Prototype", "User Journey Audit"],
       description: "Craft intuitive user experiences, wireframes, accessible component libraries, and interactive high-fidelity prototypes."
@@ -107,7 +107,7 @@ export default function HeroSection({ onExploreClick }) {
       title: "Cloud & DevOps",
       category: "Infrastructure & CI/CD",
       tech: ["Docker", "Kubernetes Basics", "AWS / GCP", "CI/CD Pipelines", "Linux"],
-      stipend: "$400 - $600 / month",
+      stipend: "NPR 299 (Internship) / NPR 1,200 (Training + Internship)",
       duration: "8 Weeks",
       deliverables: ["Docker Container Build Automation", "CI/CD GitHub Actions Pipeline", "Cloud Deployment Setup"],
       description: "Automate containerized build pipelines, configure cloud infrastructure, and maintain continuous delivery operations."
@@ -118,7 +118,7 @@ export default function HeroSection({ onExploreClick }) {
       title: "Software Testing",
       category: "Quality Assurance",
       tech: ["Jest", "Cypress / Selenium", "Manual Testing", "Bug Tracking", "QA Test Plans"],
-      stipend: "$250 - $400 / month",
+      stipend: "NPR 299 (Internship) / NPR 1,200 (Training + Internship)",
       duration: "6 Weeks",
       deliverables: ["Comprehensive Unit Test Suite", "Automated E2E Integration Tests", "QA Bug Report Log"],
       description: "Validate code quality through unit testing, integration suites, automated end-to-end tests, and comprehensive QA reporting."
@@ -480,8 +480,10 @@ export default function HeroSection({ onExploreClick }) {
                 gap: '1rem'
               }}>
                 <div>
-                  <span style={{ display: 'block', fontSize: '0.75rem', color: '#64748b' }}>Stipend Support</span>
-                  <span style={{ fontSize: '1.05rem', fontWeight: '800', color: '#0b0f19' }}>{activeSpotlight.stipend}</span>
+                  <span style={{ display: 'block', fontSize: '0.75rem', color: '#64748b' }}>Program Fee & Options</span>
+                  <span style={{ fontSize: '1.05rem', fontWeight: '800', color: '#059669' }}>
+                    NPR 199 <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: '600' }}>(2 Wks)</span> • NPR 299 <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: '600' }}>(1 Mon)</span> • NPR 1,200 <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: '600' }}>(Training)</span>
+                  </span>
                 </div>
 
                 <button

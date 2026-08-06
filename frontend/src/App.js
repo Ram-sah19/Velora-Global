@@ -8,12 +8,13 @@ import CertificateModal from './components/CertificateModal';
 // Pages
 import LandingPage from './pages/HomePage/LandingPage';
 import TeamPage from './pages/TeamPage/TeamPage';
-import ProgramsPage from './pages/ProgramsPage/ProgramsPage';
+import InternshipsPage from './pages/InternshipsPage/InternshipsPage';
+import TrainingPage from './pages/TrainingPage/TrainingPage';
 import StudentPortalPage from './pages/StudentPortalPage/StudentPortalPage';
 import AdminDashboardPage from './pages/AdminDashboardPage/AdminDashboardPage';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('home'); // 'home', 'team', 'programs', 'student', 'admin'
+  const [activeTab, setActiveTab] = useState('home'); // 'home', 'team', 'internships', 'training', 'student', 'admin'
   const [activeRole] = useState('student'); // 'student', 'founder', 'cofounder'
   const [activeCertificate, setActiveCertificate] = useState(null);
 
@@ -37,20 +38,28 @@ export default function App() {
         {/* Home / Landing Page */}
         <div style={{ display: activeTab === 'home' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
           <LandingPage 
-            onExploreClick={() => setActiveTab('programs')}
+            onExploreClick={() => setActiveTab('internships')}
           />
         </div>
 
         {/* Dedicated Executive Team Page */}
         <div style={{ display: activeTab === 'team' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
           <TeamPage 
-            onExploreClick={() => setActiveTab('programs')}
+            onExploreClick={() => setActiveTab('internships')}
           />
         </div>
 
-        {/* Explore Internship Programs Page */}
-        <div style={{ display: activeTab === 'programs' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
-          <ProgramsPage 
+        {/* Dedicated Practical Internships Page */}
+        <div style={{ display: activeTab === 'internships' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
+          <InternshipsPage 
+            activeRole={activeRole}
+            onApplySuccess={() => setActiveTab('student')}
+          />
+        </div>
+
+        {/* Dedicated Guided Skill Training Page */}
+        <div style={{ display: activeTab === 'training' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
+          <TrainingPage 
             activeRole={activeRole}
             onApplySuccess={() => setActiveTab('student')}
           />
@@ -64,11 +73,13 @@ export default function App() {
         </div>
 
         {/* Executive Founder Panel Page */}
-        <div style={{ display: activeTab === 'admin' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
-          <AdminDashboardPage 
-            onCertificateGenerated={(cert) => setActiveCertificate(cert)}
-          />
-        </div>
+        {activeTab === 'admin' && (
+          <div style={{ display: activeTab === 'admin' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
+            <AdminDashboardPage 
+              onCertificateGenerated={(cert) => setActiveCertificate(cert)}
+            />
+          </div>
+        )}
 
       </main>
 

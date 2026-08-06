@@ -50,8 +50,13 @@ export default function Footer({ setActiveTab }) {
                 </button>
               </li>
               <li>
-                <button onClick={() => setActiveTab('programs')} style={{ background: 'none', color: '#94a3b8' }}>
-                  Browse Internship Domains
+                <button onClick={() => setActiveTab('internships')} style={{ background: 'none', color: '#94a3b8' }}>
+                  Practical Internships
+                </button>
+              </li>
+              <li>
+                <button onClick={() => setActiveTab('training')} style={{ background: 'none', color: '#94a3b8' }}>
+                  Training Programs
                 </button>
               </li>
               <li>
