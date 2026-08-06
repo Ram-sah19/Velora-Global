@@ -77,20 +77,6 @@ export default function Navbar({ activeTab, setActiveTab }) {
           >
             Student Workspace
           </button>
-
-          <button 
-            onClick={() => setActiveTab('verify')}
-            style={{
-              padding: '0.5rem 1.1rem',
-              borderRadius: '9999px',
-              fontSize: '0.88rem',
-              fontWeight: '600',
-              background: activeTab === 'verify' ? '#2563eb' : 'transparent',
-              color: activeTab === 'verify' ? '#ffffff' : '#64748b'
-            }}
-          >
-            Verify Certificate
-          </button>
         </div>
 
         {/* Action Button */}

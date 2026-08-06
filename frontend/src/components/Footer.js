@@ -59,11 +59,6 @@ export default function Footer({ setActiveTab }) {
                   Student Workspace
                 </button>
               </li>
-              <li>
-                <button onClick={() => setActiveTab('verify')} style={{ background: 'none', color: '#94a3b8' }}>
-                  Certificate Verification
-                </button>
-              </li>
             </ul>
           </div>
 
@@ -95,7 +90,6 @@ export default function Footer({ setActiveTab }) {
           <div style={{ display: 'flex', gap: '1.5rem' }}>
             <span>Privacy Policy</span>
             <span>Terms of Service</span>
-            <span>Verification Desk</span>
           </div>
         </div>
 

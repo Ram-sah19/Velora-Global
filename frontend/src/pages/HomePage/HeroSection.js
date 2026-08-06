@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function HeroSection({ onExploreClick, onVerifyClick }) {
+export default function HeroSection({ onExploreClick }) {
   const [selectedDomainIndex, setSelectedDomainIndex] = useState(0);
 
   const categories = [
@@ -173,9 +173,6 @@ export default function HeroSection({ onExploreClick, onVerifyClick }) {
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
               <button onClick={onExploreClick} className="btn-primary" style={{ padding: '0.85rem 1.8rem', fontSize: '1rem' }}>
                 Explore Internships
-              </button>
-              <button onClick={onVerifyClick} className="btn-secondary" style={{ padding: '0.85rem 1.8rem', fontSize: '1rem' }}>
-                Verify Certificate
               </button>
             </div>
           </div>

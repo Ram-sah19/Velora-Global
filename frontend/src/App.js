@@ -11,10 +11,9 @@ import TeamPage from './pages/TeamPage/TeamPage';
 import ProgramsPage from './pages/ProgramsPage/ProgramsPage';
 import StudentPortalPage from './pages/StudentPortalPage/StudentPortalPage';
 import AdminDashboardPage from './pages/AdminDashboardPage/AdminDashboardPage';
-import CertificateVerifyPage from './pages/CertificateVerifyPage/CertificateVerifyPage';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('home'); // 'home', 'team', 'programs', 'student', 'admin', 'verify'
+  const [activeTab, setActiveTab] = useState('home'); // 'home', 'team', 'programs', 'student', 'admin'
   const [activeRole] = useState('student'); // 'student', 'founder', 'cofounder'
   const [activeCertificate, setActiveCertificate] = useState(null);
 
@@ -36,22 +35,21 @@ export default function App() {
       <main className="main-content">
         
         {/* Home / Landing Page */}
-        <div style={{ display: activeTab === 'home' ? 'block' : 'none', minHeight: '80vh' }}>
+        <div style={{ display: activeTab === 'home' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
           <LandingPage 
             onExploreClick={() => setActiveTab('programs')}
-            onVerifyClick={() => setActiveTab('verify')}
           />
         </div>
 
         {/* Dedicated Executive Team Page */}
-        <div style={{ display: activeTab === 'team' ? 'block' : 'none', minHeight: '80vh' }}>
+        <div style={{ display: activeTab === 'team' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
           <TeamPage 
             onExploreClick={() => setActiveTab('programs')}
           />
         </div>
 
         {/* Explore Internship Programs Page */}
-        <div style={{ display: activeTab === 'programs' ? 'block' : 'none', minHeight: '80vh' }}>
+        <div style={{ display: activeTab === 'programs' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
           <ProgramsPage 
             activeRole={activeRole}
             onApplySuccess={() => setActiveTab('student')}
@@ -59,26 +57,17 @@ export default function App() {
         </div>
 
         {/* Student Workspace Portal Page */}
-        {activeTab === 'student' && (
-          <div style={{ display: activeTab === 'student' ? 'block' : 'none', minHeight: '80vh' }}>
-            <StudentPortalPage 
-              onOpenCertificate={(cert) => setActiveCertificate(cert)}
-            />
-          </div>
-        )}
+        <div style={{ display: activeTab === 'student' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
+          <StudentPortalPage 
+            onOpenCertificate={(cert) => setActiveCertificate(cert)}
+          />
+        </div>
 
         {/* Executive Founder Panel Page */}
-        {activeTab === 'admin' && (
-          <div style={{ display: activeTab === 'admin' ? 'block' : 'none', minHeight: '80vh' }}>
-            <AdminDashboardPage 
-              onCertificateGenerated={(cert) => setActiveCertificate(cert)}
-            />
-          </div>
-        )}
-
-        {/* Public Certificate Verification Page */}
-        <div style={{ display: activeTab === 'verify' ? 'block' : 'none', minHeight: '80vh' }}>
-          <CertificateVerifyPage />
+        <div style={{ display: activeTab === 'admin' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
+          <AdminDashboardPage 
+            onCertificateGenerated={(cert) => setActiveCertificate(cert)}
+          />
         </div>
 
       </main>

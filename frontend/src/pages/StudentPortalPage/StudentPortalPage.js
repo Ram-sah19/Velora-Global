@@ -58,7 +58,7 @@ export default function StudentPortalPage({ onOpenCertificate }) {
   };
 
   return (
-    <section style={{ padding: '3rem 0' }}>
+    <section style={{ padding: '3rem 0', minHeight: '75vh', width: '100%' }}>
       <div className="container">
         
         {loading && (

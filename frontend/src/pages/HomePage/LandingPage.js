@@ -4,13 +4,12 @@ import StudentJourneySection from './StudentJourneySection';
 import FeaturesSection from './FeaturesSection';
 import FaqSection from './FaqSection';
 
-export default function LandingPage({ onExploreClick, onVerifyClick }) {
+export default function LandingPage({ onExploreClick }) {
   return (
     <div className="landing-page">
       {/* Hero Section with Interactive Domain Spotlight */}
       <HeroSection 
         onExploreClick={onExploreClick}
-        onVerifyClick={onVerifyClick}
       />
 
       {/* Structured Student Journey Step-by-Step */}
