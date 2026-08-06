@@ -96,10 +96,7 @@ src/
 
 ### 1. Configure Environment Variables
 Verify your connection string in `backend/.env`:
-```env
-PORT=5000
-MONGODB_URI=mongodb+srv://ram6070246_db_user:jkHUZssys6IyCqXo@cluster0.7iotdng.mongodb.net/velora_global?retryWrites=true&w=majority&appName=Cluster0
-```
+
 
 ### 2. Seed MongoDB Atlas Database
 In the root directory, run the database seed script:
