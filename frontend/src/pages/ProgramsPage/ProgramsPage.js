@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '../services/api';
+import { api } from '../../services/api';
 
-export default function DomainExplorer({ activeRole = 'student', onApplySuccess }) {
+export default function ProgramsPage({ activeRole = 'student', onApplySuccess }) {
   const [programs, setPrograms] = useState([]);
   const [selectedDomain, setSelectedDomain] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');

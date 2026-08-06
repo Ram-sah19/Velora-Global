@@ -16,7 +16,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         
         {/* Brand Logo Component */}
-        <div onClick={() => setActiveTab('home')}>
+        <div onClick={() => setActiveTab('home')} style={{ cursor: 'pointer' }}>
           <VeloraLogo width={44} height={44} textColor="#0b0f19" />
         </div>
 
@@ -35,6 +35,21 @@ export default function Navbar({ activeTab, setActiveTab }) {
           >
             Home
           </button>
+
+          <button 
+            onClick={() => setActiveTab('team')}
+            style={{
+              padding: '0.5rem 1.1rem',
+              borderRadius: '9999px',
+              fontSize: '0.88rem',
+              fontWeight: '600',
+              background: activeTab === 'team' ? '#2563eb' : 'transparent',
+              color: activeTab === 'team' ? '#ffffff' : '#64748b'
+            }}
+          >
+            Our Team
+          </button>
+
           <button 
             onClick={() => setActiveTab('programs')}
             style={{
@@ -48,6 +63,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
           >
             Explore Internships
           </button>
+
           <button 
             onClick={() => setActiveTab('student')}
             style={{
@@ -61,6 +77,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
           >
             Student Workspace
           </button>
+
           <button 
             onClick={() => setActiveTab('verify')}
             style={{

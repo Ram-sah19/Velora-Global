@@ -3,11 +3,13 @@ import VeloraLogo from './VeloraLogo';
 
 export default function Footer({ setActiveTab }) {
   return (
-    <footer style={{
+    <footer className="global-footer" style={{
       background: '#0b0f19',
       borderTop: '1px solid rgba(255, 255, 255, 0.08)',
       padding: '4rem 0 2rem 0',
-      color: '#94a3b8'
+      color: '#94a3b8',
+      marginTop: 'auto',
+      width: '100%'
     }}>
       <div className="container">
         
@@ -40,6 +42,11 @@ export default function Footer({ setActiveTab }) {
               <li>
                 <button onClick={() => setActiveTab('home')} style={{ background: 'none', color: '#94a3b8' }}>
                   Home Overview
+                </button>
+              </li>
+              <li>
+                <button onClick={() => setActiveTab('team')} style={{ background: 'none', color: '#94a3b8' }}>
+                  Executive Team
                 </button>
               </li>
               <li>

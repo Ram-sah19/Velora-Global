@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '../services/api';
+import { api } from '../../services/api';
 
-export default function StudentPortal({ onOpenCertificate }) {
+export default function StudentPortalPage({ onOpenCertificate }) {
   const studentId = 'user-student-1'; // Demo Student Aarav Sharma
   const [applications, setApplications] = useState([]);
   const [tasks, setTasks] = useState([]);

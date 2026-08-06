@@ -94,12 +94,6 @@ export default function StudentJourneySection({ onApplyClick }) {
                   {item.description}
                 </p>
               </div>
-
-              {index < steps.length - 1 && (
-                <span style={{
-                  display: 'none', // handled by grid spacing
-                }} />
-              )}
             </div>
           ))}
         </div>

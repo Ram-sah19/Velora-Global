@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '../services/api';
+import { api } from '../../services/api';
 
-export default function AdminDashboard({ onCertificateGenerated }) {
+export default function AdminDashboardPage({ onCertificateGenerated }) {
   const [stats, setStats] = useState(null);
   const [applications, setApplications] = useState([]);
   const [tasks, setTasks] = useState([]);
@@ -158,8 +158,12 @@ export default function AdminDashboard({ onCertificateGenerated }) {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
             <img 
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" 
+              src="/media/rambilas_sah.jpg" 
               alt="Rambilas Sah"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "/images/rambilas_sah.jpg";
+              }}
               style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', border: '3px solid #2563eb' }}
             />
             <div>

@@ -263,7 +263,7 @@ export default function HeroSection({ onExploreClick, onVerifyClick }) {
           </div>
         </div>
 
-        {/* NEW State-of-the-Art Interactive Domain Navigator */}
+        {/* State-of-the-Art Interactive Domain Navigator */}
         <div style={{ marginBottom: '6rem' }}>
           
           <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 3rem auto' }}>

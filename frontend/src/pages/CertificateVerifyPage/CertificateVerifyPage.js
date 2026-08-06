@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { api } from '../services/api';
+import { api } from '../../services/api';
 
-export default function CertificateVerifier() {
+export default function CertificateVerifyPage() {
   const [certId, setCertId] = useState('VG-2026-88491');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);

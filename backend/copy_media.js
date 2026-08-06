@@ -4,6 +4,7 @@ const path = require('path');
 const srcDir = `C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\22635c0b-f003-455d-a5d6-433977a33f53\\.user_uploaded`;
 const destMediaDir = path.join(__dirname, '../frontend/public/media');
 const destImagesDir = path.join(__dirname, '../frontend/public/images');
+const componentsDir = path.join(__dirname, '../frontend/src/components');
 
 [destMediaDir, destImagesDir].forEach(dir => {
   if (!fs.existsSync(dir)) {
@@ -29,3 +30,29 @@ try {
 } catch (e) {
   console.error("Copy media notice:", e.message);
 }
+
+// Clean up duplicate page files from components directory
+const filesToRemove = [
+  'AdminDashboard.js',
+  'CertificateVerifier.js',
+  'DomainExplorer.js',
+  'FaqSection.js',
+  'FeaturesSection.js',
+  'HeroSection.js',
+  'LeadershipSection.js',
+  'StudentJourneySection.js',
+  'StudentPortal.js'
+];
+
+filesToRemove.forEach(file => {
+  const filePath = path.join(componentsDir, file);
+  if (fs.existsSync(filePath)) {
+    try {
+      fs.unlinkSync(filePath);
+      console.log(`🗑️ Removed duplicate file from components: ${file}`);
+    } catch (e) {
+      // If file cannot be unlinked, empty it
+      fs.writeFileSync(filePath, '// Migrated to src/pages/\n', 'utf8');
+    }
+  }
+});

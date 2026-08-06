@@ -1,24 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+// Global Layout Components
 import Navbar from './components/Navbar';
-import HeroSection from './components/HeroSection';
-import StudentJourneySection from './components/StudentJourneySection';
-import FeaturesSection from './components/FeaturesSection';
-import LeadershipSection from './components/LeadershipSection';
-import FaqSection from './components/FaqSection';
-import DomainExplorer from './components/DomainExplorer';
-import StudentPortal from './components/StudentPortal';
-import AdminDashboard from './components/AdminDashboard';
-import CertificateModal from './components/CertificateModal';
-import CertificateVerifier from './components/CertificateVerifier';
 import Footer from './components/Footer';
+import CertificateModal from './components/CertificateModal';
+
+// Pages
+import LandingPage from './pages/HomePage/LandingPage';
+import TeamPage from './pages/TeamPage/TeamPage';
+import ProgramsPage from './pages/ProgramsPage/ProgramsPage';
+import StudentPortalPage from './pages/StudentPortalPage/StudentPortalPage';
+import AdminDashboardPage from './pages/AdminDashboardPage/AdminDashboardPage';
+import CertificateVerifyPage from './pages/CertificateVerifyPage/CertificateVerifyPage';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('home'); // 'home', 'programs', 'student', 'admin', 'verify'
-  const [activeRole, setActiveRole] = useState('student'); // 'student', 'founder', 'cofounder'
+  const [activeTab, setActiveTab] = useState('home'); // 'home', 'team', 'programs', 'student', 'admin', 'verify'
+  const [activeRole] = useState('student'); // 'student', 'founder', 'cofounder'
   const [activeCertificate, setActiveCertificate] = useState(null);
 
+  // Scroll to top on tab switch
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [activeTab]);
+
   return (
-    <div className="app-container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="app-container">
       
       {/* Global Navigation Header */}
       <Navbar 
@@ -26,60 +32,54 @@ export default function App() {
         setActiveTab={setActiveTab}
       />
 
-      {/* Main Content Area */}
-      <main style={{ flex: 1 }}>
+      {/* Main Content Area — Kept mounted to prevent layout flash/glitch during page transitions */}
+      <main className="main-content">
         
-        {/* Full Executive Home Page */}
-        {activeTab === 'home' && (
-          <>
-            {/* Hero & Interactive Domain Navigator */}
-            <HeroSection 
-              onExploreClick={() => setActiveTab('programs')}
-              onVerifyClick={() => setActiveTab('verify')}
-            />
+        {/* Home / Landing Page */}
+        <div style={{ display: activeTab === 'home' ? 'block' : 'none', minHeight: '80vh' }}>
+          <LandingPage 
+            onExploreClick={() => setActiveTab('programs')}
+            onVerifyClick={() => setActiveTab('verify')}
+          />
+        </div>
 
-            {/* Step-by-Step Student Journey */}
-            <StudentJourneySection 
-              onApplyClick={() => setActiveTab('programs')}
-            />
-
-            {/* Why Velora Global Platform Features */}
-            <FeaturesSection />
-
-            {/* Founding Leadership Section (Rambilas Sah, Puja Rouniyar, Rohit Sah) */}
-            <LeadershipSection />
-
-            {/* Frequently Asked Questions */}
-            <FaqSection />
-          </>
-        )}
+        {/* Dedicated Executive Team Page */}
+        <div style={{ display: activeTab === 'team' ? 'block' : 'none', minHeight: '80vh' }}>
+          <TeamPage 
+            onExploreClick={() => setActiveTab('programs')}
+          />
+        </div>
 
         {/* Explore Internship Programs Page */}
-        {activeTab === 'programs' && (
-          <DomainExplorer 
+        <div style={{ display: activeTab === 'programs' ? 'block' : 'none', minHeight: '80vh' }}>
+          <ProgramsPage 
             activeRole={activeRole}
             onApplySuccess={() => setActiveTab('student')}
           />
-        )}
+        </div>
 
-        {/* Student Workspace Portal */}
+        {/* Student Workspace Portal Page */}
         {activeTab === 'student' && (
-          <StudentPortal 
-            onOpenCertificate={(cert) => setActiveCertificate(cert)}
-          />
+          <div style={{ display: activeTab === 'student' ? 'block' : 'none', minHeight: '80vh' }}>
+            <StudentPortalPage 
+              onOpenCertificate={(cert) => setActiveCertificate(cert)}
+            />
+          </div>
         )}
 
-        {/* Executive Dashboard */}
+        {/* Executive Founder Panel Page */}
         {activeTab === 'admin' && (
-          <AdminDashboard 
-            onCertificateGenerated={(cert) => setActiveCertificate(cert)}
-          />
+          <div style={{ display: activeTab === 'admin' ? 'block' : 'none', minHeight: '80vh' }}>
+            <AdminDashboardPage 
+              onCertificateGenerated={(cert) => setActiveCertificate(cert)}
+            />
+          </div>
         )}
 
         {/* Public Certificate Verification Page */}
-        {activeTab === 'verify' && (
-          <CertificateVerifier />
-        )}
+        <div style={{ display: activeTab === 'verify' ? 'block' : 'none', minHeight: '80vh' }}>
+          <CertificateVerifyPage />
+        </div>
 
       </main>
 
@@ -91,7 +91,7 @@ export default function App() {
         />
       )}
 
-      {/* Footer */}
+      {/* Global Footer */}
       <Footer setActiveTab={setActiveTab} />
 
     </div>
