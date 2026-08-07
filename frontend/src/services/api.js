@@ -53,6 +53,9 @@ export const api = {
   getCertificates: (studentId = '') => request(`/certificates?studentId=${encodeURIComponent(studentId)}`),
   verifyCertificate: (certId) => request(`/certificates/verify/${encodeURIComponent(certId)}`),
 
+  // Client Inquiries
+  submitClientInquiry: (data) => request('/client-inquiries', { method: 'POST', body: JSON.stringify(data) }),
+
   // Stats
   getStats: () => request('/stats')
 };

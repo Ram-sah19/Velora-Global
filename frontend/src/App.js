@@ -7,6 +7,7 @@ import CertificateModal from './components/CertificateModal';
 
 // Pages
 import LandingPage from './pages/HomePage/LandingPage';
+import ServicesPage from './pages/ServicesPage/ServicesPage';
 import TeamPage from './pages/TeamPage/TeamPage';
 import InternshipsPage from './pages/InternshipsPage/InternshipsPage';
 import TrainingPage from './pages/TrainingPage/TrainingPage';
@@ -14,7 +15,8 @@ import StudentPortalPage from './pages/StudentPortalPage/StudentPortalPage';
 import AdminDashboardPage from './pages/AdminDashboardPage/AdminDashboardPage';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('home'); // 'home', 'team', 'internships', 'training', 'student', 'admin'
+  const [activeTab, setActiveTab] = useState('home'); // 'home', 'services', 'team', 'internships', 'training', 'student', 'admin'
+  const [selectedServiceCategory, setSelectedServiceCategory] = useState('all');
   const [activeRole] = useState('student'); // 'student', 'founder', 'cofounder'
   const [activeCertificate, setActiveCertificate] = useState(null);
 
@@ -30,6 +32,7 @@ export default function App() {
       <Navbar 
         activeTab={activeTab} 
         setActiveTab={setActiveTab}
+        onSelectServiceCategory={(cat) => setSelectedServiceCategory(cat)}
       />
 
       {/* Main Content Area — Kept mounted to prevent layout flash/glitch during page transitions */}
@@ -39,6 +42,14 @@ export default function App() {
         <div style={{ display: activeTab === 'home' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
           <LandingPage 
             onExploreClick={() => setActiveTab('internships')}
+          />
+        </div>
+
+        {/* Dedicated Client Services Page */}
+        <div style={{ display: activeTab === 'services' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
+          <ServicesPage 
+            selectedCategory={selectedServiceCategory}
+            onSelectCategory={(cat) => setSelectedServiceCategory(cat)}
           />
         </div>
 

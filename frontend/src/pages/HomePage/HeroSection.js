@@ -43,7 +43,7 @@ export default function HeroSection({ onExploreClick }) {
       tech: ["React.js", "Node.js", "Express", "MongoDB", "MVC Architecture"],
       stipend: "NPR 299 (Internship) / NPR 1,200 (Training + Internship)",
       duration: "8 Weeks",
-      deliverables: ["End-to-End MERN Application", "Production Web Bundle Build", "REST & DB Integration"],
+      deliverables: ["10+ Students Trained & Projects Shipped to Clients", "End-to-End MERN Application & Full Stack MVC", "Production Web Bundle & DB Integration"],
       description: "End-to-end web engineering integrating responsive client applications with robust server endpoints and database layers."
     },
     {
@@ -255,8 +255,8 @@ export default function HeroSection({ onExploreClick }) {
             <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Founding Executive Mentors</span>
           </div>
           <div>
-            <span style={{ fontSize: '2rem', fontWeight: '800', color: '#10b981', display: 'block', lineHeight: '1' }}>MERN</span>
-            <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Full Stack MVC Architecture</span>
+            <span style={{ fontSize: '2rem', fontWeight: '800', color: '#10b981', display: 'block', lineHeight: '1' }}>10+</span>
+            <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Students Trained & Projects Shipped to Clients (MERN Stack MVC)</span>
           </div>
         </div>
 
