@@ -248,6 +248,34 @@ input:focus, textarea:focus, select:focus {
 }
 
 .main-content {
+  flex: 1;
+}
+
+/* Dropdown Menu Interactive Items */
+.dropdown-menu-item {
+  padding: 0.65rem 0.9rem;
+  text-align: left;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  width: 100%;
+}
+
+.dropdown-menu-item:hover {
+  background: #eff6ff !important;
+  color: #2563eb !important;
+  transform: translateX(4px);
+}
+
+.main-content {
   flex: 1 0 auto;
   min-height: 80vh;
   width: 100%;
