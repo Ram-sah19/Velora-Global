@@ -1,0 +1,514 @@
+import React, { useState } from 'react';
+import { api } from '../../services/api';
+
+export default function AuthModal({ initialMode = 'login', initialRole = 'student', onClose, onAuthSuccess }) {
+  const [roleTab, setRoleTab] = useState(initialRole); // 'student' or 'client'
+  const [authMode, setAuthMode] = useState(initialMode); // 'login' or 'signup'
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Student Form State
+  const [studentData, setStudentData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    university: '',
+    fieldOfStudy: ''
+  });
+
+  // Client Form State
+  const [clientData, setClientData] = useState({
+    name: '',
+    companyName: '',
+    email: '',
+    phone: '',
+    password: ''
+  });
+
+  // Login Form State
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+
+  // Quick Demo Auto-Fill Shortcuts
+  const fillDemoStudent = () => {
+    setRoleTab('student');
+    setAuthMode('login');
+    setLoginEmail('aarav.sharma@example.com');
+    setLoginPassword('student123');
+  };
+
+  const fillDemoClient = () => {
+    setRoleTab('client');
+    setAuthMode('login');
+    setLoginEmail('client@company.com');
+    setLoginPassword('client123');
+  };
+
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMsg('');
+
+    try {
+      const res = await api.loginUser(loginEmail, loginPassword);
+      if (res && res.user) {
+        if (onAuthSuccess) onAuthSuccess(res.user, res.token);
+        onClose();
+      }
+    } catch (err) {
+      setErrorMsg(err.message || 'Login failed. Please check your credentials.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleStudentSignup = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMsg('');
+
+    try {
+      const res = await api.registerStudent(studentData);
+      if (res && res.user) {
+        if (onAuthSuccess) onAuthSuccess(res.user);
+        onClose();
+      }
+    } catch (err) {
+      setErrorMsg(err.message || 'Student registration failed.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleClientSignup = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMsg('');
+
+    try {
+      const res = await api.registerClient(clientData);
+      if (res && res.user) {
+        if (onAuthSuccess) onAuthSuccess(res.user);
+        onClose();
+      }
+    } catch (err) {
+      setErrorMsg(err.message || 'Client registration failed.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="modal-overlay" onClick={onClose} style={{ padding: '1rem' }}>
+      <div 
+        className="modal-content" 
+        onClick={(e) => e.stopPropagation()} 
+        style={{
+          maxWidth: '560px',
+          width: '100%',
+          maxHeight: '90vh',
+          overflowY: 'auto',
+          borderRadius: '24px',
+          padding: '2.25rem 2rem',
+          boxShadow: 'var(--shadow-lg)'
+        }}
+      >
+        {/* Close Button */}
+        <button 
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: '1.25rem',
+            right: '1.25rem',
+            background: '#f1f5f9',
+            color: '#64748b',
+            borderRadius: '50%',
+            width: '36px',
+            height: '36px',
+            fontSize: '1rem',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          ✕
+        </button>
+
+        {/* Role Tab Pill Selectors */}
+        <div style={{
+          display: 'flex',
+          gap: '0.4rem',
+          background: '#f1f5f9',
+          padding: '0.35rem',
+          borderRadius: '14px',
+          marginBottom: '1.75rem',
+          border: '1px solid #e2e8f0'
+        }}>
+          <button
+            type="button"
+            onClick={() => {
+              setRoleTab('student');
+              setErrorMsg('');
+            }}
+            style={{
+              flex: 1,
+              padding: '0.65rem 0.85rem',
+              borderRadius: '10px',
+              border: 'none',
+              fontSize: '0.88rem',
+              fontWeight: '700',
+              cursor: 'pointer',
+              background: roleTab === 'student' ? '#2563eb' : 'transparent',
+              color: roleTab === 'student' ? '#ffffff' : '#64748b',
+              boxShadow: roleTab === 'student' ? 'var(--shadow-sm)' : 'none',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            Student Portal
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setRoleTab('client');
+              setErrorMsg('');
+            }}
+            style={{
+              flex: 1,
+              padding: '0.65rem 0.85rem',
+              borderRadius: '10px',
+              border: 'none',
+              fontSize: '0.88rem',
+              fontWeight: '700',
+              cursor: 'pointer',
+              background: roleTab === 'client' ? '#ff6b6b' : 'transparent',
+              color: roleTab === 'client' ? '#ffffff' : '#64748b',
+              boxShadow: roleTab === 'client' ? 'var(--shadow-sm)' : 'none',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            Corporate Client
+          </button>
+        </div>
+
+        {/* Header Title */}
+        <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+          <span className={`badge ${roleTab === 'student' ? 'badge-blue' : 'badge-coral'}`} style={{ marginBottom: '0.5rem' }}>
+            {roleTab === 'student' ? 'Velora Career Accelerator' : 'Enterprise Technical Solutions'}
+          </span>
+          <h2 style={{ fontSize: '1.8rem', color: '#0b0f19', marginBottom: '0.35rem', fontWeight: '800' }}>
+            {authMode === 'login' ? `Sign In to ${roleTab === 'student' ? 'Student Workspace' : 'Client Portal'}` : `Create ${roleTab === 'student' ? 'Student' : 'Client'} Account`}
+          </h2>
+          <p style={{ color: '#64748b', fontSize: '0.88rem', lineHeight: '1.5' }}>
+            {roleTab === 'student' 
+              ? 'Access your active internship tracks, task assignments, and QR credentials.'
+              : 'Request custom software services, review project scopes, and manage technical contracts.'}
+          </p>
+        </div>
+
+        {errorMsg && (
+          <div style={{ padding: '0.85rem 1rem', background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: '10px', color: '#dc2626', fontSize: '0.85rem', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span>⚠️</span>
+            <span>{errorMsg}</span>
+          </div>
+        )}
+
+        {/* Mode Selector (Login vs Signup) */}
+        <div style={{ display: 'flex', borderBottom: '2px solid #e2e8f0', marginBottom: '1.5rem' }}>
+          <button
+            type="button"
+            onClick={() => setAuthMode('login')}
+            style={{
+              flex: 1,
+              padding: '0.6rem',
+              background: 'none',
+              border: 'none',
+              borderBottom: authMode === 'login' ? `3px solid ${roleTab === 'student' ? '#2563eb' : '#ff6b6b'}` : '3px solid transparent',
+              color: authMode === 'login' ? (roleTab === 'student' ? '#2563eb' : '#ff6b6b') : '#64748b',
+              fontWeight: '800',
+              fontSize: '0.95rem',
+              cursor: 'pointer',
+              marginBottom: '-2px',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            Sign In
+          </button>
+          <button
+            type="button"
+            onClick={() => setAuthMode('signup')}
+            style={{
+              flex: 1,
+              padding: '0.6rem',
+              background: 'none',
+              border: 'none',
+              borderBottom: authMode === 'signup' ? `3px solid ${roleTab === 'student' ? '#2563eb' : '#ff6b6b'}` : '3px solid transparent',
+              color: authMode === 'signup' ? (roleTab === 'student' ? '#2563eb' : '#ff6b6b') : '#64748b',
+              fontWeight: '800',
+              fontSize: '0.95rem',
+              cursor: 'pointer',
+              marginBottom: '-2px',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            Create Account
+          </button>
+        </div>
+
+        {/* LOGIN FORM */}
+        {authMode === 'login' && (
+          <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Email Address *</label>
+              <input 
+                type="email"
+                required
+                placeholder="name@example.com"
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '0.75rem 1rem',
+                  fontSize: '0.95rem',
+                  borderRadius: '10px',
+                  border: '1px solid #cbd5e1'
+                }}
+              />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Password *</label>
+              <div style={{ position: 'relative' }}>
+                <input 
+                  type={showPassword ? "text" : "password"}
+                  required
+                  placeholder="••••••••"
+                  value={loginPassword}
+                  onChange={(e) => setLoginPassword(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem 2.8rem 0.75rem 1rem',
+                    fontSize: '0.95rem',
+                    borderRadius: '10px',
+                    border: '1px solid #cbd5e1'
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(prev => !prev)}
+                  style={{
+                    position: 'absolute',
+                    right: '0.85rem',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: '1.1rem',
+                    color: '#64748b'
+                  }}
+                  title={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? "👁️‍🗨️" : "👁️"}
+                </button>
+              </div>
+            </div>
+
+            <button 
+              type="submit" 
+              disabled={loading} 
+              className={roleTab === 'student' ? 'btn-primary' : 'btn-coral'} 
+              style={{ width: '100%', padding: '0.85rem', marginTop: '0.5rem', fontSize: '0.98rem', fontWeight: '800' }}
+            >
+              {loading ? 'Authenticating...' : `Sign In to ${roleTab === 'student' ? 'Student Workspace' : 'Client Portal'} ➔`}
+            </button>
+          </form>
+        )}
+
+        {/* STUDENT SIGNUP FORM */}
+        {authMode === 'signup' && roleTab === 'student' && (
+          <form onSubmit={handleStudentSignup} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Full Legal Name *</label>
+              <input 
+                type="text"
+                required
+                placeholder="e.g. Aarav Sharma"
+                value={studentData.name}
+                onChange={(e) => setStudentData({...studentData, name: e.target.value})}
+                style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
+              />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Student Email Address *</label>
+              <input 
+                type="email"
+                required
+                placeholder="aarav@university.edu"
+                value={studentData.email}
+                onChange={(e) => setStudentData({...studentData, email: e.target.value})}
+                style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
+              />
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.85rem' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>College / University</label>
+                <input 
+                  type="text"
+                  placeholder="Kathmandu Tech"
+                  value={studentData.university}
+                  onChange={(e) => setStudentData({...studentData, university: e.target.value})}
+                  style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Field of Study</label>
+                <input 
+                  type="text"
+                  placeholder="Computer Science"
+                  value={studentData.fieldOfStudy}
+                  onChange={(e) => setStudentData({...studentData, fieldOfStudy: e.target.value})}
+                  style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Create Password *</label>
+              <div style={{ position: 'relative' }}>
+                <input 
+                  type={showPassword ? "text" : "password"}
+                  required
+                  placeholder="Create secure password"
+                  value={studentData.password}
+                  onChange={(e) => setStudentData({...studentData, password: e.target.value})}
+                  style={{ width: '100%', padding: '0.75rem 2.8rem 0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(prev => !prev)}
+                  style={{
+                    position: 'absolute',
+                    right: '0.85rem',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: '1.1rem',
+                    color: '#64748b'
+                  }}
+                >
+                  {showPassword ? "👁️‍🗨️" : "👁️"}
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', padding: '0.85rem', marginTop: '0.5rem', fontWeight: '800' }}>
+              {loading ? 'Creating Student Account...' : 'Register Student Account ➔'}
+            </button>
+          </form>
+        )}
+
+        {/* CLIENT SIGNUP FORM */}
+        {authMode === 'signup' && roleTab === 'client' && (
+          <form onSubmit={handleClientSignup} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Executive Name *</label>
+              <input 
+                type="text"
+                required
+                placeholder="e.g. Rajesh Shrestha"
+                value={clientData.name}
+                onChange={(e) => setClientData({...clientData, name: e.target.value})}
+                style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
+              />
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.85rem' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Company / Organization *</label>
+                <input 
+                  type="text"
+                  required
+                  placeholder="Acme Tech Pvt. Ltd."
+                  value={clientData.companyName}
+                  onChange={(e) => setClientData({...clientData, companyName: e.target.value})}
+                  style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Phone / WhatsApp *</label>
+                <input 
+                  type="tel"
+                  required
+                  placeholder="+977 9800000000"
+                  value={clientData.phone}
+                  onChange={(e) => setClientData({...clientData, phone: e.target.value})}
+                  style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Business Email Address *</label>
+              <input 
+                type="email"
+                required
+                placeholder="client@company.com"
+                value={clientData.email}
+                onChange={(e) => setClientData({...clientData, email: e.target.value})}
+                style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
+              />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Create Password *</label>
+              <div style={{ position: 'relative' }}>
+                <input 
+                  type={showPassword ? "text" : "password"}
+                  required
+                  placeholder="Create secure password"
+                  value={clientData.password}
+                  onChange={(e) => setClientData({...clientData, password: e.target.value})}
+                  style={{ width: '100%', padding: '0.75rem 2.8rem 0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(prev => !prev)}
+                  style={{
+                    position: 'absolute',
+                    right: '0.85rem',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: '1.1rem',
+                    color: '#64748b'
+                  }}
+                >
+                  {showPassword ? "👁️‍🗨️" : "👁️"}
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" disabled={loading} className="btn-coral" style={{ width: '100%', padding: '0.85rem', marginTop: '0.5rem', fontWeight: '800' }}>
+              {loading ? 'Creating Client Account...' : 'Register Corporate Client Account ➔'}
+            </button>
+          </form>
+        )}
+
+      </div>
+    </div>
+  );
+}

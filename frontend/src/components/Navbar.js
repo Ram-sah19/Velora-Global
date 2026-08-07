@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import VeloraLogo from './VeloraLogo';
 
-export default function Navbar({ activeTab, setActiveTab, onSelectServiceCategory }) {
+export default function Navbar({ activeTab, setActiveTab, onSelectServiceCategory, currentUser, onOpenAuth, onOpenAdminRegister, onLogout }) {
   const [showServicesDropdown, setShowServicesDropdown] = useState(false);
   const dropdownRef = useRef(null);
   const leaveTimerRef = useRef(null);
@@ -209,17 +209,39 @@ export default function Navbar({ activeTab, setActiveTab, onSelectServiceCategor
           </button>
         </div>
 
-        {/* Action Button */}
-        <div>
-          <a
-            href="https://docs.google.com/forms/d/11D9YEYK13bavROGMxlvO35k46MzrDHTTiHFd-PQqfy4/preview"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-coral"
-            style={{ fontSize: '0.88rem', padding: '0.55rem 1.25rem', textDecoration: 'none', display: 'inline-block' }}
-          >
-            Apply Now ➔
-          </a>
+        {/* Auth Buttons & Apply Now Action */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+          {currentUser ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <button 
+                onClick={() => {
+                  if (currentUser.userType === 'superadmin' || currentUser.userType === 'admin') {
+                    setActiveTab('admin');
+                  } else {
+                    setActiveTab('student');
+                  }
+                }}
+                className="btn-secondary"
+                style={{ padding: '0.45rem 0.9rem', fontSize: '0.82rem', fontWeight: '700' }}
+              >
+                👤 {currentUser.name} ({currentUser.userType})
+              </button>
+              <button
+                onClick={onLogout}
+                style={{ background: 'none', border: 'none', color: '#64748b', fontSize: '0.82rem', cursor: 'pointer', fontWeight: '600' }}
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={onOpenAuth}
+              className="btn-secondary"
+              style={{ fontSize: '0.85rem', padding: '0.5rem 0.95rem' }}
+            >
+              Sign In / Register
+            </button>
+          )}
         </div>
 
       </div>

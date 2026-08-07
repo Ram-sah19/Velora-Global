@@ -26,9 +26,12 @@ export const api = {
   // Health
   getHealth: () => request('/health'),
 
-  // Users & Leadership
+  // Authentication & Users
   getFounders: () => request('/users/founders'),
-  registerStudent: (data) => request('/users/register', { method: 'POST', body: JSON.stringify(data) }),
+  registerStudent: (data) => request('/users/register-student', { method: 'POST', body: JSON.stringify(data) }),
+  registerClient: (data) => request('/users/register-client', { method: 'POST', body: JSON.stringify(data) }),
+  registerAdmin: (data) => request('/users/register-admin', { method: 'POST', body: JSON.stringify(data) }),
+  loginUser: (email, password) => request('/users/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
 
   // Programs
   getPrograms: (domain = '', search = '') => request(`/programs?domain=${encodeURIComponent(domain)}&search=${encodeURIComponent(search)}`),
@@ -38,7 +41,7 @@ export const api = {
   // Applications
   getApplications: (studentId = '', status = '') => request(`/applications?studentId=${encodeURIComponent(studentId)}&status=${encodeURIComponent(status)}`),
   submitApplication: (data) => request('/applications', { method: 'POST', body: JSON.stringify(data) }),
-  updateApplicationStatus: (id, status) => request(`/applications/${id}/status`, { method: 'PUT', body: JSON.stringify({ status }) }),
+  updateApplicationStatus: (id, status, approvedBy = 'Super Admin') => request(`/applications/${id}/status`, { method: 'PUT', body: JSON.stringify({ status, approvedBy }) }),
 
   // Tasks & Submissions
   getTasks: (studentId = '', applicationId = '') => request(`/tasks?studentId=${encodeURIComponent(studentId)}&applicationId=${encodeURIComponent(applicationId)}`),
