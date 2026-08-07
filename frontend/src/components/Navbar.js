@@ -95,13 +95,15 @@ export default function Navbar({ activeTab, setActiveTab }) {
 
         {/* Action Button */}
         <div>
-          <button 
-            onClick={() => setActiveTab('internships')}
+          <a
+            href="https://docs.google.com/forms/d/11D9YEYK13bavROGMxlvO35k46MzrDHTTiHFd-PQqfy4/preview"
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn-coral"
-            style={{ fontSize: '0.88rem', padding: '0.55rem 1.25rem' }}
+            style={{ fontSize: '0.88rem', padding: '0.55rem 1.25rem', textDecoration: 'none', display: 'inline-block' }}
           >
-            Apply Now
-          </button>
+            Apply Now ➔
+          </a>
         </div>
 
       </div>
