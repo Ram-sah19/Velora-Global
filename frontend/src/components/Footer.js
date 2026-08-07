@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import VeloraLogo from './VeloraLogo';
 
+import StudentTermsModal from './StudentTermsModal';
+import StudentPrivacyModal from './StudentPrivacyModal';
+import ClientTermsModal from './ClientTermsModal';
+import ClientPrivacyModal from './ClientPrivacyModal';
+
 export default function Footer({ setActiveTab }) {
+  const [activeModal, setActiveModal] = useState(null); // 'student-terms', 'student-privacy', 'client-terms', 'client-privacy'
+
   return (
     <footer className="global-footer" style={{
       background: '#0b0f19',
@@ -15,8 +22,8 @@ export default function Footer({ setActiveTab }) {
         
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-          gap: '3rem',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
+          gap: '2.5rem',
           marginBottom: '3rem'
         }}>
           
@@ -26,7 +33,7 @@ export default function Footer({ setActiveTab }) {
               <VeloraLogo width={40} height={40} textColor="#ffffff" />
             </div>
 
-            <p style={{ fontSize: '0.9rem', lineHeight: '1.6', marginBottom: '1.25rem', color: '#94a3b8' }}>
+            <p style={{ fontSize: '0.88rem', lineHeight: '1.6', marginBottom: '1.25rem', color: '#94a3b8' }}>
               Empowering businesses with enterprise digital solutions and students with practical work experience & verified certifications.
             </p>
 
@@ -37,8 +44,8 @@ export default function Footer({ setActiveTab }) {
 
           {/* Quick Links */}
           <div>
-            <h4 style={{ color: '#ffffff', fontSize: '1.1rem', marginBottom: '1rem' }}>Platform Portals</h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.9rem' }}>
+            <h4 style={{ color: '#ffffff', fontSize: '1.05rem', marginBottom: '1rem' }}>Platform Portals</h4>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.55rem', fontSize: '0.88rem' }}>
               <li>
                 <button onClick={() => setActiveTab('home')} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0 }}>
                   Home Overview
@@ -72,12 +79,39 @@ export default function Footer({ setActiveTab }) {
             </ul>
           </div>
 
+          {/* Legal & Governance Column */}
+          <div>
+            <h4 style={{ color: '#ffffff', fontSize: '1.05rem', marginBottom: '1rem' }}>Legal & Governance</h4>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.55rem', fontSize: '0.88rem' }}>
+              <li>
+                <button onClick={() => setActiveModal('student-terms')} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left' }}>
+                  🎓 Student Terms of Service
+                </button>
+              </li>
+              <li>
+                <button onClick={() => setActiveModal('student-privacy')} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left' }}>
+                  🎓 Student Privacy Policy
+                </button>
+              </li>
+              <li>
+                <button onClick={() => setActiveModal('client-terms')} style={{ background: 'none', color: '#ff6b6b', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left', fontWeight: '600' }}>
+                  💼 Client Engineering Terms
+                </button>
+              </li>
+              <li>
+                <button onClick={() => setActiveModal('client-privacy')} style={{ background: 'none', color: '#ff6b6b', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left', fontWeight: '600' }}>
+                  💼 Client Data Privacy Policy
+                </button>
+              </li>
+            </ul>
+          </div>
+
           {/* Contact */}
           <div>
-            <h4 style={{ color: '#ffffff', fontSize: '1.1rem', marginBottom: '1rem' }}>Contact & Support</h4>
-            <p style={{ fontSize: '0.9rem', marginBottom: '0.5rem', color: '#94a3b8' }}>📧 Email: support@veloraglobal.com</p>
-            <p style={{ fontSize: '0.9rem', marginBottom: '0.5rem', color: '#94a3b8' }}>🌐 Website: www.veloraglobal.com</p>
-            <p style={{ fontSize: '0.9rem', color: '#94a3b8' }}>📍 Global Career & Technical Services Desk</p>
+            <h4 style={{ color: '#ffffff', fontSize: '1.05rem', marginBottom: '1rem' }}>Contact & Support</h4>
+            <p style={{ fontSize: '0.88rem', marginBottom: '0.5rem', color: '#94a3b8' }}>📧 Email: support@veloraglobal.com</p>
+            <p style={{ fontSize: '0.88rem', marginBottom: '0.5rem', color: '#94a3b8' }}>🌐 Website: www.veloraglobal.com</p>
+            <p style={{ fontSize: '0.88rem', color: '#94a3b8' }}>📍 Global Career & Technical Services Desk</p>
           </div>
 
         </div>
@@ -97,13 +131,21 @@ export default function Footer({ setActiveTab }) {
           <div>
             © {new Date().getFullYear()} Velora Global. All rights reserved. Built with Pro Corporate MERN architecture.
           </div>
-          <div style={{ display: 'flex', gap: '1.5rem' }}>
-            <span>Privacy Policy</span>
-            <span>Terms of Service</span>
+          <div style={{ display: 'flex', gap: '1.25rem' }}>
+            <button onClick={() => setActiveModal('student-terms')} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '0.82rem' }}>Student Terms</button>
+            <button onClick={() => setActiveModal('student-privacy')} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '0.82rem' }}>Student Privacy</button>
+            <button onClick={() => setActiveModal('client-terms')} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '0.82rem' }}>Client Terms</button>
+            <button onClick={() => setActiveModal('client-privacy')} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '0.82rem' }}>Client Privacy</button>
           </div>
         </div>
 
       </div>
+
+      {/* Modal Governance Renderers */}
+      {activeModal === 'student-terms' && <StudentTermsModal onClose={() => setActiveModal(null)} />}
+      {activeModal === 'student-privacy' && <StudentPrivacyModal onClose={() => setActiveModal(null)} />}
+      {activeModal === 'client-terms' && <ClientTermsModal onClose={() => setActiveModal(null)} />}
+      {activeModal === 'client-privacy' && <ClientPrivacyModal onClose={() => setActiveModal(null)} />}
     </footer>
   );
 }
