@@ -41,6 +41,7 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
     if (studentId) {
       loadStudentData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [studentId]);
 
   const loadStudentData = async () => {
@@ -132,7 +133,6 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
 
           {/* Access Shield Lock Banner */}
           <div className="corporate-card" style={{ padding: '3rem 2.5rem', textAlign: 'center', background: '#ffffff', border: '2px dashed #fbbf24' }}>
-            <span style={{ fontSize: '3.5rem', display: 'block', marginBottom: '1rem' }}>⏳</span>
             <span className="badge badge-gold" style={{ marginBottom: '0.75rem' }}>Executive Review Pipeline</span>
             <h2 style={{ fontSize: '2.1rem', color: '#0b0f19', marginBottom: '0.75rem', fontWeight: '800' }}>
               Workspace Pending Admin Approval
@@ -144,7 +144,7 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
                   Your application for <strong>{pendingApp.programTitle}</strong> (<em>{pendingApp.selectedDuration || '1 Month'} {pendingApp.programTrack}</em>) is currently under review by Super Admin.
                 </p>
                 <div style={{ background: '#fffbeb', border: '1px solid #fde68a', padding: '1.25rem', borderRadius: '12px', color: '#92400e', fontSize: '0.92rem', textAlign: 'left', lineHeight: '1.6' }}>
-                  <strong>🔒 Access Lock Guarantee:</strong> Once executive leadership (Rambilas Sah, Puja Rouniyar & Rohit Sah) approves your application, your assigned domain tasks and live <strong>{pendingApp.selectedDuration || '1 Month'}</strong> countdown timer will unlock here automatically!
+                  <strong>Access Lock Guarantee:</strong> Once executive leadership (Rambilas Sah, Puja Rouniyar & Rohit Sah) approves your application, your assigned domain tasks and live <strong>{pendingApp.selectedDuration || '1 Month'}</strong> countdown timer will unlock here automatically!
                 </div>
               </div>
             ) : (
@@ -210,7 +210,7 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
           {/* Column 1: Application Tracker */}
           <div>
             <h3 style={{ fontSize: '1.35rem', color: '#0b0f19', marginBottom: '1.25rem' }}>
-              📋 Program Applications ({applications.length})
+              Program Applications ({applications.length})
             </h3>
 
             {applications.map((app) => (
@@ -235,13 +235,13 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
                 {(app.status === 'Approved' || app.status === 'In-Progress') && (
                   <div style={{ background: '#ecfdf5', border: '1px solid #6ee7b7', padding: '0.85rem', borderRadius: '10px', marginTop: '0.75rem', color: '#047857' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
-                      <strong style={{ fontSize: '0.88rem' }}>🟢 Access Unlocked (Approved)</strong>
+                      <strong style={{ fontSize: '0.88rem' }}>Access Unlocked (Approved)</strong>
                       <span style={{ fontSize: '0.75rem', fontWeight: '800', background: '#d1fae5', padding: '0.15rem 0.5rem', borderRadius: '4px' }}>
                         {app.selectedDuration}
                       </span>
                     </div>
                     <span style={{ fontSize: '0.84rem', fontWeight: '800', color: '#065f46', display: 'block' }}>
-                      ⏱️ Access Countdown: {getRemainingTimeText(app.accessEndDate)}
+                      Access Countdown: {getRemainingTimeText(app.accessEndDate)}
                     </span>
                   </div>
                 )}
@@ -266,7 +266,7 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
           {/* Column 2: Assigned Tasks & Project Deliverables */}
           <div>
             <h3 style={{ fontSize: '1.35rem', color: '#0b0f19', marginBottom: '1.25rem' }}>
-              🎯 Assigned Domain Projects ({tasks.length})
+              Assigned Domain Projects ({tasks.length})
             </h3>
 
             {tasks.length === 0 ? (
@@ -322,7 +322,7 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
 
             {/* Issued Certificates Section */}
             <h3 style={{ fontSize: '1.35rem', color: '#0b0f19', margin: '2rem 0 1.25rem 0' }}>
-              🏆 Official QR Certificates ({certificates.length})
+              Official QR Certificates ({certificates.length})
             </h3>
 
             {certificates.map((cert) => (

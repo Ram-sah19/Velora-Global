@@ -1,7 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import VeloraLogo from './VeloraLogo';
 
-export default function Navbar({ activeTab, setActiveTab, onSelectServiceCategory, currentUser, onOpenAuth, onOpenAdminRegister, onLogout }) {
+export default function Navbar({ 
+  activeTab, 
+  setActiveTab, 
+  onSelectServiceCategory, 
+  currentUser, 
+  onOpenAuth, 
+  onLogout 
+}) {
   const [showServicesDropdown, setShowServicesDropdown] = useState(false);
   const dropdownRef = useRef(null);
   const leaveTimerRef = useRef(null);
@@ -128,25 +135,25 @@ export default function Navbar({ activeTab, setActiveTab, onSelectServiceCategor
                   className="dropdown-menu-item"
                   style={{ fontWeight: '700', color: '#0b0f19' }}
                 >
-                  ⚡ All Services Overview
+                  All Services Overview
                 </button>
                 <button
                   onClick={() => handleServiceSelect('web')}
                   className="dropdown-menu-item"
                 >
-                  🌐 Web App Development
+                  Web App Development
                 </button>
                 <button
                   onClick={() => handleServiceSelect('mobile')}
                   className="dropdown-menu-item"
                 >
-                  📱 Mobile App Development
+                  Mobile App Development
                 </button>
                 <button
                   onClick={() => handleServiceSelect('ai')}
                   className="dropdown-menu-item"
                 >
-                  🤖 AI Chatbot Integration in Web Apps
+                  AI Chatbot Integration in Web Apps
                 </button>
               </div>
             </div>
@@ -209,8 +216,8 @@ export default function Navbar({ activeTab, setActiveTab, onSelectServiceCategor
           </button>
         </div>
 
-        {/* Auth Buttons & Apply Now Action */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+        {/* Auth Action Button */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           {currentUser ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <button 
@@ -224,7 +231,7 @@ export default function Navbar({ activeTab, setActiveTab, onSelectServiceCategor
                 className="btn-secondary"
                 style={{ padding: '0.45rem 0.9rem', fontSize: '0.82rem', fontWeight: '700' }}
               >
-                👤 {currentUser.name} ({currentUser.userType})
+                {currentUser.name} ({currentUser.userType})
               </button>
               <button
                 onClick={onLogout}
@@ -233,15 +240,7 @@ export default function Navbar({ activeTab, setActiveTab, onSelectServiceCategor
                 Logout
               </button>
             </div>
-          ) : (
-            <button
-              onClick={onOpenAuth}
-              className="btn-secondary"
-              style={{ fontSize: '0.85rem', padding: '0.5rem 0.95rem' }}
-            >
-              Sign In / Register
-            </button>
-          )}
+          ) : null}
         </div>
 
       </div>

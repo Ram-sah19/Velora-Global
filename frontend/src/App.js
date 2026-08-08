@@ -5,8 +5,9 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CertificateModal from './components/CertificateModal';
 
-// Modals & Auth
-import AuthModal from './pages/Auth/AuthModal';
+// Separate Auth Modals
+import StudentAuthModal from './pages/Auth/StudentAuthModal';
+import ClientAuthModal from './pages/Auth/ClientAuthModal';
 import AdminRegisterModal from './pages/AdminDashboardPage/AdminRegisterModal';
 
 // Pages
@@ -26,7 +27,8 @@ export default function App() {
 
   // Authentication State
   const [currentUser, setCurrentUser] = useState(null);
-  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showStudentAuthModal, setShowStudentAuthModal] = useState(false);
+  const [showClientAuthModal, setShowClientAuthModal] = useState(false);
   const [showAdminRegisterModal, setShowAdminRegisterModal] = useState(false);
 
   // Scroll to top on tab switch
@@ -36,7 +38,7 @@ export default function App() {
 
   const handleTabChange = (tab) => {
     if (tab === 'student' && !currentUser) {
-      setShowAuthModal(true);
+      setShowStudentAuthModal(true);
       return;
     }
     setActiveTab(tab);
@@ -49,6 +51,8 @@ export default function App() {
     }
     if (user.userType === 'superadmin' || user.userType === 'admin') {
       setActiveTab('admin');
+    } else if (user.userType === 'client') {
+      setActiveTab('services');
     } else {
       setActiveTab('student');
     }
@@ -69,8 +73,8 @@ export default function App() {
         setActiveTab={handleTabChange}
         onSelectServiceCategory={(cat) => setSelectedServiceCategory(cat)}
         currentUser={currentUser}
-        onOpenAuth={() => setShowAuthModal(true)}
-        onOpenAdminRegister={() => setShowAdminRegisterModal(true)}
+        onOpenStudentAuth={() => setShowStudentAuthModal(true)}
+        onOpenClientAuth={() => setShowClientAuthModal(true)}
         onLogout={handleLogout}
       />
 
@@ -84,11 +88,13 @@ export default function App() {
           />
         </div>
 
-        {/* Dedicated Client Services Page */}
+        {/* Dedicated Client Services Page — Free Public Browsing, Client Auth on Inquiry */}
         <div style={{ display: activeTab === 'services' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
           <ServicesPage 
             selectedCategory={selectedServiceCategory}
             onSelectCategory={(cat) => setSelectedServiceCategory(cat)}
+            currentUser={currentUser}
+            onOpenClientAuth={() => setShowClientAuthModal(true)}
           />
         </div>
 
@@ -119,7 +125,7 @@ export default function App() {
         <div style={{ display: activeTab === 'student' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
           <StudentPortalPage 
             currentUser={currentUser}
-            onOpenAuth={() => setShowAuthModal(true)}
+            onOpenAuth={() => setShowStudentAuthModal(true)}
             onOpenCertificate={(cert) => setActiveCertificate(cert)}
           />
         </div>
@@ -135,10 +141,18 @@ export default function App() {
 
       </main>
 
-      {/* Auth Modals */}
-      {showAuthModal && (
-        <AuthModal 
-          onClose={() => setShowAuthModal(false)}
+      {/* Dedicated Student Auth Modal */}
+      {showStudentAuthModal && (
+        <StudentAuthModal 
+          onClose={() => setShowStudentAuthModal(false)}
+          onAuthSuccess={handleAuthSuccess}
+        />
+      )}
+
+      {/* Dedicated Corporate Client Auth Modal */}
+      {showClientAuthModal && (
+        <ClientAuthModal 
+          onClose={() => setShowClientAuthModal(false)}
           onAuthSuccess={handleAuthSuccess}
         />
       )}

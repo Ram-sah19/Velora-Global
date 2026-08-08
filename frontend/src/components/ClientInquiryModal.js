@@ -3,12 +3,12 @@ import { api } from '../services/api';
 
 const TARGET_EMAIL = "ram6070246@gmail.com";
 
-export default function ClientInquiryModal({ defaultService = 'Web Application Development', onClose }) {
+export default function ClientInquiryModal({ defaultService = 'Web Application Development', currentUser, onClose }) {
   const [formData, setFormData] = useState({
-    clientName: '',
-    companyName: '',
-    businessEmail: '',
-    phone: '',
+    clientName: currentUser?.name || '',
+    companyName: currentUser?.companyName || '',
+    businessEmail: currentUser?.email || '',
+    phone: currentUser?.phone || '',
     serviceRequired: defaultService,
     budgetRange: 'NPR 50,000 - 100,000',
     projectScope: ''
@@ -150,10 +150,10 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
                   onChange={(e) => setFormData({...formData, serviceRequired: e.target.value})}
                   style={{ width: '100%', fontWeight: '600' }}
                 >
-                  <option value="Web Application Development">🌐 Web Application Development</option>
-                  <option value="Mobile Application Development">📱 Mobile Application Development</option>
-                  <option value="AI Chatbot Integration in Web Apps">🤖 AI Chatbot Integration in Web Apps</option>
-                  <option value="Full Enterprise Custom Software">⚡ Full Enterprise Custom Software</option>
+                  <option value="Web Application Development">Web Application Development</option>
+                  <option value="Mobile Application Development">Mobile Application Development</option>
+                  <option value="AI Chatbot Integration in Web Apps">AI Chatbot Integration in Web Apps</option>
+                  <option value="Full Enterprise Custom Software">Full Enterprise Custom Software</option>
                 </select>
               </div>
 

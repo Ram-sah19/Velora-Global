@@ -85,22 +85,22 @@ export default function Footer({ setActiveTab }) {
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.55rem', fontSize: '0.88rem' }}>
               <li>
                 <button onClick={() => setActiveModal('student-terms')} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left' }}>
-                  🎓 Student Terms of Service
+                  Student Terms of Service
                 </button>
               </li>
               <li>
                 <button onClick={() => setActiveModal('student-privacy')} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left' }}>
-                  🎓 Student Privacy Policy
+                  Student Privacy Policy
                 </button>
               </li>
               <li>
                 <button onClick={() => setActiveModal('client-terms')} style={{ background: 'none', color: '#ff6b6b', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left', fontWeight: '600' }}>
-                  💼 Client Engineering Terms
+                  Client Engineering Terms
                 </button>
               </li>
               <li>
                 <button onClick={() => setActiveModal('client-privacy')} style={{ background: 'none', color: '#ff6b6b', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left', fontWeight: '600' }}>
-                  💼 Client Data Privacy Policy
+                  Client Data Privacy Policy
                 </button>
               </li>
             </ul>
@@ -109,9 +109,9 @@ export default function Footer({ setActiveTab }) {
           {/* Contact */}
           <div>
             <h4 style={{ color: '#ffffff', fontSize: '1.05rem', marginBottom: '1rem' }}>Contact & Support</h4>
-            <p style={{ fontSize: '0.88rem', marginBottom: '0.5rem', color: '#94a3b8' }}>📧 Email: support@veloraglobal.com</p>
-            <p style={{ fontSize: '0.88rem', marginBottom: '0.5rem', color: '#94a3b8' }}>🌐 Website: www.veloraglobal.com</p>
-            <p style={{ fontSize: '0.88rem', color: '#94a3b8' }}>📍 Global Career & Technical Services Desk</p>
+            <p style={{ fontSize: '0.88rem', marginBottom: '0.5rem', color: '#94a3b8' }}>Email: support@veloraglobal.com</p>
+            <p style={{ fontSize: '0.88rem', marginBottom: '0.5rem', color: '#94a3b8' }}>Website: www.veloraglobal.com</p>
+            <p style={{ fontSize: '0.88rem', color: '#94a3b8' }}>Global Career & Technical Services Desk</p>
           </div>
 
         </div>

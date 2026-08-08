@@ -66,13 +66,13 @@ export default function InternshipsPage() {
       <div className="container">
         
         {/* Section Header */}
-        <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 3rem auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 3rem auto' }}>
           <span className="badge badge-coral" style={{ marginBottom: '0.75rem' }}>Practical Work Experience</span>
           <h2 style={{ fontSize: '2.5rem', color: '#0b0f19', marginBottom: '0.75rem' }}>
             Practical Project <span className="text-coral">Internships</span>
           </h2>
-          <p style={{ color: '#64748b', fontSize: '1.05rem' }}>
-            Gain real industry work experience. Flexible durations starting from 2 Weeks (NPR 199) to 6 Months (NPR 4,000) with verified QR certification.
+          <p style={{ color: '#64748b', fontSize: '1.05rem', lineHeight: '1.6' }}>
+            Gain real industry work experience. Apply for any internship track with a flat <strong>NPR 199</strong> application fee — featuring 1-to-1 mentorship from industry experts, 1-on-1 resume building, and hands-on work on 2+ live client projects.
           </p>
         </div>
 
@@ -163,52 +163,50 @@ export default function InternshipsPage() {
                   ))}
                 </div>
 
-                {/* All Available Duration Pricing Options */}
+                {/* Single Flat Application Fee & Included Offerings Box */}
                 <div style={{
                   background: '#fff5f5',
                   border: '1px solid #ffe3e3',
                   borderRadius: '12px',
-                  padding: '0.85rem 1rem',
+                  padding: '1rem',
                   marginBottom: '1.5rem'
                 }}>
-                  <span style={{ fontSize: '0.75rem', color: '#e03131', fontWeight: '800', display: 'block', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                    ⏱️ Available Durations & Fees:
-                  </span>
-                  <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(85px, 1fr))',
-                    gap: '0.4rem'
-                  }}>
-                    <div style={{ background: '#ffffff', border: '1px solid #fcc4c4', padding: '0.35rem 0.5rem', borderRadius: '6px', textAlign: 'center' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#64748b', display: 'block', fontWeight: '600' }}>2 Weeks</span>
-                      <strong style={{ fontSize: '0.85rem', color: '#e03131' }}>NPR 199</strong>
-                    </div>
-                    <div style={{ background: '#ffffff', border: '1px solid #fcc4c4', padding: '0.35rem 0.5rem', borderRadius: '6px', textAlign: 'center' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#64748b', display: 'block', fontWeight: '600' }}>1 Month</span>
-                      <strong style={{ fontSize: '0.85rem', color: '#e03131' }}>NPR 299</strong>
-                    </div>
-                    <div style={{ background: '#ffffff', border: '1px solid #fcc4c4', padding: '0.35rem 0.5rem', borderRadius: '6px', textAlign: 'center' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#64748b', display: 'block', fontWeight: '600' }}>2 Months</span>
-                      <strong style={{ fontSize: '0.85rem', color: '#e03131' }}>NPR 500</strong>
-                    </div>
-                    <div style={{ background: '#ffffff', border: '1px solid #fcc4c4', padding: '0.35rem 0.5rem', borderRadius: '6px', textAlign: 'center' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#64748b', display: 'block', fontWeight: '600' }}>3 Months</span>
-                      <strong style={{ fontSize: '0.85rem', color: '#e03131' }}>NPR 2,000</strong>
-                    </div>
-                    <div style={{ background: '#ffffff', border: '1px solid #fcc4c4', padding: '0.35rem 0.5rem', borderRadius: '6px', textAlign: 'center' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#64748b', display: 'block', fontWeight: '600' }}>6 Months</span>
-                      <strong style={{ fontSize: '0.85rem', color: '#e03131' }}>NPR 4,000</strong>
-                    </div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.65rem', borderBottom: '1px solid #fcc4c4', paddingBottom: '0.5rem' }}>
+                    <span style={{ fontSize: '0.78rem', color: '#e03131', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                      Application Fee:
+                    </span>
+                    <span style={{ fontSize: '1.1rem', fontWeight: '800', color: '#e03131' }}>
+                      NPR 199
+                    </span>
                   </div>
+
+                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.45rem', fontSize: '0.82rem', color: '#334155' }}>
+                    <li style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                      <span style={{ color: '#ff6b6b', fontWeight: '800' }}>✓</span>
+                      <span>1-to-1 Guidance from Industry Experts</span>
+                    </li>
+                    <li style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                      <span style={{ color: '#ff6b6b', fontWeight: '800' }}>✓</span>
+                      <span>1-on-1 Professional Resume Building</span>
+                    </li>
+                    <li style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                      <span style={{ color: '#ff6b6b', fontWeight: '800' }}>✓</span>
+                      <span>Hands-on Work on 2+ Live Client Projects</span>
+                    </li>
+                    <li style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                      <span style={{ color: '#ff6b6b', fontWeight: '800' }}>✓</span>
+                      <span>QR-Verified Certificate of Completion</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
 
               {/* Card Footer with Direct Google Form Redirect Link */}
               <div style={{ paddingTop: '1rem', borderTop: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
-                  <span style={{ display: 'block', fontSize: '0.75rem', color: '#64748b' }}>Internship Fee Starts At</span>
-                  <span style={{ fontSize: '1.05rem', fontWeight: '800', color: '#ff6b6b' }}>
-                    NPR 199 <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '600' }}>(2 Wks)</span> • NPR 299 <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '600' }}>(1 Mon)</span>
+                  <span style={{ display: 'block', fontSize: '0.75rem', color: '#64748b' }}>Flat Application Fee</span>
+                  <span style={{ fontSize: '1.1rem', fontWeight: '800', color: '#ff6b6b' }}>
+                    NPR 199
                   </span>
                 </div>
 
