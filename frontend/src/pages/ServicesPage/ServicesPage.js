@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ClientInquiryModal from '../../components/ClientInquiryModal';
 
-export default function ServicesPage({ selectedCategory = 'all' }) {
+export default function ServicesPage({ selectedCategory = 'all', currentUser, onOpenClientAuth }) {
   const [activeCategory, setActiveCategory] = useState(selectedCategory);
   const [showClientModal, setShowClientModal] = useState(false);
   const [targetServiceTitle, setTargetServiceTitle] = useState('Web Application Development');
@@ -19,7 +19,7 @@ export default function ServicesPage({ selectedCategory = 'all' }) {
       badge: 'Web Solutions',
       title: 'Web Application Development',
       tagline: 'Custom SaaS, Enterprise Web Portals & High-Performance Full Stack Systems',
-      icon: '🌐',
+      icon: '',
       deliverables: [
         'MERN Full Stack MVC Architecture (MongoDB, Express, React, Node.js)',
         'Custom Enterprise Web Portals & High-Performance SaaS Systems',
@@ -35,7 +35,7 @@ export default function ServicesPage({ selectedCategory = 'all' }) {
       badge: 'Mobile Solutions',
       title: 'Mobile Application Development',
       tagline: 'Cross-Platform iOS & Android Apps with Native Performance & Fluid UX',
-      icon: '📱',
+      icon: '',
       deliverables: [
         'iOS & Android Cross-Platform Mobile Apps',
         'Real-Time Offline Data Sync & Push Notifications',
@@ -51,7 +51,7 @@ export default function ServicesPage({ selectedCategory = 'all' }) {
       badge: 'AI & Automation',
       title: 'AI Chatbot Integration in Web Apps',
       tagline: 'Intelligent Conversational Agents, Custom LLM Bots & Customer Support Automation for Web Platforms',
-      icon: '🤖',
+      icon: '',
       deliverables: [
         'Custom Conversational AI & Customer Support Bots',
         'LLM & OpenAI / Gemini API Custom Tuning',
@@ -68,6 +68,14 @@ export default function ServicesPage({ selectedCategory = 'all' }) {
     : servicesList.filter(s => s.category === activeCategory);
 
   const openInquiryModal = (serviceTitle) => {
+    // If client is not logged in, prompt client signup / login modal first
+    if (!currentUser) {
+      if (onOpenClientAuth) {
+        onOpenClientAuth();
+      }
+      return;
+    }
+
     setTargetServiceTitle(serviceTitle || 'Web Application Development');
     setShowClientModal(true);
   };
@@ -119,7 +127,7 @@ export default function ServicesPage({ selectedCategory = 'all' }) {
               cursor: 'pointer'
             }}
           >
-            🌐 Web App Development
+            Web App Development
           </button>
           <button
             onClick={() => setActiveCategory('mobile')}
@@ -135,7 +143,7 @@ export default function ServicesPage({ selectedCategory = 'all' }) {
               cursor: 'pointer'
             }}
           >
-            📱 Mobile App Development
+            Mobile App Development
           </button>
           <button
             onClick={() => setActiveCategory('ai')}
@@ -151,7 +159,7 @@ export default function ServicesPage({ selectedCategory = 'all' }) {
               cursor: 'pointer'
             }}
           >
-            🤖 AI Chatbot Integration
+            AI Chatbot Integration
           </button>
         </div>
 
@@ -237,7 +245,8 @@ export default function ServicesPage({ selectedCategory = 'all' }) {
                     width: '100%',
                     padding: '0.85rem 1.25rem',
                     fontSize: '0.95rem',
-                    fontWeight: '700'
+                    fontWeight: '700',
+                    cursor: 'pointer'
                   }}
                 >
                   Inquire for {service.title} ➔
@@ -267,7 +276,7 @@ export default function ServicesPage({ selectedCategory = 'all' }) {
           <button
             onClick={() => openInquiryModal('Full Enterprise Custom Software')}
             className="btn-coral"
-            style={{ padding: '0.9rem 2.4rem', fontSize: '1rem' }}
+            style={{ padding: '0.9rem 2.4rem', fontSize: '1rem', cursor: 'pointer' }}
           >
             Schedule Technical Project Consultation ➔
           </button>
@@ -279,6 +288,7 @@ export default function ServicesPage({ selectedCategory = 'all' }) {
       {showClientModal && (
         <ClientInquiryModal 
           defaultService={targetServiceTitle}
+          currentUser={currentUser}
           onClose={() => setShowClientModal(false)}
         />
       )}

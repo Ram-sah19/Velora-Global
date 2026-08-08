@@ -172,7 +172,7 @@ export default function TrainingPage() {
                   marginBottom: '1.5rem'
                 }}>
                   <span style={{ fontSize: '0.75rem', color: '#1d4ed8', fontWeight: '800', display: 'block', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                    ⏱️ Available Durations & Fees:
+                    Available Durations & Fees:
                   </span>
                   <div style={{
                     display: 'grid',
