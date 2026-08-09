@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { api } from '../../services/api';
+import { showToast } from '../../components/NotificationToast';
 
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/11D9YEYK13bavROGMxlvO35k46MzrDHTTiHFd-PQqfy4/preview";
 
@@ -306,6 +307,7 @@ export default function TrainingDetailsModal({ program, currentUser, onOpenAuth,
     }
 
     // Open Official Google Form in new browser tab
+    showToast(`🚀 Enrollment submitted for ${program.title}! Opening verification form...`, 'success');
     window.open(GOOGLE_FORM_URL, '_blank');
     onClose();
     if (onApplySuccess) onApplySuccess();

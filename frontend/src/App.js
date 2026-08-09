@@ -5,6 +5,7 @@ import { api } from './services/api';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CertificateModal from './components/CertificateModal';
+import NotificationToast from './components/NotificationToast';
 
 // Unified Authentication Modal
 import AuthModal from './pages/Auth/AuthModal';
@@ -108,6 +109,7 @@ export default function App() {
 
   return (
     <div className="app-container">
+      <NotificationToast />
       
       {/* Global Navigation Header */}
       <Navbar 

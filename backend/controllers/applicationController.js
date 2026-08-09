@@ -23,14 +23,35 @@ exports.getApplications = async (req, res) => {
     if (status && status !== 'All') filter.status = status;
 
     const apps = await Application.find(filter).sort({ createdAt: -1 });
-    res.json(apps);
+
+    // Filter out applications belonging to deleted users
+    const User = require('../models/User');
+    const db = readLocalDb();
+    const existingUsers = await User.find().catch(() => db.users || []);
+    const validUserEmails = new Set(existingUsers.map(u => (u.email || '').toLowerCase()));
+    const validUserIds = new Set(existingUsers.map(u => u.id));
+
+    const activeApps = apps.filter(a => 
+      validUserEmails.has((a.studentEmail || '').toLowerCase()) || validUserIds.has(a.studentId)
+    );
+
+    res.json(activeApps);
   } catch (err) {
     const db = readLocalDb();
     let apps = db.applications || [];
     const { studentId, status } = req.query;
     if (studentId) apps = apps.filter(a => a.studentId === studentId);
     if (status && status !== 'All') apps = apps.filter(a => a.status === status);
-    res.json(apps);
+
+    const existingUsers = db.users || [];
+    const validUserEmails = new Set(existingUsers.map(u => (u.email || '').toLowerCase()));
+    const validUserIds = new Set(existingUsers.map(u => u.id));
+
+    const activeApps = apps.filter(a => 
+      validUserEmails.has((a.studentEmail || '').toLowerCase()) || validUserIds.has(a.studentId)
+    );
+
+    res.json(activeApps);
   }
 };
 

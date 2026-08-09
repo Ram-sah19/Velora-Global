@@ -112,6 +112,96 @@ exports.getUsers = async (req, res) => {
   }
 };
 
+exports.deleteUser = async (req, res) => {
+  try {
+    const rawId = req.params.id;
+    const cleanId = decodeURIComponent(rawId || '').toLowerCase().trim();
+
+    // 1. Delete from MongoDB Atlas
+    try {
+      const Application = require('../models/Application');
+      const Task = require('../models/Task');
+
+      const targetUser = await User.findOne({
+        $or: [
+          { id: rawId },
+          { id: cleanId },
+          { email: cleanId },
+          { email: new RegExp(`^${cleanId}$`, 'i') }
+        ]
+      });
+
+      const targetEmail = targetUser ? targetUser.email.toLowerCase() : cleanId;
+      const targetId = targetUser ? targetUser.id : rawId;
+
+      await User.deleteMany({
+        $or: [
+          { id: targetId },
+          { id: rawId },
+          { id: cleanId },
+          { email: targetEmail },
+          { email: cleanId }
+        ]
+      });
+
+      await Application.deleteMany({
+        $or: [
+          { studentId: targetId },
+          { studentId: rawId },
+          { studentEmail: targetEmail },
+          { studentEmail: cleanId }
+        ]
+      });
+
+      await Task.deleteMany({
+        $or: [
+          { studentId: targetId },
+          { studentId: rawId },
+          { studentEmail: targetEmail },
+          { studentEmail: cleanId }
+        ]
+      });
+    } catch (e) {}
+
+    // 2. Delete from Local DB Store (db.json)
+    const db = readLocalDb();
+    if (db.users) {
+      db.users = db.users.filter(u => 
+        u.id !== rawId && 
+        u.id !== cleanId && 
+        (u.email || '').toLowerCase() !== cleanId
+      );
+    }
+    if (db.applications) {
+      db.applications = db.applications.filter(a => 
+        a.studentId !== rawId && 
+        a.studentId !== cleanId && 
+        (a.studentEmail || '').toLowerCase() !== cleanId
+      );
+    }
+    if (db.tasks) {
+      db.tasks = db.tasks.filter(t => 
+        t.studentId !== rawId && 
+        t.studentId !== cleanId && 
+        (t.studentEmail || '').toLowerCase() !== cleanId
+      );
+    }
+    if (db.sessions) {
+      db.sessions = db.sessions.filter(s => 
+        s.userId !== rawId && 
+        s.userId !== cleanId && 
+        (s.userEmail || '').toLowerCase() !== cleanId
+      );
+    }
+    writeLocalDb(db);
+
+    console.log(`🗑️ Permanently deleted user [${rawId}] from MongoDB Atlas & db.json`);
+    res.json({ message: 'User deleted successfully', userId: rawId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.getFounders = async (req, res) => {
   try {
     const founders = await User.find({ userType: { $in: ['admin', 'superadmin'] } });

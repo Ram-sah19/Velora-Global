@@ -11,5 +11,6 @@ router.post('/register-student', userController.registerStudent);
 router.post('/register-client', userController.registerClient);
 router.post('/register-admin', userController.registerAdmin);
 router.post('/login', userController.loginUser);
+router.delete('/:id', userController.deleteUser);
 
 module.exports = router;

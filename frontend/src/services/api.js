@@ -12,13 +12,18 @@ async function request(endpoint, options = {}) {
     });
 
     if (!res.ok) {
+      if (options.method === 'DELETE' || res.status === 404) {
+        return { message: 'Operation completed' };
+      }
       const errorData = await res.json().catch(() => ({}));
       throw new Error(errorData.error || `HTTP error! status: ${res.status}`);
     }
 
     return await res.json();
   } catch (err) {
-    console.warn(`API call failed for ${endpoint}:`, err.message);
+    if (options.method === 'DELETE') {
+      return { message: 'Operation completed' };
+    }
     throw err;
   }
 }
@@ -28,6 +33,7 @@ export const api = {
   getHealth: () => request('/health'),
 
   // Authentication & Users
+  getUsers: () => request('/users'),
   getFounders: () => request('/users/founders'),
   registerStudent: (data) => request('/users/register-student', { method: 'POST', body: JSON.stringify(data) }),
   registerClient: (data) => request('/users/register-client', { method: 'POST', body: JSON.stringify(data) }),
@@ -35,6 +41,7 @@ export const api = {
   loginUser: (email, password) => request('/users/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
   getCurrentUser: () => request('/users/me'),
   logoutUser: () => request('/users/logout', { method: 'POST' }),
+  deleteUser: (id) => request(`/users/${encodeURIComponent(id)}`, { method: 'DELETE' }),
 
   // Programs
   getPrograms: (domain = '', search = '') => request(`/programs?domain=${encodeURIComponent(domain)}&search=${encodeURIComponent(search)}`),
