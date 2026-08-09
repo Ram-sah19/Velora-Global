@@ -9,7 +9,7 @@ export default function TeamPage({ onExploreClick }) {
       badge: "Founder & CEO",
       bio: "Technology leader and founder directing platform architecture, technical curriculum design, project evaluation criteria, and strategic engineering growth.",
       expertise: ["System Architecture", "Executive Leadership", "Technical Evaluation", "Curriculum Design"],
-      email: "rohit@veloraglobal.com"
+      email: ""
     },
     {
       name: "Rambilas Sah",
@@ -18,7 +18,7 @@ export default function TeamPage({ onExploreClick }) {
       badge: "Co-Founder",
       bio: "Co-Founder dedicated to building Velora Global into a premier career bridge. Driving strategic growth, student success initiatives, university relations, and industry partner alignments.",
       expertise: ["Strategic Growth", "Industry Partnerships", "Career Pathways", "Student Success"],
-      email: "rambilas@veloraglobal.com"
+      email: ""
     },
     {
       name: "Puja Rouniyar",
@@ -27,7 +27,7 @@ export default function TeamPage({ onExploreClick }) {
       badge: "Co-Founder & COO",
       bio: "Operations executive overseeing program execution, candidate onboarding, quality assurance standards, and talent evaluation workflows across all 10 domain specializations.",
       expertise: ["Global Operations", "Talent Onboarding", "Program Quality", "Workflow Optimization"],
-      email: "puja@veloraglobal.com"
+      email: ""
     }
   ];
 
@@ -179,7 +179,7 @@ export default function TeamPage({ onExploreClick }) {
                     gap: '0.4rem'
                   }}
                 >
-                  ✉️ {member.email}
+                   {member.email}
                 </a>
               </div>
 
