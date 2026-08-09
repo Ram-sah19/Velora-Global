@@ -1,8 +1,11 @@
+const path = require('path');
+module.paths.push(path.join(__dirname, '../../backend/node_modules'));
+module.paths.push(path.join(__dirname, '../backend/node_modules'));
+
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
-const path = require('path');
 const fs = require('fs');
 
 const app = express();
@@ -33,7 +36,21 @@ try {
   }
 } catch (e) {}
 
-app.use(cors());
+// Strict Origin Matching CORS Middleware for HttpOnly Credentials
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1')) {
+      callback(null, true);
+    } else {
+      callback(null, origin);
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'X-Requested-With']
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Helper function to proxy requests to downstream microservices with timeout & resilience
@@ -53,9 +70,15 @@ function proxyRequest(targetBaseUrl, req, res) {
 
   const proxyReq = http.request(options, (proxyRes) => {
     res.status(proxyRes.statusCode);
+    
+    // Forward response headers while stripping downstream CORS headers to prevent duplicate/wildcard errors
     Object.keys(proxyRes.headers).forEach((key) => {
-      res.setHeader(key, proxyRes.headers[key]);
+      const lowerKey = key.toLowerCase();
+      if (!lowerKey.startsWith('access-control-')) {
+        res.setHeader(key, proxyRes.headers[key]);
+      }
     });
+
     proxyRes.pipe(res);
   });
 
@@ -143,17 +166,13 @@ app.get('/api/stats', async (req, res) => {
   }
 });
 
-// Proxy Rules to Microservices
-app.use('/api/users*', (req, res) => proxyRequest(SERVICES.USER_SERVICE, req, res));
-app.use('/api/programs*', (req, res) => proxyRequest(SERVICES.PROGRAM_SERVICE, req, res));
-app.use('/api/applications*', (req, res) => proxyRequest(SERVICES.APPLICATION_SERVICE, req, res));
-app.use('/api/tasks*', (req, res) => proxyRequest(SERVICES.TASK_SERVICE, req, res));
-app.use('/api/evaluations*', (req, res) => proxyRequest(SERVICES.TASK_SERVICE, req, res));
+// Prefix Proxy Rules to Microservices
+app.use('/api/users', (req, res) => proxyRequest(SERVICES.USER_SERVICE, req, res));
+app.use('/api/programs', (req, res) => proxyRequest(SERVICES.PROGRAM_SERVICE, req, res));
+app.use('/api/applications', (req, res) => proxyRequest(SERVICES.APPLICATION_SERVICE, req, res));
+app.use('/api/tasks', (req, res) => proxyRequest(SERVICES.TASK_SERVICE, req, res));
+app.use('/api/evaluations', (req, res) => proxyRequest(SERVICES.TASK_SERVICE, req, res));
 
 app.listen(PORT, () => {
   console.log(`🌐 Velora Global Central API Gateway listening on port ${PORT}`);
-  console.log(`📡 User Microservice -> ${SERVICES.USER_SERVICE}`);
-  console.log(`📡 Program Microservice -> ${SERVICES.PROGRAM_SERVICE}`);
-  console.log(`📡 Application Microservice -> ${SERVICES.APPLICATION_SERVICE}`);
-  console.log(`📡 Task & Evaluation Microservice -> ${SERVICES.TASK_SERVICE}`);
 });
