@@ -1,12 +1,17 @@
+const path = require('path');
+module.paths.push(path.join(__dirname, '../../backend/node_modules'));
+module.paths.push(path.join(__dirname, '../backend/node_modules'));
+
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dns = require('dns');
 const fs = require('fs');
-const path = require('path');
+const crypto = require('crypto');
 
 const User = require('./User');
+const Session = require('./Session');
 
 // Force IPv4 and set Public DNS for MongoDB Atlas SRV resolution
 try {
@@ -21,6 +26,7 @@ const PORT = process.env.USER_SERVICE_PORT || 5001;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://ram6070246:4wA2e9P!5iM@velora.mongodb.net/velora?retryWrites=true&w=majority";
 
 const DB_FILE = path.join(__dirname, 'users.json');
+const SESSIONS_FILE = path.join(__dirname, 'sessions.json');
 
 const readLocalUsers = () => {
   try {
@@ -60,13 +66,86 @@ const readLocalUsers = () => {
 };
 
 const writeLocalUsers = (data) => {
-  try {
-    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
-  } catch (e) {}
+  try { fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2)); } catch (e) {}
 };
 
-app.use(cors());
+const readLocalSessions = () => {
+  try {
+    if (fs.existsSync(SESSIONS_FILE)) {
+      return JSON.parse(fs.readFileSync(SESSIONS_FILE, 'utf8'));
+    }
+  } catch (e) {}
+  return [];
+};
+
+const writeLocalSessions = (data) => {
+  try { fs.writeFileSync(SESSIONS_FILE, JSON.stringify(data, null, 2)); } catch (e) {}
+};
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1')) {
+      callback(null, true);
+    } else {
+      callback(null, origin);
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'X-Requested-With']
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
+
+// Helper function to parse raw Cookie header
+function parseCookies(cookieHeader) {
+  const list = {};
+  if (!cookieHeader) return list;
+  cookieHeader.split(';').forEach((cookie) => {
+    const parts = cookie.split('=');
+    list[parts.shift().trim()] = decodeURI(parts.join('='));
+  });
+  return list;
+}
+
+// 30-Day Session Duration (30 Days in Milliseconds)
+const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+
+async function create30DaySession(res, user) {
+  const sessionId = `sess-${Date.now()}-${crypto.randomBytes(16).toString('hex')}`;
+  const expiresAt = new Date(Date.now() + THIRTY_DAYS_MS);
+
+  const sessionObj = {
+    sessionId,
+    userId: user.id,
+    userEmail: user.email,
+    userType: user.userType,
+    expiresAt,
+    isRevoked: false
+  };
+
+  try {
+    await Session.create(sessionObj);
+  } catch (e) {
+    const sessions = readLocalSessions();
+    sessions.push(sessionObj);
+    writeLocalSessions(sessions);
+  }
+
+  // Set HttpOnly 30-Day Cookie
+  const cookieOptions = [
+    `velora_refresh_token=${sessionId}`,
+    `Path=/`,
+    `Max-Age=${Math.floor(THIRTY_DAYS_MS / 1000)}`,
+    `HttpOnly`,
+    `SameSite=Lax`
+  ];
+  if (process.env.NODE_ENV === 'production') cookieOptions.push('Secure');
+
+  res.setHeader('Set-Cookie', cookieOptions.join('; '));
+  return sessionId;
+}
 
 // Connect MongoDB Atlas
 mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 5000 })
@@ -76,6 +155,75 @@ mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 5000 })
 // Health Check
 app.get('/health', (req, res) => {
   res.json({ service: 'user-service', status: 'healthy', port: PORT, timestamp: new Date() });
+});
+
+// Get Current Logged-In User Profile via 30-Day HttpOnly Session Cookie
+app.get('/api/users/me', async (req, res) => {
+  try {
+    const cookies = parseCookies(req.headers.cookie);
+    const sessionId = cookies.velora_refresh_token;
+
+    if (!sessionId) {
+      return res.status(401).json({ error: 'No active session found.' });
+    }
+
+    let session;
+    try {
+      session = await Session.findOne({ sessionId, isRevoked: false });
+    } catch (e) {
+      session = readLocalSessions().find(s => s.sessionId === sessionId && !s.isRevoked);
+    }
+
+    if (!session) {
+      return res.status(401).json({ error: 'Invalid or revoked session.' });
+    }
+
+    if (new Date(session.expiresAt) < new Date()) {
+      return res.status(401).json({ error: 'Session expired. Please log in again.' });
+    }
+
+    let user;
+    try {
+      user = await User.findOne({ id: session.userId });
+    } catch (e) {
+      user = readLocalUsers().find(u => u.id === session.userId);
+    }
+
+    if (!user) {
+      return res.status(404).json({ error: 'User account not found.' });
+    }
+
+    res.json({ user });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Logout Endpoint (Revokes Session & Clears HttpOnly Cookie)
+app.post('/api/users/logout', async (req, res) => {
+  try {
+    const cookies = parseCookies(req.headers.cookie);
+    const sessionId = cookies.velora_refresh_token;
+
+    if (sessionId) {
+      try {
+        await Session.findOneAndUpdate({ sessionId }, { isRevoked: true });
+      } catch (e) {
+        const sessions = readLocalSessions();
+        const sess = sessions.find(s => s.sessionId === sessionId);
+        if (sess) {
+          sess.isRevoked = true;
+          writeLocalSessions(sessions);
+        }
+      }
+    }
+
+    // Clear HttpOnly Cookie
+    res.setHeader('Set-Cookie', 'velora_refresh_token=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax');
+    res.json({ message: 'Logout successful' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Domain Routes
@@ -141,6 +289,7 @@ async function registerStudent(req, res) {
       writeLocalUsers(users);
     }
 
+    await create30DaySession(res, newUser);
     res.status(201).json({ message: 'Student registration successful', user: newUser });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -183,6 +332,7 @@ async function registerClient(req, res) {
       writeLocalUsers(users);
     }
 
+    await create30DaySession(res, newClient);
     res.status(201).json({ message: 'Client registration successful', user: newClient });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -228,6 +378,7 @@ async function registerAdmin(req, res) {
       writeLocalUsers(users);
     }
 
+    await create30DaySession(res, newAdmin);
     res.status(201).json({ message: 'Super Admin registered successfully', user: newAdmin });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -250,6 +401,7 @@ async function loginUser(req, res) {
     if (!user) return res.status(404).json({ error: 'Account not found with this email. Please sign up.' });
     if (user.password && user.password !== password) return res.status(401).json({ error: 'Invalid password. Please try again.' });
 
+    await create30DaySession(res, user);
     res.json({ message: 'Login successful', user });
   } catch (err) {
     res.status(500).json({ error: err.message });

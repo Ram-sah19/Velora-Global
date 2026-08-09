@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema({
   university: { type: String, default: 'Not specified' },
   fieldOfStudy: { type: String, default: 'General' },
   skills: [{ type: String }],
-  bio: { type: String }
+  bio: { type: String },
+  isVerified: { type: Boolean, default: false }
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

@@ -127,6 +127,22 @@ exports.updateStatus = async (req, res) => {
 
       updateFields.accessStartDate = startDate.toISOString();
       updateFields.accessEndDate = endDate.toISOString();
+
+      // Mark student as permanently Verified upon first approval
+      try {
+        const User = require('../models/User');
+        await User.findOneAndUpdate(
+          { $or: [{ id: appItem.studentId }, { email: appItem.studentEmail }] },
+          { isVerified: true }
+        );
+      } catch (e) {
+        const db = readLocalDb();
+        const usr = (db.users || []).find(u => u.id === appItem.studentId || u.email === appItem.studentEmail);
+        if (usr) {
+          usr.isVerified = true;
+          writeLocalDb(db);
+        }
+      }
     }
 
     try {

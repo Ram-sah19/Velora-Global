@@ -248,7 +248,12 @@ export default function AdminDashboardPage({ onCertificateGenerated }) {
                   <tr key={app.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
                     <td style={{ padding: '1rem 0.8rem' }}>
                       <strong style={{ color: '#0b0f19', display: 'block' }}>{app.studentName}</strong>
-                      <span style={{ fontSize: '0.8rem', color: '#64748b' }}>{app.studentEmail}</span>
+                      <span style={{ fontSize: '0.8rem', color: '#64748b', display: 'block' }}>{app.studentEmail}</span>
+                      {applications.some(a => (a.studentEmail === app.studentEmail || a.studentId === app.studentId) && (a.status === 'Approved' || a.status === 'In-Progress' || a.status === 'Completed')) && (
+                        <span style={{ display: 'inline-block', marginTop: '0.25rem', padding: '0.15rem 0.5rem', borderRadius: '4px', background: '#ecfdf5', color: '#059669', fontSize: '0.72rem', fontWeight: '800', border: '1px solid #a7f3d0' }}>
+                          ✓ Verified Candidate
+                        </span>
+                      )}
                     </td>
                     <td style={{ padding: '1rem 0.8rem' }}>
                       <span style={{ fontWeight: '600', color: '#0b0f19' }}>{app.programTitle}</span>

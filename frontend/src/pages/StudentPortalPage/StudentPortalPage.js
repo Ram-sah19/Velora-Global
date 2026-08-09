@@ -110,75 +110,7 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
     );
   }
 
-  const approvedApp = applications.find(a => a.status === 'Approved' || a.status === 'In-Progress' || a.status === 'Completed');
-  const pendingApp = applications.find(a => a.status === 'Pending');
-
-  // CHECK 2: Logged In Student But NO Approved Applications (Pending Admin Review)
-  if (!approvedApp) {
-    return (
-      <section style={{ padding: '4rem 0', minHeight: '75vh' }}>
-        <div className="container" style={{ maxWidth: '750px' }}>
-          
-          {/* Header Bar */}
-          <div className="corporate-card" style={{ padding: '1.75rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <img 
-                src={currentUser.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=Student"} 
-                alt={studentName}
-                style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #2563eb' }}
-              />
-              <div>
-                <h3 style={{ fontSize: '1.3rem', color: '#0b0f19' }}>{studentName}</h3>
-                <span style={{ fontSize: '0.82rem', color: '#64748b' }}>{studentEmail}</span>
-              </div>
-            </div>
-            <span className="badge badge-gold" style={{ fontSize: '0.8rem' }}>Pending Approval</span>
-          </div>
-
-          {/* Access Shield Lock Banner */}
-          <div className="corporate-card" style={{ padding: '3rem 2.5rem', textAlign: 'center', background: '#ffffff', border: '2px dashed #fbbf24' }}>
-            <span className="badge badge-gold" style={{ marginBottom: '0.75rem', fontSize: '0.85rem' }}>Pending Approval</span>
-            <h2 style={{ fontSize: '2rem', color: '#0b0f19', marginBottom: '1.25rem', fontWeight: '800' }}>
-              Application Sent for Approval & Verification
-            </h2>
-
-            {pendingApp ? (
-              <div style={{ maxWidth: '640px', margin: '0 auto', textAlign: 'left', lineHeight: '1.7', color: '#334155' }}>
-                <p style={{ fontSize: '1.05rem', fontWeight: '600', color: '#0b0f19', marginBottom: '1rem' }}>
-                  Your application has been successfully submitted and is currently pending approval and verification.
-                </p>
-                <p style={{ fontSize: '0.95rem', marginBottom: '1rem', color: '#475569' }}>
-                  Our team is reviewing the information provided with your application. This process may take some time as we ensure that all submitted details are properly verified.
-                </p>
-                <p style={{ fontSize: '0.95rem', marginBottom: '1rem', color: '#475569' }}>
-                  Once the review is complete, you’ll be notified about the status of your application. If your application is approved, you’ll receive further information about the next steps and access to your application dashboard.
-                </p>
-                <p style={{ fontSize: '0.95rem', marginBottom: '1rem', color: '#475569' }}>
-                  There’s nothing you need to do at this moment. Please wait for the approval and keep an eye on your registered email or dashboard for updates.
-                </p>
-                <p style={{ fontSize: '0.95rem', marginBottom: '1.5rem', color: '#475569' }}>
-                  Thank you for your patience and for your interest in joining us. We’ll get back to you as soon as there is an update.
-                </p>
-
-                <div style={{ background: '#fffbeb', border: '1px solid #fde68a', padding: '0.9rem 1.25rem', borderRadius: '12px', color: '#92400e', fontSize: '0.92rem', fontWeight: '700', display: 'inline-block' }}>
-                  Status: 🟡 Pending Approval
-                </div>
-              </div>
-            ) : (
-              <div>
-                <p style={{ color: '#64748b', fontSize: '1rem', lineHeight: '1.6', marginBottom: '1.75rem' }}>
-                  You have not submitted a program application yet. Explore Practical Internships or Training Programs to submit your application for approval and verification.
-                </p>
-              </div>
-            )}
-          </div>
-
-        </div>
-      </section>
-    );
-  }
-
-  // CHECK 3: Logged In & APPROVED STUDENT WORKSPACE UNLOCKED!
+  // LOGGED IN STUDENT WORKSPACE UNLOCKED IMMEDIATELY AFTER LOGIN
   return (
     <section style={{ padding: '3rem 0', minHeight: '75vh', width: '100%' }}>
       <div className="container">
@@ -200,7 +132,6 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.25rem' }}>
                 <h2 style={{ fontSize: '1.6rem', color: '#0b0f19' }}>{studentName}</h2>
-                <span className="badge badge-green">Approved Active Candidate</span>
               </div>
               <p style={{ color: '#64748b', fontSize: '0.9rem' }}>
                 {currentUser?.university || 'Tribhuvan University / Kathmandu Tech'} • {currentUser?.fieldOfStudy || 'Computer Science & Engineering'}
@@ -230,54 +161,67 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
               Program Applications ({applications.length})
             </h3>
 
-            {applications.map((app) => (
-              <div key={app.id} className="corporate-card" style={{ padding: '1.5rem', marginBottom: '1rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                  <span className="badge badge-blue">{app.domain}</span>
-                  <span className={`badge ${
-                    app.status === 'Completed' ? 'badge-green' :
-                    app.status === 'In-Progress' || app.status === 'Approved' ? 'badge-blue' :
-                    app.status === 'Pending' ? 'badge-gold' : 'badge-coral'
-                  }`}>
-                    {app.status}
-                  </span>
-                </div>
-
-                <h4 style={{ fontSize: '1.15rem', color: '#0b0f19', marginBottom: '0.4rem' }}>{app.programTitle}</h4>
-                <p style={{ fontSize: '0.82rem', color: '#64748b', marginBottom: '0.75rem' }}>
-                  Applied Date: {app.appliedDate} • Selected Track: <strong>{app.selectedDuration || '1 Month'}</strong> ({app.programTrack || 'Internship'})
+            {applications.length === 0 ? (
+              <div className="corporate-card" style={{ padding: '2.5rem 1.5rem', textAlign: 'center', background: '#ffffff', border: '1px dashed #cbd5e1' }}>
+                <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>📚</div>
+                <h4 style={{ fontSize: '1.15rem', color: '#0b0f19', fontWeight: '800', marginBottom: '0.4rem' }}>
+                  Learning Materials & Curriculum
+                </h4>
+                <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.6', maxWidth: '380px', margin: '0 auto 1.25rem auto' }}>
+                  Your customized learning materials, domain repositories, and reference documentation will be available soon.
                 </p>
+                <span className="badge badge-gold" style={{ fontSize: '0.78rem' }}>⏳ Available Soon</span>
+              </div>
+            ) : (
+              applications.map((app) => (
+                <div key={app.id} className="corporate-card" style={{ padding: '1.5rem', marginBottom: '1rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                    <span className="badge badge-blue">{app.domain}</span>
+                    <span className={`badge ${
+                      app.status === 'Completed' ? 'badge-green' :
+                      app.status === 'In-Progress' || app.status === 'Approved' ? 'badge-blue' :
+                      app.status === 'Pending' ? 'badge-gold' : 'badge-coral'
+                    }`}>
+                      {app.status}
+                    </span>
+                  </div>
 
-                {/* APPROVED LIVE COUNTDOWN ACCESS TIMER */}
-                {(app.status === 'Approved' || app.status === 'In-Progress') && (
-                  <div style={{ background: '#ecfdf5', border: '1px solid #6ee7b7', padding: '0.85rem', borderRadius: '10px', marginTop: '0.75rem', color: '#047857' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
-                      <strong style={{ fontSize: '0.88rem' }}>Access Unlocked (Approved)</strong>
-                      <span style={{ fontSize: '0.75rem', fontWeight: '800', background: '#d1fae5', padding: '0.15rem 0.5rem', borderRadius: '4px' }}>
-                        {app.selectedDuration}
+                  <h4 style={{ fontSize: '1.15rem', color: '#0b0f19', marginBottom: '0.4rem' }}>{app.programTitle}</h4>
+                  <p style={{ fontSize: '0.82rem', color: '#64748b', marginBottom: '0.75rem' }}>
+                    Applied Date: {app.appliedDate} • Selected Track: <strong>{app.selectedDuration || '1 Month'}</strong> ({app.programTrack || 'Internship'})
+                  </p>
+
+                  {/* APPROVED LIVE COUNTDOWN ACCESS TIMER */}
+                  {(app.status === 'Approved' || app.status === 'In-Progress') && (
+                    <div style={{ background: '#ecfdf5', border: '1px solid #6ee7b7', padding: '0.85rem', borderRadius: '10px', marginTop: '0.75rem', color: '#047857' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
+                        <strong style={{ fontSize: '0.88rem' }}>Access Unlocked (Approved)</strong>
+                        <span style={{ fontSize: '0.75rem', fontWeight: '800', background: '#d1fae5', padding: '0.15rem 0.5rem', borderRadius: '4px' }}>
+                          {app.selectedDuration}
+                        </span>
+                      </div>
+                      <span style={{ fontSize: '0.84rem', fontWeight: '800', color: '#065f46', display: 'block' }}>
+                        Access Countdown: {getRemainingTimeText(app.accessEndDate)}
                       </span>
                     </div>
-                    <span style={{ fontSize: '0.84rem', fontWeight: '800', color: '#065f46', display: 'block' }}>
-                      Access Countdown: {getRemainingTimeText(app.accessEndDate)}
-                    </span>
-                  </div>
-                )}
+                  )}
 
-                {/* Pipeline Status Progress */}
-                <div style={{ background: '#f8fafc', padding: '0.75rem', borderRadius: '8px', border: '1px solid #e2e8f0', marginTop: '0.75rem' }}>
-                  <span style={{ fontSize: '0.75rem', color: '#64748b', display: 'block', marginBottom: '0.35rem', fontWeight: '600' }}>Pipeline Status</span>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem' }}>
-                    <span style={{ color: '#10b981', fontWeight: '700' }}>✓ Applied</span>
-                    <span style={{ color: '#10b981', fontWeight: '700' }}>✓ Reviewed</span>
-                    <span style={{ color: '#10b981', fontWeight: '700' }}>✓ Approved</span>
-                    <span style={{ color: app.status === 'Completed' ? '#10b981' : '#94a3b8', fontWeight: '700' }}>
-                      {app.status === 'Completed' ? '✓ Certified' : '○ Certified'}
-                    </span>
+                  {/* Pipeline Status Progress */}
+                  <div style={{ background: '#f8fafc', padding: '0.75rem', borderRadius: '8px', border: '1px solid #e2e8f0', marginTop: '0.75rem' }}>
+                    <span style={{ fontSize: '0.75rem', color: '#64748b', display: 'block', marginBottom: '0.35rem', fontWeight: '600' }}>Pipeline Status</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem' }}>
+                      <span style={{ color: '#10b981', fontWeight: '700' }}>✓ Applied</span>
+                      <span style={{ color: '#10b981', fontWeight: '700' }}>✓ Reviewed</span>
+                      <span style={{ color: '#10b981', fontWeight: '700' }}>✓ Approved</span>
+                      <span style={{ color: app.status === 'Completed' ? '#10b981' : '#94a3b8', fontWeight: '700' }}>
+                        {app.status === 'Completed' ? '✓ Certified' : '○ Certified'}
+                      </span>
+                    </div>
                   </div>
+
                 </div>
-
-              </div>
-            ))}
+              ))
+            )}
           </div>
 
           {/* Column 2: Assigned Tasks & Project Deliverables */}
@@ -287,8 +231,15 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
             </h3>
 
             {tasks.length === 0 ? (
-              <div className="corporate-card" style={{ padding: '1.5rem', textAlign: 'center', color: '#64748b' }}>
-                No active task assigned yet. Executive mentors will assign your specific domain project deliverables shortly!
+              <div className="corporate-card" style={{ padding: '2.5rem 1.5rem', textAlign: 'center', background: '#ffffff', border: '1px dashed #cbd5e1' }}>
+                <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🚀</div>
+                <h4 style={{ fontSize: '1.15rem', color: '#0b0f19', fontWeight: '800', marginBottom: '0.4rem' }}>
+                  Assigned Tasks & Deliverables
+                </h4>
+                <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.6', maxWidth: '380px', margin: '0 auto 1.25rem auto' }}>
+                  Domain project tasks, repository access, and assignment deadlines will be available soon.
+                </p>
+                <span className="badge badge-gold" style={{ fontSize: '0.78rem' }}>⏳ Available Soon</span>
               </div>
             ) : (
               tasks.map((t) => (

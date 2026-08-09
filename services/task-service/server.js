@@ -1,10 +1,13 @@
+const path = require('path');
+module.paths.push(path.join(__dirname, '../../backend/node_modules'));
+module.paths.push(path.join(__dirname, '../backend/node_modules'));
+
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dns = require('dns');
 const fs = require('fs');
-const path = require('path');
 
 const Task = require('./Task');
 const Evaluation = require('./Evaluation');
@@ -46,7 +49,20 @@ const writeLocalEvals = (data) => {
   try { fs.writeFileSync(EVALS_FILE, JSON.stringify(data, null, 2)); } catch (e) {}
 };
 
-app.use(cors());
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1')) {
+      callback(null, true);
+    } else {
+      callback(null, origin);
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'X-Requested-With']
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Connect MongoDB Atlas

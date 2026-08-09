@@ -1,5 +1,106 @@
+const crypto = require('crypto');
 const User = require('../models/User');
 const { readLocalDb, writeLocalDb } = require('../db');
+
+// 30-Day Session Duration (30 Days in Milliseconds)
+const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+
+function parseCookies(cookieHeader) {
+  const list = {};
+  if (!cookieHeader) return list;
+  cookieHeader.split(';').forEach((cookie) => {
+    const parts = cookie.split('=');
+    list[parts.shift().trim()] = decodeURI(parts.join('='));
+  });
+  return list;
+}
+
+function create30DaySession(res, user) {
+  const sessionId = `sess-${Date.now()}-${crypto.randomBytes(16).toString('hex')}`;
+  const expiresAt = new Date(Date.now() + THIRTY_DAYS_MS).toISOString();
+
+  const db = readLocalDb();
+  if (!db.sessions) db.sessions = [];
+  
+  db.sessions.push({
+    sessionId,
+    userId: user.id,
+    userEmail: user.email,
+    expiresAt,
+    isRevoked: false
+  });
+  writeLocalDb(db);
+
+  const cookieOptions = [
+    `velora_refresh_token=${sessionId}`,
+    `Path=/`,
+    `Max-Age=${Math.floor(THIRTY_DAYS_MS / 1000)}`,
+    `HttpOnly`,
+    `SameSite=Lax`
+  ];
+  if (process.env.NODE_ENV === 'production') cookieOptions.push('Secure');
+
+  res.setHeader('Set-Cookie', cookieOptions.join('; '));
+  return sessionId;
+}
+
+exports.getCurrentUser = async (req, res) => {
+  try {
+    const cookies = parseCookies(req.headers.cookie);
+    const sessionId = cookies.velora_refresh_token;
+
+    if (!sessionId) {
+      return res.status(401).json({ error: 'No active session found.' });
+    }
+
+    const db = readLocalDb();
+    const session = (db.sessions || []).find(s => s.sessionId === sessionId && !s.isRevoked);
+
+    if (!session) {
+      return res.status(401).json({ error: 'Invalid or revoked session.' });
+    }
+
+    if (new Date(session.expiresAt) < new Date()) {
+      return res.status(401).json({ error: 'Session expired.' });
+    }
+
+    let user;
+    try {
+      user = await User.findOne({ id: session.userId });
+    } catch (e) {
+      user = (db.users || []).find(u => u.id === session.userId);
+    }
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+
+    res.json({ user });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.logoutUser = async (req, res) => {
+  try {
+    const cookies = parseCookies(req.headers.cookie);
+    const sessionId = cookies.velora_refresh_token;
+
+    if (sessionId) {
+      const db = readLocalDb();
+      const session = (db.sessions || []).find(s => s.sessionId === sessionId);
+      if (session) {
+        session.isRevoked = true;
+        writeLocalDb(db);
+      }
+    }
+
+    res.setHeader('Set-Cookie', 'velora_refresh_token=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax');
+    res.json({ message: 'Logout successful' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 exports.getUsers = async (req, res) => {
   try {
@@ -65,6 +166,7 @@ exports.registerStudent = async (req, res) => {
       writeLocalDb(db);
     }
 
+    create30DaySession(res, newUser);
     res.status(201).json({ message: 'Student registration successful', user: newUser });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -113,6 +215,7 @@ exports.registerClient = async (req, res) => {
       writeLocalDb(db);
     }
 
+    create30DaySession(res, newClient);
     res.status(201).json({ message: 'Client registration successful', user: newClient });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -124,7 +227,6 @@ exports.registerAdmin = async (req, res) => {
   try {
     const { name, email, password, adminSecretKey } = req.body;
     
-    // Secret Key validation for authorized Super Admin creation
     const VALID_SECRET = "VELORA_SUPER_ADMIN_2026";
     if (adminSecretKey !== VALID_SECRET) {
       return res.status(403).json({ error: 'Invalid Super Admin Registration Secret Key.' });
@@ -166,6 +268,7 @@ exports.registerAdmin = async (req, res) => {
       writeLocalDb(db);
     }
 
+    create30DaySession(res, newAdmin);
     res.status(201).json({ message: 'Super Admin registered successfully', user: newAdmin });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -193,10 +296,11 @@ exports.loginUser = async (req, res) => {
       return res.status(404).json({ error: 'Account not found with this email. Please sign up.' });
     }
 
-    // Check password if set
     if (user.password && user.password !== password) {
       return res.status(401).json({ error: 'Invalid password. Please try again.' });
     }
+
+    create30DaySession(res, user);
 
     res.json({
       message: 'Login successful',

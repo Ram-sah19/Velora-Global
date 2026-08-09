@@ -3,6 +3,7 @@ const API_BASE = 'http://localhost:5000/api';
 async function request(endpoint, options = {}) {
   try {
     const res = await fetch(`${API_BASE}${endpoint}`, {
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
         ...options.headers
@@ -32,6 +33,8 @@ export const api = {
   registerClient: (data) => request('/users/register-client', { method: 'POST', body: JSON.stringify(data) }),
   registerAdmin: (data) => request('/users/register-admin', { method: 'POST', body: JSON.stringify(data) }),
   loginUser: (email, password) => request('/users/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
+  getCurrentUser: () => request('/users/me'),
+  logoutUser: () => request('/users/logout', { method: 'POST' }),
 
   // Programs
   getPrograms: (domain = '', search = '') => request(`/programs?domain=${encodeURIComponent(domain)}&search=${encodeURIComponent(search)}`),

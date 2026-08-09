@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { api } from './services/api';
 
 // Global Layout Components
 import Navbar from './components/Navbar';
@@ -24,8 +25,20 @@ export default function App() {
   const [activeRole] = useState('student');
   const [activeCertificate, setActiveCertificate] = useState(null);
 
-  // Authentication State
-  const [currentUser, setCurrentUser] = useState(null);
+  // Authentication State with Instant 30-Day Session Restoration
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('velora_user');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+        if (parsed && parsed.timestamp && (Date.now() - parsed.timestamp < THIRTY_DAYS_MS)) {
+          return parsed.user;
+        }
+      }
+    } catch (e) {}
+    return null;
+  });
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authInitialMode, setAuthInitialMode] = useState('login');
   const [showAdminRegisterModal, setShowAdminRegisterModal] = useState(false);
@@ -34,6 +47,27 @@ export default function App() {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [activeTab]);
+
+  // Automatic 30-Day Backend Session Sync on page load / browser restart
+  useEffect(() => {
+    const restoreSession = async () => {
+      try {
+        const res = await api.getCurrentUser();
+        if (res && res.user) {
+          setCurrentUser(res.user);
+          localStorage.setItem('velora_user', JSON.stringify({ user: res.user, timestamp: Date.now() }));
+        }
+      } catch (e) {
+        // If session revoked on backend, clear local session state
+        if (e.message && e.message.includes('401')) {
+          localStorage.removeItem('velora_user');
+          localStorage.removeItem('velora_token');
+          setCurrentUser(null);
+        }
+      }
+    };
+    restoreSession();
+  }, []);
 
   const handleTabChange = (tab) => {
     if (tab === 'student' && !currentUser) {
@@ -46,9 +80,13 @@ export default function App() {
 
   const handleAuthSuccess = (user, token) => {
     setCurrentUser(user);
-    if (token) {
-      localStorage.setItem('velora_token', token);
-    }
+    try {
+      localStorage.setItem('velora_user', JSON.stringify({ user, timestamp: Date.now() }));
+      if (token) {
+        localStorage.setItem('velora_token', token);
+      }
+    } catch (e) {}
+
     if (user.userType === 'superadmin' || user.userType === 'admin') {
       setActiveTab('admin');
     } else if (user.userType === 'client') {
@@ -58,9 +96,13 @@ export default function App() {
     }
   };
 
-  const handleLogout = () => {
-    setCurrentUser(null);
+  const handleLogout = async () => {
+    try {
+      await api.logoutUser();
+    } catch (e) {}
+    localStorage.removeItem('velora_user');
     localStorage.removeItem('velora_token');
+    setCurrentUser(null);
     setActiveTab('home');
   };
 
