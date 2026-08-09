@@ -99,13 +99,15 @@ export default function StudentAuthModal({ initialMode = 'login', onClose, onAut
         {/* Header Title */}
         <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
           <span className="badge badge-blue" style={{ marginBottom: '0.5rem' }}>
-            Student Career Accelerator
+            {authMode === 'login' ? 'Velora Global Access' : 'Student Candidate Registration'}
           </span>
           <h2 style={{ fontSize: '1.8rem', color: '#0b0f19', marginBottom: '0.35rem', fontWeight: '800' }}>
-            {authMode === 'login' ? 'Student Workspace Sign In' : 'Create Student Account'}
+            {authMode === 'login' ? 'Sign In to Your Account' : 'Create Student Account'}
           </h2>
           <p style={{ color: '#64748b', fontSize: '0.88rem', lineHeight: '1.5' }}>
-            Access your active internship tracks, task assignments, and QR credentials.
+            {authMode === 'login' 
+              ? 'Enter your email and password to access your registered workspace.' 
+              : 'Register as a Student Candidate to access internship tracks and live workspace.'}
           </p>
         </div>
 
@@ -135,7 +137,7 @@ export default function StudentAuthModal({ initialMode = 'login', onClose, onAut
               transition: 'all 0.2s ease'
             }}
           >
-            Student Sign In
+            Sign In
           </button>
           <button
             type="button"
@@ -154,7 +156,7 @@ export default function StudentAuthModal({ initialMode = 'login', onClose, onAut
               transition: 'all 0.2s ease'
             }}
           >
-            Create Student Account
+            Student Registration
           </button>
         </div>
 

@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { api } from '../../services/api';
 
-export default function AuthModal({ initialMode = 'login', initialRole = 'student', onClose, onAuthSuccess }) {
-  const [roleTab, setRoleTab] = useState(initialRole); // 'student' or 'client'
+export default function AuthModal({ initialMode = 'login', onClose, onAuthSuccess }) {
   const [authMode, setAuthMode] = useState(initialMode); // 'login' or 'signup'
+  const [signupRole, setSignupRole] = useState('student'); // 'student' or 'client'
   const [showPassword, setShowPassword] = useState(false);
+
+  // Login Form State
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
 
   // Student Form State
   const [studentData, setStudentData] = useState({
@@ -24,28 +28,10 @@ export default function AuthModal({ initialMode = 'login', initialRole = 'studen
     password: ''
   });
 
-  // Login Form State
-  const [loginEmail, setLoginEmail] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
-
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  // Quick Demo Auto-Fill Shortcuts
-  const fillDemoStudent = () => {
-    setRoleTab('student');
-    setAuthMode('login');
-    setLoginEmail('aarav.sharma@example.com');
-    setLoginPassword('student123');
-  };
-
-  const fillDemoClient = () => {
-    setRoleTab('client');
-    setAuthMode('login');
-    setLoginEmail('client@company.com');
-    setLoginPassword('client123');
-  };
-
+  // Unified Role-Agnostic Login
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -58,12 +44,13 @@ export default function AuthModal({ initialMode = 'login', initialRole = 'studen
         onClose();
       }
     } catch (err) {
-      setErrorMsg(err.message || 'Login failed. Please check your credentials.');
+      setErrorMsg(err.message || 'Login failed. Please check your email and password.');
     } finally {
       setLoading(false);
     }
   };
 
+  // Student Signup
   const handleStudentSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -82,6 +69,7 @@ export default function AuthModal({ initialMode = 'login', initialRole = 'studen
     }
   };
 
+  // Client Signup
   const handleClientSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -94,25 +82,26 @@ export default function AuthModal({ initialMode = 'login', initialRole = 'studen
         onClose();
       }
     } catch (err) {
-      setErrorMsg(err.message || 'Client registration failed.');
+      setErrorMsg(err.message || 'Corporate client registration failed.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose} style={{ padding: '1rem' }}>
+    <div className="modal-overlay" onClick={onClose} style={{ padding: '1rem', zIndex: 1000 }}>
       <div 
         className="modal-content" 
         onClick={(e) => e.stopPropagation()} 
         style={{
-          maxWidth: '560px',
+          maxWidth: '520px',
           width: '100%',
           maxHeight: '90vh',
           overflowY: 'auto',
           borderRadius: '24px',
           padding: '2.25rem 2rem',
-          boxShadow: 'var(--shadow-lg)'
+          boxShadow: 'var(--shadow-lg)',
+          animation: 'modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
         }}
       >
         {/* Close Button */}
@@ -139,75 +128,28 @@ export default function AuthModal({ initialMode = 'login', initialRole = 'studen
           ✕
         </button>
 
-        {/* Role Tab Pill Selectors */}
-        <div style={{
-          display: 'flex',
-          gap: '0.4rem',
-          background: '#f1f5f9',
-          padding: '0.35rem',
-          borderRadius: '14px',
-          marginBottom: '1.75rem',
-          border: '1px solid #e2e8f0'
-        }}>
-          <button
-            type="button"
-            onClick={() => {
-              setRoleTab('student');
-              setErrorMsg('');
-            }}
-            style={{
-              flex: 1,
-              padding: '0.65rem 0.85rem',
-              borderRadius: '10px',
-              border: 'none',
-              fontSize: '0.88rem',
-              fontWeight: '700',
-              cursor: 'pointer',
-              background: roleTab === 'student' ? '#2563eb' : 'transparent',
-              color: roleTab === 'student' ? '#ffffff' : '#64748b',
-              boxShadow: roleTab === 'student' ? 'var(--shadow-sm)' : 'none',
-              transition: 'all 0.2s ease'
-            }}
-          >
-            Student Portal
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              setRoleTab('client');
-              setErrorMsg('');
-            }}
-            style={{
-              flex: 1,
-              padding: '0.65rem 0.85rem',
-              borderRadius: '10px',
-              border: 'none',
-              fontSize: '0.88rem',
-              fontWeight: '700',
-              cursor: 'pointer',
-              background: roleTab === 'client' ? '#ff6b6b' : 'transparent',
-              color: roleTab === 'client' ? '#ffffff' : '#64748b',
-              boxShadow: roleTab === 'client' ? 'var(--shadow-sm)' : 'none',
-              transition: 'all 0.2s ease'
-            }}
-          >
-            Corporate Client
-          </button>
-        </div>
-
         {/* Header Title */}
         <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-          <span className={`badge ${roleTab === 'student' ? 'badge-blue' : 'badge-coral'}`} style={{ marginBottom: '0.5rem' }}>
-            {roleTab === 'student' ? 'Velora Career Accelerator' : 'Enterprise Technical Solutions'}
+          <span style={{
+            background: '#fff0f0',
+            color: '#f94d4d',
+            border: '1px solid #ffcccc',
+            padding: '0.25rem 0.85rem',
+            borderRadius: '9999px',
+            fontSize: '0.78rem',
+            fontWeight: '700',
+            display: 'inline-block',
+            marginBottom: '0.5rem'
+          }}>
+            Velora Global Portal
           </span>
           <h2 style={{ fontSize: '1.8rem', color: '#0b0f19', marginBottom: '0.35rem', fontWeight: '800' }}>
-            {authMode === 'login' ? `Sign In to ${roleTab === 'student' ? 'Student Workspace' : 'Client Portal'}` : `Create ${roleTab === 'student' ? 'Student' : 'Client'} Account`}
+            {authMode === 'login' ? 'Sign In to Your Account' : 'Create an Account'}
           </h2>
           <p style={{ color: '#64748b', fontSize: '0.88rem', lineHeight: '1.5' }}>
-            {roleTab === 'student' 
-              ? 'Access your active internship tracks, task assignments, and QR credentials.'
-              : 'Request custom software services, review project scopes, and manage technical contracts.'}
+            {authMode === 'login' 
+              ? 'Enter your email and password to access your registered workspace.' 
+              : 'Register as a Student Candidate or Corporate Partner.'}
           </p>
         </div>
 
@@ -225,11 +167,11 @@ export default function AuthModal({ initialMode = 'login', initialRole = 'studen
             onClick={() => setAuthMode('login')}
             style={{
               flex: 1,
-              padding: '0.6rem',
+              padding: '0.65rem',
               background: 'none',
               border: 'none',
-              borderBottom: authMode === 'login' ? `3px solid ${roleTab === 'student' ? '#2563eb' : '#ff6b6b'}` : '3px solid transparent',
-              color: authMode === 'login' ? (roleTab === 'student' ? '#2563eb' : '#ff6b6b') : '#64748b',
+              borderBottom: authMode === 'login' ? '3px solid #f94d4d' : '3px solid transparent',
+              color: authMode === 'login' ? '#f94d4d' : '#64748b',
               fontWeight: '800',
               fontSize: '0.95rem',
               cursor: 'pointer',
@@ -244,11 +186,11 @@ export default function AuthModal({ initialMode = 'login', initialRole = 'studen
             onClick={() => setAuthMode('signup')}
             style={{
               flex: 1,
-              padding: '0.6rem',
+              padding: '0.65rem',
               background: 'none',
               border: 'none',
-              borderBottom: authMode === 'signup' ? `3px solid ${roleTab === 'student' ? '#2563eb' : '#ff6b6b'}` : '3px solid transparent',
-              color: authMode === 'signup' ? (roleTab === 'student' ? '#2563eb' : '#ff6b6b') : '#64748b',
+              borderBottom: authMode === 'signup' ? '3px solid #f94d4d' : '3px solid transparent',
+              color: authMode === 'signup' ? '#f94d4d' : '#64748b',
               fontWeight: '800',
               fontSize: '0.95rem',
               cursor: 'pointer',
@@ -260,252 +202,299 @@ export default function AuthModal({ initialMode = 'login', initialRole = 'studen
           </button>
         </div>
 
-        {/* LOGIN FORM */}
+        {/* UNIFIED LOGIN FORM */}
         {authMode === 'login' && (
           <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Email Address *</label>
+              <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: '700', color: '#334155', marginBottom: '0.35rem' }}>
+                Account Email Address *
+              </label>
               <input 
-                type="email"
+                type="email" 
                 required
                 placeholder="name@example.com"
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '0.75rem 1rem',
-                  fontSize: '0.95rem',
-                  borderRadius: '10px',
-                  border: '1px solid #cbd5e1'
-                }}
+                style={{ width: '100%', fontSize: '0.95rem' }}
               />
             </div>
 
             <div>
-              <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Password *</label>
+              <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: '700', color: '#334155', marginBottom: '0.35rem' }}>
+                Password *
+              </label>
               <div style={{ position: 'relative' }}>
                 <input 
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? "text" : "password"} 
                   required
-                  placeholder="••••••••"
+                  placeholder="Enter your password"
                   value={loginPassword}
                   onChange={(e) => setLoginPassword(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem 2.8rem 0.75rem 1rem',
-                    fontSize: '0.95rem',
-                    borderRadius: '10px',
-                    border: '1px solid #cbd5e1'
-                  }}
+                  style={{ width: '100%', paddingRight: '2.5rem', fontSize: '0.95rem' }}
                 />
                 <button
                   type="button"
-                  onClick={() => setShowPassword(prev => !prev)}
+                  onClick={() => setShowPassword(!showPassword)}
                   style={{
                     position: 'absolute',
-                    right: '0.85rem',
+                    right: '0.75rem',
                     top: '50%',
                     transform: 'translateY(-50%)',
                     background: 'none',
                     border: 'none',
+                    color: '#64748b',
                     cursor: 'pointer',
-                    fontSize: '1.1rem',
-                    color: '#64748b'
+                    fontSize: '0.8rem',
+                    fontWeight: '600'
                   }}
-                  title={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? "👁️‍🗨️" : "👁️"}
+                  {showPassword ? 'Hide' : 'Show'}
                 </button>
               </div>
             </div>
 
             <button 
               type="submit" 
-              disabled={loading} 
-              className={roleTab === 'student' ? 'btn-primary' : 'btn-coral'} 
-              style={{ width: '100%', padding: '0.85rem', marginTop: '0.5rem', fontSize: '0.98rem', fontWeight: '800' }}
+              disabled={loading}
+              style={{
+                width: '100%',
+                padding: '0.85rem',
+                fontSize: '1rem',
+                marginTop: '0.5rem',
+                fontWeight: '800',
+                background: '#f94d4d',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                boxShadow: '0 4px 14px rgba(249, 77, 77, 0.35)',
+                transition: 'all 0.2s ease'
+              }}
             >
-              {loading ? 'Authenticating...' : `Sign In to ${roleTab === 'student' ? 'Student Workspace' : 'Client Portal'} ➔`}
+              {loading ? 'Authenticating...' : 'Sign In ➔'}
             </button>
           </form>
         )}
 
-        {/* STUDENT SIGNUP FORM */}
-        {authMode === 'signup' && roleTab === 'student' && (
-          <form onSubmit={handleStudentSignup} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Full Legal Name *</label>
-              <input 
-                type="text"
-                required
-                placeholder="e.g. Aarav Sharma"
-                value={studentData.name}
-                onChange={(e) => setStudentData({...studentData, name: e.target.value})}
-                style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
-              />
+        {/* ROLE-BASED SIGNUP FORM */}
+        {authMode === 'signup' && (
+          <div>
+            {/* Signup Role Selector Toggle */}
+            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem', background: '#f8fafc', padding: '0.35rem', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+              <button
+                type="button"
+                onClick={() => setSignupRole('student')}
+                style={{
+                  flex: 1,
+                  padding: '0.5rem',
+                  borderRadius: '8px',
+                  border: 'none',
+                  background: signupRole === 'student' ? '#f94d4d' : 'transparent',
+                  color: signupRole === 'student' ? '#ffffff' : '#64748b',
+                  fontSize: '0.85rem',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                Student Candidate
+              </button>
+              <button
+                type="button"
+                onClick={() => setSignupRole('client')}
+                style={{
+                  flex: 1,
+                  padding: '0.5rem',
+                  borderRadius: '8px',
+                  border: 'none',
+                  background: signupRole === 'client' ? '#f94d4d' : 'transparent',
+                  color: signupRole === 'client' ? '#ffffff' : '#64748b',
+                  fontSize: '0.85rem',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                Corporate Client
+              </button>
             </div>
 
-            <div>
-              <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Student Email Address *</label>
-              <input 
-                type="email"
-                required
-                placeholder="aarav@university.edu"
-                value={studentData.email}
-                onChange={(e) => setStudentData({...studentData, email: e.target.value})}
-                style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
-              />
-            </div>
+            {/* Student Registration Form */}
+            {signupRole === 'student' && (
+              <form onSubmit={handleStudentSignup} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: '700', color: '#334155', marginBottom: '0.35rem' }}>
+                    Full Name *
+                  </label>
+                  <input 
+                    type="text" 
+                    required
+                    placeholder="e.g. Aarav Sharma"
+                    value={studentData.name}
+                    onChange={(e) => setStudentData({ ...studentData, name: e.target.value })}
+                    style={{ width: '100%', fontSize: '0.95rem' }}
+                  />
+                </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.85rem' }}>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>College / University</label>
-                <input 
-                  type="text"
-                  placeholder="Kathmandu Tech"
-                  value={studentData.university}
-                  onChange={(e) => setStudentData({...studentData, university: e.target.value})}
-                  style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
-                />
-              </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: '700', color: '#334155', marginBottom: '0.35rem' }}>
+                    Email Address *
+                  </label>
+                  <input 
+                    type="email" 
+                    required
+                    placeholder="student@example.com"
+                    value={studentData.email}
+                    onChange={(e) => setStudentData({ ...studentData, email: e.target.value })}
+                    style={{ width: '100%', fontSize: '0.95rem' }}
+                  />
+                </div>
 
-              <div>
-                <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Field of Study</label>
-                <input 
-                  type="text"
-                  placeholder="Computer Science"
-                  value={studentData.fieldOfStudy}
-                  onChange={(e) => setStudentData({...studentData, fieldOfStudy: e.target.value})}
-                  style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
-                />
-              </div>
-            </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: '700', color: '#334155', marginBottom: '0.35rem' }}>
+                    Password *
+                  </label>
+                  <input 
+                    type="password" 
+                    required
+                    placeholder="Create password"
+                    value={studentData.password}
+                    onChange={(e) => setStudentData({ ...studentData, password: e.target.value })}
+                    style={{ width: '100%', fontSize: '0.95rem' }}
+                  />
+                </div>
 
-            <div>
-              <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Create Password *</label>
-              <div style={{ position: 'relative' }}>
-                <input 
-                  type={showPassword ? "text" : "password"}
-                  required
-                  placeholder="Create secure password"
-                  value={studentData.password}
-                  onChange={(e) => setStudentData({...studentData, password: e.target.value})}
-                  style={{ width: '100%', padding: '0.75rem 2.8rem 0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(prev => !prev)}
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: '700', color: '#334155', marginBottom: '0.35rem' }}>
+                    University / Institution
+                  </label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. Tribhuvan University"
+                    value={studentData.university}
+                    onChange={(e) => setStudentData({ ...studentData, university: e.target.value })}
+                    style={{ width: '100%', fontSize: '0.95rem' }}
+                  />
+                </div>
+
+                <button 
+                  type="submit" 
+                  disabled={loading}
                   style={{
-                    position: 'absolute',
-                    right: '0.85rem',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'none',
+                    width: '100%',
+                    padding: '0.85rem',
+                    fontSize: '1rem',
+                    marginTop: '0.5rem',
+                    fontWeight: '800',
+                    background: '#f94d4d',
+                    color: '#ffffff',
                     border: 'none',
+                    borderRadius: '12px',
                     cursor: 'pointer',
-                    fontSize: '1.1rem',
-                    color: '#64748b'
+                    boxShadow: '0 4px 14px rgba(249, 77, 77, 0.35)',
+                    transition: 'all 0.2s ease'
                   }}
                 >
-                  {showPassword ? "👁️‍🗨️" : "👁️"}
+                  {loading ? 'Creating Account...' : 'Register as Student Candidate ➔'}
                 </button>
-              </div>
-            </div>
+              </form>
+            )}
 
-            <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', padding: '0.85rem', marginTop: '0.5rem', fontWeight: '800' }}>
-              {loading ? 'Creating Student Account...' : 'Register Student Account ➔'}
-            </button>
-          </form>
-        )}
+            {/* Corporate Client Registration Form */}
+            {signupRole === 'client' && (
+              <form onSubmit={handleClientSignup} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: '700', color: '#334155', marginBottom: '0.35rem' }}>
+                    Full Name / Representative *
+                  </label>
+                  <input 
+                    type="text" 
+                    required
+                    placeholder="e.g. Puja Rouniyar"
+                    value={clientData.name}
+                    onChange={(e) => setClientData({ ...clientData, name: e.target.value })}
+                    style={{ width: '100%', fontSize: '0.95rem' }}
+                  />
+                </div>
 
-        {/* CLIENT SIGNUP FORM */}
-        {authMode === 'signup' && roleTab === 'client' && (
-          <form onSubmit={handleClientSignup} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Executive Name *</label>
-              <input 
-                type="text"
-                required
-                placeholder="e.g. Rajesh Shrestha"
-                value={clientData.name}
-                onChange={(e) => setClientData({...clientData, name: e.target.value})}
-                style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
-              />
-            </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: '700', color: '#334155', marginBottom: '0.35rem' }}>
+                    Company / Organization Name *
+                  </label>
+                  <input 
+                    type="text" 
+                    required
+                    placeholder="e.g. Velora Enterprises"
+                    value={clientData.companyName}
+                    onChange={(e) => setClientData({ ...clientData, companyName: e.target.value })}
+                    style={{ width: '100%', fontSize: '0.95rem' }}
+                  />
+                </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.85rem' }}>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Company / Organization *</label>
-                <input 
-                  type="text"
-                  required
-                  placeholder="Acme Tech Pvt. Ltd."
-                  value={clientData.companyName}
-                  onChange={(e) => setClientData({...clientData, companyName: e.target.value})}
-                  style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
-                />
-              </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: '700', color: '#334155', marginBottom: '0.35rem' }}>
+                    Business Email *
+                  </label>
+                  <input 
+                    type="email" 
+                    required
+                    placeholder="contact@company.com"
+                    value={clientData.email}
+                    onChange={(e) => setClientData({ ...clientData, email: e.target.value })}
+                    style={{ width: '100%', fontSize: '0.95rem' }}
+                  />
+                </div>
 
-              <div>
-                <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Phone / WhatsApp *</label>
-                <input 
-                  type="tel"
-                  required
-                  placeholder="+977 9800000000"
-                  value={clientData.phone}
-                  onChange={(e) => setClientData({...clientData, phone: e.target.value})}
-                  style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
-                />
-              </div>
-            </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: '700', color: '#334155', marginBottom: '0.35rem' }}>
+                    Phone Number
+                  </label>
+                  <input 
+                    type="tel" 
+                    placeholder="+977 9800000000"
+                    value={clientData.phone}
+                    onChange={(e) => setClientData({ ...clientData, phone: e.target.value })}
+                    style={{ width: '100%', fontSize: '0.95rem' }}
+                  />
+                </div>
 
-            <div>
-              <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Business Email Address *</label>
-              <input 
-                type="email"
-                required
-                placeholder="client@company.com"
-                value={clientData.email}
-                onChange={(e) => setClientData({...clientData, email: e.target.value})}
-                style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
-              />
-            </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: '700', color: '#334155', marginBottom: '0.35rem' }}>
+                    Password *
+                  </label>
+                  <input 
+                    type="password" 
+                    required
+                    placeholder="Create password"
+                    value={clientData.password}
+                    onChange={(e) => setClientData({ ...clientData, password: e.target.value })}
+                    style={{ width: '100%', fontSize: '0.95rem' }}
+                  />
+                </div>
 
-            <div>
-              <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.35rem', fontWeight: '700' }}>Create Password *</label>
-              <div style={{ position: 'relative' }}>
-                <input 
-                  type={showPassword ? "text" : "password"}
-                  required
-                  placeholder="Create secure password"
-                  value={clientData.password}
-                  onChange={(e) => setClientData({...clientData, password: e.target.value})}
-                  style={{ width: '100%', padding: '0.75rem 2.8rem 0.75rem 1rem', borderRadius: '10px', border: '1px solid #cbd5e1' }}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(prev => !prev)}
+                <button 
+                  type="submit" 
+                  disabled={loading}
                   style={{
-                    position: 'absolute',
-                    right: '0.85rem',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'none',
+                    width: '100%',
+                    padding: '0.85rem',
+                    fontSize: '1rem',
+                    marginTop: '0.5rem',
+                    fontWeight: '800',
+                    background: '#f94d4d',
+                    color: '#ffffff',
                     border: 'none',
+                    borderRadius: '12px',
                     cursor: 'pointer',
-                    fontSize: '1.1rem',
-                    color: '#64748b'
+                    boxShadow: '0 4px 14px rgba(249, 77, 77, 0.35)',
+                    transition: 'all 0.2s ease'
                   }}
                 >
-                  {showPassword ? "👁️‍🗨️" : "👁️"}
+                  {loading ? 'Creating Client Account...' : 'Register Corporate Client ➔'}
                 </button>
-              </div>
-            </div>
-
-            <button type="submit" disabled={loading} className="btn-coral" style={{ width: '100%', padding: '0.85rem', marginTop: '0.5rem', fontWeight: '800' }}>
-              {loading ? 'Creating Client Account...' : 'Register Corporate Client Account ➔'}
-            </button>
-          </form>
+              </form>
+            )}
+          </div>
         )}
 
       </div>

@@ -286,3 +286,14 @@ input:focus, textarea:focus, select:focus {
   margin-top: auto;
   width: 100%;
 }
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

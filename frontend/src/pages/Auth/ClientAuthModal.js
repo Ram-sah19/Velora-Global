@@ -99,13 +99,15 @@ export default function ClientAuthModal({ initialMode = 'login', onClose, onAuth
         {/* Header Title */}
         <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
           <span className="badge badge-coral" style={{ marginBottom: '0.5rem' }}>
-            Enterprise Technical Solutions
+            {authMode === 'login' ? 'Velora Global Access' : 'Corporate Client Registration'}
           </span>
           <h2 style={{ fontSize: '1.8rem', color: '#0b0f19', marginBottom: '0.35rem', fontWeight: '800' }}>
-            {authMode === 'login' ? 'Corporate Client Portal Sign In' : 'Register Corporate Client'}
+            {authMode === 'login' ? 'Sign In to Your Account' : 'Register Corporate Client'}
           </h2>
           <p style={{ color: '#64748b', fontSize: '0.88rem', lineHeight: '1.5' }}>
-            Request custom software services, review project scopes, and manage technical contracts.
+            {authMode === 'login'
+              ? 'Enter your email and password to access your registered account.'
+              : 'Register as a Corporate Client to request software service inquiries.'}
           </p>
         </div>
 
@@ -135,7 +137,7 @@ export default function ClientAuthModal({ initialMode = 'login', onClose, onAuth
               transition: 'all 0.2s ease'
             }}
           >
-            Client Sign In
+            Sign In
           </button>
           <button
             type="button"
@@ -154,7 +156,7 @@ export default function ClientAuthModal({ initialMode = 'login', onClose, onAuth
               transition: 'all 0.2s ease'
             }}
           >
-            Register Corporate Client
+            Client Registration
           </button>
         </div>
 

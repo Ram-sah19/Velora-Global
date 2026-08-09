@@ -10,14 +10,23 @@ export default function Navbar({
   onLogout 
 }) {
   const [showServicesDropdown, setShowServicesDropdown] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
+
   const dropdownRef = useRef(null);
+  const userDropdownRef = useRef(null);
   const leaveTimerRef = useRef(null);
 
-  // Close dropdown when clicking outside
+  const isSuperAdmin = currentUser && (currentUser.userType === 'superadmin' || currentUser.userType === 'admin');
+  const isStudent = currentUser && (currentUser.userType === 'student' || currentUser.userType === 'Student Candidate');
+
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowServicesDropdown(false);
+      }
+      if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
+        setShowUserDropdown(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -59,188 +68,326 @@ export default function Navbar({
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         
         {/* Brand Logo Component */}
-        <div onClick={() => setActiveTab('home')} style={{ cursor: 'pointer' }}>
+        <div onClick={() => setActiveTab(isSuperAdmin ? 'admin' : 'home')} style={{ cursor: 'pointer' }}>
           <VeloraLogo width={44} height={44} textColor="#0b0f19" />
         </div>
 
-        {/* Navigation Tabs */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', background: '#f1f5f9', padding: '0.3rem 0.4rem', borderRadius: '9999px', border: '1px solid #e2e8f0' }}>
-          <button 
-            onClick={() => setActiveTab('home')}
-            style={{
-              padding: '0.5rem 1.1rem',
-              borderRadius: '9999px',
-              fontSize: '0.88rem',
-              fontWeight: '600',
-              background: activeTab === 'home' ? '#2563eb' : 'transparent',
-              color: activeTab === 'home' ? '#ffffff' : '#64748b'
-            }}
-          >
-            Home
-          </button>
-
-          {/* Services Tab with Interactive Animated Dropdown */}
-          <div 
-            ref={dropdownRef}
-            style={{ position: 'relative' }}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
+        {/* Clean Executive Navbar Tabs for Super Admin */}
+        {isSuperAdmin ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', background: '#f1f5f9', padding: '0.3rem 0.4rem', borderRadius: '9999px', border: '1px solid #e2e8f0' }}>
             <button 
-              onClick={() => {
-                setActiveTab('services');
-                setShowServicesDropdown(prev => !prev);
+              onClick={() => setActiveTab('admin')}
+              style={{
+                padding: '0.5rem 1.25rem',
+                borderRadius: '9999px',
+                fontSize: '0.88rem',
+                fontWeight: '800',
+                background: activeTab === 'admin' ? '#2563eb' : 'transparent',
+                color: activeTab === 'admin' ? '#ffffff' : '#64748b'
               }}
+            >
+              Super Admin Dashboard
+            </button>
+            
+            <button 
+              onClick={() => setActiveTab('home')}
               style={{
                 padding: '0.5rem 1.1rem',
                 borderRadius: '9999px',
                 fontSize: '0.88rem',
                 fontWeight: '600',
-                background: activeTab === 'services' ? '#2563eb' : 'transparent',
-                color: activeTab === 'services' ? '#ffffff' : '#64748b',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.3rem'
+                background: activeTab !== 'admin' ? '#64748b' : 'transparent',
+                color: activeTab !== 'admin' ? '#ffffff' : '#64748b'
               }}
             >
-              Services ▾
+              Preview Public Website ➔
+            </button>
+          </div>
+        ) : (
+          /* Standard Navigation Tabs for Visitors & Candidates */
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', background: '#f1f5f9', padding: '0.3rem 0.4rem', borderRadius: '9999px', border: '1px solid #e2e8f0' }}>
+            <button 
+              onClick={() => setActiveTab('home')}
+              style={{
+                padding: '0.5rem 1.1rem',
+                borderRadius: '9999px',
+                fontSize: '0.88rem',
+                fontWeight: '600',
+                background: activeTab === 'home' ? '#2563eb' : 'transparent',
+                color: activeTab === 'home' ? '#ffffff' : '#64748b'
+              }}
+            >
+              Home
             </button>
 
-            {/* Dropdown Menu - Interactive Hover Effects & Smooth Transition */}
-            <div style={{
-              position: 'absolute',
-              top: '100%',
-              left: '0',
-              paddingTop: '0.4rem',
-              zIndex: 600,
-              opacity: showServicesDropdown ? 1 : 0,
-              visibility: showServicesDropdown ? 'visible' : 'hidden',
-              transform: showServicesDropdown ? 'translateY(0) scale(1)' : 'translateY(-8px) scale(0.96)',
-              transition: 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
-              pointerEvents: showServicesDropdown ? 'auto' : 'none'
-            }}>
-              <div style={{
-                background: '#ffffff',
-                border: '1px solid #e2e8f0',
-                borderRadius: '16px',
-                padding: '0.6rem',
-                boxShadow: 'var(--shadow-lg)',
-                minWidth: '260px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.2rem'
-              }}>
-                <button
-                  onClick={() => handleServiceSelect('all')}
-                  className="dropdown-menu-item"
-                  style={{ fontWeight: '700', color: '#0b0f19' }}
+            {/* Services Tab - Only shown to unauthenticated visitors or corporate clients */}
+            {!isStudent && (
+              <div 
+                ref={dropdownRef}
+                style={{ position: 'relative' }}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                <button 
+                  onClick={() => {
+                    setActiveTab('services');
+                    setShowServicesDropdown(prev => !prev);
+                  }}
+                  style={{
+                    padding: '0.5rem 1.1rem',
+                    borderRadius: '9999px',
+                    fontSize: '0.88rem',
+                    fontWeight: '600',
+                    background: activeTab === 'services' ? '#2563eb' : 'transparent',
+                    color: activeTab === 'services' ? '#ffffff' : '#64748b',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.3rem'
+                  }}
                 >
-                  All Services Overview
+                  Services ▾
                 </button>
-                <button
-                  onClick={() => handleServiceSelect('web')}
-                  className="dropdown-menu-item"
-                >
-                  Web App Development
-                </button>
-                <button
-                  onClick={() => handleServiceSelect('mobile')}
-                  className="dropdown-menu-item"
-                >
-                  Mobile App Development
-                </button>
-                <button
-                  onClick={() => handleServiceSelect('ai')}
-                  className="dropdown-menu-item"
-                >
-                  AI Chatbot Integration in Web Apps
-                </button>
+
+                {/* Dropdown Menu */}
+                <div style={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: '0',
+                  paddingTop: '0.4rem',
+                  zIndex: 600,
+                  opacity: showServicesDropdown ? 1 : 0,
+                  visibility: showServicesDropdown ? 'visible' : 'hidden',
+                  transform: showServicesDropdown ? 'translateY(0) scale(1)' : 'translateY(-8px) scale(0.96)',
+                  transition: 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
+                  pointerEvents: showServicesDropdown ? 'auto' : 'none'
+                }}>
+                  <div style={{
+                    background: '#ffffff',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '16px',
+                    padding: '0.6rem',
+                    boxShadow: 'var(--shadow-lg)',
+                    minWidth: '260px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.2rem'
+                  }}>
+                    <button
+                      onClick={() => handleServiceSelect('all')}
+                      className="dropdown-menu-item"
+                      style={{ fontWeight: '700', color: '#0b0f19' }}
+                    >
+                      All Services Overview
+                    </button>
+                    <button
+                      onClick={() => handleServiceSelect('web')}
+                      className="dropdown-menu-item"
+                    >
+                      Web App Development
+                    </button>
+                    <button
+                      onClick={() => handleServiceSelect('mobile')}
+                      className="dropdown-menu-item"
+                    >
+                      Mobile App Development
+                    </button>
+                    <button
+                      onClick={() => handleServiceSelect('ai')}
+                      className="dropdown-menu-item"
+                    >
+                      AI Chatbot Integration in Web Apps
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
+
+            <button 
+              onClick={() => setActiveTab('team')}
+              style={{
+                padding: '0.5rem 1.1rem',
+                borderRadius: '9999px',
+                fontSize: '0.88rem',
+                fontWeight: '600',
+                background: activeTab === 'team' ? '#2563eb' : 'transparent',
+                color: activeTab === 'team' ? '#ffffff' : '#64748b'
+              }}
+            >
+              Our Team
+            </button>
+
+            <button 
+              onClick={() => setActiveTab('internships')}
+              style={{
+                padding: '0.5rem 1.1rem',
+                borderRadius: '9999px',
+                fontSize: '0.88rem',
+                fontWeight: '600',
+                background: activeTab === 'internships' ? '#ff6b6b' : 'transparent',
+                color: activeTab === 'internships' ? '#ffffff' : '#64748b'
+              }}
+            >
+              Explore Internships
+            </button>
+
+            <button 
+              onClick={() => setActiveTab('training')}
+              style={{
+                padding: '0.5rem 1.1rem',
+                borderRadius: '9999px',
+                fontSize: '0.88rem',
+                fontWeight: '600',
+                background: activeTab === 'training' ? '#2563eb' : 'transparent',
+                color: activeTab === 'training' ? '#ffffff' : '#64748b'
+              }}
+            >
+              Training Programs
+            </button>
+
+            <button 
+              onClick={() => setActiveTab('student')}
+              style={{
+                padding: '0.5rem 1.1rem',
+                borderRadius: '9999px',
+                fontSize: '0.88rem',
+                fontWeight: '600',
+                background: activeTab === 'student' ? '#2563eb' : 'transparent',
+                color: activeTab === 'student' ? '#ffffff' : '#64748b'
+              }}
+            >
+              Student Workspace
+            </button>
           </div>
+        )}
 
-          <button 
-            onClick={() => setActiveTab('team')}
-            style={{
-              padding: '0.5rem 1.1rem',
-              borderRadius: '9999px',
-              fontSize: '0.88rem',
-              fontWeight: '600',
-              background: activeTab === 'team' ? '#2563eb' : 'transparent',
-              color: activeTab === 'team' ? '#ffffff' : '#64748b'
-            }}
-          >
-            Our Team
-          </button>
-
-          <button 
-            onClick={() => setActiveTab('internships')}
-            style={{
-              padding: '0.5rem 1.1rem',
-              borderRadius: '9999px',
-              fontSize: '0.88rem',
-              fontWeight: '600',
-              background: activeTab === 'internships' ? '#ff6b6b' : 'transparent',
-              color: activeTab === 'internships' ? '#ffffff' : '#64748b'
-            }}
-          >
-            Explore Internships
-          </button>
-
-          <button 
-            onClick={() => setActiveTab('training')}
-            style={{
-              padding: '0.5rem 1.1rem',
-              borderRadius: '9999px',
-              fontSize: '0.88rem',
-              fontWeight: '600',
-              background: activeTab === 'training' ? '#2563eb' : 'transparent',
-              color: activeTab === 'training' ? '#ffffff' : '#64748b'
-            }}
-          >
-            Training Programs
-          </button>
-
-          <button 
-            onClick={() => setActiveTab('student')}
-            style={{
-              padding: '0.5rem 1.1rem',
-              borderRadius: '9999px',
-              fontSize: '0.88rem',
-              fontWeight: '600',
-              background: activeTab === 'student' ? '#2563eb' : 'transparent',
-              color: activeTab === 'student' ? '#ffffff' : '#64748b'
-            }}
-          >
-            Student Workspace
-          </button>
-        </div>
-
-        {/* Auth Action Button */}
+        {/* User Profile / Auth Dropdown Menu */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           {currentUser ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <div ref={userDropdownRef} style={{ position: 'relative' }}>
               <button 
-                onClick={() => {
-                  if (currentUser.userType === 'superadmin' || currentUser.userType === 'admin') {
-                    setActiveTab('admin');
-                  } else {
-                    setActiveTab('student');
-                  }
+                onClick={() => setShowUserDropdown(prev => !prev)}
+                style={{
+                  padding: '0.45rem 1rem',
+                  borderRadius: '9999px',
+                  fontSize: '0.85rem',
+                  fontWeight: '700',
+                  background: '#ffffff',
+                  border: '1px solid #cbd5e1',
+                  color: '#0b0f19',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  cursor: 'pointer',
+                  boxShadow: 'var(--shadow-sm)',
+                  transition: 'all 0.2s ease'
                 }}
-                className="btn-secondary"
-                style={{ padding: '0.45rem 0.9rem', fontSize: '0.82rem', fontWeight: '700' }}
               >
-                {currentUser.name} ({currentUser.userType})
+                <span>{currentUser.name}</span>
+                <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '600' }}>({currentUser.userType})</span>
+                <span style={{ fontSize: '0.75rem', color: '#64748b' }}>▾</span>
               </button>
-              <button
-                onClick={onLogout}
-                style={{ background: 'none', border: 'none', color: '#64748b', fontSize: '0.82rem', cursor: 'pointer', fontWeight: '600' }}
-              >
-                Logout
-              </button>
+
+              {/* User Dropdown Menu Card */}
+              <div style={{
+                position: 'absolute',
+                top: '100%',
+                right: 0,
+                paddingTop: '0.4rem',
+                zIndex: 600,
+                opacity: showUserDropdown ? 1 : 0,
+                visibility: showUserDropdown ? 'visible' : 'hidden',
+                transform: showUserDropdown ? 'translateY(0) scale(1)' : 'translateY(-8px) scale(0.96)',
+                transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                pointerEvents: showUserDropdown ? 'auto' : 'none'
+              }}>
+                <div style={{
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '16px',
+                  padding: '0.85rem 1rem',
+                  boxShadow: 'var(--shadow-lg)',
+                  minWidth: '220px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.65rem'
+                }}>
+                  {/* User Profile Header */}
+                  <div style={{ paddingBottom: '0.5rem', borderBottom: '1px solid #f1f5f9' }}>
+                    <span style={{ display: 'block', fontSize: '0.9rem', fontWeight: '800', color: '#0b0f19' }}>
+                      {currentUser.name}
+                    </span>
+                    <span style={{ display: 'block', fontSize: '0.78rem', color: '#64748b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {currentUser.email}
+                    </span>
+                  </div>
+
+                  {/* Workspace Shortcut */}
+                  <button
+                    onClick={() => {
+                      setShowUserDropdown(false);
+                      if (currentUser.userType === 'superadmin' || currentUser.userType === 'admin') {
+                        setActiveTab('admin');
+                      } else {
+                        setActiveTab('student');
+                      }
+                    }}
+                    style={{
+                      padding: '0.55rem 0.75rem',
+                      borderRadius: '8px',
+                      border: '1px solid #e2e8f0',
+                      background: '#f8fafc',
+                      color: '#2563eb',
+                      fontSize: '0.82rem',
+                      fontWeight: '700',
+                      cursor: 'pointer',
+                      textAlign: 'left'
+                    }}
+                  >
+                    {currentUser.userType === 'superadmin' || currentUser.userType === 'admin' ? 'Executive Dashboard ➔' : 'My Student Workspace ➔'}
+                  </button>
+
+                  {/* Logout Button */}
+                  <button
+                    onClick={() => {
+                      setShowUserDropdown(false);
+                      onLogout();
+                    }}
+                    style={{
+                      padding: '0.55rem 0.75rem',
+                      borderRadius: '8px',
+                      border: 'none',
+                      background: '#fff5f5',
+                      color: '#dc2626',
+                      fontSize: '0.82rem',
+                      fontWeight: '700',
+                      cursor: 'pointer',
+                      textAlign: 'left'
+                    }}
+                  >
+                    Logout Account ➔
+                  </button>
+                </div>
+              </div>
             </div>
-          ) : null}
+          ) : (
+            <button
+              onClick={onOpenAuth}
+              style={{
+                background: '#f94d4d',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '9999px',
+                padding: '0.5rem 1.25rem',
+                fontSize: '0.88rem',
+                fontWeight: '700',
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(249, 77, 77, 0.3)',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              Sign In / Register
+            </button>
+          )}
         </div>
 
       </div>
