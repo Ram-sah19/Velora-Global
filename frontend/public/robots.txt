@@ -1,3 +1,7 @@
-# https://www.robotstxt.org/robotstxt.html
+# Velora Global — Search Engine Crawler Instructions
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+Sitemap: https://velora-global.pages.dev/sitemap.xml
