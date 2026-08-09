@@ -11,10 +11,12 @@ exports.getPrograms = async (req, res) => {
     }
 
     if (search) {
+      // Escape special regex characters to prevent ReDoS attacks
+      const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       filter.$or = [
-        { title: new RegExp(search, 'i') },
-        { description: new RegExp(search, 'i') },
-        { skillsRequired: new RegExp(search, 'i') }
+        { title: new RegExp(escapedSearch, 'i') },
+        { description: new RegExp(escapedSearch, 'i') },
+        { skillsRequired: new RegExp(escapedSearch, 'i') }
       ];
     }
 

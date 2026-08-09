@@ -66,7 +66,7 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser, 
           const filterDomain = selectedDomain === 'Software Development' ? '' : selectedDomain;
           data = await api.getPrograms(filterDomain, searchQuery);
         } catch (err) {
-          console.warn("Backend call fallback to language list");
+          // Quietly fallback to static program list if backend is unavailable
         }
 
         // Merge backend programs with explicit language training programs

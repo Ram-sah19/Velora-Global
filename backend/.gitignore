@@ -4,6 +4,9 @@ node_modules/
 # Environment variables
 .env
 
+# Local database (contains session data — do not commit)
+db.json
+
 # Logs
 *.log
 npm-debug.log*

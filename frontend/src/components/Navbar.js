@@ -18,6 +18,7 @@ export default function Navbar({
 
   const isSuperAdmin = currentUser && (currentUser.userType === 'superadmin' || currentUser.userType === 'admin');
   const isStudent = currentUser && (currentUser.userType === 'student' || currentUser.userType === 'Student Candidate');
+  const isClient = currentUser && currentUser.userType === 'client';
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -216,47 +217,68 @@ export default function Navbar({
               Our Team
             </button>
 
-            <button 
-              onClick={() => setActiveTab('internships')}
-              style={{
-                padding: '0.5rem 1.1rem',
-                borderRadius: '9999px',
-                fontSize: '0.88rem',
-                fontWeight: '600',
-                background: activeTab === 'internships' ? '#ff6b6b' : 'transparent',
-                color: activeTab === 'internships' ? '#ffffff' : '#64748b'
-              }}
-            >
-              Explore Internships
-            </button>
+            {!isClient && (
+              <>
+                <button 
+                  onClick={() => setActiveTab('internships')}
+                  style={{
+                    padding: '0.5rem 1.1rem',
+                    borderRadius: '9999px',
+                    fontSize: '0.88rem',
+                    fontWeight: '600',
+                    background: activeTab === 'internships' ? '#ff6b6b' : 'transparent',
+                    color: activeTab === 'internships' ? '#ffffff' : '#64748b'
+                  }}
+                >
+                  Explore Internships
+                </button>
 
-            <button 
-              onClick={() => setActiveTab('training')}
-              style={{
-                padding: '0.5rem 1.1rem',
-                borderRadius: '9999px',
-                fontSize: '0.88rem',
-                fontWeight: '600',
-                background: activeTab === 'training' ? '#2563eb' : 'transparent',
-                color: activeTab === 'training' ? '#ffffff' : '#64748b'
-              }}
-            >
-              Training Programs
-            </button>
+                <button 
+                  onClick={() => setActiveTab('training')}
+                  style={{
+                    padding: '0.5rem 1.1rem',
+                    borderRadius: '9999px',
+                    fontSize: '0.88rem',
+                    fontWeight: '600',
+                    background: activeTab === 'training' ? '#2563eb' : 'transparent',
+                    color: activeTab === 'training' ? '#ffffff' : '#64748b'
+                  }}
+                >
+                  Training Programs
+                </button>
 
-            <button 
-              onClick={() => setActiveTab('student')}
-              style={{
-                padding: '0.5rem 1.1rem',
-                borderRadius: '9999px',
-                fontSize: '0.88rem',
-                fontWeight: '600',
-                background: activeTab === 'student' ? '#2563eb' : 'transparent',
-                color: activeTab === 'student' ? '#ffffff' : '#64748b'
-              }}
-            >
-              Student Workspace
-            </button>
+                <button 
+                  onClick={() => setActiveTab('student')}
+                  style={{
+                    padding: '0.5rem 1.1rem',
+                    borderRadius: '9999px',
+                    fontSize: '0.88rem',
+                    fontWeight: '600',
+                    background: activeTab === 'student' ? '#2563eb' : 'transparent',
+                    color: activeTab === 'student' ? '#ffffff' : '#64748b'
+                  }}
+                >
+                  Student Workspace
+                </button>
+              </>
+            )}
+
+            {isClient && (
+              <button 
+                onClick={() => setActiveTab('client')}
+                style={{
+                  padding: '0.5rem 1.15rem',
+                  borderRadius: '9999px',
+                  fontSize: '0.88rem',
+                  fontWeight: '800',
+                  background: activeTab === 'client' ? '#f94d4d' : 'transparent',
+                  color: activeTab === 'client' ? '#ffffff' : '#f94d4d',
+                  border: '1.5px solid #f94d4d'
+                }}
+              >
+                🏢 Corporate Profile
+              </button>
+            )}
           </div>
         )}
 
@@ -327,6 +349,8 @@ export default function Navbar({
                       setShowUserDropdown(false);
                       if (currentUser.userType === 'superadmin' || currentUser.userType === 'admin') {
                         setActiveTab('admin');
+                      } else if (currentUser.userType === 'client') {
+                        setActiveTab('client');
                       } else {
                         setActiveTab('student');
                       }
@@ -343,7 +367,11 @@ export default function Navbar({
                       textAlign: 'left'
                     }}
                   >
-                    {currentUser.userType === 'superadmin' || currentUser.userType === 'admin' ? 'Executive Dashboard ➔' : 'My Student Workspace ➔'}
+                    {currentUser.userType === 'superadmin' || currentUser.userType === 'admin' 
+                      ? 'Executive Dashboard ➔' 
+                      : currentUser.userType === 'client' 
+                      ? 'My Corporate Workspace ➔' 
+                      : 'My Student Workspace ➔'}
                   </button>
 
                   {/* Logout Button */}

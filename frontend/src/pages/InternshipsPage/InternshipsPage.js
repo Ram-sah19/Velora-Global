@@ -53,10 +53,6 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
 
   useEffect(() => {
     fetchPrograms();
-    const interval = setInterval(() => {
-      fetchPrograms();
-    }, 3000);
-    return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDomain, searchQuery]);
 
@@ -67,7 +63,7 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
         const filterDomain = selectedDomain === 'Software Development' ? '' : selectedDomain;
         data = await api.getPrograms(filterDomain, searchQuery);
       } catch (err) {
-        console.warn("Backend call fallback for internships");
+        // Quietly fallback to static program list if backend is unavailable
       }
 
       // Merge backend programs with explicit language internship programs

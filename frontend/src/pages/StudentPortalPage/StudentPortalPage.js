@@ -83,6 +83,11 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
     }
   };
 
+  // CHECK 0: Corporate Client User Guard
+  if (currentUser && currentUser.userType === 'client') {
+    return null;
+  }
+
   // CHECK 1: User Not Logged In
   if (!currentUser) {
     return (

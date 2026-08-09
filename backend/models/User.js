@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
   id: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String },
+  password: { type: String, select: false },
   role: { type: String, default: 'Student Candidate' },
   userType: { type: String, enum: ['student', 'client', 'admin', 'superadmin'], default: 'student' },
   avatar: { type: String },
@@ -14,7 +14,9 @@ const userSchema = new mongoose.Schema({
   fieldOfStudy: { type: String, default: 'General' },
   skills: [{ type: String }],
   bio: { type: String },
-  isVerified: { type: Boolean, default: false }
+  isVerified: { type: Boolean, default: false },
+  resetToken: { type: String, select: false },
+  resetTokenExpiry: { type: Date, select: false }
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

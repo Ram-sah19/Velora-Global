@@ -5,7 +5,7 @@ import { api } from '../../services/api';
 function getPasswordValidation(password, confirmPassword = null) {
   const hasMinLength = password.length >= 8;
   const hasNumber = /\d/.test(password);
-  const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+  const hasSpecialChar = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password);
   const isMatching = confirmPassword === null || (password.length > 0 && password === confirmPassword);
 
   const isValid = hasMinLength && hasNumber && hasSpecialChar && isMatching;
@@ -86,7 +86,7 @@ function PasswordChecklist({ password, confirmPassword }) {
 }
 
 export default function AuthModal({ initialMode = 'login', onClose, onAuthSuccess }) {
-  const [authMode, setAuthMode] = useState(initialMode); // 'login' or 'signup'
+  const [authMode, setAuthMode] = useState(initialMode); // 'login', 'signup', 'forgot'
   const [signupRole, setSignupRole] = useState('student'); // 'student' or 'client'
 
   // Visibility Toggles
@@ -122,6 +122,8 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
 
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [forgotSent, setForgotSent] = useState(false);
 
   // Unified Role-Agnostic Login
   const handleLoginSubmit = async (e) => {
@@ -132,11 +134,26 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
     try {
       const res = await api.loginUser(loginEmail, loginPassword);
       if (res && res.user) {
-        if (onAuthSuccess) onAuthSuccess(res.user, res.token);
+        if (onAuthSuccess) onAuthSuccess(res.user);
         onClose();
       }
     } catch (err) {
       setErrorMsg(err.message || 'Login failed. Please check your email and password.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Forgot Password Submit
+  const handleForgotSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMsg('');
+    try {
+      await api.forgotPassword(forgotEmail.trim().toLowerCase());
+      setForgotSent(true);
+    } catch (err) {
+      setErrorMsg(err.message || 'Failed to send reset email. Try again.');
     } finally {
       setLoading(false);
     }
@@ -156,11 +173,11 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
     setLoading(true);
     try {
       const res = await api.registerStudent({
-        name: studentData.name,
-        email: studentData.email,
+        name: studentData.name.trim(),
+        email: studentData.email.trim().toLowerCase(),
         password: studentData.password,
-        university: studentData.university,
-        fieldOfStudy: studentData.fieldOfStudy
+        university: studentData.university.trim(),
+        fieldOfStudy: studentData.fieldOfStudy.trim()
       });
 
       if (res && res.user) {
@@ -188,10 +205,10 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
     setLoading(true);
     try {
       const res = await api.registerClient({
-        name: clientData.name,
-        companyName: clientData.companyName,
-        email: clientData.email,
-        phone: clientData.phone,
+        name: clientData.name.trim(),
+        companyName: clientData.companyName.trim(),
+        email: clientData.email.trim().toLowerCase(),
+        phone: clientData.phone.trim(),
         password: clientData.password
       });
 
@@ -365,7 +382,66 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
             >
               {loading ? 'Authenticating...' : 'Sign In ➔'}
             </button>
+
+            {/* Forgot Password Link */}
+            <div style={{ textAlign: 'center' }}>
+              <button
+                type="button"
+                onClick={() => { setAuthMode('forgot'); setErrorMsg(''); setForgotSent(false); }}
+                style={{ background: 'none', border: 'none', color: '#f94d4d', fontSize: '0.85rem', fontWeight: '700', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: '2px' }}
+              >
+                Forgot your password?
+              </button>
+            </div>
           </form>
+        )}
+
+        {/* FORGOT PASSWORD FORM */}
+        {authMode === 'forgot' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
+            {forgotSent ? (
+              <div style={{ textAlign: 'center', padding: '1rem 0' }}>
+                <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>📧</div>
+                <h3 style={{ fontSize: '1.15rem', color: '#0b0f19', fontWeight: '800', marginBottom: '0.5rem' }}>Check Your Inbox!</h3>
+                <p style={{ color: '#64748b', fontSize: '0.88rem', lineHeight: '1.6', marginBottom: '1.25rem' }}>
+                  If <strong>{forgotEmail}</strong> is registered with Velora Global, you'll receive a reset link shortly. Check your spam folder too.
+                </p>
+                <button onClick={() => { setAuthMode('login'); setForgotSent(false); setErrorMsg(''); }} className="btn-coral" style={{ padding: '0.7rem 1.5rem' }}>
+                  Back to Login
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleForgotSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
+                <div style={{ textAlign: 'center', marginBottom: '0.25rem' }}>
+                  <div style={{ fontSize: '2rem', marginBottom: '0.4rem' }}>🔑</div>
+                  <h3 style={{ fontSize: '1.15rem', color: '#0b0f19', fontWeight: '800', margin: '0 0 0.25rem' }}>Reset Your Password</h3>
+                  <p style={{ color: '#64748b', fontSize: '0.85rem', margin: 0 }}>Enter your account email and we'll send you a secure reset link.</p>
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: '700', color: '#334155', marginBottom: '0.35rem' }}>Account Email *</label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="name@example.com"
+                    value={forgotEmail}
+                    onChange={e => setForgotEmail(e.target.value)}
+                    style={{ width: '100%' }}
+                  />
+                </div>
+                {errorMsg && (
+                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px', padding: '0.7rem 1rem', color: '#b91c1c', fontSize: '0.85rem', fontWeight: '600' }}>
+                    ⚠️ {errorMsg}
+                  </div>
+                )}
+                <button type="submit" disabled={loading} className="btn-coral" style={{ padding: '0.85rem', fontSize: '1rem', fontWeight: '800', opacity: loading ? 0.7 : 1 }}>
+                  {loading ? 'Sending Reset Link...' : 'Send Reset Link 📧'}
+                </button>
+                <button type="button" onClick={() => { setAuthMode('login'); setErrorMsg(''); }} style={{ background: 'none', border: 'none', color: '#64748b', fontSize: '0.85rem', cursor: 'pointer', textAlign: 'center' }}>
+                  ← Back to Login
+                </button>
+              </form>
+            )}
+          </div>
         )}
 
         {/* ROLE-BASED SIGNUP FORM */}

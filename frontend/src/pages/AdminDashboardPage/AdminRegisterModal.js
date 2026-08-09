@@ -60,7 +60,7 @@ export default function AdminRegisterModal({ onClose, onAdminSuccess }) {
       setErrorMsg('Password must contain at least 1 number (0-9).');
       return;
     }
-    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+    if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)) {
       setErrorMsg('Password must contain at least 1 special character (@, #, $, !, %).');
       return;
     }

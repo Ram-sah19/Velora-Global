@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 async function request(endpoint, options = {}) {
   try {
@@ -70,5 +70,9 @@ export const api = {
   submitClientInquiry: (data) => request('/client-inquiries', { method: 'POST', body: JSON.stringify(data) }),
 
   // Stats
-  getStats: () => request('/stats')
+  getStats: () => request('/stats'),
+
+  // Password Reset
+  forgotPassword: (email) => request('/users/forgot-password', { method: 'POST', body: JSON.stringify({ email }) }),
+  resetPassword: (token, newPassword) => request('/users/reset-password', { method: 'POST', body: JSON.stringify({ token, newPassword }) })
 };

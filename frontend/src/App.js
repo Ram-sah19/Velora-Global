@@ -6,6 +6,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CertificateModal from './components/CertificateModal';
 import NotificationToast from './components/NotificationToast';
+import CookieBanner from './components/CookieBanner';
+import ResetPasswordModal from './components/ResetPasswordModal';
 
 // Unified Authentication Modal
 import AuthModal from './pages/Auth/AuthModal';
@@ -18,6 +20,7 @@ import TeamPage from './pages/TeamPage/TeamPage';
 import InternshipsPage from './pages/InternshipsPage/InternshipsPage';
 import TrainingPage from './pages/TrainingPage/TrainingPage';
 import StudentPortalPage from './pages/StudentPortalPage/StudentPortalPage';
+import ClientWorkspacePage from './pages/ClientWorkspacePage/ClientWorkspacePage';
 import AdminDashboardPage from './pages/AdminDashboardPage/AdminDashboardPage';
 
 export default function App() {
@@ -43,6 +46,14 @@ export default function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authInitialMode, setAuthInitialMode] = useState('login');
   const [showAdminRegisterModal, setShowAdminRegisterModal] = useState(false);
+  const [resetToken, setResetToken] = useState(null);
+
+  // Detect ?resetToken= in the URL when user clicks the email reset link
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('resetToken');
+    if (token) setResetToken(token);
+  }, []);
 
   // Scroll to top on tab switch
   useEffect(() => {
@@ -62,7 +73,6 @@ export default function App() {
         // If session revoked on backend, clear local session state
         if (e.message && e.message.includes('401')) {
           localStorage.removeItem('velora_user');
-          localStorage.removeItem('velora_token');
           setCurrentUser(null);
         }
       }
@@ -70,7 +80,20 @@ export default function App() {
     restoreSession();
   }, []);
 
+  // Enforce role-based workspace routing for Corporate Clients
+  useEffect(() => {
+    if (currentUser) {
+      if (currentUser.userType === 'client' && (activeTab === 'student' || activeTab === 'internships' || activeTab === 'training')) {
+        setActiveTab('client');
+      }
+    }
+  }, [currentUser, activeTab]);
+
   const handleTabChange = (tab) => {
+    if (currentUser && currentUser.userType === 'client' && (tab === 'student' || tab === 'internships' || tab === 'training')) {
+      setActiveTab('client');
+      return;
+    }
     if (tab === 'student' && !currentUser) {
       setAuthInitialMode('login');
       setShowAuthModal(true);
@@ -79,19 +102,25 @@ export default function App() {
     setActiveTab(tab);
   };
 
-  const handleAuthSuccess = (user, token) => {
+  const handleAuthSuccess = (user) => {
     setCurrentUser(user);
     try {
-      localStorage.setItem('velora_user', JSON.stringify({ user, timestamp: Date.now() }));
-      if (token) {
-        localStorage.setItem('velora_token', token);
-      }
+      // Store only minimal non-sensitive profile fields — NO password, no token
+      const safeProfile = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        userType: user.userType,
+        avatar: user.avatar,
+        companyName: user.companyName || null
+      };
+      localStorage.setItem('velora_user', JSON.stringify({ user: safeProfile, timestamp: Date.now() }));
     } catch (e) {}
 
     if (user.userType === 'superadmin' || user.userType === 'admin') {
       setActiveTab('admin');
     } else if (user.userType === 'client') {
-      setActiveTab('services');
+      setActiveTab('client');
     } else {
       setActiveTab('student');
     }
@@ -102,7 +131,6 @@ export default function App() {
       await api.logoutUser();
     } catch (e) {}
     localStorage.removeItem('velora_user');
-    localStorage.removeItem('velora_token');
     setCurrentUser(null);
     setActiveTab('home');
   };
@@ -110,6 +138,7 @@ export default function App() {
   return (
     <div className="app-container">
       <NotificationToast />
+      <CookieBanner />
       
       {/* Global Navigation Header */}
       <Navbar 
@@ -188,6 +217,14 @@ export default function App() {
           />
         </div>
 
+        {/* Dedicated Corporate Client Workspace */}
+        <div style={{ display: activeTab === 'client' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
+          <ClientWorkspacePage 
+            currentUser={currentUser} 
+            onLogout={handleLogout}
+          />
+        </div>
+
         {/* Dedicated Admin Executive Dashboard Page */}
         {activeTab === 'admin' && (
           <div style={{ minHeight: '80vh', width: '100%' }}>
@@ -199,6 +236,17 @@ export default function App() {
         )}
 
       </main>
+
+      {/* Password Reset Modal — opens automatically from email reset link (?resetToken=...) */}
+      {resetToken && (
+        <ResetPasswordModal
+          token={resetToken}
+          onClose={() => {
+            setResetToken(null);
+            window.history.replaceState({}, document.title, window.location.pathname);
+          }}
+        />
+      )}
 
       {/* Unified Authentication Modal */}
       {showAuthModal && (
