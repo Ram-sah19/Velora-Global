@@ -1,41 +1,104 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
-
-const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/11D9YEYK13bavROGMxlvO35k46MzrDHTTiHFd-PQqfy4/preview";
+import TrainingDetailsModal from './TrainingDetailsModal';
 
 const softwareDevSubDomains = [
   'Frontend Development',
   'Backend Development',
   'Full Stack Development',
-  'Mobile App Development',
   'Software Development'
 ];
 
-export default function TrainingPage() {
+const excludedDomains = [
+  'Cybersecurity',
+  'Cloud & DevOps',
+  'Data Science',
+  'Mobile App Development'
+];
+
+const isExcludedProgram = (p) => {
+  const text = ((p.domain || '') + " " + (p.title || '')).toLowerCase();
+  return (
+    text.includes('cyber') ||
+    text.includes('cloud') ||
+    text.includes('devops') ||
+    text.includes('data science') ||
+    text.includes('mobile')
+  );
+};
+
+const languageTrainingPrograms = [
+  {
+    id: "prog-js-training",
+    title: "JavaScript & Modern ES6+ Full Stack Training",
+    domain: "JavaScript",
+    description: "Master JavaScript fundamentals, asynchronous ES6+, DOM manipulation, Node.js runtime, and modern full stack web development.",
+    skillsRequired: ["JavaScript ES6+", "Node.js", "Async/Await", "DOM Manipulation", "Express.js"]
+  },
+  {
+    id: "prog-java-training",
+    title: "Java Core, Spring Boot & Microservices Training",
+    domain: "Java",
+    description: "Master Object-Oriented Programming (OOP), Data Structures, Java Core, Spring Boot REST APIs, and enterprise microservices.",
+    skillsRequired: ["Java Core", "Spring Boot", "OOP Concepts", "Hibernate / JPA", "REST Microservices"]
+  },
+  {
+    id: "prog-py-training",
+    title: "Python Programming, Automation & Scripting Training",
+    domain: "Python",
+    description: "Master Python syntax, object-oriented design, automated web scraping, data structures, and backend API development.",
+    skillsRequired: ["Python 3", "OOP", "Django / FastAPI", "Web Scraping", "Data Structures"]
+  }
+];
+
+export default function TrainingPage({ activeRole, onApplySuccess, currentUser, onOpenAuth }) {
   const [programs, setPrograms] = useState([]);
   const [selectedDomain, setSelectedDomain] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedProgramForDetails, setSelectedProgramForDetails] = useState(null);
 
   const domains = [
     'All',
     'Software Development',
     'Artificial Intelligence & Machine Learning',
-    'Data Science',
-    'Cybersecurity',
     'UI/UX Design',
-    'Cloud & DevOps',
     'Software Testing'
   ];
 
   useEffect(() => {
     const fetchPrograms = async () => {
       try {
-        const filterDomain = selectedDomain === 'Software Development' ? '' : selectedDomain;
-        const data = await api.getPrograms(filterDomain, searchQuery);
+        let data = [];
+        try {
+          const filterDomain = selectedDomain === 'Software Development' ? '' : selectedDomain;
+          data = await api.getPrograms(filterDomain, searchQuery);
+        } catch (err) {
+          console.warn("Backend call fallback to language list");
+        }
+
+        // Merge backend programs with explicit language training programs
+        const combined = [...languageTrainingPrograms, ...(data || [])];
         
-        let filtered = data;
-        if (selectedDomain === 'Software Development') {
-          filtered = filtered.filter(p => softwareDevSubDomains.includes(p.domain));
+        // Remove duplicates by id
+        const unique = Array.from(new Map(combined.map(item => [item.id || item.title, item])).values());
+
+        let filtered = unique.filter(p => !isExcludedProgram(p));
+
+        if (selectedDomain !== 'All') {
+          if (selectedDomain === 'Software Development') {
+            filtered = filtered.filter(p => softwareDevSubDomains.includes(p.domain) || p.domain === 'Software Development');
+          } else {
+            filtered = filtered.filter(p => (p.domain || '').toLowerCase() === selectedDomain.toLowerCase());
+          }
+        }
+
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          filtered = filtered.filter(p => 
+            (p.title || '').toLowerCase().includes(q) || 
+            (p.domain || '').toLowerCase().includes(q) ||
+            (p.skillsRequired || []).some(s => s.toLowerCase().includes(q))
+          );
         }
 
         setPrograms(filtered);
@@ -46,19 +109,9 @@ export default function TrainingPage() {
     fetchPrograms();
   }, [selectedDomain, searchQuery]);
 
-  const handleSearchSubmit = async (e) => {
+  const handleSearchSubmit = (e) => {
     e.preventDefault();
-    try {
-      const filterDomain = selectedDomain === 'Software Development' ? '' : selectedDomain;
-      const data = await api.getPrograms(filterDomain, searchQuery);
-      let filtered = data;
-      if (selectedDomain === 'Software Development') {
-        filtered = filtered.filter(p => softwareDevSubDomains.includes(p.domain));
-      }
-      setPrograms(filtered);
-    } catch (err) {
-      console.error(err);
-    }
+    // Search is handled via searchQuery state in useEffect
   };
 
   return (
@@ -66,13 +119,13 @@ export default function TrainingPage() {
       <div className="container">
         
         {/* Section Header */}
-        <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 3rem auto' }}>
-          <span className="badge badge-blue" style={{ marginBottom: '0.75rem' }}>Skill Accelerator</span>
+        <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 3rem auto' }}>
+          <span className="badge badge-blue" style={{ marginBottom: '0.75rem' }}>Guided Skill Accelerator</span>
           <h2 style={{ fontSize: '2.5rem', color: '#0b0f19', marginBottom: '0.75rem' }}>
-            Guided Skill Training + <span className="text-blue">Internship</span>
+            Structured Skill <span className="text-blue">Training Programs</span>
           </h2>
-          <p style={{ color: '#64748b', fontSize: '1.05rem' }}>
-            Structured curriculum modules, hands-on lab projects, executive founder mentorship, and practical internship placement.
+          <p style={{ color: '#64748b', fontSize: '1.05rem', lineHeight: '1.6' }}>
+            Master in-demand tech stacks and programming languages under guided mentor instruction. Flexible durations from 1 Week (NPR 500) to 2 Months (NPR 5,000) with verified QR credentials.
           </p>
         </div>
 
@@ -88,7 +141,7 @@ export default function TrainingPage() {
           <form onSubmit={handleSearchSubmit} style={{ display: 'flex', gap: '0.5rem', width: '100%', maxWidth: '520px', margin: '0 auto' }}>
             <input 
               type="text" 
-              placeholder="Search training track by domain, language, or stack..."
+              placeholder="Search training track by domain, language, or tech stack..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{ width: '100%', fontSize: '0.95rem' }}
@@ -122,7 +175,7 @@ export default function TrainingPage() {
 
         </div>
 
-        {/* Programs Grid */}
+        {/* Programs Grid — Clean, Spacious & Uncluttered */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
@@ -135,20 +188,20 @@ export default function TrainingPage() {
                   <span className="badge badge-blue" style={{ fontSize: '0.75rem' }}>
                     {prog.domain}
                   </span>
-                  <span style={{ fontSize: '0.82rem', color: '#2563eb', fontWeight: '700' }}>Training + Internship</span>
+                  <span style={{ fontSize: '0.82rem', color: '#2563eb', fontWeight: '700' }}>Guided Skill Training</span>
                 </div>
 
-                <h3 style={{ fontSize: '1.25rem', color: '#0b0f19', marginBottom: '0.75rem', lineHeight: '1.3' }}>
+                <h3 style={{ fontSize: '1.3rem', color: '#0b0f19', marginBottom: '0.75rem', lineHeight: '1.3', fontWeight: '800' }}>
                   {prog.title}
                 </h3>
 
-                <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '1.25rem', display: '-webkit-box', WebkitLineClamp: '3', WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '1.25rem', display: '-webkit-box', WebkitLineClamp: '3', WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: '1.6' }}>
                   {prog.description}
                 </p>
 
                 {/* Technology pill tags */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1.25rem' }}>
-                  {prog.skillsRequired.map((skill, i) => (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1.5rem' }}>
+                  {(prog.skillsRequired || []).map((skill, i) => (
                     <span key={i} style={{
                       fontSize: '0.78rem',
                       background: '#eff6ff',
@@ -163,70 +216,57 @@ export default function TrainingPage() {
                   ))}
                 </div>
 
-                {/* All Available Duration Pricing Options */}
+                {/* Key Highlights Strip */}
                 <div style={{
-                  background: '#eff6ff',
-                  border: '1px solid #dbeafe',
+                  background: '#f8fafc',
+                  border: '1px solid #e2e8f0',
                   borderRadius: '12px',
                   padding: '0.85rem 1rem',
                   marginBottom: '1.5rem'
                 }}>
-                  <span style={{ fontSize: '0.75rem', color: '#1d4ed8', fontWeight: '800', display: 'block', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                    Available Durations & Fees:
-                  </span>
-                  <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(85px, 1fr))',
-                    gap: '0.4rem'
-                  }}>
-                    <div style={{ background: '#ffffff', border: '1px solid #bfdbfe', padding: '0.35rem 0.5rem', borderRadius: '6px', textAlign: 'center' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#64748b', display: 'block', fontWeight: '600' }}>1 Week</span>
-                      <strong style={{ fontSize: '0.85rem', color: '#1d4ed8' }}>NPR 500</strong>
-                    </div>
-                    <div style={{ background: '#ffffff', border: '1px solid #bfdbfe', padding: '0.35rem 0.5rem', borderRadius: '6px', textAlign: 'center' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#64748b', display: 'block', fontWeight: '600' }}>2 Weeks</span>
-                      <strong style={{ fontSize: '0.85rem', color: '#1d4ed8' }}>NPR 700</strong>
-                    </div>
-                    <div style={{ background: '#ffffff', border: '1px solid #bfdbfe', padding: '0.35rem 0.5rem', borderRadius: '6px', textAlign: 'center' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#64748b', display: 'block', fontWeight: '600' }}>3 Weeks</span>
-                      <strong style={{ fontSize: '0.85rem', color: '#1d4ed8' }}>NPR 950</strong>
-                    </div>
-                    <div style={{ background: '#ffffff', border: '1px solid #bfdbfe', padding: '0.35rem 0.5rem', borderRadius: '6px', textAlign: 'center' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#64748b', display: 'block', fontWeight: '600' }}>1 Month</span>
-                      <strong style={{ fontSize: '0.85rem', color: '#1d4ed8' }}>NPR 1,200</strong>
-                    </div>
-                    <div style={{ background: '#ffffff', border: '1px solid #bfdbfe', padding: '0.35rem 0.5rem', borderRadius: '6px', textAlign: 'center' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#64748b', display: 'block', fontWeight: '600' }}>2 Months</span>
-                      <strong style={{ fontSize: '0.85rem', color: '#1d4ed8' }}>NPR 5,000</strong>
-                    </div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.8rem', color: '#475569', fontWeight: '600' }}>
+                    <span>Guided Labs</span>
+                    <span>•</span>
+                    <span>Mentor Code Review</span>
+                    <span>•</span>
+                    <span>QR Credentials</span>
                   </div>
                 </div>
               </div>
 
-              {/* Card Footer with Direct Google Form Redirect Link */}
+              {/* Card Footer with Details Action Button */}
               <div style={{ paddingTop: '1rem', borderTop: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
-                  <span style={{ display: 'block', fontSize: '0.75rem', color: '#64748b' }}>Training Fee Starts At</span>
-                  <span style={{ fontSize: '1.05rem', fontWeight: '800', color: '#2563eb' }}>
-                    NPR 500 <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '600' }}>(1 Wk)</span> • NPR 1,200 <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '600' }}>(1 Mon)</span>
+                  <span style={{ display: 'block', fontSize: '0.75rem', color: '#64748b' }}>Fee Starts At</span>
+                  <span style={{ fontSize: '1.1rem', fontWeight: '800', color: '#2563eb' }}>
+                    NPR 500 <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '600' }}>(1 Wk)</span>
                   </span>
                 </div>
 
-                <a 
-                  href={GOOGLE_FORM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button 
+                  onClick={() => setSelectedProgramForDetails(prog)}
                   className="btn-primary"
-                  style={{ padding: '0.55rem 1.1rem', fontSize: '0.85rem', textDecoration: 'none', display: 'inline-block' }}
+                  style={{ padding: '0.55rem 1.1rem', fontSize: '0.85rem', fontWeight: '700' }}
                 >
-                  Enroll in Training Track ➔
-                </a>
+                  View Training Details ➔
+                </button>
               </div>
             </div>
           ))}
         </div>
 
       </div>
+
+      {/* Animated Training Details Modal */}
+      {selectedProgramForDetails && (
+        <TrainingDetailsModal 
+          program={selectedProgramForDetails}
+          currentUser={currentUser}
+          onOpenAuth={onOpenAuth}
+          onApplySuccess={onApplySuccess}
+          onClose={() => setSelectedProgramForDetails(null)}
+        />
+      )}
     </section>
   );
 }

@@ -39,13 +39,17 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
 
   useEffect(() => {
     if (studentId) {
-      loadStudentData();
+      loadStudentData(false);
+      const interval = setInterval(() => {
+        loadStudentData(true);
+      }, 3000);
+      return () => clearInterval(interval);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [studentId]);
 
-  const loadStudentData = async () => {
-    setLoading(true);
+  const loadStudentData = async (isSilent = false) => {
+    if (!isSilent) setLoading(true);
     try {
       const [appsData, tasksData, certsData] = await Promise.all([
         api.getApplications(studentId),
@@ -58,7 +62,7 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
     } catch (err) {
       console.error("Failed to load student portal data", err);
     } finally {
-      setLoading(false);
+      if (!isSilent) setLoading(false);
     }
   };
 
@@ -133,24 +137,24 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
 
           {/* Access Shield Lock Banner */}
           <div className="corporate-card" style={{ padding: '3rem 2.5rem', textAlign: 'center', background: '#ffffff', border: '2px dashed #fbbf24' }}>
-            <span className="badge badge-gold" style={{ marginBottom: '0.75rem' }}>Executive Review Pipeline</span>
+            <span className="badge badge-gold" style={{ marginBottom: '0.75rem' }}>Executive Verification Pipeline</span>
             <h2 style={{ fontSize: '2.1rem', color: '#0b0f19', marginBottom: '0.75rem', fontWeight: '800' }}>
-              Workspace Pending Admin Approval
+              Application Sent for Admin Approval
             </h2>
 
             {pendingApp ? (
               <div style={{ maxWidth: '600px', margin: '0 auto' }}>
                 <p style={{ color: '#4b5563', fontSize: '1.05rem', lineHeight: '1.6', marginBottom: '1.5rem' }}>
-                  Your application for <strong>{pendingApp.programTitle}</strong> (<em>{pendingApp.selectedDuration || '1 Month'} {pendingApp.programTrack}</em>) is currently under review by Super Admin.
+                  Your application for <strong>{pendingApp.programTitle}</strong> (<em>{pendingApp.selectedDuration || '1 Month'} {pendingApp.programTrack}</em>) has been sent for Super Admin review and verification.
                 </p>
                 <div style={{ background: '#fffbeb', border: '1px solid #fde68a', padding: '1.25rem', borderRadius: '12px', color: '#92400e', fontSize: '0.92rem', textAlign: 'left', lineHeight: '1.6' }}>
-                  <strong>Access Lock Guarantee:</strong> Once executive leadership (Rambilas Sah, Puja Rouniyar & Rohit Sah) approves your application, your assigned domain tasks and live <strong>{pendingApp.selectedDuration || '1 Month'}</strong> countdown timer will unlock here automatically!
+                  <strong>Verification & Access Notice:</strong> Once executive leadership verifies your application details and fee payment, your assigned project tasks, domain learning materials, and live <strong>{pendingApp.selectedDuration || '1 Month'}</strong> access timer will unlock here automatically!
                 </div>
               </div>
             ) : (
               <div>
                 <p style={{ color: '#64748b', fontSize: '1rem', lineHeight: '1.6', marginBottom: '1.75rem' }}>
-                  You have not submitted a program application yet. Explore Practical Internships or Training Programs to submit your application for Super Admin approval.
+                  You have not submitted a program application yet. Explore Practical Internships or Training Programs to submit your application for Super Admin verification and approval.
                 </p>
               </div>
             )}

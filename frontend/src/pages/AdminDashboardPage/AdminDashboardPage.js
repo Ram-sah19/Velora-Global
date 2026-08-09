@@ -40,6 +40,10 @@ export default function AdminDashboardPage({ onCertificateGenerated }) {
 
   useEffect(() => {
     loadAdminData();
+    const interval = setInterval(() => {
+      loadAdminData();
+    }, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   const loadAdminData = async () => {

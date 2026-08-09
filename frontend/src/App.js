@@ -5,9 +5,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CertificateModal from './components/CertificateModal';
 
-// Separate Auth Modals
-import StudentAuthModal from './pages/Auth/StudentAuthModal';
-import ClientAuthModal from './pages/Auth/ClientAuthModal';
+// Unified Authentication Modal
+import AuthModal from './pages/Auth/AuthModal';
 import AdminRegisterModal from './pages/AdminDashboardPage/AdminRegisterModal';
 
 // Pages
@@ -27,8 +26,8 @@ export default function App() {
 
   // Authentication State
   const [currentUser, setCurrentUser] = useState(null);
-  const [showStudentAuthModal, setShowStudentAuthModal] = useState(false);
-  const [showClientAuthModal, setShowClientAuthModal] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authInitialMode, setAuthInitialMode] = useState('login');
   const [showAdminRegisterModal, setShowAdminRegisterModal] = useState(false);
 
   // Scroll to top on tab switch
@@ -38,7 +37,8 @@ export default function App() {
 
   const handleTabChange = (tab) => {
     if (tab === 'student' && !currentUser) {
-      setShowStudentAuthModal(true);
+      setAuthInitialMode('login');
+      setShowAuthModal(true);
       return;
     }
     setActiveTab(tab);
@@ -73,12 +73,14 @@ export default function App() {
         setActiveTab={handleTabChange}
         onSelectServiceCategory={(cat) => setSelectedServiceCategory(cat)}
         currentUser={currentUser}
-        onOpenStudentAuth={() => setShowStudentAuthModal(true)}
-        onOpenClientAuth={() => setShowClientAuthModal(true)}
+        onOpenAuth={() => {
+          setAuthInitialMode('login');
+          setShowAuthModal(true);
+        }}
         onLogout={handleLogout}
       />
 
-      {/* Main Content Area — Kept mounted to prevent layout flash/glitch during page transitions */}
+      {/* Main Content Area */}
       <main className="main-content">
         
         {/* Home / Landing Page */}
@@ -88,13 +90,16 @@ export default function App() {
           />
         </div>
 
-        {/* Dedicated Client Services Page — Free Public Browsing, Client Auth on Inquiry */}
+        {/* Dedicated Client Services Page */}
         <div style={{ display: activeTab === 'services' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
           <ServicesPage 
             selectedCategory={selectedServiceCategory}
             onSelectCategory={(cat) => setSelectedServiceCategory(cat)}
             currentUser={currentUser}
-            onOpenClientAuth={() => setShowClientAuthModal(true)}
+            onOpenClientAuth={() => {
+              setAuthInitialMode('login');
+              setShowAuthModal(true);
+            }}
           />
         </div>
 
@@ -109,6 +114,11 @@ export default function App() {
         <div style={{ display: activeTab === 'internships' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
           <InternshipsPage 
             activeRole={activeRole}
+            currentUser={currentUser}
+            onOpenAuth={() => {
+              setAuthInitialMode('login');
+              setShowAuthModal(true);
+            }}
             onApplySuccess={() => handleTabChange('student')}
           />
         </div>
@@ -117,42 +127,40 @@ export default function App() {
         <div style={{ display: activeTab === 'training' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
           <TrainingPage 
             activeRole={activeRole}
+            currentUser={currentUser}
+            onOpenAuth={() => {
+              setAuthInitialMode('login');
+              setShowAuthModal(true);
+            }}
             onApplySuccess={() => handleTabChange('student')}
           />
         </div>
 
-        {/* Student Workspace Portal Page - Gated by Login & Admin Approval */}
+        {/* Dedicated Student Workspace */}
         <div style={{ display: activeTab === 'student' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
           <StudentPortalPage 
-            currentUser={currentUser}
-            onOpenAuth={() => setShowStudentAuthModal(true)}
-            onOpenCertificate={(cert) => setActiveCertificate(cert)}
+            currentUser={currentUser} 
+            onViewCertificate={(cert) => setActiveCertificate(cert)}
           />
         </div>
 
-        {/* Executive Founder Panel Page */}
+        {/* Dedicated Admin Executive Dashboard Page */}
         {activeTab === 'admin' && (
-          <div style={{ display: activeTab === 'admin' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
+          <div style={{ minHeight: '80vh', width: '100%' }}>
             <AdminDashboardPage 
-              onCertificateGenerated={(cert) => setActiveCertificate(cert)}
+              currentUser={currentUser} 
+              onOpenAdminRegister={() => setShowAdminRegisterModal(true)}
             />
           </div>
         )}
 
       </main>
 
-      {/* Dedicated Student Auth Modal */}
-      {showStudentAuthModal && (
-        <StudentAuthModal 
-          onClose={() => setShowStudentAuthModal(false)}
-          onAuthSuccess={handleAuthSuccess}
-        />
-      )}
-
-      {/* Dedicated Corporate Client Auth Modal */}
-      {showClientAuthModal && (
-        <ClientAuthModal 
-          onClose={() => setShowClientAuthModal(false)}
+      {/* Unified Authentication Modal */}
+      {showAuthModal && (
+        <AuthModal 
+          initialMode={authInitialMode}
+          onClose={() => setShowAuthModal(false)}
           onAuthSuccess={handleAuthSuccess}
         />
       )}
