@@ -3,11 +3,18 @@ import React from 'react';
 export default function LeadershipSection() {
   const team = [
     {
-      name: "Rambilas Sah",
+      name: "Rohit Sah",
       role: "Founder & CEO",
-      image: "/media/rambilas_sah.jpg",
-      bio: "Visionary leader dedicated to building Velora Global into a global career bridge. Guiding strategy, student development, and industry partnerships.",
+      image: "/media/rohit_sah.jpg",
+      bio: "Tech leader and founder directing platform vision, system architecture, curriculum design, and strategic growth for Velora Global.",
       badge: "Founder & CEO"
+    },
+    {
+      name: "Rambilas Sah",
+      role: "Co-Founder",
+      image: "/media/rambilas_sah.jpg",
+      bio: "Co-Founder driving student success initiatives, university relations, operational strategy, and industry partner alignments.",
+      badge: "Co-Founder"
     },
     {
       name: "Puja Rouniyar",
@@ -15,13 +22,6 @@ export default function LeadershipSection() {
       image: "/media/puja_rouniyar.jpg",
       bio: "Operations executive driving program execution, intern onboarding, quality standards, and talent evaluation workflows across all domains.",
       badge: "Co-Founder & COO"
-    },
-    {
-      name: "Rohit Sah",
-      role: "Co-Founder & CTO",
-      image: "/media/rohit_sah.jpg",
-      bio: "Tech leader managing technical curriculum, project evaluation criteria, platform architecture, and hands-on engineering mentorship.",
-      badge: "Co-Founder & CTO"
     }
   ];
 

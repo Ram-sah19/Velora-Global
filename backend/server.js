@@ -19,20 +19,22 @@ const statsRoutes = require('./routes/statsRoutes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Sync executive founder photos to frontend/public/media/
+// Sync executive founder photos (development environment helper)
 try {
   const srcDir = `C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\22635c0b-f003-455d-a5d6-433977a33f53\\.user_uploaded`;
-  const destDir = path.join(__dirname, '../frontend/public/media');
-  if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
+  if (fs.existsSync(srcDir)) {
+    const destDir = path.join(__dirname, '../frontend/public/media');
+    if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
 
-  if (fs.existsSync(path.join(srcDir, 'media_1785955734224.jpg'))) {
-    fs.copyFileSync(path.join(srcDir, 'media_1785955734224.jpg'), path.join(destDir, 'rambilas_sah.jpg'));
-  }
-  if (fs.existsSync(path.join(srcDir, 'media_1785955759112.jpg'))) {
-    fs.copyFileSync(path.join(srcDir, 'media_1785955759112.jpg'), path.join(destDir, 'puja_rouniyar.jpg'));
-  }
-  if (fs.existsSync(path.join(srcDir, 'media_1785955812212.jpg'))) {
-    fs.copyFileSync(path.join(srcDir, 'media_1785955812212.jpg'), path.join(destDir, 'rohit_sah.jpg'));
+    if (fs.existsSync(path.join(srcDir, 'media_1785955734224.jpg'))) {
+      fs.copyFileSync(path.join(srcDir, 'media_1785955734224.jpg'), path.join(destDir, 'rambilas_sah.jpg'));
+    }
+    if (fs.existsSync(path.join(srcDir, 'media_1785955759112.jpg'))) {
+      fs.copyFileSync(path.join(srcDir, 'media_1785955759112.jpg'), path.join(destDir, 'puja_rouniyar.jpg'));
+    }
+    if (fs.existsSync(path.join(srcDir, 'media_1785955812212.jpg'))) {
+      fs.copyFileSync(path.join(srcDir, 'media_1785955812212.jpg'), path.join(destDir, 'rohit_sah.jpg'));
+    }
   }
 } catch (e) {}
 

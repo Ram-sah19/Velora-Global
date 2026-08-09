@@ -52,7 +52,7 @@ export default function StudentPrivacyModal({ onClose }) {
               2. How Student Data Is Used
             </h3>
             <p>
-              Student information is strictly utilized to: (a) verify eligibility for specialized domain tracks, (b) provision student dashboard accounts, (c) facilitate code reviews with founding mentors (Rambilas Sah, Puja Rouniyar, Rohit Sah), (d) generate tamper-proof QR certificates, and (e) assist with career placement referrals.
+              Student information is strictly utilized to: (a) verify eligibility for specialized domain tracks, (b) provision student dashboard accounts, (c) facilitate code reviews with founding mentors (Rohit Sah, Rambilas Sah, Puja Rouniyar), (d) generate tamper-proof QR certificates, and (e) assist with career placement referrals.
             </p>
           </section>
 

@@ -55,6 +55,11 @@ export default function Navbar({
     setShowServicesDropdown(false);
   };
 
+  const handleLogoClick = () => {
+    setActiveTab('home');
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  };
+
   return (
     <nav style={{
       position: 'sticky',
@@ -68,8 +73,8 @@ export default function Navbar({
     }}>
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         
-        {/* Brand Logo Component */}
-        <div onClick={() => setActiveTab(isSuperAdmin ? 'admin' : 'home')} style={{ cursor: 'pointer' }}>
+        {/* Brand Logo Component — clicking returns to homepage & scrolls to Hero top */}
+        <div onClick={handleLogoClick} style={{ cursor: 'pointer' }} title="Return to Homepage">
           <VeloraLogo width={44} height={44} textColor="#0b0f19" />
         </div>
 

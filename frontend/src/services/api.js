@@ -72,7 +72,9 @@ export const api = {
   // Stats
   getStats: () => request('/stats'),
 
-  // Password Reset
+  // Password Reset & Email Verification
   forgotPassword: (email) => request('/users/forgot-password', { method: 'POST', body: JSON.stringify({ email }) }),
-  resetPassword: (token, newPassword) => request('/users/reset-password', { method: 'POST', body: JSON.stringify({ token, newPassword }) })
+  resetPassword: (token, newPassword) => request('/users/reset-password', { method: 'POST', body: JSON.stringify({ token, newPassword }) }),
+  verifyEmail: (token) => request('/users/verify-email', { method: 'POST', body: JSON.stringify({ token }) }),
+  resendVerification: (email) => request('/users/resend-verification', { method: 'POST', body: JSON.stringify({ email }) })
 };

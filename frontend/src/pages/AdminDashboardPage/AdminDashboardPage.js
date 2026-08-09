@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
 import { showToast } from '../../components/NotificationToast';
 
-export default function AdminDashboardPage({ onCertificateGenerated }) {
+export default function AdminDashboardPage({ currentUser, onCertificateGenerated, onOpenAdminRegister }) {
   const [stats, setStats] = useState(null);
   const [applications, setApplications] = useState([]);
   const [users, setUsers] = useState([]);
@@ -105,7 +105,7 @@ export default function AdminDashboardPage({ onCertificateGenerated }) {
         ...newProgram,
         skillsRequired: formattedSkills,
         deliverables: formattedDeliverables,
-        postedBy: 'Rambilas Sah (Founder & CEO)'
+        postedBy: currentUser?.name || 'Rohit Sah (Founder & CEO)'
       });
 
       showToast('🚀 New Internship Opportunity Published Successfully!', 'success');
@@ -139,7 +139,7 @@ export default function AdminDashboardPage({ onCertificateGenerated }) {
         title: assignForm.title,
         description: assignForm.description,
         dueDate: assignForm.dueDate,
-        assignedBy: 'Rambilas Sah (Founder & CEO)'
+        assignedBy: currentUser?.name || 'Rohit Sah (Founder & CEO)'
       });
 
       showToast('🎯 Domain Task Assigned Successfully!', 'success');
@@ -167,7 +167,7 @@ export default function AdminDashboardPage({ onCertificateGenerated }) {
         creativity: evalScores.creativity,
         completionOfRequirements: evalScores.completionOfRequirements,
         professionalApproach: evalScores.professionalApproach,
-        evaluatorName: 'Rambilas Sah (Founder & CEO)',
+        evaluatorName: currentUser?.name || 'Rohit Sah (Founder & CEO)',
         feedback: evalScores.feedback
       });
 

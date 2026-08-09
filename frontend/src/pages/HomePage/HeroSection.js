@@ -193,11 +193,11 @@ export default function HeroSection({ onExploreClick }) {
             }}>
               {/* Leader Image */}
               <img 
-                src="/media/rambilas_sah.jpg" 
-                alt="Rambilas Sah - Founder & CEO"
+                src="/media/rohit_sah.jpg" 
+                alt="Rohit Sah - Founder & CEO"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = "/images/rambilas_sah.jpg";
+                  e.target.src = "/images/rohit_sah.jpg";
                 }}
                 style={{
                   width: '100%',
@@ -220,10 +220,10 @@ export default function HeroSection({ onExploreClick }) {
                 justifyContent: 'space-between'
               }}>
                 <div>
-                  <h4 style={{ fontSize: '0.95rem', color: '#0b0f19' }}>Rambilas Sah</h4>
+                  <h4 style={{ fontSize: '0.95rem', color: '#0b0f19' }}>Rohit Sah</h4>
                   <span style={{ fontSize: '0.75rem', color: '#2563eb', fontWeight: '700' }}>Founder & CEO • Velora Global</span>
                 </div>
-                <span className="badge badge-green" style={{ fontSize: '0.7rem' }}>Co-Founded with Puja & Rohit</span>
+                <span className="badge badge-green" style={{ fontSize: '0.7rem' }}>Co-Founded with Rambilas & Puja</span>
               </div>
             </div>
           </div>
@@ -523,7 +523,7 @@ export default function HeroSection({ onExploreClick }) {
               Let's work together on your next career milestone.
             </h3>
             <p style={{ color: '#94a3b8', fontSize: '1.05rem', lineHeight: '1.6' }}>
-              Gain practical industry exposure, verified credentials, and continuous mentorship from Rambilas Sah, Puja Rouniyar, and Rohit Sah.
+              Gain practical industry exposure, verified credentials, and continuous mentorship from Rohit Sah, Rambilas Sah, and Puja Rouniyar.
             </p>
           </div>
 

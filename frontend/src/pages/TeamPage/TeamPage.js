@@ -3,12 +3,21 @@ import React from 'react';
 export default function TeamPage({ onExploreClick }) {
   const founders = [
     {
-      name: "Rambilas Sah",
+      name: "Rohit Sah",
       role: "Founder & CEO",
-      image: "/media/rambilas_sah.jpg",
+      image: "/media/rohit_sah.jpg",
       badge: "Founder & CEO",
-      bio: "Visionary leader dedicated to building Velora Global into a premier career bridge. Driving strategic growth, student success initiatives, university relations, and industry partner alignments.",
-      expertise: ["Executive Leadership", "Strategic Growth", "Industry Partnerships", "Career Pathways"],
+      bio: "Technology leader and founder directing platform architecture, technical curriculum design, project evaluation criteria, and strategic engineering growth.",
+      expertise: ["System Architecture", "Executive Leadership", "Technical Evaluation", "Curriculum Design"],
+      email: "rohit@veloraglobal.com"
+    },
+    {
+      name: "Rambilas Sah",
+      role: "Co-Founder",
+      image: "/media/rambilas_sah.jpg",
+      badge: "Co-Founder",
+      bio: "Co-Founder dedicated to building Velora Global into a premier career bridge. Driving strategic growth, student success initiatives, university relations, and industry partner alignments.",
+      expertise: ["Strategic Growth", "Industry Partnerships", "Career Pathways", "Student Success"],
       email: "rambilas@veloraglobal.com"
     },
     {
@@ -19,15 +28,6 @@ export default function TeamPage({ onExploreClick }) {
       bio: "Operations executive overseeing program execution, candidate onboarding, quality assurance standards, and talent evaluation workflows across all 10 domain specializations.",
       expertise: ["Global Operations", "Talent Onboarding", "Program Quality", "Workflow Optimization"],
       email: "puja@veloraglobal.com"
-    },
-    {
-      name: "Rohit Sah",
-      role: "Co-Founder & CTO",
-      image: "/media/rohit_sah.jpg",
-      badge: "Co-Founder & CTO",
-      bio: "Technology leader directing platform architecture, technical curriculum design, project evaluation criteria, and hands-on engineering mentorship for all technical domain tracks.",
-      expertise: ["System Architecture", "MERN & Cloud Tech", "Technical Evaluation", "Curriculum Design"],
-      email: "rohit@veloraglobal.com"
     }
   ];
 

@@ -20,7 +20,7 @@ export default function StudentJourneySection({ onApplyClick }) {
     {
       step: "04",
       title: "Earn Verified Certificate",
-      description: "Receive an official Velora Global Certificate signed by Founder Rambilas Sah with a public QR code."
+      description: "Receive an official Velora Global Certificate signed by Founder Rohit Sah with a public QR code."
     }
   ];
 

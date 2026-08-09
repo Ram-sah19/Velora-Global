@@ -14,6 +14,8 @@ router.post('/register-admin', userController.registerAdmin);
 router.post('/login', userController.loginUser);
 router.post('/forgot-password', userController.forgotPassword);
 router.post('/reset-password', userController.resetPassword);
+router.post('/verify-email', userController.verifyEmail);
+router.post('/resend-verification', userController.resendVerification);
 
 // Admin-protected routes
 router.get('/', requireAdmin, userController.getUsers);

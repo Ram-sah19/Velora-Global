@@ -29,7 +29,14 @@ export default function Footer({ setActiveTab }) {
           
           {/* Brand Info */}
           <div>
-            <div style={{ marginBottom: '1.25rem' }}>
+            <div 
+              onClick={() => {
+                setActiveTab('home');
+                window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+              }} 
+              style={{ marginBottom: '1.25rem', cursor: 'pointer', display: 'inline-block' }}
+              title="Return to Homepage"
+            >
               <VeloraLogo width={40} height={40} textColor="#ffffff" />
             </div>
 
@@ -38,7 +45,7 @@ export default function Footer({ setActiveTab }) {
             </p>
 
             <span style={{ fontSize: '0.8rem', color: '#60a5fa', display: 'block', fontWeight: '600' }}>
-              Founded by Rambilas Sah • Co-Founded by Puja Rouniyar & Rohit Sah
+              Founded by Rohit Sah • Co-Founded by Rambilas Sah & Puja Rouniyar
             </span>
           </div>
 

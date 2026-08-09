@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const User = require('../models/User');
 const { readLocalDb, writeLocalDb } = require('../db');
-const { sendPasswordResetEmail } = require('../services/emailService');
+const { sendPasswordResetEmail, sendVerificationEmail } = require('../services/emailService');
 
 // 30-Day Session Duration
 const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
@@ -45,14 +45,15 @@ function create30DaySession(res, user) {
   });
   writeLocalDb(db);
 
+  const isProd = process.env.NODE_ENV === 'production';
   const cookieOptions = [
     `velora_refresh_token=${sessionId}`,
     `Path=/`,
     `Max-Age=${Math.floor(THIRTY_DAYS_MS / 1000)}`,
     `HttpOnly`,
-    `SameSite=Lax`
+    isProd ? `SameSite=None` : `SameSite=Lax`
   ];
-  if (process.env.NODE_ENV === 'production') cookieOptions.push('Secure');
+  if (isProd) cookieOptions.push('Secure');
 
   res.setHeader('Set-Cookie', cookieOptions.join('; '));
   return sessionId;
@@ -237,6 +238,7 @@ exports.getFounders = async (req, res) => {
 };
 
 // Student Signup
+// Student Signup
 exports.registerStudent = async (req, res) => {
   try {
     const { name, email, password, university, fieldOfStudy, skills, bio } = req.body;
@@ -261,6 +263,11 @@ exports.registerStudent = async (req, res) => {
     const rawPassword = password || 'student123';
     const hashedPassword = await bcrypt.hash(rawPassword, SALT_ROUNDS);
 
+    // Generate Verification Token
+    const rawVerifyToken = crypto.randomBytes(32).toString('hex');
+    const hashedVerifyToken = crypto.createHash('sha256').update(rawVerifyToken).digest('hex');
+    const verifyExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
     const newUser = {
       id: `user-student-${Date.now()}`,
       name,
@@ -272,7 +279,10 @@ exports.registerStudent = async (req, res) => {
       university: university || 'Not specified',
       fieldOfStudy: fieldOfStudy || 'General',
       skills: skills || [],
-      bio: bio || 'Eager to gain real-world project experience with Velora Global.'
+      bio: bio || 'Eager to gain real-world project experience with Velora Global.',
+      isVerified: false,
+      verificationToken: hashedVerifyToken,
+      verificationTokenExpiry: verifyExpiry
     };
 
     let savedUser = newUser;
@@ -284,8 +294,20 @@ exports.registerStudent = async (req, res) => {
       writeLocalDb(db);
     }
 
-    create30DaySession(res, newUser);
-    res.status(201).json({ message: 'Student registration successful', user: safeUser(savedUser) });
+    // Send email verification link
+    const frontendUrl = process.env.CLIENT_ORIGIN || 'http://localhost:3000';
+    const verifyUrl = `${frontendUrl}?verifyToken=${rawVerifyToken}`;
+    try {
+      await sendVerificationEmail(emailClean, verifyUrl, name);
+    } catch (err) {
+      console.error('Failed to send verification email:', err.message);
+    }
+
+    res.status(201).json({
+      message: 'Account created! Please check your email to verify your account before logging in.',
+      requiresVerification: true,
+      email: emailClean
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -315,6 +337,11 @@ exports.registerClient = async (req, res) => {
     const rawPassword = password || 'client123';
     const hashedPassword = await bcrypt.hash(rawPassword, SALT_ROUNDS);
 
+    // Generate Verification Token
+    const rawVerifyToken = crypto.randomBytes(32).toString('hex');
+    const hashedVerifyToken = crypto.createHash('sha256').update(rawVerifyToken).digest('hex');
+    const verifyExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
     const newClient = {
       id: `user-client-${Date.now()}`,
       name,
@@ -325,7 +352,10 @@ exports.registerClient = async (req, res) => {
       role: 'Corporate Client',
       userType: 'client',
       avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(name)}`,
-      bio: `Corporate partner representing ${companyName || 'Enterprise Partner'}`
+      bio: `Corporate partner representing ${companyName || 'Enterprise Partner'}`,
+      isVerified: false,
+      verificationToken: hashedVerifyToken,
+      verificationTokenExpiry: verifyExpiry
     };
 
     let savedClient = newClient;
@@ -337,8 +367,19 @@ exports.registerClient = async (req, res) => {
       writeLocalDb(db);
     }
 
-    create30DaySession(res, newClient);
-    res.status(201).json({ message: 'Client registration successful', user: safeUser(savedClient) });
+    const frontendUrl = process.env.CLIENT_ORIGIN || 'http://localhost:3000';
+    const verifyUrl = `${frontendUrl}?verifyToken=${rawVerifyToken}`;
+    try {
+      await sendVerificationEmail(emailClean, verifyUrl, name);
+    } catch (err) {
+      console.error('Failed to send verification email:', err.message);
+    }
+
+    res.status(201).json({
+      message: 'Account created! Please check your email to verify your account before logging in.',
+      requiresVerification: true,
+      email: emailClean
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -381,7 +422,8 @@ exports.registerAdmin = async (req, res) => {
       role: 'Super Admin Executive',
       userType: 'superadmin',
       avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}`,
-      bio: 'Platform Super Administrator with full system control, approval, and verification authority.'
+      bio: 'Platform Super Administrator with full system control, approval, and verification authority.',
+      isVerified: true
     };
 
     let savedAdmin = newAdmin;
@@ -453,6 +495,15 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ error: 'Invalid password. Please try again.' });
     }
 
+    // Email Verification Guard (Except Admins / Superadmins)
+    if (user.isVerified === false && user.userType !== 'superadmin' && user.userType !== 'admin') {
+      return res.status(403).json({
+        error: 'Please verify your email address before logging in. Check your inbox for the confirmation link.',
+        requiresVerification: true,
+        email: emailClean
+      });
+    }
+
     create30DaySession(res, user);
 
     res.json({
@@ -461,6 +512,118 @@ exports.loginUser = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ error: 'Server error.' });
+  }
+};
+
+// ─── VERIFY EMAIL ─────────────────────────────────────────────────────────────
+// Verifies user's email token and activates their account
+exports.verifyEmail = async (req, res) => {
+  try {
+    const { token } = req.body;
+    if (!token) {
+      return res.status(400).json({ error: 'Verification token is required.' });
+    }
+
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+    let user;
+    try {
+      user = await User.findOne({
+        verificationToken: hashedToken,
+        verificationTokenExpiry: { $gt: new Date() }
+      });
+    } catch (e) {
+      const db = readLocalDb();
+      const now = new Date();
+      user = (db.users || []).find(u =>
+        u.verificationToken === hashedToken &&
+        u.verificationTokenExpiry &&
+        new Date(u.verificationTokenExpiry) > now
+      );
+    }
+
+    if (!user) {
+      return res.status(400).json({ error: 'Verification link is invalid or has expired. Please request a new verification email.' });
+    }
+
+    // Mark as verified
+    try {
+      await User.findOneAndUpdate(
+        { verificationToken: hashedToken },
+        { isVerified: true, verificationToken: null, verificationTokenExpiry: null }
+      );
+    } catch (e) {
+      const db = readLocalDb();
+      const localUser = (db.users || []).find(u => u.verificationToken === hashedToken);
+      if (localUser) {
+        localUser.isVerified = true;
+        localUser.verificationToken = null;
+        localUser.verificationTokenExpiry = null;
+        writeLocalDb(db);
+      }
+    }
+
+    user.isVerified = true;
+    create30DaySession(res, user);
+
+    res.json({
+      message: 'Email verified successfully! Your account is now active.',
+      user: safeUser(user)
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Server error during email verification.' });
+  }
+};
+
+// ─── RESEND VERIFICATION EMAIL ────────────────────────────────────────────────
+exports.resendVerification = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ error: 'Email is required.' });
+
+    const emailClean = email.toLowerCase().trim();
+    let user;
+    try {
+      user = await User.findOne({ email: emailClean });
+    } catch (e) {
+      const db = readLocalDb();
+      user = (db.users || []).find(u => u.email === emailClean);
+    }
+
+    if (!user) {
+      return res.json({ message: 'If that email is registered, a verification link has been sent.' });
+    }
+
+    if (user.isVerified) {
+      return res.json({ message: 'This email is already verified. You can log in.' });
+    }
+
+    const rawToken = crypto.randomBytes(32).toString('hex');
+    const hashedToken = crypto.createHash('sha256').update(rawToken).digest('hex');
+    const expiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+    try {
+      await User.findOneAndUpdate(
+        { email: emailClean },
+        { verificationToken: hashedToken, verificationTokenExpiry: expiry }
+      );
+    } catch (e) {
+      const db = readLocalDb();
+      const localUser = (db.users || []).find(u => u.email === emailClean);
+      if (localUser) {
+        localUser.verificationToken = hashedToken;
+        localUser.verificationTokenExpiry = expiry.toISOString();
+        writeLocalDb(db);
+      }
+    }
+
+    const frontendUrl = process.env.CLIENT_ORIGIN || 'http://localhost:3000';
+    const verifyUrl = `${frontendUrl}?verifyToken=${rawToken}`;
+    await sendVerificationEmail(emailClean, verifyUrl, user.name);
+
+    res.json({ message: 'A new verification link has been sent to your email.' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to resend verification email.' });
   }
 };
 
@@ -519,6 +682,11 @@ exports.forgotPassword = async (req, res) => {
       console.log(`📧 Password reset email sent to ${emailClean}`);
     } catch (emailErr) {
       console.error('Email send failed:', emailErr.message);
+      console.log(`🔑 [DEV FALLBACK RESET URL]: ${resetUrl}`);
+      // In development mode, return success so testing isn't blocked by missing SMTP setup
+      if (process.env.NODE_ENV !== 'production') {
+        return res.json({ message: 'If that email is registered, a reset link has been sent.' });
+      }
       return res.status(500).json({ error: 'Failed to send reset email. Please check your email configuration.' });
     }
 

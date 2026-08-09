@@ -61,7 +61,7 @@ export default function ClientPrivacyModal({ onClose }) {
               3. Restricted Executive Repository Access Controls
             </h3>
             <p>
-              Client source code repositories and project credentials are accessible exclusively by founding executive leadership (Founder & CEO <strong>Rambilas Sah</strong>, Co-Founder & COO <strong>Puja Rouniyar</strong>, and Co-Founder & CTO <strong>Rohit Sah</strong>) and assigned senior engineers. Code assets are stored on private, encrypted Git repositories.
+              Client source code repositories and project credentials are accessible exclusively by founding executive leadership (Founder & CEO <strong>Rohit Sah</strong>, Co-Founder <strong>Rambilas Sah</strong>, and Co-Founder & COO <strong>Puja Rouniyar</strong>) and assigned senior engineers. Code assets are stored on private, encrypted Git repositories.
             </p>
           </section>
 

@@ -10,7 +10,7 @@ export default function FaqSection() {
     },
     {
       question: "Who evaluates student project submissions?",
-      answer: "Project deliverables are evaluated directly by our founding team led by Rambilas Sah (Founder & CEO), Puja Rouniyar (Co-Founder & COO), and Rohit Sah (Co-Founder & CTO) using our 5-criteria evaluation framework."
+      answer: "Project deliverables are evaluated directly by our founding team led by Rohit Sah (Founder & CEO), Rambilas Sah (Co-Founder), and Puja Rouniyar (Co-Founder & COO) using our 5-criteria evaluation framework."
     },
     {
       question: "What are the 5 criteria used for project grading?",

@@ -124,6 +124,9 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
   const [errorMsg, setErrorMsg] = useState('');
   const [forgotEmail, setForgotEmail] = useState('');
   const [forgotSent, setForgotSent] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState('');
+  const [unverifiedEmail, setUnverifiedEmail] = useState('');
+  const [resendStatus, setResendStatus] = useState('');
 
   // Unified Role-Agnostic Login
   const handleLoginSubmit = async (e) => {
@@ -138,7 +141,12 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
         onClose();
       }
     } catch (err) {
-      setErrorMsg(err.message || 'Login failed. Please check your email and password.');
+      if (err.requiresVerification || (err.message && err.message.includes('verify your email'))) {
+        setUnverifiedEmail(loginEmail.trim().toLowerCase());
+        setErrorMsg('Please verify your email address before logging in.');
+      } else {
+        setErrorMsg(err.message || 'Login failed. Please check your email and password.');
+      }
     } finally {
       setLoading(false);
     }
@@ -180,7 +188,10 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
         fieldOfStudy: studentData.fieldOfStudy.trim()
       });
 
-      if (res && res.user) {
+      if (res && res.requiresVerification) {
+        setRegisteredEmail(studentData.email.trim().toLowerCase());
+        setAuthMode('verify_notice');
+      } else if (res && res.user) {
         if (onAuthSuccess) onAuthSuccess(res.user);
         onClose();
       }
@@ -212,7 +223,10 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
         password: clientData.password
       });
 
-      if (res && res.user) {
+      if (res && res.requiresVerification) {
+        setRegisteredEmail(clientData.email.trim().toLowerCase());
+        setAuthMode('verify_notice');
+      } else if (res && res.user) {
         if (onAuthSuccess) onAuthSuccess(res.user);
         onClose();
       }
@@ -383,6 +397,33 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
               {loading ? 'Authenticating...' : 'Sign In ➔'}
             </button>
 
+            {/* Unverified Email Warning & Resend Button */}
+            {unverifiedEmail && (
+              <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '12px', padding: '0.85rem 1rem', textAlign: 'center' }}>
+                <p style={{ color: '#b45309', fontSize: '0.85rem', fontWeight: '700', margin: '0 0 0.5rem' }}>
+                  ✉️ Email Verification Required
+                </p>
+                <p style={{ color: '#92400e', fontSize: '0.8rem', margin: '0 0 0.75rem', lineHeight: '1.4' }}>
+                  Please check your inbox for <strong>{unverifiedEmail}</strong> and click the link to activate your account.
+                </p>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      await api.resendVerification(unverifiedEmail);
+                      setResendStatus('Verification link resent!');
+                    } catch (e) {
+                      setResendStatus('Failed to resend link.');
+                    }
+                  }}
+                  style={{ background: '#f59e0b', color: '#ffffff', border: 'none', padding: '0.45rem 1rem', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '700', cursor: 'pointer' }}
+                >
+                  Resend Verification Email ✉️
+                </button>
+                {resendStatus && <p style={{ fontSize: '0.78rem', color: '#059669', fontWeight: '700', marginTop: '0.4rem', marginBottom: 0 }}>{resendStatus}</p>}
+              </div>
+            )}
+
             {/* Forgot Password Link */}
             <div style={{ textAlign: 'center' }}>
               <button
@@ -441,6 +482,44 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
                 </button>
               </form>
             )}
+          </div>
+        )}
+
+        {/* VERIFICATION NOTICE VIEW */}
+        {authMode === 'verify_notice' && (
+          <div style={{ textAlign: 'center', padding: '1.25rem 0' }}>
+            <div style={{ fontSize: '3.5rem', marginBottom: '0.75rem' }}>✉️</div>
+            <h3 style={{ fontSize: '1.35rem', color: '#0b0f19', fontWeight: '800', marginBottom: '0.5rem' }}>
+              Confirm Your Email Address!
+            </h3>
+            <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.6', marginBottom: '1.5rem' }}>
+              We sent a verification link to <strong>{registeredEmail}</strong>.<br />
+              Please check your email and click the confirmation link to activate your account.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center' }}>
+              <button
+                type="button"
+                onClick={async () => {
+                  try {
+                    await api.resendVerification(registeredEmail);
+                    setResendStatus('Verification email resent!');
+                  } catch (e) {
+                    setResendStatus('Failed to resend email.');
+                  }
+                }}
+                style={{ background: '#f8fafc', border: '1px solid #cbd5e1', color: '#334155', padding: '0.65rem 1.5rem', borderRadius: '99px', fontSize: '0.85rem', fontWeight: '700', cursor: 'pointer' }}
+              >
+                Resend Verification Email ✉️
+              </button>
+              {resendStatus && <span style={{ fontSize: '0.8rem', color: '#059669', fontWeight: '700' }}>{resendStatus}</span>}
+              <button
+                onClick={() => { setAuthMode('login'); setResendStatus(''); }}
+                className="btn-coral"
+                style={{ padding: '0.75rem 2rem', fontSize: '0.95rem' }}
+              >
+                Go to Login →
+              </button>
+            </div>
           </div>
         )}
 

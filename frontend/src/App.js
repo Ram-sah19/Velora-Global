@@ -8,6 +8,7 @@ import CertificateModal from './components/CertificateModal';
 import NotificationToast from './components/NotificationToast';
 import CookieBanner from './components/CookieBanner';
 import ResetPasswordModal from './components/ResetPasswordModal';
+import VerifyEmailModal from './components/VerifyEmailModal';
 
 // Unified Authentication Modal
 import AuthModal from './pages/Auth/AuthModal';
@@ -47,12 +48,15 @@ export default function App() {
   const [authInitialMode, setAuthInitialMode] = useState('login');
   const [showAdminRegisterModal, setShowAdminRegisterModal] = useState(false);
   const [resetToken, setResetToken] = useState(null);
+  const [verifyToken, setVerifyToken] = useState(null);
 
-  // Detect ?resetToken= in the URL when user clicks the email reset link
+  // Detect ?resetToken= or ?verifyToken= in the URL when user clicks email link
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const token = params.get('resetToken');
-    if (token) setResetToken(token);
+    const rToken = params.get('resetToken');
+    const vToken = params.get('verifyToken');
+    if (rToken) setResetToken(rToken);
+    if (vToken) setVerifyToken(vToken);
   }, []);
 
   // Scroll to top on tab switch
@@ -244,6 +248,21 @@ export default function App() {
           onClose={() => {
             setResetToken(null);
             window.history.replaceState({}, document.title, window.location.pathname);
+          }}
+        />
+      )}
+
+      {/* Email Verification Modal — opens automatically from email confirmation link (?verifyToken=...) */}
+      {verifyToken && (
+        <VerifyEmailModal
+          token={verifyToken}
+          onClose={() => {
+            setVerifyToken(null);
+            window.history.replaceState({}, document.title, window.location.pathname);
+          }}
+          onVerifySuccess={(user) => {
+            handleAuthSuccess(user);
+            setVerifyToken(null);
           }}
         />
       )}

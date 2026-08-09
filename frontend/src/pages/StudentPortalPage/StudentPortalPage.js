@@ -279,7 +279,7 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
 
                   {t.status === 'Submitted' && (
                     <div style={{ background: '#ecfdf5', padding: '0.75rem', borderRadius: '8px', border: '1px solid #10b981', color: '#059669', fontSize: '0.82rem', textAlign: 'center', fontWeight: '600' }}>
-                      ✓ Submitted — Awaiting Evaluation from Founder Rambilas Sah
+                      ✓ Submitted — Awaiting Evaluation from Executive Leadership
                     </div>
                   )}
 

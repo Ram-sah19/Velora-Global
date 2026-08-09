@@ -38,7 +38,7 @@ export default function StudentTermsModal({ onClose }) {
               1. Preamble & Binding Enrollment Contract
             </h3>
             <p>
-              By enrolling in any Practical Internship Track or Guided Training Program at Velora Global ("Company", "Platform"), you ("Student Candidate") enter into a legally binding agreement governed by company leadership under Founder & CEO <strong>Rambilas Sah</strong>, Co-Founder & COO <strong>Puja Rouniyar</strong>, and Co-Founder & CTO <strong>Rohit Sah</strong>. These terms govern your academic obligations, project deliverables, and credential eligibility.
+              By enrolling in any Practical Internship Track or Guided Training Program at Velora Global ("Company", "Platform"), you ("Student Candidate") enter into a legally binding agreement governed by company leadership under Founder & CEO <strong>Rohit Sah</strong>, Co-Founder <strong>Rambilas Sah</strong>, and Co-Founder & COO <strong>Puja Rouniyar</strong>. These terms govern your academic obligations, project deliverables, and credential eligibility.
             </p>
           </section>
 
