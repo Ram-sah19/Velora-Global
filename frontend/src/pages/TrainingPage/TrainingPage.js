@@ -9,13 +9,6 @@ const softwareDevSubDomains = [
   'Software Development'
 ];
 
-const excludedDomains = [
-  'Cybersecurity',
-  'Cloud & DevOps',
-  'Data Science',
-  'Mobile App Development'
-];
-
 const isExcludedProgram = (p) => {
   const text = ((p.domain || '') + " " + (p.title || '')).toLowerCase();
   return (

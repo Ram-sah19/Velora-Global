@@ -1,10 +1,15 @@
 {
   "name": "velora-global-platform",
   "version": "1.0.0",
-  "description": "Velora Global Internship & Career Development Platform",
+  "description": "Velora Global Microservices Platform",
   "scripts": {
-    "start:backend": "cd backend && npm start",
+    "start:gateway": "node services/api-gateway/server.js",
+    "start:user-service": "node services/user-service/server.js",
+    "start:program-service": "node services/program-service/server.js",
+    "start:application-service": "node services/application-service/server.js",
+    "start:task-service": "node services/task-service/server.js",
+    "start:services": "npx concurrently \"npm run start:user-service\" \"npm run start:program-service\" \"npm run start:application-service\" \"npm run start:task-service\" \"npm run start:gateway\"",
     "start:frontend": "cd frontend && npm start",
-    "start": "cd backend && npm start"
+    "start": "node services/api-gateway/server.js"
   }
 }

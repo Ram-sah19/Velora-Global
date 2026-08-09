@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
 import InternshipDetailsModal from './InternshipDetailsModal';
 
-const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/11D9YEYK13bavROGMxlvO35k46MzrDHTTiHFd-PQqfy4/preview";
-
 const softwareDevSubDomains = [
   'Frontend Development',
   'Backend Development',

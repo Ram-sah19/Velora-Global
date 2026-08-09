@@ -137,24 +137,37 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
 
           {/* Access Shield Lock Banner */}
           <div className="corporate-card" style={{ padding: '3rem 2.5rem', textAlign: 'center', background: '#ffffff', border: '2px dashed #fbbf24' }}>
-            <span className="badge badge-gold" style={{ marginBottom: '0.75rem' }}>Executive Verification Pipeline</span>
-            <h2 style={{ fontSize: '2.1rem', color: '#0b0f19', marginBottom: '0.75rem', fontWeight: '800' }}>
-              Application Sent for Admin Approval
+            <span className="badge badge-gold" style={{ marginBottom: '0.75rem', fontSize: '0.85rem' }}>Pending Approval</span>
+            <h2 style={{ fontSize: '2rem', color: '#0b0f19', marginBottom: '1.25rem', fontWeight: '800' }}>
+              Application Sent for Approval & Verification
             </h2>
 
             {pendingApp ? (
-              <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-                <p style={{ color: '#4b5563', fontSize: '1.05rem', lineHeight: '1.6', marginBottom: '1.5rem' }}>
-                  Your application for <strong>{pendingApp.programTitle}</strong> (<em>{pendingApp.selectedDuration || '1 Month'} {pendingApp.programTrack}</em>) has been sent for Super Admin review and verification.
+              <div style={{ maxWidth: '640px', margin: '0 auto', textAlign: 'left', lineHeight: '1.7', color: '#334155' }}>
+                <p style={{ fontSize: '1.05rem', fontWeight: '600', color: '#0b0f19', marginBottom: '1rem' }}>
+                  Your application has been successfully submitted and is currently pending approval and verification.
                 </p>
-                <div style={{ background: '#fffbeb', border: '1px solid #fde68a', padding: '1.25rem', borderRadius: '12px', color: '#92400e', fontSize: '0.92rem', textAlign: 'left', lineHeight: '1.6' }}>
-                  <strong>Verification & Access Notice:</strong> Once executive leadership verifies your application details and fee payment, your assigned project tasks, domain learning materials, and live <strong>{pendingApp.selectedDuration || '1 Month'}</strong> access timer will unlock here automatically!
+                <p style={{ fontSize: '0.95rem', marginBottom: '1rem', color: '#475569' }}>
+                  Our team is reviewing the information provided with your application. This process may take some time as we ensure that all submitted details are properly verified.
+                </p>
+                <p style={{ fontSize: '0.95rem', marginBottom: '1rem', color: '#475569' }}>
+                  Once the review is complete, you’ll be notified about the status of your application. If your application is approved, you’ll receive further information about the next steps and access to your application dashboard.
+                </p>
+                <p style={{ fontSize: '0.95rem', marginBottom: '1rem', color: '#475569' }}>
+                  There’s nothing you need to do at this moment. Please wait for the approval and keep an eye on your registered email or dashboard for updates.
+                </p>
+                <p style={{ fontSize: '0.95rem', marginBottom: '1.5rem', color: '#475569' }}>
+                  Thank you for your patience and for your interest in joining us. We’ll get back to you as soon as there is an update.
+                </p>
+
+                <div style={{ background: '#fffbeb', border: '1px solid #fde68a', padding: '0.9rem 1.25rem', borderRadius: '12px', color: '#92400e', fontSize: '0.92rem', fontWeight: '700', display: 'inline-block' }}>
+                  Status: 🟡 Pending Approval
                 </div>
               </div>
             ) : (
               <div>
                 <p style={{ color: '#64748b', fontSize: '1rem', lineHeight: '1.6', marginBottom: '1.75rem' }}>
-                  You have not submitted a program application yet. Explore Practical Internships or Training Programs to submit your application for Super Admin verification and approval.
+                  You have not submitted a program application yet. Explore Practical Internships or Training Programs to submit your application for approval and verification.
                 </p>
               </div>
             )}
