@@ -2,11 +2,11 @@ const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const User = require('../models/User');
 const { readLocalDb, writeLocalDb } = require('../db');
-const { sendPasswordResetEmail, sendVerificationEmail } = require('../services/emailService');
+const { sendPasswordResetEmail, sendVerificationEmail, sendOtpEmail } = require('../services/emailService');
 
 // 30-Day Session Duration
 const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
-const SALT_ROUNDS = 12;
+const SALT_ROUNDS = 10;
 
 /**
  * Strips sensitive fields before sending user data to the client.
@@ -257,31 +257,27 @@ exports.registerStudent = async (req, res) => {
 
     if (existing) {
       if (existing.isVerified === false && existing.userType !== 'superadmin' && existing.userType !== 'admin') {
-        const rawVerifyToken = crypto.randomBytes(32).toString('hex');
-        const hashedVerifyToken = crypto.createHash('sha256').update(rawVerifyToken).digest('hex');
-        const verifyExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
+        const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+        const hashedOtp = crypto.createHash('sha256').update(otpCode).digest('hex');
+        const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
 
         try {
-          await User.updateOne({ email: emailClean }, { verificationToken: hashedVerifyToken, verificationTokenExpiry: verifyExpiry });
+          await User.updateOne({ email: emailClean }, { verificationOtp: hashedOtp, verificationOtpExpiry: otpExpiry });
         } catch (e) {
           const db = readLocalDb();
           const localUser = (db.users || []).find(u => u.email === emailClean);
           if (localUser) {
-            localUser.verificationToken = hashedVerifyToken;
-            localUser.verificationTokenExpiry = verifyExpiry.toISOString();
+            localUser.verificationOtp = hashedOtp;
+            localUser.verificationOtpExpiry = otpExpiry.toISOString();
             writeLocalDb(db);
           }
         }
 
-        const frontendUrl = process.env.CLIENT_ORIGIN || 'http://localhost:3000';
-        const verifyUrl = `${frontendUrl}?verifyToken=${rawVerifyToken}`;
-        try {
-          await sendVerificationEmail(emailClean, verifyUrl, existing.name);
-        } catch (err) {}
+        sendOtpEmail(emailClean, otpCode, existing.name).catch(err => console.error('Failed to send OTP email:', err.message));
 
         return res.status(200).json({
-          message: 'Account registered but unverified. We resent a verification link to your email.',
-          requiresVerification: true,
+          message: 'Account registered but unverified. We sent a 6-digit verification code to your email.',
+          requiresOtp: true,
           email: emailClean
         });
       }
@@ -292,10 +288,10 @@ exports.registerStudent = async (req, res) => {
     const rawPassword = password || 'student123';
     const hashedPassword = await bcrypt.hash(rawPassword, SALT_ROUNDS);
 
-    // Generate Verification Token
-    const rawVerifyToken = crypto.randomBytes(32).toString('hex');
-    const hashedVerifyToken = crypto.createHash('sha256').update(rawVerifyToken).digest('hex');
-    const verifyExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+    // Generate 6-digit OTP code (valid for 10 minutes)
+    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const hashedOtp = crypto.createHash('sha256').update(otpCode).digest('hex');
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
     const newUser = {
       id: `user-student-${Date.now()}`,
@@ -310,8 +306,8 @@ exports.registerStudent = async (req, res) => {
       skills: skills || [],
       bio: bio || 'Eager to gain real-world project experience with Velora Global.',
       isVerified: false,
-      verificationToken: hashedVerifyToken,
-      verificationTokenExpiry: verifyExpiry
+      verificationOtp: hashedOtp,
+      verificationOtpExpiry: otpExpiry
     };
 
     let savedUser = newUser;
@@ -323,18 +319,12 @@ exports.registerStudent = async (req, res) => {
       writeLocalDb(db);
     }
 
-    // Send email verification link
-    const frontendUrl = process.env.CLIENT_ORIGIN || 'http://localhost:3000';
-    const verifyUrl = `${frontendUrl}?verifyToken=${rawVerifyToken}`;
-    try {
-      await sendVerificationEmail(emailClean, verifyUrl, name);
-    } catch (err) {
-      console.error('Failed to send verification email:', err.message);
-    }
+    // Send 6-digit OTP email in background asynchronously WITHOUT blocking HTTP response
+    sendOtpEmail(emailClean, otpCode, name).catch(err => console.error('Failed to send OTP email:', err.message));
 
     res.status(201).json({
-      message: 'Account created! Please check your email to verify your account before logging in.',
-      requiresVerification: true,
+      message: 'Account created! Enter the 6-digit code sent to your email (valid for 10 minutes).',
+      requiresOtp: true,
       email: emailClean
     });
   } catch (err) {
@@ -361,31 +351,27 @@ exports.registerClient = async (req, res) => {
 
     if (existing) {
       if (existing.isVerified === false && existing.userType !== 'superadmin' && existing.userType !== 'admin') {
-        const rawVerifyToken = crypto.randomBytes(32).toString('hex');
-        const hashedVerifyToken = crypto.createHash('sha256').update(rawVerifyToken).digest('hex');
-        const verifyExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
+        const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+        const hashedOtp = crypto.createHash('sha256').update(otpCode).digest('hex');
+        const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
 
         try {
-          await User.updateOne({ email: emailClean }, { verificationToken: hashedVerifyToken, verificationTokenExpiry: verifyExpiry });
+          await User.updateOne({ email: emailClean }, { verificationOtp: hashedOtp, verificationOtpExpiry: otpExpiry });
         } catch (e) {
           const db = readLocalDb();
           const localUser = (db.users || []).find(u => u.email === emailClean);
           if (localUser) {
-            localUser.verificationToken = hashedVerifyToken;
-            localUser.verificationTokenExpiry = verifyExpiry.toISOString();
+            localUser.verificationOtp = hashedOtp;
+            localUser.verificationOtpExpiry = otpExpiry.toISOString();
             writeLocalDb(db);
           }
         }
 
-        const frontendUrl = process.env.CLIENT_ORIGIN || 'http://localhost:3000';
-        const verifyUrl = `${frontendUrl}?verifyToken=${rawVerifyToken}`;
-        try {
-          await sendVerificationEmail(emailClean, verifyUrl, existing.name);
-        } catch (err) {}
+        sendOtpEmail(emailClean, otpCode, existing.name).catch(err => console.error('Failed to send OTP email:', err.message));
 
         return res.status(200).json({
-          message: 'Client account registered but unverified. We resent a verification link to your business email.',
-          requiresVerification: true,
+          message: 'Client account registered but unverified. We sent a 6-digit verification code to your business email.',
+          requiresOtp: true,
           email: emailClean
         });
       }
@@ -395,10 +381,10 @@ exports.registerClient = async (req, res) => {
     const rawPassword = password || 'client123';
     const hashedPassword = await bcrypt.hash(rawPassword, SALT_ROUNDS);
 
-    // Generate Verification Token
-    const rawVerifyToken = crypto.randomBytes(32).toString('hex');
-    const hashedVerifyToken = crypto.createHash('sha256').update(rawVerifyToken).digest('hex');
-    const verifyExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    // Generate 6-digit OTP code (valid for 10 minutes)
+    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const hashedOtp = crypto.createHash('sha256').update(otpCode).digest('hex');
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
     const newClient = {
       id: `user-client-${Date.now()}`,
@@ -412,8 +398,8 @@ exports.registerClient = async (req, res) => {
       avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(name)}`,
       bio: `Corporate partner representing ${companyName || 'Enterprise Partner'}`,
       isVerified: false,
-      verificationToken: hashedVerifyToken,
-      verificationTokenExpiry: verifyExpiry
+      verificationOtp: hashedOtp,
+      verificationOtpExpiry: otpExpiry
     };
 
     let savedClient = newClient;
@@ -425,17 +411,12 @@ exports.registerClient = async (req, res) => {
       writeLocalDb(db);
     }
 
-    const frontendUrl = process.env.CLIENT_ORIGIN || 'http://localhost:3000';
-    const verifyUrl = `${frontendUrl}?verifyToken=${rawVerifyToken}`;
-    try {
-      await sendVerificationEmail(emailClean, verifyUrl, name);
-    } catch (err) {
-      console.error('Failed to send verification email:', err.message);
-    }
+    // Send 6-digit OTP email in background asynchronously WITHOUT blocking HTTP response
+    sendOtpEmail(emailClean, otpCode, name).catch(err => console.error('Failed to send OTP email:', err.message));
 
     res.status(201).json({
-      message: 'Account created! Please check your email to verify your account before logging in.',
-      requiresVerification: true,
+      message: 'Client account created! Enter the 6-digit code sent to your business email (valid for 10 minutes).',
+      requiresOtp: true,
       email: emailClean
     });
   } catch (err) {
@@ -573,8 +554,125 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-// ─── VERIFY EMAIL ─────────────────────────────────────────────────────────────
-// Verifies user's email token and activates their account
+// ─── VERIFY 6-DIGIT OTP CODE (10-Minute Expiry) ────────────────────────────────
+exports.verifyOtp = async (req, res) => {
+  try {
+    const { email, otpCode } = req.body;
+    if (!email || !otpCode) {
+      return res.status(400).json({ error: 'Email and 6-digit code are required.' });
+    }
+
+    const emailClean = email.toLowerCase().trim();
+    const cleanOtp = otpCode.toString().trim();
+    const hashedOtp = crypto.createHash('sha256').update(cleanOtp).digest('hex');
+
+    let user;
+    try {
+      user = await User.findOne({ email: emailClean }).select('+verificationOtp +verificationOtpExpiry');
+    } catch (e) {
+      const db = readLocalDb();
+      user = (db.users || []).find(u => u.email === emailClean);
+    }
+
+    if (!user) {
+      return res.status(404).json({ error: 'Account not found with this email address.' });
+    }
+
+    if (user.isVerified) {
+      create30DaySession(res, user);
+      return res.json({ message: 'Account is already verified!', user: safeUser(user) });
+    }
+
+    // Check 10-Minute OTP Expiry
+    if (!user.verificationOtpExpiry || new Date(user.verificationOtpExpiry) < new Date()) {
+      return res.status(400).json({ error: 'The 6-digit verification code has expired after 10 minutes. Please click "Resend Code".' });
+    }
+
+    // Match OTP Code
+    if (user.verificationOtp !== hashedOtp && user.verificationOtp !== cleanOtp) {
+      return res.status(400).json({ error: 'Incorrect 6-digit verification code. Please check your email and try again.' });
+    }
+
+    // Activate Account
+    try {
+      await User.updateOne(
+        { email: emailClean },
+        { isVerified: true, verificationOtp: null, verificationOtpExpiry: null }
+      );
+    } catch (e) {
+      const db = readLocalDb();
+      const localUser = (db.users || []).find(u => u.email === emailClean);
+      if (localUser) {
+        localUser.isVerified = true;
+        localUser.verificationOtp = null;
+        localUser.verificationOtpExpiry = null;
+        writeLocalDb(db);
+      }
+    }
+
+    user.isVerified = true;
+    create30DaySession(res, user);
+
+    res.json({
+      message: 'Email verified successfully! Account activated.',
+      user: safeUser(user)
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Server error during OTP verification.' });
+  }
+};
+
+// ─── RESEND 6-DIGIT OTP CODE ──────────────────────────────────────────────────
+exports.resendOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ error: 'Email is required.' });
+
+    const emailClean = email.toLowerCase().trim();
+    let user;
+    try {
+      user = await User.findOne({ email: emailClean }).select('+verificationOtp +verificationOtpExpiry');
+    } catch (e) {
+      const db = readLocalDb();
+      user = (db.users || []).find(u => u.email === emailClean);
+    }
+
+    if (!user) {
+      return res.json({ message: 'If that email is registered, a new 6-digit code has been sent.' });
+    }
+
+    if (user.isVerified) {
+      return res.json({ message: 'This account is already verified. You can sign in.' });
+    }
+
+    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const hashedOtp = crypto.createHash('sha256').update(otpCode).digest('hex');
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+
+    try {
+      await User.updateOne(
+        { email: emailClean },
+        { verificationOtp: hashedOtp, verificationOtpExpiry: otpExpiry }
+      );
+    } catch (e) {
+      const db = readLocalDb();
+      const localUser = (db.users || []).find(u => u.email === emailClean);
+      if (localUser) {
+        localUser.verificationOtp = hashedOtp;
+        localUser.verificationOtpExpiry = otpExpiry.toISOString();
+        writeLocalDb(db);
+      }
+    }
+
+    sendOtpEmail(emailClean, otpCode, user.name).catch(err => console.error('Failed to resend OTP email:', err.message));
+
+    res.json({ message: 'A new 6-digit verification code has been sent to your email (valid for 10 minutes).' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to resend 6-digit verification code.' });
+  }
+};
+
+// ─── VERIFY EMAIL LINK ─────────────────────────────────────────────────────────────
 exports.verifyEmail = async (req, res) => {
   try {
     const { token } = req.body;

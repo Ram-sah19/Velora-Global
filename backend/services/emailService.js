@@ -219,4 +219,74 @@ async function sendVerificationEmail(toEmail, verifyUrl, name = 'New User') {
   });
 }
 
-module.exports = { sendPasswordResetEmail, sendVerificationEmail };
+/**
+ * Sends a branded 6-digit OTP verification code email (10-min expiry).
+ */
+async function sendOtpEmail(toEmail, otpCode, name = 'Valued User') {
+  const isPlaceholder = !process.env.EMAIL_USER || 
+                        !process.env.EMAIL_PASS || 
+                        process.env.EMAIL_USER.includes('your-gmail') || 
+                        process.env.EMAIL_PASS.includes('your-gmail-app-password');
+
+  if (isPlaceholder) {
+    console.log('\n================================================================');
+    console.log('🔑 [DEV MODE] 6-DIGIT OTP VERIFICATION CODE GENERATED:');
+    console.log(`To: ${toEmail}`);
+    console.log(`OTP Code: ${otpCode} (Valid for 10 Minutes)`);
+    console.log('================================================================\n');
+    return;
+  }
+
+  const transporter = createTransporter();
+
+  const html = `
+  <!DOCTYPE html>
+  <html>
+  <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+  <body style="margin:0;padding:0;background:#f1f5f9;font-family:'Segoe UI',Arial,sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f1f5f9;padding:40px 16px;">
+      <tr>
+        <td align="center">
+          <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:20px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+            <tr>
+              <td style="background:linear-gradient(135deg,#0b0f19 0%,#1e2940 100%);padding:32px 40px;text-align:center;">
+                <h1 style="color:#ffffff;font-size:26px;font-weight:800;margin:0;">🌐 Velora Global</h1>
+                <p style="color:#94a3b8;font-size:13px;margin:6px 0 0;">Internship &amp; Career Development Platform</p>
+              </td>
+            </tr>
+            <tr><td style="height:4px;background:linear-gradient(90deg,#2563eb,#3b82f6);"></td></tr>
+            <tr>
+              <td style="padding:40px;text-align:center;">
+                <p style="font-size:16px;color:#334155;margin:0 0 8px;">Hello, <strong>${name}</strong> 👋</p>
+                <h2 style="font-size:22px;color:#0b0f19;font-weight:800;margin:0 0 12px;">Your 6-Digit Verification Code</h2>
+                <p style="font-size:15px;color:#64748b;line-height:1.6;margin:0 0 24px;">
+                  Use the 6-digit verification code below to activate your Velora Global account. This code is valid for <strong>10 minutes</strong>.
+                </p>
+                <div style="background:#f1f5f9;border:2px dashed #2563eb;border-radius:14px;padding:20px;display:inline-block;margin-bottom:24px;">
+                  <span style="font-size:36px;font-weight:900;letter-spacing:10px;color:#2563eb;font-family:monospace;">${otpCode}</span>
+                </div>
+                <p style="font-size:13px;color:#94a3b8;margin:0;">Do not share this code with anyone.</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="background:#f8fafc;padding:24px 40px;border-top:1px solid #e2e8f0;text-align:center;">
+                <p style="font-size:12px;color:#94a3b8;margin:0;">© ${new Date().getFullYear()} Velora Global</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+  </html>
+  `;
+
+  await transporter.sendMail({
+    from: `"Velora Global" <${process.env.EMAIL_USER}>`,
+    to: toEmail,
+    subject: `🔑 Your Verification Code: ${otpCode}`,
+    html
+  });
+}
+
+module.exports = { sendPasswordResetEmail, sendVerificationEmail, sendOtpEmail };

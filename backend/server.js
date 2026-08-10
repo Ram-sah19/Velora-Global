@@ -75,18 +75,20 @@ app.use(express.json({ limit: '10kb' }));
 app.use(mongoSanitize());
 
 // ─── 5. RATE LIMITING — Login endpoint brute-force protection ─────────────────
+const isDev = process.env.NODE_ENV !== 'production';
+
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10,                   // Max 10 login attempts per 15 min per IP
+  max: isDev ? 500 : 20,     // 500 in dev, 20 in prod
   message: { error: 'Too many login attempts. Please wait 15 minutes and try again.' },
   standardHeaders: true,
   legacyHeaders: false
 });
 
 const registerLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 5,                    // Max 5 registrations per hour per IP
-  message: { error: 'Too many registration attempts. Please try again later.' },
+  windowMs: 1 * 60 * 1000,   // 1 minute
+  max: 40,                   // 40 registration attempts per minute per IP
+  message: { error: 'Too many registration attempts. Please wait 1 minute and try again.' },
   standardHeaders: true,
   legacyHeaders: false
 });

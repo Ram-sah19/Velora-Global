@@ -15,7 +15,9 @@ router.post('/login', userController.loginUser);
 router.post('/forgot-password', userController.forgotPassword);
 router.post('/reset-password', userController.resetPassword);
 router.post('/verify-email', userController.verifyEmail);
+router.post('/verify-otp', userController.verifyOtp);
 router.post('/resend-verification', userController.resendVerification);
+router.post('/resend-otp', userController.resendOtp);
 
 // Admin-protected routes
 router.get('/', requireAdmin, userController.getUsers);

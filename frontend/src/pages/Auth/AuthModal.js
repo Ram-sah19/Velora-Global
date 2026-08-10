@@ -127,6 +127,31 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
   const [registeredEmail, setRegisteredEmail] = useState('');
   const [unverifiedEmail, setUnverifiedEmail] = useState('');
   const [resendStatus, setResendStatus] = useState('');
+  const [otpInput, setOtpInput] = useState('');
+  const [otpLoading, setOtpLoading] = useState(false);
+
+  const handleOtpSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMsg('');
+    if (!otpInput || otpInput.trim().length !== 6) {
+      setErrorMsg('Please enter the 6-digit verification code sent to your email.');
+      return;
+    }
+
+    setOtpLoading(true);
+    try {
+      const targetEmail = registeredEmail || unverifiedEmail || loginEmail;
+      const res = await api.verifyOtp(targetEmail, otpInput.trim());
+      if (res && res.user) {
+        if (onAuthSuccess) onAuthSuccess(res.user);
+        onClose();
+      }
+    } catch (err) {
+      setErrorMsg(err.message || 'Incorrect 6-digit code or code expired (10 min limit).');
+    } finally {
+      setOtpLoading(false);
+    }
+  };
 
   // Unified Role-Agnostic Login
   const handleLoginSubmit = async (e) => {
@@ -142,8 +167,10 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
       }
     } catch (err) {
       if (err.requiresVerification || (err.message && err.message.includes('verify your email'))) {
+        setRegisteredEmail(loginEmail.trim().toLowerCase());
         setUnverifiedEmail(loginEmail.trim().toLowerCase());
-        setErrorMsg('Please verify your email address before logging in.');
+        setAuthMode('verify_otp');
+        setErrorMsg('Please enter the 6-digit verification code sent to your email (valid for 10 minutes).');
       } else {
         setErrorMsg(err.message || 'Login failed. Please check your email and password.');
       }
@@ -188,15 +215,20 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
         fieldOfStudy: studentData.fieldOfStudy.trim()
       });
 
-      if (res && res.requiresVerification) {
+      if (res && (res.requiresOtp || res.requiresVerification)) {
         setRegisteredEmail(studentData.email.trim().toLowerCase());
-        setAuthMode('verify_notice');
+        setAuthMode('verify_otp');
       } else if (res && res.user) {
         if (onAuthSuccess) onAuthSuccess(res.user);
         onClose();
       }
     } catch (err) {
-      setErrorMsg(err.message || 'Student registration failed.');
+      if (err.requiresVerification || err.requiresOtp) {
+        setRegisteredEmail(studentData.email.trim().toLowerCase());
+        setAuthMode('verify_otp');
+      } else {
+        setErrorMsg(err.message || 'Student registration failed.');
+      }
     } finally {
       setLoading(false);
     }
@@ -223,15 +255,20 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
         password: clientData.password
       });
 
-      if (res && res.requiresVerification) {
+      if (res && (res.requiresOtp || res.requiresVerification)) {
         setRegisteredEmail(clientData.email.trim().toLowerCase());
-        setAuthMode('verify_notice');
+        setAuthMode('verify_otp');
       } else if (res && res.user) {
         if (onAuthSuccess) onAuthSuccess(res.user);
         onClose();
       }
     } catch (err) {
-      setErrorMsg(err.message || 'Corporate client registration failed.');
+      if (err.requiresVerification || err.requiresOtp) {
+        setRegisteredEmail(clientData.email.trim().toLowerCase());
+        setAuthMode('verify_otp');
+      } else {
+        setErrorMsg(err.message || 'Corporate client registration failed.');
+      }
     } finally {
       setLoading(false);
     }
@@ -489,42 +526,87 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
           </div>
         )}
 
-        {/* VERIFICATION NOTICE VIEW */}
-        {authMode === 'verify_notice' && (
-          <div style={{ textAlign: 'center', padding: '1.25rem 0' }}>
-            <div style={{ fontSize: '3.5rem', marginBottom: '0.75rem' }}>✉️</div>
-            <h3 style={{ fontSize: '1.35rem', color: '#0b0f19', fontWeight: '800', marginBottom: '0.5rem' }}>
-              Confirm Your Email Address!
-            </h3>
-            <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.6', marginBottom: '1.5rem' }}>
-              We sent a verification link to <strong>{registeredEmail}</strong>.<br />
-              Please check your email and click the confirmation link to activate your account.
-            </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center' }}>
+        {/* 6-DIGIT OTP VERIFICATION VIEW (10-Minute Expiry) */}
+        {(authMode === 'verify_otp' || authMode === 'verify_notice') && (
+          <form onSubmit={handleOtpSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', textAlign: 'center', padding: '1rem 0' }}>
+            <div>
+              <span className="badge badge-blue" style={{ marginBottom: '0.5rem' }}>10-Minute Security OTP</span>
+              <h3 style={{ fontSize: '1.4rem', color: '#0b0f19', fontWeight: '800', marginBottom: '0.35rem' }}>
+                Enter 6-Digit Code
+              </h3>
+              <p style={{ color: '#64748b', fontSize: '0.88rem', lineHeight: '1.5' }}>
+                We sent a 6-digit verification code to <strong>{registeredEmail || unverifiedEmail || loginEmail}</strong>.<br />
+                The code is valid for <strong>10 minutes</strong>.
+              </p>
+            </div>
+
+            <div>
+              <input
+                type="text"
+                required
+                maxLength={6}
+                placeholder="1 2 3 4 5 6"
+                value={otpInput}
+                onChange={(e) => setOtpInput(e.target.value.replace(/\D/g, ''))}
+                style={{
+                  fontSize: '1.8rem',
+                  letterSpacing: '0.4em',
+                  textAlign: 'center',
+                  fontWeight: '900',
+                  padding: '0.75rem',
+                  borderRadius: '14px',
+                  border: '2px solid #2563eb',
+                  background: '#f8fafc',
+                  fontFamily: 'monospace',
+                  width: '100%',
+                  maxWidth: '280px',
+                  margin: '0 auto'
+                }}
+              />
+            </div>
+
+            {errorMsg && (
+              <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px', padding: '0.75rem 1rem', color: '#dc2626', fontSize: '0.85rem', fontWeight: '600' }}>
+                {errorMsg}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={otpLoading}
+              className="btn-primary"
+              style={{ padding: '0.85rem 2rem', fontSize: '1rem', fontWeight: '800', width: '100%' }}
+            >
+              {otpLoading ? 'Verifying Code...' : 'Verify Code & Sign In ➔'}
+            </button>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.5rem' }}>
               <button
                 type="button"
                 onClick={async () => {
                   try {
-                    await api.resendVerification(registeredEmail);
-                    setResendStatus('Verification email resent!');
+                    const target = registeredEmail || unverifiedEmail || loginEmail;
+                    await api.resendOtp(target);
+                    setErrorMsg('');
+                    alert('A new 6-digit verification code has been sent to your email (valid for 10 minutes).');
                   } catch (e) {
-                    setResendStatus('Failed to resend email.');
+                    setErrorMsg('Failed to resend 6-digit code. Please try again.');
                   }
                 }}
-                style={{ background: '#f8fafc', border: '1px solid #cbd5e1', color: '#334155', padding: '0.65rem 1.5rem', borderRadius: '99px', fontSize: '0.85rem', fontWeight: '700', cursor: 'pointer' }}
+                style={{ background: 'none', border: 'none', color: '#2563eb', fontSize: '0.85rem', fontWeight: '700', cursor: 'pointer' }}
               >
-                Resend Verification Email ✉️
+                Resend Code ✉️
               </button>
-              {resendStatus && <span style={{ fontSize: '0.8rem', color: '#059669', fontWeight: '700' }}>{resendStatus}</span>}
+
               <button
-                onClick={() => { setAuthMode('login'); setResendStatus(''); }}
-                className="btn-coral"
-                style={{ padding: '0.75rem 2rem', fontSize: '0.95rem' }}
+                type="button"
+                onClick={() => { setAuthMode('login'); setErrorMsg(''); }}
+                style={{ background: 'none', border: 'none', color: '#64748b', fontSize: '0.85rem', cursor: 'pointer' }}
               >
-                Go to Login →
+                ← Back to Sign In
               </button>
             </div>
-          </div>
+          </form>
         )}
 
         {/* ROLE-BASED SIGNUP FORM */}

@@ -42,6 +42,8 @@ export const api = {
   getCurrentUser: () => request('/users/me'),
   logoutUser: () => request('/users/logout', { method: 'POST' }),
   deleteUser: (id) => request(`/users/${encodeURIComponent(id)}`, { method: 'DELETE' }),
+  verifyOtp: (email, otpCode) => request('/users/verify-otp', { method: 'POST', body: JSON.stringify({ email, otpCode }) }),
+  resendOtp: (email) => request('/users/resend-otp', { method: 'POST', body: JSON.stringify({ email }) }),
 
   // Programs
   getPrograms: (domain = '', search = '') => request(`/programs?domain=${encodeURIComponent(domain)}&search=${encodeURIComponent(search)}`),
