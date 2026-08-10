@@ -245,10 +245,10 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
         style={{
           maxWidth: '540px',
           width: '100%',
-          maxHeight: '90vh',
+          maxHeight: '92vh',
           overflowY: 'auto',
           borderRadius: '24px',
-          padding: '2.25rem 2rem',
+          padding: '1.5rem 1.25rem',
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
           animation: 'modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
         }}
@@ -292,7 +292,11 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
 
         {errorMsg && (
           <div style={{ padding: '0.85rem 1rem', background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: '10px', color: '#dc2626', fontSize: '0.85rem', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span>⚠️</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
             <span>{errorMsg}</span>
           </div>
         )}

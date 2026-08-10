@@ -135,7 +135,7 @@ export default function HeroSection({ onExploreClick }) {
         {/* Top Hero Split Layout */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: '3rem',
           alignItems: 'center',
           marginBottom: '4rem'
@@ -150,7 +150,7 @@ export default function HeroSection({ onExploreClick }) {
             </div>
 
             <h1 style={{
-              fontSize: '3.4rem',
+              fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
               lineHeight: '1.15',
               fontWeight: '800',
               color: '#0b0f19',
@@ -178,10 +178,11 @@ export default function HeroSection({ onExploreClick }) {
           </div>
 
           {/* Right Hero Graphic / Arch Portrait Container */}
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
             <div style={{
               position: 'relative',
-              width: '380px',
+              width: '100%',
+              maxWidth: '380px',
               height: '420px',
               borderRadius: '200px 200px 24px 24px',
               background: 'linear-gradient(180deg, #dbeafe 0%, #2563eb 100%)',
@@ -288,12 +289,13 @@ export default function HeroSection({ onExploreClick }) {
           </div>
 
           {/* Category Filter Pills */}
-          <div style={{
+          <div className="horizontal-scroll-mobile" style={{
             display: 'flex',
-            justify: 'center',
+            justifyContent: 'center',
             gap: '0.75rem',
-            flexWrap: 'wrap',
-            marginBottom: '2.5rem'
+            marginBottom: '2.5rem',
+            paddingBottom: '0.5rem',
+            width: '100%'
           }}>
             {categories.map((cat) => (
               <button
@@ -310,7 +312,8 @@ export default function HeroSection({ onExploreClick }) {
                   background: activeCategory === cat.id ? '#0b0f19' : '#ffffff',
                   color: activeCategory === cat.id ? '#ffffff' : '#64748b',
                   border: activeCategory === cat.id ? '1px solid #0b0f19' : '1px solid #cbd5e1',
-                  boxShadow: activeCategory === cat.id ? 'var(--shadow-md)' : 'none'
+                  boxShadow: activeCategory === cat.id ? 'var(--shadow-md)' : 'none',
+                  whiteSpace: 'nowrap'
                 }}
               >
                 {cat.label}
@@ -321,7 +324,7 @@ export default function HeroSection({ onExploreClick }) {
           {/* Interactive Showcase Hub Split Canvas */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'minmax(280px, 1fr) minmax(360px, 1.6fr)',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
             gap: '2rem',
             alignItems: 'stretch'
           }}>

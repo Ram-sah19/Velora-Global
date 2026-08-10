@@ -88,7 +88,7 @@ export default function ClientPrivacyModal({ onClose }) {
               6. Executive Founder Privacy Escalation Contact
             </h3>
             <p>
-              For privacy audits, NDA signing requests, or security inquiries, corporate clients can contact executive leadership directly at <strong>ram6070246@gmail.com</strong> or <strong>support@veloraglobal.com</strong>.
+              For privacy audits, NDA signing requests, or security inquiries, corporate clients can contact corporate services directly at <strong>contact@velora-global.online</strong> or <strong>support@velora-global.online</strong>.
             </p>
           </section>
 

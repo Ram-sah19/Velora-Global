@@ -73,7 +73,7 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
     setSubmitting(true);
     try {
       await api.submitTask(selectedTask.id, submissionForm);
-      alert('🎉 Project submitted successfully! The Velora Global team will evaluate your work.');
+      alert('Project submitted successfully! The Velora Global team will evaluate your work.');
       setShowSubmitModal(false);
       loadStudentData();
     } catch (err) {

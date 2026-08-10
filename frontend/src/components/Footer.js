@@ -116,9 +116,19 @@ export default function Footer({ setActiveTab }) {
           {/* Contact */}
           <div>
             <h4 style={{ color: '#ffffff', fontSize: '1.05rem', marginBottom: '1rem' }}>Contact & Support</h4>
-            <p style={{ fontSize: '0.88rem', marginBottom: '0.5rem', color: '#94a3b8' }}>Email: support@veloraglobal.com</p>
-            <p style={{ fontSize: '0.88rem', marginBottom: '0.5rem', color: '#94a3b8' }}>Website: www.veloraglobal.com</p>
-            <p style={{ fontSize: '0.88rem', color: '#94a3b8' }}>Global Career & Technical Services Desk</p>
+            <p style={{ fontSize: '0.85rem', marginBottom: '0.35rem', color: '#94a3b8' }}>
+              <strong>Support:</strong> <a href="mailto:support@velora-global.online" style={{ color: '#60a5fa' }}>support@velora-global.online</a>
+            </p>
+            <p style={{ fontSize: '0.85rem', marginBottom: '0.35rem', color: '#94a3b8' }}>
+              <strong>Corporate:</strong> <a href="mailto:contact@velora-global.online" style={{ color: '#60a5fa' }}>contact@velora-global.online</a>
+            </p>
+            <p style={{ fontSize: '0.85rem', marginBottom: '0.35rem', color: '#94a3b8' }}>
+              <strong>HR Desk:</strong> <a href="mailto:hr@velora-global.online" style={{ color: '#60a5fa' }}>hr@velora-global.online</a>
+            </p>
+            <p style={{ fontSize: '0.85rem', marginBottom: '0.35rem', color: '#94a3b8' }}>
+              <strong>General:</strong> <a href="mailto:info@velora-global.online" style={{ color: '#60a5fa' }}>info@velora-global.online</a>
+            </p>
+            <p style={{ fontSize: '0.8rem', color: '#64748b', marginTop: '0.5rem' }}>Website: velora-global.online</p>
           </div>
 
         </div>

@@ -11,6 +11,7 @@ export default function Navbar({
 }) {
   const [showServicesDropdown, setShowServicesDropdown] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const dropdownRef = useRef(null);
   const userDropdownRef = useRef(null);
@@ -71,16 +72,16 @@ export default function Navbar({
       borderBottom: '1px solid #e2e8f0',
       padding: '0.85rem 0'
     }}>
-      <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'nowrap', width: '100%' }}>
         
         {/* Brand Logo Component — clicking returns to homepage & scrolls to Hero top */}
         <div onClick={handleLogoClick} style={{ cursor: 'pointer' }} title="Return to Homepage">
           <VeloraLogo width={44} height={44} textColor="#0b0f19" />
         </div>
 
-        {/* Clean Executive Navbar Tabs for Super Admin */}
+        {/* Clean Executive Navbar Tabs for Super Admin (Desktop Only) */}
         {isSuperAdmin ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', background: '#f1f5f9', padding: '0.3rem 0.4rem', borderRadius: '9999px', border: '1px solid #e2e8f0' }}>
+          <div className="desktop-nav">
             <button 
               onClick={() => setActiveTab('admin')}
               style={{
@@ -89,7 +90,8 @@ export default function Navbar({
                 fontSize: '0.88rem',
                 fontWeight: '800',
                 background: activeTab === 'admin' ? '#2563eb' : 'transparent',
-                color: activeTab === 'admin' ? '#ffffff' : '#64748b'
+                color: activeTab === 'admin' ? '#ffffff' : '#64748b',
+                whiteSpace: 'nowrap'
               }}
             >
               Super Admin Dashboard
@@ -103,15 +105,16 @@ export default function Navbar({
                 fontSize: '0.88rem',
                 fontWeight: '600',
                 background: activeTab !== 'admin' ? '#64748b' : 'transparent',
-                color: activeTab !== 'admin' ? '#ffffff' : '#64748b'
+                color: activeTab !== 'admin' ? '#ffffff' : '#64748b',
+                whiteSpace: 'nowrap'
               }}
             >
               Preview Public Website ➔
             </button>
           </div>
         ) : (
-          /* Standard Navigation Tabs for Visitors & Candidates */
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', background: '#f1f5f9', padding: '0.3rem 0.4rem', borderRadius: '9999px', border: '1px solid #e2e8f0' }}>
+          /* Standard Navigation Tabs for Visitors & Candidates (Desktop Only) */
+          <div className="desktop-nav">
             <button 
               onClick={() => setActiveTab('home')}
               style={{
@@ -120,7 +123,8 @@ export default function Navbar({
                 fontSize: '0.88rem',
                 fontWeight: '600',
                 background: activeTab === 'home' ? '#2563eb' : 'transparent',
-                color: activeTab === 'home' ? '#ffffff' : '#64748b'
+                color: activeTab === 'home' ? '#ffffff' : '#64748b',
+                whiteSpace: 'nowrap'
               }}
             >
               Home
@@ -148,7 +152,8 @@ export default function Navbar({
                     color: activeTab === 'services' ? '#ffffff' : '#64748b',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '0.3rem'
+                    gap: '0.3rem',
+                    whiteSpace: 'nowrap'
                   }}
                 >
                   Services ▾
@@ -216,7 +221,8 @@ export default function Navbar({
                 fontSize: '0.88rem',
                 fontWeight: '600',
                 background: activeTab === 'team' ? '#2563eb' : 'transparent',
-                color: activeTab === 'team' ? '#ffffff' : '#64748b'
+                color: activeTab === 'team' ? '#ffffff' : '#64748b',
+                whiteSpace: 'nowrap'
               }}
             >
               Our Team
@@ -232,7 +238,8 @@ export default function Navbar({
                     fontSize: '0.88rem',
                     fontWeight: '600',
                     background: activeTab === 'internships' ? '#ff6b6b' : 'transparent',
-                    color: activeTab === 'internships' ? '#ffffff' : '#64748b'
+                    color: activeTab === 'internships' ? '#ffffff' : '#64748b',
+                    whiteSpace: 'nowrap'
                   }}
                 >
                   Explore Internships
@@ -246,7 +253,8 @@ export default function Navbar({
                     fontSize: '0.88rem',
                     fontWeight: '600',
                     background: activeTab === 'training' ? '#2563eb' : 'transparent',
-                    color: activeTab === 'training' ? '#ffffff' : '#64748b'
+                    color: activeTab === 'training' ? '#ffffff' : '#64748b',
+                    whiteSpace: 'nowrap'
                   }}
                 >
                   Training Programs
@@ -260,7 +268,8 @@ export default function Navbar({
                     fontSize: '0.88rem',
                     fontWeight: '600',
                     background: activeTab === 'student' ? '#2563eb' : 'transparent',
-                    color: activeTab === 'student' ? '#ffffff' : '#64748b'
+                    color: activeTab === 'student' ? '#ffffff' : '#64748b',
+                    whiteSpace: 'nowrap'
                   }}
                 >
                   Student Workspace
@@ -278,10 +287,11 @@ export default function Navbar({
                   fontWeight: '800',
                   background: activeTab === 'client' ? '#f94d4d' : 'transparent',
                   color: activeTab === 'client' ? '#ffffff' : '#f94d4d',
-                  border: '1.5px solid #f94d4d'
+                  border: '1.5px solid #f94d4d',
+                  whiteSpace: 'nowrap'
                 }}
               >
-                🏢 Corporate Profile
+                Corporate Profile
               </button>
             )}
           </div>
@@ -421,7 +431,207 @@ export default function Navbar({
               Sign In / Register
             </button>
           )}
+          {/* Mobile & Tablet Hamburger Toggle Button (Shown on screens < 1024px) */}
+          <button
+            className="mobile-nav-toggle"
+            onClick={() => setIsMobileMenuOpen(prev => !prev)}
+            style={{
+              padding: '0.45rem 0.9rem',
+              borderRadius: '9999px',
+              border: '1px solid #cbd5e1',
+              background: '#ffffff',
+              color: '#0b0f19',
+              fontSize: '1rem',
+              fontWeight: '700',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              boxShadow: 'var(--shadow-sm)'
+            }}
+            title="Toggle Navigation Menu"
+          >
+            <span>{isMobileMenuOpen ? '✕' : '☰'}</span>
+            <span style={{ fontSize: '0.82rem' }}>Menu</span>
+          </button>
         </div>
+
+        {/* Mobile & Tablet Slide-Down Navigation Menu Drawer */}
+        {isMobileMenuOpen && (
+          <div className="mobile-menu-drawer" style={{
+            width: '100%',
+            background: '#ffffff',
+            border: '1px solid #e2e8f0',
+            borderRadius: '16px',
+            padding: '1rem',
+            marginTop: '0.75rem',
+            boxShadow: 'var(--shadow-lg)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.5rem',
+            animation: 'modalSlideUp 0.22s ease-out'
+          }}>
+            <button
+              onClick={() => {
+                setActiveTab('home');
+                setIsMobileMenuOpen(false);
+              }}
+              style={{
+                padding: '0.75rem 1rem',
+                borderRadius: '10px',
+                textAlign: 'left',
+                fontWeight: '700',
+                background: activeTab === 'home' ? '#eff6ff' : '#f8fafc',
+                color: activeTab === 'home' ? '#2563eb' : '#0b0f19',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              Home Overview
+            </button>
+
+            <button
+              onClick={() => {
+                setActiveTab('services');
+                setIsMobileMenuOpen(false);
+              }}
+              style={{
+                padding: '0.75rem 1rem',
+                borderRadius: '10px',
+                textAlign: 'left',
+                fontWeight: '700',
+                background: activeTab === 'services' ? '#eff6ff' : '#f8fafc',
+                color: activeTab === 'services' ? '#2563eb' : '#0b0f19',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              Enterprise Services
+            </button>
+
+            <button
+              onClick={() => {
+                setActiveTab('team');
+                setIsMobileMenuOpen(false);
+              }}
+              style={{
+                padding: '0.75rem 1rem',
+                borderRadius: '10px',
+                textAlign: 'left',
+                fontWeight: '700',
+                background: activeTab === 'team' ? '#eff6ff' : '#f8fafc',
+                color: activeTab === 'team' ? '#2563eb' : '#0b0f19',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              Our Executive Team
+            </button>
+
+            {!isClient && (
+              <>
+                <button
+                  onClick={() => {
+                    setActiveTab('internships');
+                    setIsMobileMenuOpen(false);
+                  }}
+                  style={{
+                    padding: '0.75rem 1rem',
+                    borderRadius: '10px',
+                    textAlign: 'left',
+                    fontWeight: '700',
+                    background: activeTab === 'internships' ? '#fff5f5' : '#f8fafc',
+                    color: activeTab === 'internships' ? '#ff6b6b' : '#0b0f19',
+                    border: 'none',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Explore Internships
+                </button>
+
+                <button
+                  onClick={() => {
+                    setActiveTab('training');
+                    setIsMobileMenuOpen(false);
+                  }}
+                  style={{
+                    padding: '0.75rem 1rem',
+                    borderRadius: '10px',
+                    textAlign: 'left',
+                    fontWeight: '700',
+                    background: activeTab === 'training' ? '#eff6ff' : '#f8fafc',
+                    color: activeTab === 'training' ? '#2563eb' : '#0b0f19',
+                    border: 'none',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Guided Training Programs
+                </button>
+
+                <button
+                  onClick={() => {
+                    setActiveTab('student');
+                    setIsMobileMenuOpen(false);
+                  }}
+                  style={{
+                    padding: '0.75rem 1rem',
+                    borderRadius: '10px',
+                    textAlign: 'left',
+                    fontWeight: '700',
+                    background: activeTab === 'student' ? '#eff6ff' : '#f8fafc',
+                    color: activeTab === 'student' ? '#2563eb' : '#0b0f19',
+                    border: 'none',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Student Workspace
+                </button>
+              </>
+            )}
+
+            {isClient && (
+              <button
+                onClick={() => {
+                  setActiveTab('client');
+                  setIsMobileMenuOpen(false);
+                }}
+                style={{
+                  padding: '0.75rem 1rem',
+                  borderRadius: '10px',
+                  textAlign: 'left',
+                  fontWeight: '700',
+                  background: activeTab === 'client' ? '#fff5f5' : '#f8fafc',
+                  color: '#f94d4d',
+                  border: '1px solid #f94d4d',
+                  cursor: 'pointer'
+                }}
+              >
+                Corporate Profile
+              </button>
+            )}
+
+            {isSuperAdmin && (
+              <button
+                onClick={() => {
+                  setActiveTab('admin');
+                  setIsMobileMenuOpen(false);
+                }}
+                style={{
+                  padding: '0.75rem 1rem',
+                  borderRadius: '10px',
+                  textAlign: 'left',
+                  fontWeight: '800',
+                  background: '#2563eb',
+                  color: '#ffffff',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                Super Admin Dashboard
+              </button>
+            )}
+          </div>
+        )}
 
       </div>
     </nav>

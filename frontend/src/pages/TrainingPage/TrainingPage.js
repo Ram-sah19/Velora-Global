@@ -180,21 +180,21 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser, 
         }}>
           
           {/* Search Bar Top */}
-          <form onSubmit={handleSearchSubmit} style={{ display: 'flex', gap: '0.5rem', width: '100%', maxWidth: '520px', margin: '0 auto' }}>
+          <form onSubmit={handleSearchSubmit} style={{ display: 'flex', gap: '0.5rem', width: '100%', maxWidth: '520px', margin: '0 auto', flexWrap: 'wrap' }}>
             <input 
               type="text" 
               placeholder="Search training track by domain, language, or tech stack..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ width: '100%', fontSize: '0.95rem' }}
+              style={{ flex: '1 1 200px', width: '100%', fontSize: '0.95rem' }}
             />
-            <button type="submit" className="btn-primary" style={{ padding: '0.65rem 1.4rem' }}>
+            <button type="submit" className="btn-primary" style={{ padding: '0.65rem 1.4rem', whiteSpace: 'nowrap' }}>
               Search Training Tracks
             </button>
           </form>
 
-          {/* Domain Filter Pills */}
-          <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+          {/* Domain Filter Pills — Horizontal swipeable bar on mobile */}
+          <div className="horizontal-scroll-mobile">
             {domains.map((dom) => (
               <button
                 key={dom}
@@ -207,7 +207,8 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser, 
                   background: selectedDomain === dom ? '#2563eb' : '#ffffff',
                   border: selectedDomain === dom ? '1px solid #2563eb' : '1px solid #e2e8f0',
                   color: selectedDomain === dom ? '#ffffff' : '#64748b',
-                  boxShadow: 'var(--shadow-sm)'
+                  boxShadow: 'var(--shadow-sm)',
+                  whiteSpace: 'nowrap'
                 }}
               >
                 {dom}
@@ -217,11 +218,12 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser, 
 
         </div>
 
-        {/* Programs Grid — Clean, Spacious & Uncluttered */}
+        {/* Programs Grid — Mobile & Tablet Adaptive Card Layout */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
-          gap: '1.75rem'
+          gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+          gap: '1.5rem',
+          width: '100%'
         }}>
           {programs.map((prog) => (
             <div key={prog.id} className="corporate-card" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>

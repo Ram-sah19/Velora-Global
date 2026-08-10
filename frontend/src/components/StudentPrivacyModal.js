@@ -88,7 +88,7 @@ export default function StudentPrivacyModal({ onClose }) {
               6. Data Access, Correction & Deletion Rights
             </h3>
             <p>
-              Students have full rights to inspect, update, or request the deletion of their personal information at any time. To exercise your privacy rights or update your records, contact executive leadership directly at <strong>ram6070246@gmail.com</strong> or <strong>support@veloraglobal.com</strong>.
+              Students have full rights to inspect, update, or request the deletion of their personal information at any time. To exercise your privacy rights or update your records, contact executive support at <strong>support@velora-global.online</strong> or <strong>info@velora-global.online</strong>.
             </p>
           </section>
 

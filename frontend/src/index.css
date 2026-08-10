@@ -297,3 +297,209 @@ input:focus, textarea:focus, select:focus {
     transform: translateY(0) scale(1);
   }
 }
+
+/* Comprehensive Responsive Utilities for Mobile & Tablet Devices */
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 1.25rem;
+  }
+
+  .grid-responsive {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  /* Responsive Headings */
+  h1 {
+    font-size: 2rem !important;
+    line-height: 1.25 !important;
+  }
+
+  h2 {
+    font-size: 1.6rem !important;
+    line-height: 1.3 !important;
+  }
+
+  h3 {
+    font-size: 1.3rem !important;
+  }
+
+  /* Mobile Button Padding & Touch Targets */
+  .btn-primary, .btn-secondary {
+    padding: 0.75rem 1.25rem !important;
+    font-size: 0.9rem !important;
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Responsive Modals */
+  .modal-overlay {
+    padding: 0.75rem;
+  }
+
+  .modal-content {
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+/* Horizontal Swipeable Scroll Pills for Mobile & Tablet */
+.horizontal-scroll-mobile {
+  display: flex !important;
+  overflow-x: auto !important;
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-bottom: 0.5rem !important;
+  justify-content: flex-start !important;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.horizontal-scroll-mobile::-webkit-scrollbar {
+  display: none;
+}
+
+.horizontal-scroll-mobile button,
+.horizontal-scroll-mobile div {
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+}
+
+/* Navbar Desktop vs Mobile/Tablet Visibility Rules */
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #f1f5f9;
+  padding: 0.3rem 0.4rem;
+  border-radius: 9999px;
+  border: 1px solid #e2e8f0;
+}
+
+.mobile-nav-toggle {
+  display: none !important;
+}
+
+@media (max-width: 1023px) {
+  .desktop-nav {
+    display: none !important;
+  }
+
+  .mobile-nav-toggle {
+    display: flex !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .desktop-nav {
+    display: flex !important;
+  }
+
+  .mobile-nav-toggle {
+    display: none !important;
+  }
+
+  .mobile-menu-drawer {
+    display: none !important;
+  }
+}
+
+/* Universal Mobile & Tablet Responsiveness System */
+
+@media (max-width: 1023px) {
+  /* Layout Padding & Margins */
+  section {
+    padding: 2.5rem 0 !important;
+  }
+
+  .container {
+    padding: 0 1rem !important;
+  }
+
+  /* Grid Auto Responsiveness for All Components */
+  div[style*="display: grid"],
+  div[style*="display:grid"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  /* Split Flex Columns Stack Vertically */
+  div[style*="display: flex"][style*="justify-content: space-between"] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+  }
+
+  /* Tables Responsive Horizontal Scroll Wrapper */
+  table {
+    display: block !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Modals Full Width Padding on Mobile & Tablet */
+  .modal-overlay {
+    padding: 0.5rem !important;
+  }
+
+  .modal-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 1.25rem !important;
+    border-radius: 16px !important;
+    max-height: 92vh !important;
+    overflow-y: auto !important;
+  }
+
+  /* Form Elements Touch Padding */
+  input, select, textarea {
+    width: 100% !important;
+    font-size: 0.95rem !important;
+  }
+
+  /* Badges & Pills Wrap Gracefully */
+  div[style*="flex-wrap: wrap"] {
+    gap: 0.5rem !important;
+  }
+
+  /* Footer Grid Stacking */
+  .global-footer div[style*="display: grid"] {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra Small Phone Sizing */
+  h1 {
+    font-size: 1.75rem !important;
+    line-height: 1.25 !important;
+  }
+
+  h2 {
+    font-size: 1.4rem !important;
+    line-height: 1.3 !important;
+  }
+
+  h3 {
+    font-size: 1.15rem !important;
+  }
+
+  /* Hero Leader Arch Portrait Scaling */
+  div[style*="borderRadius: 200px 200px 24px 24px"] {
+    height: 320px !important;
+  }
+}
