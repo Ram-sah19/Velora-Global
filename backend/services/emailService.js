@@ -10,7 +10,9 @@ function createTransporter() {
   const user = (process.env.EMAIL_USER || 'veloraglobal.hr@gmail.com').trim();
   const pass = (process.env.EMAIL_PASS || 'nadlcdqvobmmyggr').replace(/\s+/g, '').trim();
   return nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
       user,
       pass
