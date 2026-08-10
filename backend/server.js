@@ -45,17 +45,19 @@ app.use(helmet({
   contentSecurityPolicy: false      // CSP handled by Cloudflare on frontend
 }));
 
-// ─── 2. CORS — Strict Origin Matching ─────────────────────────────────────────
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:3001',
-  'http://127.0.0.1:3000',
-  process.env.CLIENT_ORIGIN    // e.g. https://velora-global.pages.dev on Cloudflare
-].filter(Boolean);
-
+// ─── 2. CORS — Dynamic & Production Domain Matching ─────────────────────────
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.some(o => origin.startsWith(o))) {
+    if (!origin) return callback(null, true);
+
+    const isAllowed = 
+      origin.includes('localhost') ||
+      origin.includes('127.0.0.1') ||
+      origin.includes('velora-global') ||
+      origin.endsWith('.pages.dev') ||
+      (process.env.CLIENT_ORIGIN && origin.startsWith(process.env.CLIENT_ORIGIN));
+
+    if (isAllowed) {
       callback(null, true);
     } else {
       callback(new Error(`CORS blocked: ${origin}`));
