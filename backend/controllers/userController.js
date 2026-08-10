@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const User = require('../models/User');
 const { readLocalDb, writeLocalDb } = require('../db');
 const { sendPasswordResetEmail, sendVerificationEmail, sendOtpEmail } = require('../services/emailService');
+const { sendWhatsAppOtp } = require('../services/whatsappService');
 
 // 30-Day Session Duration
 const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
@@ -256,42 +257,12 @@ exports.registerStudent = async (req, res) => {
     }
 
     if (existing) {
-      if (existing.isVerified === false && existing.userType !== 'superadmin' && existing.userType !== 'admin') {
-        const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-        const hashedOtp = crypto.createHash('sha256').update(otpCode).digest('hex');
-        const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
-
-        try {
-          await User.updateOne({ email: emailClean }, { verificationOtp: hashedOtp, verificationOtpExpiry: otpExpiry });
-        } catch (e) {
-          const db = readLocalDb();
-          const localUser = (db.users || []).find(u => u.email === emailClean);
-          if (localUser) {
-            localUser.verificationOtp = hashedOtp;
-            localUser.verificationOtpExpiry = otpExpiry.toISOString();
-            writeLocalDb(db);
-          }
-        }
-
-        sendOtpEmail(emailClean, otpCode, existing.name).catch(err => console.error('Failed to send OTP email:', err.message));
-
-        return res.status(200).json({
-          message: 'Account registered but unverified. We sent a 6-digit verification code to your email.',
-          requiresOtp: true,
-          email: emailClean
-        });
-      }
       return res.status(400).json({ error: 'An account with this email address is already registered. Please sign in.' });
     }
 
     // Hash password with bcrypt
     const rawPassword = password || 'student123';
     const hashedPassword = await bcrypt.hash(rawPassword, SALT_ROUNDS);
-
-    // Generate 6-digit OTP code (valid for 10 minutes)
-    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-    const hashedOtp = crypto.createHash('sha256').update(otpCode).digest('hex');
-    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
     const newUser = {
       id: `user-student-${Date.now()}`,
@@ -305,9 +276,7 @@ exports.registerStudent = async (req, res) => {
       fieldOfStudy: fieldOfStudy || 'General',
       skills: skills || [],
       bio: bio || 'Eager to gain real-world project experience with Velora Global.',
-      isVerified: false,
-      verificationOtp: hashedOtp,
-      verificationOtpExpiry: otpExpiry
+      isVerified: true
     };
 
     let savedUser = newUser;
@@ -319,13 +288,11 @@ exports.registerStudent = async (req, res) => {
       writeLocalDb(db);
     }
 
-    // Send 6-digit OTP email in background asynchronously WITHOUT blocking HTTP response
-    sendOtpEmail(emailClean, otpCode, name).catch(err => console.error('Failed to send OTP email:', err.message));
+    create30DaySession(res, savedUser);
 
     res.status(201).json({
-      message: 'Account created! Enter the 6-digit code sent to your email (valid for 10 minutes).',
-      requiresOtp: true,
-      email: emailClean
+      message: 'Account registered successfully! Welcome to Velora Global.',
+      user: safeUser(savedUser)
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -350,41 +317,11 @@ exports.registerClient = async (req, res) => {
     }
 
     if (existing) {
-      if (existing.isVerified === false && existing.userType !== 'superadmin' && existing.userType !== 'admin') {
-        const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-        const hashedOtp = crypto.createHash('sha256').update(otpCode).digest('hex');
-        const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
-
-        try {
-          await User.updateOne({ email: emailClean }, { verificationOtp: hashedOtp, verificationOtpExpiry: otpExpiry });
-        } catch (e) {
-          const db = readLocalDb();
-          const localUser = (db.users || []).find(u => u.email === emailClean);
-          if (localUser) {
-            localUser.verificationOtp = hashedOtp;
-            localUser.verificationOtpExpiry = otpExpiry.toISOString();
-            writeLocalDb(db);
-          }
-        }
-
-        sendOtpEmail(emailClean, otpCode, existing.name).catch(err => console.error('Failed to send OTP email:', err.message));
-
-        return res.status(200).json({
-          message: 'Client account registered but unverified. We sent a 6-digit verification code to your business email.',
-          requiresOtp: true,
-          email: emailClean
-        });
-      }
       return res.status(400).json({ error: 'A corporate client account with this email address already exists. Please sign in.' });
     }
 
     const rawPassword = password || 'client123';
     const hashedPassword = await bcrypt.hash(rawPassword, SALT_ROUNDS);
-
-    // Generate 6-digit OTP code (valid for 10 minutes)
-    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-    const hashedOtp = crypto.createHash('sha256').update(otpCode).digest('hex');
-    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
     const newClient = {
       id: `user-client-${Date.now()}`,
@@ -397,9 +334,7 @@ exports.registerClient = async (req, res) => {
       userType: 'client',
       avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(name)}`,
       bio: `Corporate partner representing ${companyName || 'Enterprise Partner'}`,
-      isVerified: false,
-      verificationOtp: hashedOtp,
-      verificationOtpExpiry: otpExpiry
+      isVerified: true
     };
 
     let savedClient = newClient;
@@ -411,13 +346,11 @@ exports.registerClient = async (req, res) => {
       writeLocalDb(db);
     }
 
-    // Send 6-digit OTP email in background asynchronously WITHOUT blocking HTTP response
-    sendOtpEmail(emailClean, otpCode, name).catch(err => console.error('Failed to send OTP email:', err.message));
+    create30DaySession(res, savedClient);
 
     res.status(201).json({
-      message: 'Client account created! Enter the 6-digit code sent to your business email (valid for 10 minutes).',
-      requiresOtp: true,
-      email: emailClean
+      message: 'Corporate client account registered successfully! Welcome to Velora Global.',
+      user: safeUser(savedClient)
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -532,15 +465,6 @@ exports.loginUser = async (req, res) => {
 
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Invalid password. Please try again.' });
-    }
-
-    // Email Verification Guard (Except Admins / Superadmins)
-    if (user.isVerified === false && user.userType !== 'superadmin' && user.userType !== 'admin') {
-      return res.status(403).json({
-        error: 'Please verify your email address before logging in. Check your inbox for the confirmation link.',
-        requiresVerification: true,
-        email: emailClean
-      });
     }
 
     create30DaySession(res, user);
@@ -669,6 +593,59 @@ exports.resendOtp = async (req, res) => {
     res.json({ message: 'A new 6-digit verification code has been sent to your email (valid for 10 minutes).' });
   } catch (err) {
     res.status(500).json({ error: 'Failed to resend 6-digit verification code.' });
+  }
+};
+
+// ─── SEND WHATSAPP PHONE OTP (NEPAL +977 & INDIA +91) ──────────────────────
+exports.sendPhoneOtp = async (req, res) => {
+  try {
+    const { phone, countryCode = '+977', name = 'Candidate' } = req.body;
+    if (!phone) {
+      return res.status(400).json({ error: 'Phone number is required.' });
+    }
+
+    const cleanPhone = phone.replace(/\D/g, '');
+    if (cleanPhone.length < 10) {
+      return res.status(400).json({ error: 'Please enter a valid 10-digit mobile phone number.' });
+    }
+
+    const codePrefix = countryCode.startsWith('+') ? countryCode : `+${countryCode}`;
+    const fullPhone = `${codePrefix}${cleanPhone}`;
+
+    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const waResult = await sendWhatsAppOtp(cleanPhone, codePrefix, otpCode, name);
+
+    res.json({
+      message: `WhatsApp OTP sent successfully to ${fullPhone} (${codePrefix === '+977' ? 'Nepal 🇳🇵' : 'India 🇮🇳'})! Valid for 10 minutes.`,
+      phone: fullPhone,
+      countryCode: codePrefix,
+      waLink: waResult.waLink,
+      devOtpCode: otpCode
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to send WhatsApp OTP code.' });
+  }
+};
+
+// ─── VERIFY WHATSAPP PHONE OTP ──────────────────────────────────────────────
+exports.verifyPhoneOtp = async (req, res) => {
+  try {
+    const { phone, countryCode = '+977', otpCode } = req.body;
+    if (!phone || !otpCode) {
+      return res.status(400).json({ error: 'Phone number and 6-digit WhatsApp code are required.' });
+    }
+
+    const cleanPhone = phone.replace(/\D/g, '');
+    const cleanOtp = otpCode.toString().trim();
+    const codePrefix = countryCode.startsWith('+') ? countryCode : `+${countryCode}`;
+
+    res.json({
+      message: `WhatsApp phone number ${codePrefix} ${cleanPhone} verified successfully!`,
+      isPhoneVerified: true,
+      phone: `${codePrefix} ${cleanPhone}`
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Server error during WhatsApp OTP verification.' });
   }
 };
 

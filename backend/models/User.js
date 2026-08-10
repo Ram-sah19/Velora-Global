@@ -20,7 +20,11 @@ const userSchema = new mongoose.Schema({
   verificationToken: { type: String, select: false },
   verificationTokenExpiry: { type: Date, select: false },
   verificationOtp: { type: String, select: false },
-  verificationOtpExpiry: { type: Date, select: false }
+  verificationOtpExpiry: { type: Date, select: false },
+  countryCode: { type: String, default: '+977' },
+  isPhoneVerified: { type: Boolean, default: false },
+  phoneOtp: { type: String, select: false },
+  phoneOtpExpiry: { type: Date, select: false }
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

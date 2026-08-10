@@ -18,6 +18,8 @@ router.post('/verify-email', userController.verifyEmail);
 router.post('/verify-otp', userController.verifyOtp);
 router.post('/resend-verification', userController.resendVerification);
 router.post('/resend-otp', userController.resendOtp);
+router.post('/send-phone-otp', userController.sendPhoneOtp);
+router.post('/verify-phone-otp', userController.verifyPhoneOtp);
 
 // Admin-protected routes
 router.get('/', requireAdmin, userController.getUsers);

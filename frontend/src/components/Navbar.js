@@ -7,6 +7,7 @@ export default function Navbar({
   onSelectServiceCategory, 
   currentUser, 
   onOpenAuth, 
+  onOpenPhoneOtp,
   onLogout 
 }) {
   const [showServicesDropdown, setShowServicesDropdown] = useState(false);
@@ -413,23 +414,47 @@ export default function Navbar({
               </div>
             </div>
           ) : (
-            <button
-              onClick={onOpenAuth}
-              style={{
-                background: '#f94d4d',
-                color: '#ffffff',
-                border: 'none',
-                borderRadius: '9999px',
-                padding: '0.5rem 1.25rem',
-                fontSize: '0.88rem',
-                fontWeight: '700',
-                cursor: 'pointer',
-                boxShadow: '0 4px 12px rgba(249, 77, 77, 0.3)',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              Sign In / Register
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              {onOpenPhoneOtp && (
+                <button
+                  onClick={onOpenPhoneOtp}
+                  style={{
+                    background: '#e8f5e9',
+                    color: '#1b5e20',
+                    border: '1px solid #a5d6a7',
+                    borderRadius: '9999px',
+                    padding: '0.48rem 0.95rem',
+                    fontSize: '0.82rem',
+                    fontWeight: '800',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  WhatsApp OTP 💬
+                </button>
+              )}
+
+              <button
+                onClick={onOpenAuth}
+                style={{
+                  background: '#f94d4d',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '9999px',
+                  padding: '0.5rem 1.25rem',
+                  fontSize: '0.88rem',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(249, 77, 77, 0.3)',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                Sign In / Register
+              </button>
+            </div>
           )}
           {/* Mobile & Tablet Hamburger Toggle Button (Shown on screens < 1024px) */}
           <button

@@ -44,6 +44,8 @@ export const api = {
   deleteUser: (id) => request(`/users/${encodeURIComponent(id)}`, { method: 'DELETE' }),
   verifyOtp: (email, otpCode) => request('/users/verify-otp', { method: 'POST', body: JSON.stringify({ email, otpCode }) }),
   resendOtp: (email) => request('/users/resend-otp', { method: 'POST', body: JSON.stringify({ email }) }),
+  sendPhoneOtp: (phone, countryCode, name) => request('/users/send-phone-otp', { method: 'POST', body: JSON.stringify({ phone, countryCode, name }) }),
+  verifyPhoneOtp: (phone, countryCode, otpCode) => request('/users/verify-phone-otp', { method: 'POST', body: JSON.stringify({ phone, countryCode, otpCode }) }),
 
   // Programs
   getPrograms: (domain = '', search = '') => request(`/programs?domain=${encodeURIComponent(domain)}&search=${encodeURIComponent(search)}`),

@@ -215,20 +215,12 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
         fieldOfStudy: studentData.fieldOfStudy.trim()
       });
 
-      if (res && (res.requiresOtp || res.requiresVerification)) {
-        setRegisteredEmail(studentData.email.trim().toLowerCase());
-        setAuthMode('verify_otp');
-      } else if (res && res.user) {
+      if (res && res.user) {
         if (onAuthSuccess) onAuthSuccess(res.user);
         onClose();
       }
     } catch (err) {
-      if (err.requiresVerification || err.requiresOtp) {
-        setRegisteredEmail(studentData.email.trim().toLowerCase());
-        setAuthMode('verify_otp');
-      } else {
-        setErrorMsg(err.message || 'Student registration failed.');
-      }
+      setErrorMsg(err.message || 'Student registration failed.');
     } finally {
       setLoading(false);
     }
@@ -255,20 +247,12 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
         password: clientData.password
       });
 
-      if (res && (res.requiresOtp || res.requiresVerification)) {
-        setRegisteredEmail(clientData.email.trim().toLowerCase());
-        setAuthMode('verify_otp');
-      } else if (res && res.user) {
+      if (res && res.user) {
         if (onAuthSuccess) onAuthSuccess(res.user);
         onClose();
       }
     } catch (err) {
-      if (err.requiresVerification || err.requiresOtp) {
-        setRegisteredEmail(clientData.email.trim().toLowerCase());
-        setAuthMode('verify_otp');
-      } else {
-        setErrorMsg(err.message || 'Corporate client registration failed.');
-      }
+      setErrorMsg(err.message || 'Corporate client registration failed.');
     } finally {
       setLoading(false);
     }
