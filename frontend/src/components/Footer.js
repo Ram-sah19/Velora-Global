@@ -44,8 +44,8 @@ export default function Footer({ setActiveTab }) {
               Empowering businesses with enterprise digital solutions and students with practical work experience & verified certifications.
             </p>
 
-            <span style={{ fontSize: '0.8rem', color: '#60a5fa', display: 'block', fontWeight: '600' }}>
-              Founded by Rohit Sah • Co-Founded by Rambilas Sah & Puja Rouniyar
+            <span style={{ fontSize: '0.8rem', color: 'rgb(96, 165, 250)', display: 'block', fontWeight: '600' }}>
+              Founded by Rohit Sah • Co-Founded by Krishna Sah & Puja Rouniyar
             </span>
           </div>
 

@@ -127,4 +127,15 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`🌐 Velora Global Backend Server running on port ${PORT}`);
   console.log(`🔒 Security: Helmet ✓ | Rate Limiting ✓ | NoSQL Sanitize ✓ | CORS Strict ✓`);
+
+  // ─── 10. CRON HEARTBEAT — Self Keep-Alive Ping Every 14 Minutes ─────────────
+  const https = require('https');
+  const PING_INTERVAL = 14 * 60 * 1000; // 14 minutes in milliseconds
+  setInterval(() => {
+    https.get('https://velora-global.onrender.com/api/health', (res) => {
+      console.log(`[CRON HEARTBEAT] Keep-alive ping sent to Render backend (Status: ${res.statusCode})`);
+    }).on('error', (err) => {
+      console.error('[CRON HEARTBEAT] Ping error:', err.message);
+    });
+  }, PING_INTERVAL);
 });

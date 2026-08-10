@@ -12,9 +12,9 @@ export default function TeamPage({ onExploreClick }) {
       email: ""
     },
     {
-      name: "Rambilas Sah",
+      name: "Krishna Sah",
       role: "Co-Founder",
-      image: "/media/rambilas_sah.jpg",
+      image: "/media/rambilas_sah.png",
       badge: "Co-Founder",
       bio: "Co-Founder dedicated to building Velora Global into a premier career bridge. Driving strategic growth, student success initiatives, university relations, and industry partner alignments.",
       expertise: ["Strategic Growth", "Industry Partnerships", "Career Pathways", "Student Success"],
