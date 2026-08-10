@@ -390,6 +390,29 @@ export default function Navbar({
                       : 'My Student Workspace ➔'}
                   </button>
 
+                  {/* WhatsApp Verification Shortcut */}
+                  {onOpenPhoneOtp && (
+                    <button
+                      onClick={() => {
+                        setShowUserDropdown(false);
+                        onOpenPhoneOtp();
+                      }}
+                      style={{
+                        padding: '0.55rem 0.75rem',
+                        borderRadius: '8px',
+                        border: '1px solid #a5d6a7',
+                        background: '#e8f5e9',
+                        color: '#1b5e20',
+                        fontSize: '0.82rem',
+                        fontWeight: '700',
+                        cursor: 'pointer',
+                        textAlign: 'left'
+                      }}
+                    >
+                      WhatsApp Phone OTP 💬
+                    </button>
+                  )}
+
                   {/* Logout Button */}
                   <button
                     onClick={() => {
