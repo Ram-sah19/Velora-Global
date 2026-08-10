@@ -117,6 +117,16 @@ app.use('/api/evaluations', evaluationRoutes);
 app.use('/api/certificates', certificateRoutes);
 app.use('/api/stats', statsRoutes);
 
+// ─── 8.1 SERVE REACT FRONTEND PRODUCTION BUILD ──────────────────────────────
+const frontendBuildPath = path.join(__dirname, '../frontend/build');
+if (fs.existsSync(frontendBuildPath)) {
+  app.use(express.static(frontendBuildPath));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(path.join(frontendBuildPath, 'index.html'));
+  });
+}
+
 // ─── 9. GLOBAL ERROR HANDLER ──────────────────────────────────────────────────
 app.use((err, req, res, next) => {
   console.error('Global Error:', err.message);
