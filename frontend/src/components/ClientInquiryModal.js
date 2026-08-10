@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { api } from '../services/api';
 
-const TARGET_EMAIL = "ram6070246@gmail.com";
+const TARGET_EMAIL = "contact@velora-global.online";
 
 export default function ClientInquiryModal({ defaultService = 'Web Application Development', currentUser, onClose }) {
   const [formData, setFormData] = useState({

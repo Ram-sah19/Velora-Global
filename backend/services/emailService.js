@@ -7,15 +7,16 @@ const nodemailer = require('nodemailer');
  * Guide: https://support.google.com/accounts/answer/185833
  */
 function createTransporter() {
-  const user = (process.env.EMAIL_USER || '').trim();
-  const pass = (process.env.EMAIL_PASS || '').replace(/\s+/g, '').trim();
+  const user = (process.env.EMAIL_USER || 'veloraglobal.hr@gmail.com').trim();
+  const pass = (process.env.EMAIL_PASS || 'nadlcdqvobmmyggr').replace(/\s+/g, '').trim();
   return nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // SSL
+    service: 'gmail',
     auth: {
       user,
       pass
+    },
+    tls: {
+      rejectUnauthorized: false
     }
   });
 }
@@ -223,21 +224,14 @@ async function sendVerificationEmail(toEmail, verifyUrl, name = 'New User') {
  * Sends a branded 6-digit OTP verification code email (10-min expiry).
  */
 async function sendOtpEmail(toEmail, otpCode, name = 'Valued User') {
-  const isPlaceholder = !process.env.EMAIL_USER || 
-                        !process.env.EMAIL_PASS || 
-                        process.env.EMAIL_USER.includes('your-gmail') || 
-                        process.env.EMAIL_PASS.includes('your-gmail-app-password');
+  console.log('\n================================================================');
+  console.log('🔑 [SECURITY OTP] 6-DIGIT VERIFICATION CODE GENERATED:');
+  console.log(`To: ${toEmail}`);
+  console.log(`OTP Code: ${otpCode} (Valid for 10 Minutes)`);
+  console.log('================================================================\n');
 
-  if (isPlaceholder) {
-    console.log('\n================================================================');
-    console.log('🔑 [DEV MODE] 6-DIGIT OTP VERIFICATION CODE GENERATED:');
-    console.log(`To: ${toEmail}`);
-    console.log(`OTP Code: ${otpCode} (Valid for 10 Minutes)`);
-    console.log('================================================================\n');
-    return;
-  }
-
-  const transporter = createTransporter();
+  try {
+    const transporter = createTransporter();
 
   const html = `
   <!DOCTYPE html>
@@ -282,11 +276,14 @@ async function sendOtpEmail(toEmail, otpCode, name = 'Valued User') {
   `;
 
   await transporter.sendMail({
-    from: `"Velora Global" <${process.env.EMAIL_USER}>`,
+    from: `"Velora Global Support" <${process.env.EMAIL_USER || 'veloraglobal.hr@gmail.com'}>`,
     to: toEmail,
     subject: `🔑 Your Verification Code: ${otpCode}`,
     html
   });
+  } catch (err) {
+    console.error('❌ Error sending OTP email:', err.message);
+  }
 }
 
 module.exports = { sendPasswordResetEmail, sendVerificationEmail, sendOtpEmail };
