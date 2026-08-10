@@ -10,7 +10,147 @@ const softwareDevSubDomains = [
   'Software Development'
 ];
 
-const languageInternshipPrograms = [
+const defaultInternshipPrograms = [
+  {
+    id: "prog-fe-1",
+    title: "Frontend Development Internship",
+    domain: "Frontend Development",
+    duration: "6 Weeks",
+    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    locationType: "Remote",
+    level: "All Levels",
+    description: "Build high-performance, responsive web interfaces using modern React, HTML5, CSS3, and JavaScript ES6+.",
+    skillsRequired: ["React.js", "JavaScript ES6+", "HTML5 & CSS3", "TailwindCSS", "Git"],
+    perks: ["Official Velora Global Certificate", "Mentorship from Co-Founders"],
+    deliverables: ["Develop interactive responsive UI components", "Optimize lighthouse performance"],
+    status: "Active"
+  },
+  {
+    id: "prog-be-1",
+    title: "Backend Development Internship",
+    domain: "Backend Development",
+    duration: "8 Weeks",
+    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    locationType: "Remote",
+    level: "Intermediate",
+    description: "Design RESTful APIs, manage databases, write serverless functions, and implement secure authentication with Node.js and Express.",
+    skillsRequired: ["Node.js", "Express.js", "MongoDB", "REST APIs", "JWT"],
+    perks: ["Verified Certificate", "Backend Architecture Mentorship"],
+    deliverables: ["Build robust RESTful endpoints", "Implement database CRUD & authentication"],
+    status: "Active"
+  },
+  {
+    id: "prog-fs-1",
+    title: "Full Stack Development Internship",
+    domain: "Full Stack Development",
+    duration: "8 Weeks",
+    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    locationType: "Remote / Hybrid",
+    level: "Intermediate",
+    description: "End-to-end web application development combining React client frontend with Node.js Express server and MongoDB database.",
+    skillsRequired: ["React.js", "Node.js", "Express.js", "MongoDB", "MVC Architecture"],
+    perks: ["Official Velora Global Certificate", "Executive Feedback"],
+    deliverables: ["Build end-to-end full stack application", "Deploy production web bundle"],
+    status: "Active"
+  },
+  {
+    id: "prog-mobile-1",
+    title: "Mobile App Development Internship",
+    domain: "Mobile App Development",
+    duration: "8 Weeks",
+    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    locationType: "Remote",
+    level: "All Levels",
+    description: "Create cross-platform mobile apps for iOS and Android using React Native / Flutter with seamless API integration.",
+    skillsRequired: ["React Native", "Flutter", "Mobile UI", "REST APIs"],
+    perks: ["Certificate of Excellence", "App Store Publishing Experience"],
+    deliverables: ["Develop cross-platform mobile app UI", "Integrate push notifications and storage"],
+    status: "Active"
+  },
+  {
+    id: "prog-aiml-1",
+    title: "Artificial Intelligence & Machine Learning Internship",
+    domain: "Artificial Intelligence & Machine Learning",
+    duration: "8 Weeks",
+    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    locationType: "Remote",
+    level: "Intermediate / Advanced",
+    description: "Train machine learning models, implement natural language processing algorithms, and deploy AI solutions.",
+    skillsRequired: ["Python", "TensorFlow / PyTorch", "Scikit-Learn", "Model Deployment"],
+    perks: ["Verified Velora Global Certificate", "AI Research Mentorship"],
+    deliverables: ["Train predictive ML classification model", "Deploy AI model inference API"],
+    status: "Active"
+  },
+  {
+    id: "prog-ds-1",
+    title: "Data Science Internship",
+    domain: "Data Science",
+    duration: "8 Weeks",
+    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    locationType: "Remote",
+    level: "Intermediate",
+    description: "Perform data wrangling, exploratory analysis, statistical modeling, and interactive data visualization.",
+    skillsRequired: ["Python", "Pandas & NumPy", "SQL", "Data Visualization", "PowerBI"],
+    perks: ["Verified Certificate", "Real-World Datasets"],
+    deliverables: ["Perform exploratory dataset analysis", "Create executive data visualization report"],
+    status: "Active"
+  },
+  {
+    id: "prog-cyber-1",
+    title: "Cybersecurity Internship",
+    domain: "Cybersecurity",
+    duration: "6 Weeks",
+    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    locationType: "Remote",
+    level: "All Levels",
+    description: "Understand network security fundamentals, penetration testing, vulnerability assessment, and security auditing.",
+    skillsRequired: ["Network Security", "Ethical Hacking Basics", "Vulnerability Scanning", "Linux"],
+    perks: ["Official Certificate", "Security Audit Experience"],
+    deliverables: ["Conduct web vulnerability audit", "Formulate security patch documentation"],
+    status: "Active"
+  },
+  {
+    id: "prog-uiux-1",
+    title: "UI/UX Design Internship",
+    domain: "UI/UX Design",
+    duration: "6 Weeks",
+    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    locationType: "Remote",
+    level: "All Levels",
+    description: "Master user research, wireframing, high-fidelity Figma UI design systems, and interactive prototyping.",
+    skillsRequired: ["Figma", "User Research", "Wireframing", "Design Systems", "Prototyping"],
+    perks: ["Certificate of Excellence", "Design Review Sessions"],
+    deliverables: ["Create multi-device design system", "Deliver interactive Figma prototype"],
+    status: "Active"
+  },
+  {
+    id: "prog-cloud-1",
+    title: "Cloud & DevOps Internship",
+    domain: "Cloud & DevOps",
+    duration: "8 Weeks",
+    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    locationType: "Remote",
+    level: "Intermediate",
+    description: "Implement CI/CD automation pipelines, containerize applications with Docker, and manage cloud infrastructure.",
+    skillsRequired: ["Docker", "Kubernetes Basics", "AWS / GCP", "CI/CD Pipelines", "Linux"],
+    perks: ["Verified Certificate", "Cloud Architecture Mentorship"],
+    deliverables: ["Automate Docker container build", "Deploy CI/CD deployment pipeline"],
+    status: "Active"
+  },
+  {
+    id: "prog-qa-1",
+    title: "Software Testing Internship",
+    domain: "Software Testing",
+    duration: "6 Weeks",
+    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    locationType: "Remote",
+    level: "All Levels",
+    description: "Learn manual and automated software testing, unit testing frameworks, end-to-end integration tests, and QA bug reporting.",
+    skillsRequired: ["Jest", "Cypress / Selenium", "Manual Testing", "Bug Tracking", "QA Test Plans"],
+    perks: ["Official Certificate", "QA Lead Mentorship"],
+    deliverables: ["Write comprehensive QA test suite", "Conduct automated E2E integration test"],
+    status: "Active"
+  },
   {
     id: "prog-js-internship",
     title: "JavaScript & Modern ES6+ Full Stack Internship",
@@ -66,8 +206,8 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
         // Quietly fallback to static program list if backend is unavailable
       }
 
-      // Merge backend programs with explicit language internship programs
-      const combined = [...languageInternshipPrograms, ...(data || [])];
+      // Merge backend programs with full default internship programs
+      const combined = [...defaultInternshipPrograms, ...(data || [])];
       
       // Remove duplicates by id
       const unique = Array.from(new Map(combined.map(item => [item.id || item.title, item])).values());

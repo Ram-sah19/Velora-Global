@@ -20,7 +20,7 @@ const isExcludedProgram = (p) => {
   );
 };
 
-const languageTrainingPrograms = [
+const defaultTrainingPrograms = [
   {
     id: "prog-js-training",
     title: "JavaScript & Modern ES6+ Full Stack Training",
@@ -41,6 +41,55 @@ const languageTrainingPrograms = [
     domain: "Python",
     description: "Master Python syntax, object-oriented design, automated web scraping, data structures, and backend API development.",
     skillsRequired: ["Python 3", "OOP", "Django / FastAPI", "Web Scraping", "Data Structures"]
+  },
+  {
+    id: "prog-fe-training",
+    title: "Frontend Development & Modern React.js Training",
+    domain: "Frontend Development",
+    description: "Build high-performance, responsive web interfaces using modern React, HTML5, CSS3, and JavaScript ES6+.",
+    skillsRequired: ["React.js", "JavaScript ES6+", "HTML5 & CSS3", "TailwindCSS", "Git"]
+  },
+  {
+    id: "prog-be-training",
+    title: "Backend Development & Node.js API Training",
+    domain: "Backend Development",
+    description: "Design RESTful APIs, manage databases, write serverless functions, and implement secure authentication with Node.js and Express.",
+    skillsRequired: ["Node.js", "Express.js", "MongoDB", "REST APIs", "JWT"]
+  },
+  {
+    id: "prog-fs-training",
+    title: "Full Stack Web Engineering Training",
+    domain: "Full Stack Development",
+    description: "End-to-end web application development combining React client frontend with Node.js Express server and MongoDB database.",
+    skillsRequired: ["React.js", "Node.js", "Express.js", "MongoDB", "MVC Architecture"]
+  },
+  {
+    id: "prog-uiux-training",
+    title: "UI/UX Product Design & Figma Training",
+    domain: "UI/UX Design",
+    description: "Master user research, wireframing, high-fidelity Figma UI design systems, and interactive prototyping.",
+    skillsRequired: ["Figma", "User Research", "Wireframing", "Design Systems", "Prototyping"]
+  },
+  {
+    id: "prog-aiml-training",
+    title: "AI & Machine Learning Foundations Training",
+    domain: "Artificial Intelligence & Machine Learning",
+    description: "Train machine learning models, implement natural language processing algorithms, and deploy AI solutions.",
+    skillsRequired: ["Python", "TensorFlow / PyTorch", "Scikit-Learn", "Model Deployment"]
+  },
+  {
+    id: "prog-mobile-training",
+    title: "Mobile App Engineering Training",
+    domain: "Mobile App Development",
+    description: "Create cross-platform mobile apps for iOS and Android using React Native / Flutter with seamless API integration.",
+    skillsRequired: ["React Native", "Flutter", "Mobile UI", "REST APIs"]
+  },
+  {
+    id: "prog-qa-training",
+    title: "Software Testing & QA Automation Training",
+    domain: "Software Testing",
+    description: "Learn manual and automated software testing, unit testing frameworks, end-to-end integration tests, and QA bug reporting.",
+    skillsRequired: ["Jest", "Cypress / Selenium", "Manual Testing", "Bug Tracking", "QA Test Plans"]
   }
 ];
 
@@ -69,8 +118,8 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser, 
           // Quietly fallback to static program list if backend is unavailable
         }
 
-        // Merge backend programs with explicit language training programs
-        const combined = [...languageTrainingPrograms, ...(data || [])];
+        // Merge backend programs with full default training programs
+        const combined = [...defaultTrainingPrograms, ...(data || [])];
         
         // Remove duplicates by id
         const unique = Array.from(new Map(combined.map(item => [item.id || item.title, item])).values());
