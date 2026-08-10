@@ -7,11 +7,15 @@ const nodemailer = require('nodemailer');
  * Guide: https://support.google.com/accounts/answer/185833
  */
 function createTransporter() {
+  const user = (process.env.EMAIL_USER || '').trim();
+  const pass = (process.env.EMAIL_PASS || '').replace(/\s+/g, '').trim();
   return nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // SSL
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
+      user,
+      pass
     }
   });
 }
