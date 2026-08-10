@@ -438,27 +438,25 @@ export default function Navbar({
             </div>
           ) : (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              {onOpenPhoneOtp && (
-                <button
-                  onClick={onOpenPhoneOtp}
-                  style={{
-                    background: '#e8f5e9',
-                    color: '#1b5e20',
-                    border: '1px solid #a5d6a7',
-                    borderRadius: '9999px',
-                    padding: '0.48rem 0.95rem',
-                    fontSize: '0.82rem',
-                    fontWeight: '800',
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.35rem',
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  WhatsApp OTP 💬
-                </button>
-              )}
+              <button
+                onClick={onOpenPhoneOtp || (() => onOpenAuth && onOpenAuth('login'))}
+                style={{
+                  background: '#e8f5e9',
+                  color: '#1b5e20',
+                  border: '1px solid #a5d6a7',
+                  borderRadius: '9999px',
+                  padding: '0.48rem 0.95rem',
+                  fontSize: '0.82rem',
+                  fontWeight: '800',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                WhatsApp OTP 💬
+              </button>
 
               <button
                 onClick={onOpenAuth}
