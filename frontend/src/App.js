@@ -9,7 +9,6 @@ import NotificationToast from './components/NotificationToast';
 import CookieBanner from './components/CookieBanner';
 import ResetPasswordModal from './components/ResetPasswordModal';
 import VerifyEmailModal from './components/VerifyEmailModal';
-import PhoneOtpModal from './components/PhoneOtpModal';
 
 // Unified Authentication Modal
 import AuthModal from './pages/Auth/AuthModal';
@@ -30,7 +29,6 @@ export default function App() {
   const [selectedServiceCategory, setSelectedServiceCategory] = useState('all');
   const [activeRole] = useState('student');
   const [activeCertificate, setActiveCertificate] = useState(null);
-  const [showPhoneOtpModal, setShowPhoneOtpModal] = useState(false);
 
   // Authentication State with Instant 30-Day Session Restoration
   const [currentUser, setCurrentUser] = useState(() => {
@@ -153,16 +151,8 @@ export default function App() {
         onSelectServiceCategory={(cat) => setSelectedServiceCategory(cat)}
         currentUser={currentUser}
         onOpenAuth={(mode = 'login') => { setAuthInitialMode(mode); setShowAuthModal(true); }}
-        onOpenPhoneOtp={() => setShowPhoneOtpModal(true)}
         onLogout={handleLogout}
       />
-
-      {/* WhatsApp Phone OTP Verification Modal */}
-      {showPhoneOtpModal && (
-        <PhoneOtpModal 
-          onClose={() => setShowPhoneOtpModal(false)} 
-        />
-      )}
 
       {/* Main Content Area */}
       <main className="main-content">

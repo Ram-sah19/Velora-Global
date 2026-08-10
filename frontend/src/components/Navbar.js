@@ -390,29 +390,6 @@ export default function Navbar({
                       : 'My Student Workspace ➔'}
                   </button>
 
-                  {/* WhatsApp Verification Shortcut */}
-                  {onOpenPhoneOtp && (
-                    <button
-                      onClick={() => {
-                        setShowUserDropdown(false);
-                        onOpenPhoneOtp();
-                      }}
-                      style={{
-                        padding: '0.55rem 0.75rem',
-                        borderRadius: '8px',
-                        border: '1px solid #a5d6a7',
-                        background: '#e8f5e9',
-                        color: '#1b5e20',
-                        fontSize: '0.82rem',
-                        fontWeight: '700',
-                        cursor: 'pointer',
-                        textAlign: 'left'
-                      }}
-                    >
-                      WhatsApp Phone OTP 💬
-                    </button>
-                  )}
-
                   {/* Logout Button */}
                   <button
                     onClick={() => {
@@ -437,45 +414,23 @@ export default function Navbar({
               </div>
             </div>
           ) : (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <button
-                onClick={onOpenPhoneOtp || (() => onOpenAuth && onOpenAuth('login'))}
-                style={{
-                  background: '#e8f5e9',
-                  color: '#1b5e20',
-                  border: '1px solid #a5d6a7',
-                  borderRadius: '9999px',
-                  padding: '0.48rem 0.95rem',
-                  fontSize: '0.82rem',
-                  fontWeight: '800',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.35rem',
-                  whiteSpace: 'nowrap'
-                }}
-              >
-                WhatsApp OTP 💬
-              </button>
-
-              <button
-                onClick={onOpenAuth}
-                style={{
-                  background: '#f94d4d',
-                  color: '#ffffff',
-                  border: 'none',
-                  borderRadius: '9999px',
-                  padding: '0.5rem 1.25rem',
-                  fontSize: '0.88rem',
-                  fontWeight: '700',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 12px rgba(249, 77, 77, 0.3)',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                Sign In / Register
-              </button>
-            </div>
+            <button
+              onClick={onOpenAuth}
+              style={{
+                background: '#f94d4d',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '9999px',
+                padding: '0.5rem 1.25rem',
+                fontSize: '0.88rem',
+                fontWeight: '700',
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(249, 77, 77, 0.3)',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              Sign In / Register
+            </button>
           )}
           {/* Mobile & Tablet Hamburger Toggle Button (Shown on screens < 1024px) */}
           <button
