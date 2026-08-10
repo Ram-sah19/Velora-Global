@@ -256,7 +256,36 @@ exports.registerStudent = async (req, res) => {
     }
 
     if (existing) {
-      return res.json({ message: 'User already registered. Please login.', user: safeUser(existing) });
+      if (existing.isVerified === false && existing.userType !== 'superadmin' && existing.userType !== 'admin') {
+        const rawVerifyToken = crypto.randomBytes(32).toString('hex');
+        const hashedVerifyToken = crypto.createHash('sha256').update(rawVerifyToken).digest('hex');
+        const verifyExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+        try {
+          await User.updateOne({ email: emailClean }, { verificationToken: hashedVerifyToken, verificationTokenExpiry: verifyExpiry });
+        } catch (e) {
+          const db = readLocalDb();
+          const localUser = (db.users || []).find(u => u.email === emailClean);
+          if (localUser) {
+            localUser.verificationToken = hashedVerifyToken;
+            localUser.verificationTokenExpiry = verifyExpiry.toISOString();
+            writeLocalDb(db);
+          }
+        }
+
+        const frontendUrl = process.env.CLIENT_ORIGIN || 'http://localhost:3000';
+        const verifyUrl = `${frontendUrl}?verifyToken=${rawVerifyToken}`;
+        try {
+          await sendVerificationEmail(emailClean, verifyUrl, existing.name);
+        } catch (err) {}
+
+        return res.status(200).json({
+          message: 'Account registered but unverified. We resent a verification link to your email.',
+          requiresVerification: true,
+          email: emailClean
+        });
+      }
+      return res.status(400).json({ error: 'An account with this email address is already registered. Please sign in.' });
     }
 
     // Hash password with bcrypt
@@ -331,7 +360,36 @@ exports.registerClient = async (req, res) => {
     }
 
     if (existing) {
-      return res.json({ message: 'Client account already exists. Please login.', user: safeUser(existing) });
+      if (existing.isVerified === false && existing.userType !== 'superadmin' && existing.userType !== 'admin') {
+        const rawVerifyToken = crypto.randomBytes(32).toString('hex');
+        const hashedVerifyToken = crypto.createHash('sha256').update(rawVerifyToken).digest('hex');
+        const verifyExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+        try {
+          await User.updateOne({ email: emailClean }, { verificationToken: hashedVerifyToken, verificationTokenExpiry: verifyExpiry });
+        } catch (e) {
+          const db = readLocalDb();
+          const localUser = (db.users || []).find(u => u.email === emailClean);
+          if (localUser) {
+            localUser.verificationToken = hashedVerifyToken;
+            localUser.verificationTokenExpiry = verifyExpiry.toISOString();
+            writeLocalDb(db);
+          }
+        }
+
+        const frontendUrl = process.env.CLIENT_ORIGIN || 'http://localhost:3000';
+        const verifyUrl = `${frontendUrl}?verifyToken=${rawVerifyToken}`;
+        try {
+          await sendVerificationEmail(emailClean, verifyUrl, existing.name);
+        } catch (err) {}
+
+        return res.status(200).json({
+          message: 'Client account registered but unverified. We resent a verification link to your business email.',
+          requiresVerification: true,
+          email: emailClean
+        });
+      }
+      return res.status(400).json({ error: 'A corporate client account with this email address already exists. Please sign in.' });
     }
 
     const rawPassword = password || 'client123';
