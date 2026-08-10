@@ -10,9 +10,9 @@ export default function LeadershipSection() {
       badge: "Founder & CEO"
     },
     {
-      name: "Rambilas Sah",
+      name: "Krishna Sah",
       role: "Co-Founder",
-      image: "/media/rambilas_sah.jpg",
+      image: "/media/krishna_sah.jpg",
       bio: "Co-Founder driving student success initiatives, university relations, operational strategy, and industry partner alignments.",
       badge: "Co-Founder"
     },
@@ -79,9 +79,9 @@ export default function LeadershipSection() {
                   alt={member.name}
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = idx === 0 ? "/images/rambilas_sah.jpg"
-                      : idx === 1 ? "/images/puja_rouniyar.jpg"
-                      : "/images/rohit_sah.jpg";
+                    e.target.src = idx === 0 ? "/images/rohit_sah.jpg"
+                      : idx === 1 ? "/images/krishna_sah.jpg"
+                      : "/images/puja_rouniyar.jpg";
                   }}
                   style={{
                     width: '100%',

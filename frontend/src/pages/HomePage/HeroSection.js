@@ -224,7 +224,7 @@ export default function HeroSection({ onExploreClick }) {
                   <h4 style={{ fontSize: '0.95rem', color: '#0b0f19' }}>Rohit Sah</h4>
                   <span style={{ fontSize: '0.75rem', color: '#2563eb', fontWeight: '700' }}>Founder & CEO • Velora Global</span>
                 </div>
-                <span className="badge badge-green" style={{ fontSize: '0.7rem' }}>Co-Founded with Rambilas & Puja</span>
+                <span className="badge badge-green" style={{ fontSize: '0.7rem' }}>Co-Founded with Krishna & Puja</span>
               </div>
             </div>
           </div>
