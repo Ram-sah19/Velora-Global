@@ -43,7 +43,7 @@ export default function HeroSection({ onExploreClick }) {
       tech: ["React.js", "Node.js", "Express", "MongoDB", "MVC Architecture"],
       fee: "NPR 299 (Internship) / NPR 1,200 (Training + Internship)",
       duration: "8 Weeks",
-      deliverables: ["10+ Students Trained & Projects Shipped to Clients", "End-to-End MERN Application & Full Stack MVC", "Production Web Bundle & DB Integration"],
+      deliverables: ["1 Batch Students Trained & Projects Shipped to Clients", "End-to-End MERN Application & Full Stack MVC", "Production Web Bundle & DB Integration"],
       description: "End-to-end web engineering integrating responsive client applications with robust server endpoints and database layers."
     },
     {
@@ -256,8 +256,8 @@ export default function HeroSection({ onExploreClick }) {
             <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Founding Executive Mentors</span>
           </div>
           <div>
-            <span style={{ fontSize: '2rem', fontWeight: '800', color: '#10b981', display: 'block', lineHeight: '1' }}>10+</span>
-            <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Students Trained & Projects Shipped to Clients (MERN Stack MVC)</span>
+            <span style={{ fontSize: '2rem', fontWeight: '800', color: '#10b981', display: 'block', lineHeight: '1' }}>1 Batch</span>
+            <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Students Trained & Projects Shipped to Clients</span>
           </div>
         </div>
 
@@ -441,7 +441,7 @@ export default function HeroSection({ onExploreClick }) {
                     Mastered Technologies & Frameworks
                   </span>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                    {activeSpotlight.tech.map((t, i) => (
+                    {(activeSpotlight.tech || []).map((t, i) => (
                       <span key={i} style={{
                         background: '#f1f5f9',
                         border: '1px solid #cbd5e1',
@@ -463,7 +463,7 @@ export default function HeroSection({ onExploreClick }) {
                     Key Student Deliverables & Outcomes
                   </span>
                   <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    {activeSpotlight.deliverables.map((del, i) => (
+                    {(activeSpotlight.deliverables || []).map((del, i) => (
                       <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '0.92rem', color: '#334155' }}>
                         <span style={{ color: '#2563eb', fontWeight: '800' }}>✓</span> {del}
                       </li>

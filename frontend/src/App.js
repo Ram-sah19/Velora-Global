@@ -24,11 +24,75 @@ import StudentPortalPage from './pages/StudentPortalPage/StudentPortalPage';
 import ClientWorkspacePage from './pages/ClientWorkspacePage/ClientWorkspacePage';
 import AdminDashboardPage from './pages/AdminDashboardPage/AdminDashboardPage';
 
+const tabToPathMap = {
+  home: '/',
+  services: '/services',
+  team: '/team',
+  internships: '/internships',
+  training: '/training',
+  student: '/student',
+  client: '/client',
+  admin: '/admin'
+};
+
+const pathToTabMap = {
+  '/': 'home',
+  '/home': 'home',
+  '/services': 'services',
+  '/contact': 'services',
+  '/team': 'team',
+  '/about': 'team',
+  '/internships': 'internships',
+  '/training': 'training',
+  '/student': 'student',
+  '/workspace': 'student',
+  '/client': 'client',
+  '/admin': 'admin'
+};
+
+const getInitialTabFromUrl = () => {
+  const path = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/';
+  return pathToTabMap[path] || 'home';
+};
+
 export default function App() {
-  const [activeTab, setActiveTab] = useState('home'); // 'home', 'services', 'team', 'internships', 'training', 'student', 'admin'
+  const [activeTab, setActiveTab] = useState(getInitialTabFromUrl); // 'home', 'services', 'team', 'internships', 'training', 'student', 'admin'
   const [selectedServiceCategory, setSelectedServiceCategory] = useState('all');
   const [activeRole] = useState('student');
   const [activeCertificate, setActiveCertificate] = useState(null);
+
+  // Helper to sync browser URL bar with selected tab
+  const navigateTab = (tab, replace = false) => {
+    const targetPath = tabToPathMap[tab] || '/';
+    if (window.location.pathname !== targetPath) {
+      if (replace) {
+        window.history.replaceState({ tab }, '', targetPath);
+      } else {
+        window.history.pushState({ tab }, '', targetPath);
+      }
+    }
+  };
+
+  // Sync tab state when user navigates using browser back / forward buttons
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/';
+      const tab = pathToTabMap[path] || 'home';
+      setActiveTab(tab);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Ensure initial URL reflects current tab (e.g. if user opened /about, normalize URL to /team)
+  useEffect(() => {
+    const targetPath = tabToPathMap[activeTab] || '/';
+    if (window.location.pathname !== targetPath) {
+      window.history.replaceState({ tab: activeTab }, '', targetPath);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Authentication State with Instant 30-Day Session Restoration
   const [currentUser, setCurrentUser] = useState(() => {
@@ -89,13 +153,15 @@ export default function App() {
     if (currentUser) {
       if (currentUser.userType === 'client' && (activeTab === 'student' || activeTab === 'internships' || activeTab === 'training')) {
         setActiveTab('client');
+        navigateTab('client', true);
       }
     }
   }, [currentUser, activeTab]);
 
-  const handleTabChange = (tab) => {
+  const handleTabChange = (tab, replace = false) => {
     if (currentUser && currentUser.userType === 'client' && (tab === 'student' || tab === 'internships' || tab === 'training')) {
       setActiveTab('client');
+      navigateTab('client', replace);
       return;
     }
     if (tab === 'student' && !currentUser) {
@@ -104,6 +170,7 @@ export default function App() {
       return;
     }
     setActiveTab(tab);
+    navigateTab(tab, replace);
   };
 
   const handleAuthSuccess = (user) => {
@@ -122,11 +189,11 @@ export default function App() {
     } catch (e) {}
 
     if (user.userType === 'superadmin' || user.userType === 'admin') {
-      setActiveTab('admin');
+      handleTabChange('admin');
     } else if (user.userType === 'client') {
-      setActiveTab('client');
+      handleTabChange('client');
     } else {
-      setActiveTab('student');
+      handleTabChange('student');
     }
   };
 
@@ -136,7 +203,7 @@ export default function App() {
     } catch (e) {}
     localStorage.removeItem('velora_user');
     setCurrentUser(null);
-    setActiveTab('home');
+    handleTabChange('home');
   };
 
   return (

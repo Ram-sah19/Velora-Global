@@ -251,7 +251,7 @@ export default function ProgramsPage({ activeRole = 'student', onApplySuccess })
 
                 {/* Technology pill tags */}
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1.5rem' }}>
-                  {prog.skillsRequired.map((skill, i) => (
+                  {(prog.skillsRequired || []).map((skill, i) => (
                     <span key={i} style={{
                       fontSize: '0.78rem',
                       background: '#f1f5f9',

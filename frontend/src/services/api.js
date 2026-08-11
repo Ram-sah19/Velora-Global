@@ -12,11 +12,11 @@ async function request(endpoint, options = {}) {
     });
 
     if (!res.ok) {
-      if (options.method === 'DELETE' || res.status === 404) {
+      if (options.method === 'DELETE') {
         return { message: 'Operation completed' };
       }
       const errorData = await res.json().catch(() => ({}));
-      throw new Error(errorData.error || `HTTP error! status: ${res.status}`);
+      throw new Error(errorData.error || errorData.message || `HTTP error! status: ${res.status}`);
     }
 
     return await res.json();
