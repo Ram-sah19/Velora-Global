@@ -62,29 +62,13 @@ export default function CookieBanner() {
 
         <div style={{ padding: '1.5rem 1.75rem' }}>
           {/* Header Row */}
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', marginBottom: '0.9rem' }}>
-            <div style={{
-              width: '44px',
-              height: '44px',
-              minWidth: '44px',
-              borderRadius: '12px',
-              background: 'linear-gradient(135deg, #fff3f3 0%, #ffe0e0 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '1.4rem'
-            }}>
-              🍪
-            </div>
-
-            <div style={{ flex: 1 }}>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: '800', color: '#0b0f19', margin: '0 0 0.2rem' }}>
-                Velora Global uses cookies
-              </h3>
-              <p style={{ fontSize: '0.85rem', color: '#64748b', lineHeight: '1.55', margin: 0 }}>
-                We use an essential session cookie to keep you securely logged in. No tracking, no ads, no third-party analytics.
-              </p>
-            </div>
+          <div style={{ marginBottom: '0.9rem' }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: '800', color: '#0b0f19', margin: '0 0 0.2rem' }}>
+              Velora Global uses cookies
+            </h3>
+            <p style={{ fontSize: '0.85rem', color: '#64748b', lineHeight: '1.55', margin: 0 }}>
+              We use an essential session cookie to keep you securely logged in. No tracking, no ads, no third-party analytics.
+            </p>
           </div>
 
           {/* Expandable Details */}
@@ -132,7 +116,7 @@ export default function CookieBanner() {
                 </tbody>
               </table>
               <p style={{ marginTop: '0.75rem', marginBottom: 0, color: '#64748b', fontSize: '0.8rem' }}>
-                ✅ We do <strong>not</strong> use advertising cookies, tracking pixels, or any third-party analytics. These cookies are strictly necessary to operate the platform.
+                We do <strong>not</strong> use advertising cookies, tracking pixels, or any third-party analytics. These cookies are strictly necessary to operate the platform.
               </p>
             </div>
           )}
@@ -156,7 +140,7 @@ export default function CookieBanner() {
               onMouseEnter={e => e.target.style.background = '#e03131'}
               onMouseLeave={e => e.target.style.background = '#f94d4d'}
             >
-              Accept All Cookies ✓
+              Accept All Cookies
             </button>
 
             <button

@@ -211,7 +211,6 @@ export default function TeamPage({ onExploreClick }) {
             gap: '2rem'
           }}>
             <div style={{ padding: '1.5rem', background: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
-              <span style={{ fontSize: '2rem', display: 'block', marginBottom: '0.75rem' }}>🎯</span>
               <h4 style={{ fontSize: '1.2rem', color: '#0b0f19', fontWeight: '700', marginBottom: '0.5rem' }}>Practical Mastery</h4>
               <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.6' }}>
                 We believe true learning comes from building real production codebases, not just theoretical tutorials.
@@ -219,7 +218,6 @@ export default function TeamPage({ onExploreClick }) {
             </div>
 
             <div style={{ padding: '1.5rem', background: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
-              <span style={{ fontSize: '2rem', display: 'block', marginBottom: '0.75rem' }}>🛡️</span>
               <h4 style={{ fontSize: '1.2rem', color: '#0b0f19', fontWeight: '700', marginBottom: '0.5rem' }}>Credential Trust</h4>
               <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.6' }}>
                 Every completion certificate is backed by public QR endpoints and tamper-proof verification IDs.
@@ -227,7 +225,6 @@ export default function TeamPage({ onExploreClick }) {
             </div>
 
             <div style={{ padding: '1.5rem', background: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
-              <span style={{ fontSize: '2rem', display: 'block', marginBottom: '0.75rem' }}>🤝</span>
               <h4 style={{ fontSize: '1.2rem', color: '#0b0f19', fontWeight: '700', marginBottom: '0.5rem' }}>Direct Mentorship</h4>
               <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.6' }}>
                 Our founding leaders actively review, grade, and provide actionable feedback on student deliverables.
