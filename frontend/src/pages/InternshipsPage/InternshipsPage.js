@@ -279,22 +279,32 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
             </button>
           </form>
 
-          {/* Domain Filter Pills — Horizontal swipeable bar on mobile */}
-          <div className="horizontal-scroll-mobile">
+          {/* Domain Filter Pills — Clean flex wrap layout without scrollbars */}
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '0.65rem',
+            width: '100%',
+            margin: '0 auto'
+          }}>
             {domains.map((dom) => (
               <button
                 key={dom}
                 onClick={() => setSelectedDomain(dom)}
                 style={{
-                  padding: '0.5rem 1.1rem',
+                  padding: '0.5rem 1.25rem',
                   borderRadius: '9999px',
                   fontSize: '0.85rem',
-                  fontWeight: '600',
+                  fontWeight: '700',
                   background: selectedDomain === dom ? '#ff6b6b' : '#ffffff',
                   border: selectedDomain === dom ? '1px solid #ff6b6b' : '1px solid #e2e8f0',
                   color: selectedDomain === dom ? '#ffffff' : '#64748b',
-                  boxShadow: 'var(--shadow-sm)',
-                  whiteSpace: 'nowrap'
+                  boxShadow: selectedDomain === dom ? 'var(--shadow-sm)' : 'none',
+                  whiteSpace: 'nowrap',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
                 }}
               >
                 {dom}
@@ -304,39 +314,86 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
 
         </div>
 
-        {/* Programs Grid — Mobile & Tablet Adaptive Card Layout */}
+        {/* Programs Grid — Perfectly Aligned Equal Height Cards */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-          gap: '1.5rem',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(330px, 1fr))',
+          gap: '1.75rem',
           width: '100%'
         }}>
           {programs.map((prog) => (
-            <div key={prog.id} className="corporate-card" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                  <span className="badge badge-coral" style={{ fontSize: '0.75rem' }}>
+            <div 
+              key={prog.id} 
+              className="corporate-card" 
+              style={{ 
+                padding: '1.75rem', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                justify: 'space-between',
+                borderRadius: '20px',
+                background: '#ffffff',
+                border: '1px solid #e2e8f0',
+                boxShadow: 'var(--shadow-sm)'
+              }}
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
+                
+                {/* Header Badge & Track Label — Collision-proof layout */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+                  <span className="badge badge-coral" style={{ fontSize: '0.75rem', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
                     {prog.domain}
                   </span>
-                  <span style={{ fontSize: '0.82rem', color: '#ff6b6b', fontWeight: '700' }}>Practical Internship</span>
+                  <span style={{ fontSize: '0.78rem', color: '#ff6b6b', fontWeight: '700', whiteSpace: 'nowrap' }}>
+                    Practical Internship
+                  </span>
                 </div>
 
-                <h3 style={{ fontSize: '1.3rem', color: '#0b0f19', marginBottom: '0.75rem', lineHeight: '1.3', fontWeight: '800' }}>
+                {/* Fixed height title container for uniform row alignment */}
+                <h3 style={{ 
+                  fontSize: '1.2rem', 
+                  color: '#0b0f19', 
+                  marginBottom: '0.75rem', 
+                  lineHeight: '1.4', 
+                  fontWeight: '800',
+                  minHeight: '3.3rem',
+                  display: '-webkit-box',
+                  WebkitLineClamp: '2',
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden'
+                }}>
                   {prog.title}
                 </h3>
 
-                <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '1.25rem', display: '-webkit-box', WebkitLineClamp: '3', WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: '1.6' }}>
+                {/* Fixed height description container */}
+                <p style={{ 
+                  color: '#64748b', 
+                  fontSize: '0.88rem', 
+                  marginBottom: '1.25rem', 
+                  display: '-webkit-box', 
+                  WebkitLineClamp: '3', 
+                  WebkitBoxOrient: 'vertical', 
+                  overflow: 'hidden', 
+                  lineHeight: '1.5',
+                  minHeight: '3.9rem'
+                }}>
                   {prog.description}
                 </p>
 
-                {/* Technology pill tags */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1.5rem' }}>
+                {/* Technology pill tags with fixed min height for grid alignment */}
+                <div style={{ 
+                  display: 'flex', 
+                  flexWrap: 'wrap', 
+                  gap: '0.4rem', 
+                  marginBottom: '1.25rem',
+                  minHeight: '4.2rem',
+                  alignContent: 'flex-start'
+                }}>
                   {(prog.skillsRequired || []).map((skill, i) => (
                     <span key={i} style={{
                       fontSize: '0.78rem',
                       background: '#fff5f5',
                       border: '1px solid #ffe3e3',
-                      padding: '0.25rem 0.65rem',
+                      padding: '0.28rem 0.65rem',
                       borderRadius: '6px',
                       color: '#0b0f19',
                       fontWeight: '600'
@@ -351,10 +408,11 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
                   background: '#f8fafc',
                   border: '1px solid #e2e8f0',
                   borderRadius: '12px',
-                  padding: '0.85rem 1rem',
-                  marginBottom: '1.5rem'
+                  padding: '0.75rem 1rem',
+                  marginBottom: '1.5rem',
+                  marginTop: 'auto'
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.8rem', color: '#475569', fontWeight: '600' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.78rem', color: '#475569', fontWeight: '600' }}>
                     <span>1-to-1 Mentorship</span>
                     <span>•</span>
                     <span>2+ Live Projects</span>
@@ -368,7 +426,7 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
               <div style={{ paddingTop: '1rem', borderTop: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
                   <span style={{ display: 'block', fontSize: '0.75rem', color: '#64748b' }}>Fee Starts At</span>
-                  <span style={{ fontSize: '1.1rem', fontWeight: '800', color: '#ff6b6b' }}>
+                  <span style={{ fontSize: '1.2rem', fontWeight: '800', color: '#ff6b6b' }}>
                     NPR 199 <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '600' }}>(2 Wks)</span>
                   </span>
                 </div>
@@ -376,9 +434,9 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
                 <button 
                   onClick={() => setSelectedProgramForDetails(prog)}
                   className="btn-coral"
-                  style={{ padding: '0.55rem 1.1rem', fontSize: '0.85rem', fontWeight: '700' }}
+                  style={{ padding: '0.6rem 1.25rem', fontSize: '0.85rem', fontWeight: '700', borderRadius: '10px' }}
                 >
-                  View Program Details ➔
+                  View Details ➔
                 </button>
               </div>
             </div>

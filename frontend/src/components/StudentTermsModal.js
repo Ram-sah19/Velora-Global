@@ -51,7 +51,7 @@ export default function StudentTermsModal({ onClose }) {
             </p>
             <ul style={{ paddingLeft: '1.25rem', marginTop: '0.35rem' }}>
               <li><strong>Practical Internship Track:</strong> Available in 2 Weeks (NPR 199), 1 Month (NPR 299), 2 Months (NPR 500), 3 Months (NPR 2,000), and 6 Months (NPR 4,000). Designed for self-driven hands-on experience and real-world project shipping.</li>
-              <li><strong>Guided Skill Accelerator Training + Internship Track:</strong> Available in 1 Week (NPR 500), 2 Weeks (NPR 700), 3 Weeks (NPR 950), 1 Month (NPR 1,200), and 2 Months (NPR 5,000). Includes structured curriculum modules, executive mentorship, and direct internship placement.</li>
+              <li><strong>Guided Skill Accelerator Training Track:</strong> Includes structured skill training programs with fixed track pricing (ranging from NPR 3,000 to NPR 12,000) with complete curriculum modules, mentor code reviews, and direct career placement.</li>
             </ul>
           </section>
 
