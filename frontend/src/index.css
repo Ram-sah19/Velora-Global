@@ -367,23 +367,23 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
-/* Horizontal Swipeable Scroll Pills for Mobile & Tablet */
+/* Clean Flex Wrap Filter Pills for All Devices */
 .horizontal-scroll-mobile {
   display: flex !important;
-  overflow-x: auto !important;
-  flex-wrap: nowrap !important;
-  white-space: nowrap !important;
-  gap: 0.5rem !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 0.65rem !important;
   width: 100% !important;
   max-width: 100% !important;
-  padding-bottom: 0.5rem !important;
-  justify-content: flex-start !important;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
 .horizontal-scroll-mobile::-webkit-scrollbar {
-  display: none;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .horizontal-scroll-mobile button,
