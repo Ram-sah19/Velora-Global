@@ -19,10 +19,10 @@ export default function ProgramsPage({ activeRole = 'student', onApplySuccess })
   const pricingMatrix = {
     internship: [
       { duration: '2 Weeks', fee: 199, text: 'NPR 199' },
-      { duration: '1 Month', fee: 299, text: 'NPR 299' },
-      { duration: '2 Months', fee: 500, text: 'NPR 500' },
-      { duration: '3 Months', fee: 1000, text: 'NPR 1,000' },
-      { duration: '6 Months', fee: 7000, text: 'NPR 7,000' }
+      { duration: '1 Month', fee: 499, text: 'NPR 499' },
+      { duration: '2 Months', fee: 999, text: 'NPR 999' },
+      { duration: '3 Months', fee: 1999, text: 'NPR 1,999' },
+      { duration: '6 Months', fee: 4999, text: 'NPR 4,999' }
     ],
     training: [
       { duration: '1 Week', fee: 500, text: 'NPR 500' },
@@ -151,7 +151,7 @@ export default function ProgramsPage({ activeRole = 'student', onApplySuccess })
             Internship & Training Tracks by <span className="text-coral">Domain & Duration</span>
           </h2>
           <p style={{ color: '#64748b', fontSize: '1.05rem' }}>
-            Flexible durations from 2 Weeks (NPR 199) up to 6 Months (NPR 7,000) for Internship, or 1 Month Training + Internship (NPR 1,200).
+            Flexible durations from 2 Weeks (NPR 199) up to 6 Months (NPR 4,999) for Internship, or 1 Month Training + Internship (NPR 1,200).
           </p>
         </div>
 
@@ -409,7 +409,7 @@ export default function ProgramsPage({ activeRole = 'student', onApplySuccess })
                   <div>
                     <span style={{ fontSize: '0.78rem', color: '#059669', fontWeight: '700', display: 'block' }}>Selected Program Fee</span>
                     <strong style={{ fontSize: '1.25rem', color: '#047857' }}>
-                      {currentPricingObj ? currentPricingObj.text : 'NPR 299'}
+                      {currentPricingObj ? currentPricingObj.text : 'NPR 499'}
                     </strong>
                   </div>
                   <span style={{ fontSize: '0.8rem', color: '#059669', background: '#ffffff', padding: '0.3rem 0.75rem', borderRadius: '9999px', border: '1px solid #a7f3d0', fontWeight: '700' }}>
@@ -468,7 +468,7 @@ export default function ProgramsPage({ activeRole = 'student', onApplySuccess })
                     Cancel
                   </button>
                   <button type="submit" disabled={submitting} className="btn-coral">
-                    {submitting ? 'Submitting...' : `Confirm Application (${currentPricingObj ? currentPricingObj.text : 'NPR 299'})`}
+                    {submitting ? 'Submitting...' : `Confirm Application (${currentPricingObj ? currentPricingObj.text : 'NPR 499'})`}
                   </button>
                 </div>
               </form>

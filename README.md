@@ -21,10 +21,10 @@ Founding Leadership:
 - **Focus**: Real-world production project work, 5-criteria evaluation, and QR-verified certificate.
 - **Duration Pricing Options**:
   - `2 Weeks`: **NPR 199**
-  - `1 Month`: **NPR 299**
-  - `2 Months`: **NPR 500**
-  - `3 Months`: **NPR 1,000**
-  - `6 Months`: **NPR 7,000**
+  - `1 Month`: **NPR 499**
+  - `2 Months`: **NPR 999**
+  - `3 Months`: **NPR 1,999**
+  - `6 Months`: **NPR 4,999**
 
 ### 2. 🚀 Training Programs Page (`/training`)
 - **Focus**: Structured skill curriculum modules, hands-on lab projects, co-founder mentorship, and practical internship placement.

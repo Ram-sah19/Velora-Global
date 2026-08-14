@@ -16,7 +16,7 @@ const defaultInternshipPrograms = [
     title: "Frontend Development Internship",
     domain: "Frontend Development",
     duration: "6 Weeks",
-    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
     locationType: "Remote",
     level: "All Levels",
     description: "Build high-performance, responsive web interfaces using modern React, HTML5, CSS3, and JavaScript ES6+.",
@@ -30,7 +30,7 @@ const defaultInternshipPrograms = [
     title: "Backend Development Internship",
     domain: "Backend Development",
     duration: "8 Weeks",
-    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
     locationType: "Remote",
     level: "Intermediate",
     description: "Design RESTful APIs, manage databases, write serverless functions, and implement secure authentication with Node.js and Express.",
@@ -44,7 +44,7 @@ const defaultInternshipPrograms = [
     title: "Full Stack Development Internship",
     domain: "Full Stack Development",
     duration: "8 Weeks",
-    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
     locationType: "Remote / Hybrid",
     level: "Intermediate",
     description: "End-to-end web application development combining React client frontend with Node.js Express server and MongoDB database.",
@@ -58,7 +58,7 @@ const defaultInternshipPrograms = [
     title: "Mobile App Development Internship",
     domain: "Mobile App Development",
     duration: "8 Weeks",
-    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
     locationType: "Remote",
     level: "All Levels",
     description: "Create cross-platform mobile apps for iOS and Android using React Native / Flutter with seamless API integration.",
@@ -72,7 +72,7 @@ const defaultInternshipPrograms = [
     title: "Artificial Intelligence & Machine Learning Internship",
     domain: "Artificial Intelligence & Machine Learning",
     duration: "8 Weeks",
-    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
     locationType: "Remote",
     level: "Intermediate / Advanced",
     description: "Train machine learning models, implement natural language processing algorithms, and deploy AI solutions.",
@@ -86,7 +86,7 @@ const defaultInternshipPrograms = [
     title: "Data Science Internship",
     domain: "Data Science",
     duration: "8 Weeks",
-    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
     locationType: "Remote",
     level: "Intermediate",
     description: "Perform data wrangling, exploratory analysis, statistical modeling, and interactive data visualization.",
@@ -100,7 +100,7 @@ const defaultInternshipPrograms = [
     title: "Cybersecurity Internship",
     domain: "Cybersecurity",
     duration: "6 Weeks",
-    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
     locationType: "Remote",
     level: "All Levels",
     description: "Understand network security fundamentals, penetration testing, vulnerability assessment, and security auditing.",
@@ -114,7 +114,7 @@ const defaultInternshipPrograms = [
     title: "UI/UX Design Internship",
     domain: "UI/UX Design",
     duration: "6 Weeks",
-    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
     locationType: "Remote",
     level: "All Levels",
     description: "Master user research, wireframing, high-fidelity Figma UI design systems, and interactive prototyping.",
@@ -128,7 +128,7 @@ const defaultInternshipPrograms = [
     title: "Cloud & DevOps Internship",
     domain: "Cloud & DevOps",
     duration: "8 Weeks",
-    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
     locationType: "Remote",
     level: "Intermediate",
     description: "Implement CI/CD automation pipelines, containerize applications with Docker, and manage cloud infrastructure.",
@@ -142,7 +142,7 @@ const defaultInternshipPrograms = [
     title: "Software Testing Internship",
     domain: "Software Testing",
     duration: "6 Weeks",
-    stipend: "NPR 299 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
+    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
     locationType: "Remote",
     level: "All Levels",
     description: "Learn manual and automated software testing, unit testing frameworks, end-to-end integration tests, and QA bug reporting.",
@@ -253,7 +253,7 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
             Practical Project <span className="text-coral">Internships</span>
           </h2>
           <p style={{ color: '#64748b', fontSize: '1.05rem', lineHeight: '1.6' }}>
-            Gain real industry work experience in key programming languages & domain tracks. Flexible durations from 2 Weeks (NPR 199) to 6 Months (NPR 3,000) with 1-to-1 mentorship and QR credentials.
+            Gain real industry work experience in key programming languages & domain tracks. Flexible durations from 2 Weeks (NPR 199) to 6 Months (NPR 4,999) with 1-to-1 mentorship and QR credentials.
           </p>
         </div>
 

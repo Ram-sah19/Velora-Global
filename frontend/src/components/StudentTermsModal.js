@@ -50,7 +50,7 @@ export default function StudentTermsModal({ onClose }) {
               Velora Global offers 10 specialized domain tracks across two primary pathways:
             </p>
             <ul style={{ paddingLeft: '1.25rem', marginTop: '0.35rem' }}>
-              <li><strong>Practical Internship Track:</strong> Available in 2 Weeks (NPR 199), 1 Month (NPR 299), 2 Months (NPR 500), 3 Months (NPR 2,000), and 6 Months (NPR 4,000). Designed for self-driven hands-on experience and real-world project shipping.</li>
+              <li><strong>Practical Internship Track:</strong> Available in 2 Weeks (NPR 199), 1 Month (NPR 499), 2 Months (NPR 999), 3 Months (NPR 1,999), and 6 Months (NPR 4,999). Designed for self-driven hands-on experience and real-world project shipping.</li>
               <li><strong>Guided Skill Accelerator Training Track:</strong> Includes structured skill training programs with fixed track pricing (ranging from NPR 3,000 to NPR 12,000) with complete curriculum modules, mentor code reviews, and direct career placement.</li>
             </ul>
           </section>

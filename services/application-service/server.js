@@ -121,7 +121,7 @@ app.post('/api/applications', async (req, res) => {
       domain: domain || 'Software Development',
       programTrack: programTrack || 'Practical Internship',
       selectedDuration: selectedDuration || '1 Month',
-      feeAmount: feeAmount || 299,
+      feeAmount: feeAmount || 499,
       status: 'Pending',
       appliedDate: new Date().toISOString().split('T')[0],
       statementOfPurpose: statementOfPurpose || '',

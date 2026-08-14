@@ -98,7 +98,7 @@ exports.submitApplication = async (req, res) => {
       domain,
       programTrack: programTrack || 'Internship',
       selectedDuration: selectedDuration || '1 Month',
-      feeAmount: feeAmount || 299,
+      feeAmount: feeAmount || 499,
       status: 'Pending', // Applications start as Pending until Super Admin Approves
       appliedDate: new Date().toISOString().split('T')[0],
       statementOfPurpose: statementOfPurpose || '',

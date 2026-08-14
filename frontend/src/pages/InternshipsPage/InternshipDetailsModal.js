@@ -26,7 +26,7 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
       {
         id: '1m',
         duration: '1 Month',
-        fee: 'NPR 299',
+        fee: 'NPR 499',
         bestFor: 'Node.js & Full-Stack Core Track',
         deliverables: [
           'Node.js REST API Architecture & Express.js Routes',
@@ -38,7 +38,7 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
       {
         id: '2m',
         duration: '2 Months',
-        fee: 'NPR 500',
+        fee: 'NPR 999',
         bestFor: 'MERN Stack + 2 Live Projects',
         deliverables: [
           'MERN Full Stack MVC Architecture (React, Node, Express, MongoDB)',
@@ -50,7 +50,7 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
       {
         id: '3m',
         duration: '3 Months',
-        fee: 'NPR 1,500',
+        fee: 'NPR 1,999',
         bestFor: 'Advanced JavaScript Engineering Track',
         deliverables: [
           'WebSockets Real-Time Sync, Microservices & Performance Optimization',
@@ -62,7 +62,7 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
       {
         id: '6m',
         duration: '6 Months',
-        fee: 'NPR 3,000',
+        fee: 'NPR 4,999',
         bestFor: 'Complete Full-Stack JavaScript Career Track',
         deliverables: [
           'Full End-to-End Principal JavaScript Engineer Track',
@@ -92,7 +92,7 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
       {
         id: '1m',
         duration: '1 Month',
-        fee: 'NPR 299',
+        fee: 'NPR 499',
         bestFor: 'Spring Boot REST Microservices Track',
         deliverables: [
           'Spring Boot REST Controller & JSON Endpoint Design',
@@ -104,7 +104,7 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
       {
         id: '2m',
         duration: '2 Months',
-        fee: 'NPR 500',
+        fee: 'NPR 999',
         bestFor: 'Enterprise Java + 2 Live Repositories',
         deliverables: [
           'Spring Security Integration & JWT Token Authentication',
@@ -116,7 +116,7 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
       {
         id: '3m',
         duration: '3 Months',
-        fee: 'NPR 1,500',
+        fee: 'NPR 1,999',
         bestFor: 'Advanced Java Microservices Track',
         deliverables: [
           'Spring Cloud Config, Eureka Service Discovery & Kafka Queues',
@@ -128,7 +128,7 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
       {
         id: '6m',
         duration: '6 Months',
-        fee: 'NPR 3,000',
+        fee: 'NPR 4,999',
         bestFor: 'Complete Enterprise Java Engineer Career Track',
         deliverables: [
           'Full End-to-End Senior Java Enterprise Track',
@@ -158,7 +158,7 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
       {
         id: '1m',
         duration: '1 Month',
-        fee: 'NPR 299',
+        fee: 'NPR 499',
         bestFor: 'FastAPI / Django Web API Track',
         deliverables: [
           'Asynchronous Web API Endpoint Design with FastAPI / Django',
@@ -170,7 +170,7 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
       {
         id: '2m',
         duration: '2 Months',
-        fee: 'NPR 500',
+        fee: 'NPR 999',
         bestFor: 'Python Backend + 2 Live Projects',
         deliverables: [
           'Celery Background Worker Tasks, Redis Caching & Docker',
@@ -182,7 +182,7 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
       {
         id: '3m',
         duration: '3 Months',
-        fee: 'NPR 1,500',
+        fee: 'NPR 1,999',
         bestFor: 'Advanced Python Systems Track',
         deliverables: [
           'AsyncIO Event Loops, PyTest Automated Testing & API Hardening',
@@ -194,7 +194,7 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
       {
         id: '6m',
         duration: '6 Months',
-        fee: 'NPR 3,000',
+        fee: 'NPR 4,999',
         bestFor: 'Complete Python Systems & Automation Career Track',
         deliverables: [
           'Full End-to-End Senior Python Engineer Track',
@@ -223,7 +223,7 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
     {
       id: '1m',
       duration: '1 Month',
-      fee: 'NPR 299',
+      fee: 'NPR 499',
       bestFor: 'Core Skill Building + 1 Live Project',
       deliverables: [
         'Domain Mentorship from Industry Experts',
@@ -235,7 +235,7 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
     {
       id: '2m',
       duration: '2 Months',
-      fee: 'NPR 500',
+      fee: 'NPR 999',
       bestFor: 'Full Stack Track + 2 Live Projects',
       deliverables: [
         'Advanced Domain Guidance',
@@ -247,7 +247,7 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
     {
       id: '3m',
       duration: '3 Months',
-      fee: 'NPR 1,500',
+      fee: 'NPR 1,999',
       bestFor: 'Advanced Industry Track',
       deliverables: [
         'Weekly 1-on-1 Code Architecture Reviews',
@@ -259,7 +259,7 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
     {
       id: '6m',
       duration: '6 Months',
-      fee: 'NPR 3,000',
+      fee: 'NPR 4,999',
       bestFor: 'Complete Full-Stack & Software Engineering Career Track',
       deliverables: [
         'Full End-to-End Domain Track',

@@ -10,7 +10,7 @@ const applicationSchema = new mongoose.Schema({
   domain: { type: String },
   programTrack: { type: String, default: 'Internship' },
   selectedDuration: { type: String, default: '1 Month' },
-  feeAmount: { type: Number, default: 299 },
+  feeAmount: { type: Number, default: 499 },
   status: { type: String, enum: ['Pending', 'Under Review', 'Approved', 'In-Progress', 'Rejected', 'Completed'], default: 'Pending' },
   accessStartDate: { type: String },
   accessEndDate: { type: String },
