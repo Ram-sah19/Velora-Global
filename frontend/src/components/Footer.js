@@ -113,7 +113,7 @@ export default function Footer({ setActiveTab }) {
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Contact & Social Channels */}
           <div>
             <h4 style={{ color: '#ffffff', fontSize: '1.05rem', marginBottom: '1rem' }}>Contact & Support</h4>
             <p style={{ fontSize: '0.85rem', marginBottom: '0.35rem', color: '#94a3b8' }}>
@@ -125,10 +125,82 @@ export default function Footer({ setActiveTab }) {
             <p style={{ fontSize: '0.85rem', marginBottom: '0.35rem', color: '#94a3b8' }}>
               <strong>HR Desk:</strong> <a href="mailto:hr@velora-global.online" style={{ color: '#60a5fa' }}>hr@velora-global.online</a>
             </p>
-            <p style={{ fontSize: '0.85rem', marginBottom: '0.35rem', color: '#94a3b8' }}>
-              <strong>General:</strong> <a href="mailto:info@velora-global.online" style={{ color: '#60a5fa' }}>info@velora-global.online</a>
-            </p>
-            <p style={{ fontSize: '0.8rem', color: '#64748b', marginTop: '0.5rem' }}>Website: velora-global.online</p>
+
+            <div style={{ marginTop: '1rem' }}>
+              <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: '700', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>
+                Follow Us
+              </span>
+              <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+                <a 
+                  href="https://www.linkedin.com/company/veloraglo-bal/" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  title="LinkedIn"
+                  style={{
+                    padding: '0.35rem 0.75rem',
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    borderRadius: '6px',
+                    fontSize: '0.78rem',
+                    color: '#60a5fa',
+                    fontWeight: '700',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                    transition: 'background 0.15s ease'
+                  }}
+                  onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.18)'}
+                  onMouseLeave={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.08)'}
+                >
+                  LinkedIn
+                </a>
+
+                <a 
+                  href="https://www.instagram.com/veloraglobal_/" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  title="Instagram"
+                  style={{
+                    padding: '0.35rem 0.75rem',
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    borderRadius: '6px',
+                    fontSize: '0.78rem',
+                    color: '#f472b6',
+                    fontWeight: '700',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                    transition: 'background 0.15s ease'
+                  }}
+                  onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.18)'}
+                  onMouseLeave={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.08)'}
+                >
+                  Instagram
+                </a>
+
+                <a 
+                  href="https://www.facebook.com/veloraglobal02" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  title="Facebook"
+                  style={{
+                    padding: '0.35rem 0.75rem',
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    borderRadius: '6px',
+                    fontSize: '0.78rem',
+                    color: '#93c5fd',
+                    fontWeight: '700',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                    transition: 'background 0.15s ease'
+                  }}
+                  onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.18)'}
+                  onMouseLeave={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.08)'}
+                >
+                  Facebook
+                </a>
+              </div>
+            </div>
           </div>
 
         </div>

@@ -15,28 +15,12 @@ const taskRoutes = require('./routes/taskRoutes');
 const evaluationRoutes = require('./routes/evaluationRoutes');
 const certificateRoutes = require('./routes/certificateRoutes');
 const statsRoutes = require('./routes/statsRoutes');
+const inquiryRoutes = require('./routes/inquiryRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Sync executive founder photos (development environment helper)
-try {
-  const srcDir = `C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\22635c0b-f003-455d-a5d6-433977a33f53\\.user_uploaded`;
-  if (fs.existsSync(srcDir)) {
-    const destDir = path.join(__dirname, '../frontend/public/media');
-    if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
 
-    if (fs.existsSync(path.join(srcDir, 'media_1785955734224.jpg'))) {
-      fs.copyFileSync(path.join(srcDir, 'media_1785955734224.jpg'), path.join(destDir, 'rambilas_sah.jpg'));
-    }
-    if (fs.existsSync(path.join(srcDir, 'media_1785955759112.jpg'))) {
-      fs.copyFileSync(path.join(srcDir, 'media_1785955759112.jpg'), path.join(destDir, 'puja_rouniyar.jpg'));
-    }
-    if (fs.existsSync(path.join(srcDir, 'media_1785955812212.jpg'))) {
-      fs.copyFileSync(path.join(srcDir, 'media_1785955812212.jpg'), path.join(destDir, 'rohit_sah.jpg'));
-    }
-  }
-} catch (e) {}
 
 // ─── 1. SECURITY HTTP HEADERS (Helmet) ────────────────────────────────────────
 // Removes X-Powered-By, sets X-Frame-Options, X-Content-Type-Options, HSTS, etc.
@@ -48,14 +32,20 @@ app.use(helmet({
 // ─── 2. CORS — Dynamic & Production Domain Matching ─────────────────────────
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
+    if (!origin) return callback(null, true); // Allow server-to-server and curl in dev
 
-    const isAllowed = 
-      origin.includes('localhost') ||
-      origin.includes('127.0.0.1') ||
-      origin.includes('velora-global') ||
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://localhost:5000',
+      'http://127.0.0.1:3000',
+      'https://velora-global.online',
+      'https://www.velora-global.online'
+    ];
+
+    const isAllowed =
+      allowedOrigins.includes(origin) ||
       origin.endsWith('.pages.dev') ||
-      (process.env.CLIENT_ORIGIN && origin.startsWith(process.env.CLIENT_ORIGIN));
+      (process.env.CLIENT_ORIGIN && origin === process.env.CLIENT_ORIGIN);
 
     if (isAllowed) {
       callback(null, true);
@@ -88,9 +78,17 @@ const loginLimiter = rateLimit({
 });
 
 const registerLimiter = rateLimit({
-  windowMs: 1 * 60 * 1000,   // 1 minute
-  max: 40,                   // 40 registration attempts per minute per IP
-  message: { error: 'Too many registration attempts. Please wait 1 minute and try again.' },
+  windowMs: 15 * 60 * 1000,  // 15 minutes
+  max: isDev ? 100 : 5,       // 5 registrations per 15 min per IP in production
+  message: { error: 'Too many registration attempts. Please wait 15 minutes and try again.' },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+const inquiryLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,  // 15 minutes
+  max: isDev ? 100 : 10,     // 10 inquiries per 15 min per IP in prod
+  message: { error: 'Too many inquiry submissions. Please wait 15 minutes and try again.' },
   standardHeaders: true,
   legacyHeaders: false
 });
@@ -101,6 +99,7 @@ app.use('/api/users/register', registerLimiter);
 app.use('/api/users/register-student', registerLimiter);
 app.use('/api/users/register-client', registerLimiter);
 app.use('/api/users/register-admin', loginLimiter);
+app.use('/api/client-inquiries', inquiryLimiter);
 
 // ─── 6. DATABASE CONNECTION ───────────────────────────────────────────────────
 connectDB();
@@ -118,6 +117,7 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/evaluations', evaluationRoutes);
 app.use('/api/certificates', certificateRoutes);
 app.use('/api/stats', statsRoutes);
+app.use('/api/client-inquiries', inquiryRoutes);
 
 // ─── 8.1 SERVE REACT FRONTEND PRODUCTION BUILD ──────────────────────────────
 const frontendBuildPath = path.join(__dirname, '../frontend/build');

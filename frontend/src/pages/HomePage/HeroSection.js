@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
-export default function HeroSection({ onExploreClick }) {
+export default function HeroSection({ onExploreClick, onTrainingClick, onServicesClick }) {
   const [selectedDomainIndex, setSelectedDomainIndex] = useState(0);
 
   const categories = [
-    { id: 'eng', label: 'Software Development' },
-    { id: 'ai', label: 'AI & Data Science' },
-    { id: 'ops', label: 'Cloud, Security & QA' },
-    { id: 'design', label: 'Product & Design' }
+    { id: 'eng', label: 'Software Development', color: '#2563eb', bg: '#eff6ff' },
+    { id: 'ai', label: 'AI & Data Science', color: '#059669', bg: '#ecfdf5' },
+    { id: 'ops', label: 'Cloud, Security & QA', color: '#7c3aed', bg: '#f5f3ff' },
+    { id: 'design', label: 'Product & Design', color: '#e11d48', bg: '#fff1f2' }
   ];
 
   const [activeCategory, setActiveCategory] = useState('eng');
@@ -18,120 +18,130 @@ export default function HeroSection({ onExploreClick }) {
       categoryKey: "eng",
       title: "Frontend Development",
       category: "Web Engineering",
+      color: "#2563eb",
+      trainingFee: "NPR 3,000",
       tech: ["React.js", "JavaScript ES6+", "HTML5 & CSS3", "TailwindCSS"],
       fee: "NPR 199 (Internship) / NPR 3,000 (Training)",
-      trainingFee: "NPR 3,000",
       duration: "6 Weeks",
-      deliverables: ["Responsive UI Component Library", "Lighthouse Performance Optimization", "State Management Integration"],
-      description: "Build high-performance, responsive web interfaces with component-driven architecture and modern design systems."
+      deliverables: ["Responsive UI Component Library", "Lighthouse Performance Optimization", "State Management Architecture"],
+      description: "Construct high-performance, accessible web interfaces utilizing component-driven React architecture and modern design systems."
     },
     {
       num: "02",
       categoryKey: "eng",
       title: "Backend Development",
       category: "System Architecture",
-      tech: ["Node.js", "Express.js", "MongoDB Atlas", "RESTful APIs", "JWT"],
-      fee: "NPR 199 (Internship) / NPR 4,000 (Training)",
+      color: "#2563eb",
       trainingFee: "NPR 4,000",
+      tech: ["Node.js", "Express.js", "MongoDB Atlas", "RESTful APIs", "JWT Authentication"],
+      fee: "NPR 199 (Internship) / NPR 4,000 (Training)",
       duration: "8 Weeks",
-      deliverables: ["Microservice REST Endpoints", "Database CRUD Operations", "Secure JWT Authentication"],
-      description: "Design scalable backend APIs, database schemas, serverless logic, and secure authentication protocols."
+      deliverables: ["Microservice REST Endpoints", "Database CRUD & Indexing", "Secure HttpOnly Cookie Authentication"],
+      description: "Engineer scalable backend APIs, optimized database schemas, server middleware, and robust session security."
     },
     {
       num: "03",
       categoryKey: "eng",
-      title: "Full Stack Development",
+      title: "Full Stack MERN Development",
       category: "Full Lifecycle",
+      color: "#2563eb",
+      trainingFee: "NPR 10,000",
       tech: ["React.js", "Node.js", "Express", "MongoDB", "MVC Architecture"],
       fee: "NPR 199 (Internship) / NPR 10,000 (Training)",
-      trainingFee: "NPR 10,000",
       duration: "8 Weeks",
       deliverables: ["1 Batch Students Trained & Projects Shipped to Clients", "End-to-End MERN Application & Full Stack MVC", "Production Web Bundle & DB Integration"],
-      description: "End-to-end web engineering integrating responsive client applications with robust server endpoints and database layers."
+      description: "End-to-end full-stack web engineering integrating dynamic frontend interfaces with scalable backend API services and database persistence."
     },
     {
       num: "04",
       categoryKey: "eng",
-      title: "Mobile App Development",
+      title: "Mobile App Engineering",
       category: "Cross-Platform",
+      color: "#2563eb",
+      trainingFee: "NPR 4,000",
       tech: ["React Native", "Flutter", "iOS & Android UI", "REST APIs"],
       fee: "NPR 199 (Internship) / NPR 4,000 (Training)",
-      trainingFee: "NPR 4,000",
       duration: "8 Weeks",
-      deliverables: ["Cross-Platform Mobile App", "Push Notification Setup", "Mobile Storage Sync"],
-      description: "Create fluid, native-feel mobile applications for iOS and Android with real-time state management and mobile API integration."
+      deliverables: ["Cross-Platform Mobile App", "Push Notification Architecture", "Local Storage & Offline Sync"],
+      description: "Build performant mobile apps for Android and iOS featuring state management, push alerts, and mobile backend integration."
     },
     {
       num: "05",
       categoryKey: "ai",
-      title: "Artificial Intelligence & Machine Learning",
+      title: "AI & Machine Learning",
       category: "Intelligent Systems",
+      color: "#059669",
+      trainingFee: "NPR 12,000",
       tech: ["Python", "PyTorch", "TensorFlow", "Scikit-Learn", "Model Deployment"],
       fee: "NPR 199 (Internship) / NPR 12,000 (Training)",
-      trainingFee: "NPR 12,000",
       duration: "8 Weeks",
-      deliverables: ["Predictive ML Classification Model", "NLP Sentiment Pipeline", "AI Model Inference API"],
-      description: "Develop predictive machine learning models, natural language processing pipelines, and production AI inference APIs."
+      deliverables: ["Predictive ML Classification Model", "NLP Pipeline", "AI Model Inference API"],
+      description: "Develop predictive machine learning models, statistical natural language pipelines, and containerized model inference endpoints."
     },
     {
       num: "06",
       categoryKey: "ai",
-      title: "Data Science",
+      title: "Data Science & Business Analytics",
       category: "Analytics & Insights",
+      color: "#059669",
+      trainingFee: "NPR 4,000",
       tech: ["Python", "Pandas & NumPy", "SQL", "Data Visualization", "PowerBI"],
       fee: "NPR 199 (Internship) / NPR 4,000 (Training)",
-      trainingFee: "NPR 4,000",
       duration: "8 Weeks",
-      deliverables: ["Exploratory Data Analysis Report", "Predictive Business Model", "Interactive Dashboard"],
-      description: "Transform raw complex datasets into actionable business intelligence through statistical analysis and exploratory models."
+      deliverables: ["Exploratory Data Analysis Report", "Predictive Trend Analysis", "Interactive Business Dashboard"],
+      description: "Analyze complex structured datasets, perform statistical modeling, and generate data-driven decision visualizations."
     },
     {
       num: "07",
       categoryKey: "ops",
-      title: "Cybersecurity",
+      title: "Cybersecurity & Systems Auditing",
       category: "Security Auditing",
-      tech: ["Network Security", "Ethical Hacking", "Vulnerability Scanning", "Linux"],
-      fee: "NPR 199 (Internship) / NPR 4,000 (Training)",
+      color: "#7c3aed",
       trainingFee: "NPR 4,000",
+      tech: ["Network Security", "Vulnerability Scanning", "OWASP Top 10", "Linux Security"],
+      fee: "NPR 199 (Internship) / NPR 4,000 (Training)",
       duration: "6 Weeks",
-      deliverables: ["Web Application Vulnerability Audit", "Security Patch Documentation", "Encryption Setup"],
-      description: "Identify system vulnerabilities, conduct security audits, enforce encryption standards, and fortify application infrastructure."
+      deliverables: ["Web Application Vulnerability Audit", "Security Remediation Plan", "API Encryption Validation"],
+      description: "Identify system vulnerabilities, conduct security audits, enforce authentication protocols, and protect web infrastructure."
     },
     {
       num: "08",
       categoryKey: "design",
-      title: "UI/UX Design",
+      title: "UI/UX & Product Design",
       category: "Product Experience",
-      tech: ["Figma", "User Journey Mapping", "Design Systems", "Prototyping"],
-      fee: "NPR 199 (Internship) / NPR 3,000 (Training)",
+      color: "#e11d48",
       trainingFee: "NPR 3,000",
+      tech: ["Figma", "User Journey Mapping", "Design Systems", "Interactive Prototyping"],
+      fee: "NPR 199 (Internship) / NPR 3,000 (Training)",
       duration: "6 Weeks",
-      deliverables: ["Multi-Device UI Design System", "Interactive Figma Prototype", "User Journey Audit"],
-      description: "Craft intuitive user experiences, wireframes, accessible component libraries, and interactive high-fidelity prototypes."
+      deliverables: ["Multi-Device UI Design System", "Interactive Figma Prototype", "User Experience Audit"],
+      description: "Design user journeys, accessible interface components, wireframes, and production-ready interactive Figma prototypes."
     },
     {
       num: "09",
       categoryKey: "ops",
-      title: "Cloud & DevOps",
+      title: "Cloud Engineering & DevOps",
       category: "Infrastructure & CI/CD",
-      tech: ["Docker", "Kubernetes Basics", "AWS / GCP", "CI/CD Pipelines", "Linux"],
-      fee: "NPR 199 (Internship) / NPR 4,000 (Training)",
+      color: "#7c3aed",
       trainingFee: "NPR 4,000",
+      tech: ["Docker", "GitHub Actions", "AWS / Cloud Basics", "Linux Administration", "CI/CD"],
+      fee: "NPR 199 (Internship) / NPR 4,000 (Training)",
       duration: "8 Weeks",
-      deliverables: ["Docker Container Build Automation", "CI/CD GitHub Actions Pipeline", "Cloud Deployment Setup"],
-      description: "Automate containerized build pipelines, configure cloud infrastructure, and maintain continuous delivery operations."
+      deliverables: ["Docker Container Automation", "CI/CD GitHub Actions Pipeline", "Cloud Deployment Architecture"],
+      description: "Automate containerized build workflows, configure deployment pipelines, and maintain cloud hosting environments."
     },
     {
       num: "10",
       categoryKey: "ops",
-      title: "Software Testing",
+      title: "Software Quality Assurance & Testing",
       category: "Quality Assurance",
+      color: "#7c3aed",
+      trainingFee: "NPR 3,000",
       tech: ["Jest", "Cypress / Selenium", "Manual Testing", "Bug Tracking", "QA Test Plans"],
       fee: "NPR 199 (Internship) / NPR 3,000 (Training)",
-      trainingFee: "NPR 3,000",
       duration: "6 Weeks",
-      deliverables: ["Comprehensive Unit Test Suite", "Automated E2E Integration Tests", "QA Bug Report Log"],
-      description: "Validate code quality through unit testing, integration suites, automated end-to-end tests, and comprehensive QA reporting."
+      deliverables: ["Comprehensive Unit Test Suite", "Automated E2E Integration Tests", "QA Defect Log & Audit"],
+      description: "Ensure software reliability through automated test suites, end-to-end user flow testing, and structured QA bug tracking."
     }
   ];
 
@@ -139,70 +149,115 @@ export default function HeroSection({ onExploreClick }) {
   const activeSpotlight = filteredDomains[selectedDomainIndex] || filteredDomains[0] || domains[0];
 
   return (
-    <section style={{ padding: '4rem 0 2rem 0' }}>
+    <section style={{ padding: '4.5rem 0 3rem 0', background: 'linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)' }}>
       <div className="container">
         
         {/* Top Hero Split Layout */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '3rem',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '3.5rem',
           alignItems: 'center',
           marginBottom: '4rem'
         }}>
           
           {/* Left Hero Text Column */}
           <div>
-            <div style={{ marginBottom: '1.25rem' }}>
-              <span className="badge badge-coral" style={{ padding: '0.4rem 1.25rem', fontSize: '0.85rem' }}>
-                Official Career Gateway by Velora Global
+            <div style={{ marginBottom: '1rem' }}>
+              <span style={{
+                fontSize: '0.82rem',
+                color: '#2563eb',
+                fontWeight: '800',
+                textTransform: 'uppercase',
+                letterSpacing: '0.14em',
+                background: '#eff6ff',
+                padding: '0.35rem 1.1rem',
+                borderRadius: '9999px',
+                border: '1px solid #dbeafe',
+                display: 'inline-block'
+              }}>
+                VELORA GLOBAL
               </span>
             </div>
 
             <h1 style={{
-              fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
+              fontSize: 'clamp(2.4rem, 5vw, 3.6rem)',
               lineHeight: '1.15',
               fontWeight: '800',
-              color: '#0b0f19',
-              marginBottom: '1.25rem'
+              color: '#0a2540',
+              marginBottom: '1.25rem',
+              letterSpacing: '-0.02em'
             }}>
-              Delivering Opportunities with <br />
-              <span className="text-coral">Purpose & Precision</span>
+              Technology. Training. <br />
+              <span className="text-coral">Opportunity.</span>
             </h1>
 
             <p style={{
               fontSize: '1.15rem',
               color: '#64748b',
               marginBottom: '2.25rem',
-              maxWidth: '540px',
-              lineHeight: '1.6'
+              maxWidth: '560px',
+              lineHeight: '1.65'
             }}>
-              Connecting ambitious students with real-world learning opportunities, verified domain projects, and official industry certifications.
+              Delivering scalable enterprise IT solutions for businesses while empowering students and aspiring technology professionals through practical training and industry-focused internships.
             </p>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-              <button onClick={onExploreClick} className="btn-primary" style={{ padding: '0.85rem 1.8rem', fontSize: '1rem' }}>
+            {/* 3 Core Action CTAs */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap' }}>
+              <button 
+                onClick={onExploreClick} 
+                className="btn-coral" 
+                style={{ padding: '0.85rem 1.6rem', fontSize: '0.95rem', fontWeight: '700' }}
+              >
                 Explore Internships
               </button>
+
+              <button 
+                onClick={onTrainingClick || onExploreClick} 
+                className="btn-primary" 
+                style={{ padding: '0.85rem 1.6rem', fontSize: '0.95rem', fontWeight: '700' }}
+              >
+                Tech Training
+              </button>
+
+              {onServicesClick && (
+                <button 
+                  onClick={onServicesClick} 
+                  style={{
+                    padding: '0.85rem 1.5rem',
+                    fontSize: '0.95rem',
+                    fontWeight: '700',
+                    color: '#0a2540',
+                    background: '#ffffff',
+                    border: '1.5px solid #cbd5e1',
+                    borderRadius: '9999px',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                  onMouseEnter={(e) => { e.target.style.borderColor = '#0a2540'; e.target.style.background = '#f8fafc'; }}
+                  onMouseLeave={(e) => { e.target.style.borderColor = '#cbd5e1'; e.target.style.background = '#ffffff'; }}
+                >
+                  Enterprise Solutions ➔
+                </button>
+              )}
             </div>
           </div>
 
-          {/* Right Hero Graphic / Arch Portrait Container */}
+          {/* Right Hero Founder Image Spotlight */}
           <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
             <div style={{
               position: 'relative',
               width: '100%',
               maxWidth: '380px',
-              height: '420px',
+              height: '430px',
               borderRadius: '200px 200px 24px 24px',
-              background: 'linear-gradient(180deg, #dbeafe 0%, #2563eb 100%)',
+              background: 'linear-gradient(180deg, #dbeafe 0%, #0a2540 100%)',
               display: 'flex',
               alignItems: 'flex-end',
               justifyContent: 'center',
-              boxShadow: 'var(--shadow-lg)',
+              boxShadow: '0 20px 50px rgba(10, 37, 64, 0.18)',
               overflow: 'hidden'
             }}>
-              {/* Leader Image */}
               <img 
                 src="/media/rohit_sah.jpg" 
                 alt="Rohit Sah - Founder & CEO"
@@ -217,83 +272,122 @@ export default function HeroSection({ onExploreClick }) {
                 }}
               />
 
-              {/* Floating Badge */}
               <div className="corporate-card" style={{
                 position: 'absolute',
                 bottom: '1.5rem',
-                left: '1.5rem',
-                right: '1.5rem',
+                left: '1.25rem',
+                right: '1.25rem',
                 padding: '0.85rem 1.25rem',
                 background: 'rgba(255, 255, 255, 0.95)',
                 backdropFilter: 'blur(8px)',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between'
+                justifyContent: 'space-between',
+                borderRadius: '14px',
+                border: '1px solid rgba(226, 232, 240, 0.8)',
+                boxShadow: '0 8px 20px rgba(0,0,0,0.1)'
               }}>
                 <div>
-                  <h4 style={{ fontSize: '0.95rem', color: '#0b0f19' }}>Rohit Sah</h4>
+                  <h4 style={{ fontSize: '0.95rem', color: '#0b0f19', margin: 0, fontWeight: '800' }}>Rohit Sah</h4>
                   <span style={{ fontSize: '0.75rem', color: '#2563eb', fontWeight: '700' }}>Founder & CEO • Velora Global</span>
                 </div>
-                <span className="badge badge-green" style={{ fontSize: '0.7rem' }}>Co-Founded with Krishna & Puja</span>
+                <span style={{
+                  fontSize: '0.72rem',
+                  fontWeight: '700',
+                  background: '#f1f5f9',
+                  color: '#334155',
+                  padding: '0.2rem 0.5rem',
+                  borderRadius: '6px'
+                }}>
+                  Founding Team
+                </span>
               </div>
             </div>
           </div>
 
         </div>
 
-        {/* Enterprise Metrics Strip */}
+        {/* 🌟 Unified 4-Metrics Clean Card Banner (Exact User Design) */}
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '1.5rem',
-          marginBottom: '5rem',
           background: '#ffffff',
           border: '1px solid #e2e8f0',
-          borderRadius: '16px',
-          padding: '2rem',
-          boxShadow: 'var(--shadow-sm)'
+          borderRadius: '20px',
+          padding: '2.5rem 3rem',
+          boxShadow: '0 4px 25px rgba(0, 0, 0, 0.04)',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
+          gap: '2.5rem',
+          marginBottom: '5rem',
+          alignItems: 'flex-start'
         }}>
+          
+          {/* Stat 1: 10+ */}
           <div>
-            <span style={{ fontSize: '2rem', fontWeight: '800', color: '#0b0f19', display: 'block', lineHeight: '1' }}>10+</span>
-            <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Specialized Domain Tracks</span>
+            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#0b0f19', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
+              10+
+            </span>
+            <span style={{ fontSize: '0.92rem', color: '#475569', fontWeight: '600', marginTop: '0.65rem', display: 'block' }}>
+              Specialized Domain Tracks
+            </span>
           </div>
+
+          {/* Stat 2: 100% */}
           <div>
-            <span style={{ fontSize: '2rem', fontWeight: '800', color: '#2563eb', display: 'block', lineHeight: '1' }}>100%</span>
-            <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Official QR Verified Credentials</span>
+            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#2563eb', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
+              100%
+            </span>
+            <span style={{ fontSize: '0.92rem', color: '#475569', fontWeight: '600', marginTop: '0.65rem', display: 'block' }}>
+              Official QR Verified Credentials
+            </span>
           </div>
+
+          {/* Stat 3: 3 */}
           <div>
-            <span style={{ fontSize: '2rem', fontWeight: '800', color: '#ff6b6b', display: 'block', lineHeight: '1' }}>3</span>
-            <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Founding Executive Mentors</span>
+            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#f87171', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
+              3
+            </span>
+            <span style={{ fontSize: '0.92rem', color: '#475569', fontWeight: '600', marginTop: '0.65rem', display: 'block' }}>
+              Founding Executive Mentors
+            </span>
           </div>
+
+          {/* Stat 4: 1 Batch */}
           <div>
-            <span style={{ fontSize: '2rem', fontWeight: '800', color: '#10b981', display: 'block', lineHeight: '1' }}>1 Batch</span>
-            <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Students Trained & Projects Shipped to Clients</span>
+            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#10b981', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
+              1 Batch
+            </span>
+            <span style={{ fontSize: '0.92rem', color: '#475569', fontWeight: '600', marginTop: '0.65rem', display: 'block', lineHeight: '1.4' }}>
+              Students Trained & Projects Shipped to Clients
+            </span>
           </div>
+
         </div>
 
-        {/* State-of-the-Art Interactive Domain Navigator */}
-        <div style={{ marginBottom: '6rem' }}>
+        {/* 📚 "What We Do" Domain Specializations Section (Exact User Design) */}
+        <div style={{ marginBottom: '5.5rem' }}>
           
-          <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 3rem auto' }}>
+          <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 3rem auto' }}>
             <span style={{
-              fontSize: '0.82rem',
+              fontSize: '0.8rem',
               color: '#2563eb',
               fontWeight: '700',
               textTransform: 'uppercase',
               letterSpacing: '0.12em',
               background: '#eff6ff',
-              padding: '0.35rem 1rem',
+              padding: '0.4rem 1.1rem',
               borderRadius: '9999px',
               border: '1px solid #dbeafe',
               display: 'inline-block',
-              marginBottom: '0.75rem'
+              marginBottom: '0.85rem'
             }}>
-              Domain Specializations
+              DOMAIN SPECIALIZATIONS
             </span>
-            <h2 style={{ fontSize: '2.5rem', color: '#0b0f19', marginTop: '0.3rem', fontWeight: '800', lineHeight: '1.2' }}>
+
+            <h2 style={{ fontSize: '2.6rem', color: '#0b0f19', fontWeight: '800', margin: '0 0 0.65rem 0', letterSpacing: '-0.02em', lineHeight: '1.2' }}>
               What We Do
             </h2>
-            <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.5rem' }}>
+
+            <p style={{ color: '#64748b', fontSize: '1.05rem', margin: '0 auto', maxWidth: '640px', lineHeight: '1.6' }}>
               Select a domain category below to explore curriculum deliverables, tech stacks, and career outcomes.
             </p>
           </div>
@@ -301,168 +395,171 @@ export default function HeroSection({ onExploreClick }) {
           {/* Category Filter Pills */}
           <div className="horizontal-scroll-mobile" style={{
             display: 'flex',
-            flexWrap: 'wrap',
             justifyContent: 'center',
-            alignItems: 'center',
-            gap: '0.75rem',
-            marginBottom: '2.5rem',
+            gap: '0.85rem',
+            marginBottom: '2.75rem',
+            paddingBottom: '0.5rem',
             width: '100%'
           }}>
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => {
-                  setActiveCategory(cat.id);
-                  setSelectedDomainIndex(0);
-                }}
-                style={{
-                  padding: '0.65rem 1.4rem',
-                  borderRadius: '9999px',
-                  fontSize: '0.9rem',
-                  fontWeight: '700',
-                  background: activeCategory === cat.id ? '#0b0f19' : '#ffffff',
-                  color: activeCategory === cat.id ? '#ffffff' : '#64748b',
-                  border: activeCategory === cat.id ? '1px solid #0b0f19' : '1px solid #cbd5e1',
-                  boxShadow: activeCategory === cat.id ? 'var(--shadow-md)' : 'none',
-                  whiteSpace: 'nowrap',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                {cat.label}
-              </button>
-            ))}
+            {categories.map((cat) => {
+              const isActive = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => {
+                    setActiveCategory(cat.id);
+                    setSelectedDomainIndex(0);
+                  }}
+                  style={{
+                    padding: '0.7rem 1.6rem',
+                    borderRadius: '9999px',
+                    fontSize: '0.92rem',
+                    fontWeight: isActive ? '700' : '600',
+                    background: isActive ? '#0b0f19' : '#ffffff',
+                    color: isActive ? '#ffffff' : '#475569',
+                    border: isActive ? '1px solid #0b0f19' : '1px solid #e2e8f0',
+                    boxShadow: isActive ? '0 4px 14px rgba(11, 15, 25, 0.15)' : 'none',
+                    whiteSpace: 'nowrap',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.target.style.background = '#f8fafc';
+                      e.target.style.borderColor = '#cbd5e1';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.target.style.background = '#ffffff';
+                      e.target.style.borderColor = '#e2e8f0';
+                    }
+                  }}
+                >
+                  {cat.label}
+                </button>
+              );
+            })}
           </div>
 
-          {/* Interactive Showcase Hub Split Canvas */}
+          {/* Dual Column Spotlight Grid */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
             gap: '2rem',
             alignItems: 'stretch'
           }}>
             
-            {/* Left Domain List Selector */}
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.85rem'
-            }}>
-              {filteredDomains.map((dom, idx) => (
-                <div
-                  key={dom.num}
-                  onClick={() => setSelectedDomainIndex(idx)}
-                  style={{
-                    padding: '1.25rem 1.5rem',
-                    borderRadius: '14px',
-                    background: selectedDomainIndex === idx ? '#ffffff' : '#f8fafc',
-                    border: selectedDomainIndex === idx ? '2px solid #2563eb' : '1px solid #e2e8f0',
-                    boxShadow: selectedDomainIndex === idx ? '0 10px 25px rgba(37, 99, 235, 0.12)' : 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <span style={{
-                      fontSize: '0.85rem',
-                      fontWeight: '800',
-                      color: selectedDomainIndex === idx ? '#2563eb' : '#94a3b8',
-                      fontFamily: 'monospace'
-                    }}>
-                      {dom.num}
-                    </span>
+            {/* Left Domain List Column */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              {filteredDomains.map((dom, idx) => {
+                const isSelected = activeSpotlight.title === dom.title;
+                return (
+                  <div
+                    key={idx}
+                    onClick={() => setSelectedDomainIndex(idx)}
+                    style={{
+                      padding: '1.25rem 1.5rem',
+                      background: '#ffffff',
+                      border: isSelected ? '2px solid #2563eb' : '1px solid #e2e8f0',
+                      borderRadius: '16px',
+                      cursor: 'pointer',
+                      boxShadow: isSelected ? '0 4px 14px rgba(37, 99, 235, 0.1)' : '0 1px 3px rgba(0, 0, 0, 0.02)',
+                      transition: 'all 0.18s ease',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between'
+                    }}
+                  >
                     <div>
-                      <h4 style={{
-                        fontSize: '1.05rem',
-                        color: selectedDomainIndex === idx ? '#0b0f19' : '#475569',
-                        fontWeight: '700',
-                        marginBottom: '0.15rem'
-                      }}>
-                        {dom.title}
-                      </h4>
-                      <span style={{ fontSize: '0.78rem', color: '#64748b' }}>{dom.category}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.2rem' }}>
+                        <span style={{
+                          fontSize: '0.85rem',
+                          fontWeight: '800',
+                          color: isSelected ? '#2563eb' : '#94a3b8'
+                        }}>
+                          {dom.num}
+                        </span>
+                        <h3 style={{
+                          fontSize: '1.05rem',
+                          fontWeight: '800',
+                          color: isSelected ? '#0b0f19' : '#334155',
+                          margin: 0
+                        }}>
+                          {dom.title}
+                        </h3>
+                      </div>
+                      <span style={{ fontSize: '0.82rem', color: '#64748b', marginLeft: '1.6rem', display: 'block' }}>
+                        {dom.category}
+                      </span>
                     </div>
+
+                    <span style={{
+                      fontSize: '1.2rem',
+                      color: isSelected ? '#2563eb' : '#cbd5e1',
+                      fontWeight: '800'
+                    }}>
+                      →
+                    </span>
                   </div>
-                  <span style={{
-                    fontSize: '1.1rem',
-                    color: selectedDomainIndex === idx ? '#2563eb' : '#cbd5e1',
-                    fontWeight: '800'
-                  }}>
-                    →
-                  </span>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
-            {/* Right Active Domain Spotlight Card */}
-            <div style={{
+            {/* Right Interactive Detailed Spotlight Card */}
+            <div className="corporate-card" style={{
               background: '#ffffff',
               border: '1px solid #e2e8f0',
-              borderRadius: '20px',
-              padding: '2.75rem',
-              boxShadow: 'var(--shadow-lg)',
+              borderRadius: '24px',
+              padding: '2.5rem',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'space-between',
-              position: 'relative',
-              overflow: 'hidden'
+              justifyContent: 'space-between'
             }}>
-              {/* Blue Ambient Glow Accent */}
-              <div style={{
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                width: '180px',
-                height: '180px',
-                background: 'radial-gradient(circle, rgba(37, 99, 235, 0.12) 0%, rgba(255,255,255,0) 70%)',
-                pointerEvents: 'none'
-              }} />
-
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.5rem' }}>
                   <span style={{
+                    fontSize: '0.78rem',
+                    fontWeight: '700',
                     background: '#eff6ff',
                     color: '#2563eb',
                     padding: '0.35rem 0.85rem',
-                    borderRadius: '8px',
-                    fontSize: '0.8rem',
-                    fontWeight: '800',
-                    letterSpacing: '0.04em'
+                    borderRadius: '9999px',
+                    border: '1px solid #dbeafe',
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase'
                   }}>
                     TRACK {activeSpotlight.num} • {activeSpotlight.category.toUpperCase()}
                   </span>
-
-                  <span style={{ fontSize: '0.85rem', color: '#2563eb', fontWeight: '800' }}>
+                  <span style={{ fontSize: '0.88rem', color: '#2563eb', fontWeight: '700' }}>
                     Training Fee: {activeSpotlight.trainingFee || 'NPR 3,000'}
                   </span>
                 </div>
 
-                <h3 style={{ fontSize: '2rem', color: '#0b0f19', fontWeight: '800', marginBottom: '1rem', lineHeight: '1.2' }}>
+                <h3 style={{ fontSize: '1.85rem', color: '#0b0f19', fontWeight: '800', marginBottom: '0.75rem', lineHeight: '1.2' }}>
                   {activeSpotlight.title}
                 </h3>
 
-                <p style={{ color: '#64748b', fontSize: '1.05rem', lineHeight: '1.6', marginBottom: '1.75rem' }}>
+                <p style={{ color: '#64748b', fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '1.5rem' }}>
                   {activeSpotlight.description}
                 </p>
 
-                {/* Tech Stack Pills */}
-                <div style={{ marginBottom: '1.75rem' }}>
-                  <span style={{ display: 'block', fontSize: '0.8rem', color: '#94a3b8', fontWeight: '700', textTransform: 'uppercase', marginBottom: '0.65rem' }}>
-                    Mastered Technologies & Frameworks
+                {/* Tech Stack */}
+                <div style={{ marginBottom: '1.5rem' }}>
+                  <span style={{ display: 'block', fontSize: '0.78rem', color: '#94a3b8', fontWeight: '700', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+                    Mastered Technologies & Tools
                   </span>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem' }}>
                     {(activeSpotlight.tech || []).map((t, i) => (
                       <span key={i} style={{
-                        background: '#f1f5f9',
-                        border: '1px solid #cbd5e1',
+                        background: '#f8fafc',
+                        border: '1px solid #e2e8f0',
                         color: '#0b0f19',
                         fontSize: '0.82rem',
                         fontWeight: '700',
                         padding: '0.3rem 0.75rem',
-                        borderRadius: '6px'
+                        borderRadius: '8px'
                       }}>
                         {t}
                       </span>
@@ -470,46 +567,73 @@ export default function HeroSection({ onExploreClick }) {
                   </div>
                 </div>
 
-                {/* Key Deliverables List */}
+                {/* Deliverables List */}
                 <div style={{ marginBottom: '2rem' }}>
-                  <span style={{ display: 'block', fontSize: '0.8rem', color: '#94a3b8', fontWeight: '700', textTransform: 'uppercase', marginBottom: '0.65rem' }}>
+                  <span style={{ display: 'block', fontSize: '0.78rem', color: '#94a3b8', fontWeight: '700', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
                     Key Student Deliverables & Outcomes
                   </span>
-                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                     {(activeSpotlight.deliverables || []).map((del, i) => (
-                      <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '0.92rem', color: '#334155' }}>
-                        <span style={{ color: '#2563eb', fontWeight: '800' }}>✓</span> {del}
+                      <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '0.88rem', color: '#334155' }}>
+                        <span style={{
+                          width: '18px',
+                          height: '18px',
+                          borderRadius: '50%',
+                          background: '#eff6ff',
+                          color: '#2563eb',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '0.72rem',
+                          fontWeight: '800'
+                        }}>✓</span>
+                        {del}
                       </li>
                     ))}
                   </ul>
                 </div>
               </div>
 
-              {/* Bottom Action Footer */}
-              <div style={{
-                borderTop: '1px solid #f1f5f9',
-                paddingTop: '1.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                gap: '1rem'
-              }}>
-                <div>
-                  <span style={{ display: 'block', fontSize: '0.75rem', color: '#64748b' }}>Pricing & Track Options</span>
-                  <span style={{ fontSize: '1.02rem', fontWeight: '800', color: '#0b0f19' }}>
-                    <span style={{ color: '#ff6b6b' }}>Internship:</span> NPR 199 <span style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: '600' }}>(From 2 Wks)</span>
-                    <span style={{ margin: '0 0.4rem', color: '#cbd5e1' }}>•</span>
-                    <span style={{ color: '#2563eb' }}>Training:</span> {activeSpotlight.trainingFee || 'NPR 3,000'}
-                  </span>
-                </div>
-
+              <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '1.5rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                 <button
                   onClick={onExploreClick}
-                  className="btn-coral"
-                  style={{ padding: '0.75rem 1.6rem', fontSize: '0.95rem' }}
+                  style={{
+                    flex: 1,
+                    padding: '0.8rem 1.25rem',
+                    fontSize: '0.92rem',
+                    fontWeight: '700',
+                    background: '#2563eb',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '9999px',
+                    cursor: 'pointer',
+                    textAlign: 'center',
+                    transition: 'background 0.15s ease'
+                  }}
+                  onMouseEnter={(e) => e.target.style.background = '#1d4ed8'}
+                  onMouseLeave={(e) => e.target.style.background = '#2563eb'}
                 >
-                  Explore & Apply for this Domain ➔
+                  Apply for Internship
+                </button>
+                <button
+                  onClick={onTrainingClick || onExploreClick}
+                  style={{
+                    flex: 1,
+                    padding: '0.8rem 1.25rem',
+                    fontSize: '0.92rem',
+                    fontWeight: '700',
+                    background: '#ffffff',
+                    color: '#0b0f19',
+                    border: '1px solid #cbd5e1',
+                    borderRadius: '9999px',
+                    cursor: 'pointer',
+                    textAlign: 'center',
+                    transition: 'all 0.15s ease'
+                  }}
+                  onMouseEnter={(e) => { e.target.style.background = '#f8fafc'; e.target.style.borderColor = '#94a3b8'; }}
+                  onMouseLeave={(e) => { e.target.style.background = '#ffffff'; e.target.style.borderColor = '#cbd5e1'; }}
+                >
+                  View Training Specs
                 </button>
               </div>
 
@@ -517,37 +641,6 @@ export default function HeroSection({ onExploreClick }) {
 
           </div>
 
-        </div>
-
-        {/* Dark Executive Callout Banner (Midnight #0B0F19) */}
-        <div style={{
-          background: '#0b0f19',
-          borderRadius: '24px',
-          padding: '3.5rem',
-          color: 'white',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '2rem',
-          boxShadow: 'var(--shadow-lg)',
-          border: '1px solid rgba(255, 255, 255, 0.1)'
-        }}>
-          <div style={{ maxWidth: '650px' }}>
-            <span style={{ fontSize: '0.8rem', color: '#ff6b6b', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-              Velora Global Career Accelerator
-            </span>
-            <h3 style={{ fontSize: '2.2rem', color: 'white', marginTop: '0.4rem', marginBottom: '0.75rem', fontWeight: '800' }}>
-              Let's work together on your next career milestone.
-            </h3>
-            <p style={{ color: '#94a3b8', fontSize: '1.05rem', lineHeight: '1.6' }}>
-              Gain practical industry exposure, verified credentials, and continuous mentorship from Rohit Sah, Rambilas Sah, and Puja Rouniyar.
-            </p>
-          </div>
-
-          <button onClick={onExploreClick} className="btn-coral" style={{ padding: '1rem 2.5rem', fontSize: '1.05rem' }}>
-            Get In Touch
-          </button>
         </div>
 
       </div>

@@ -166,20 +166,23 @@ export default function TeamPage({ onExploreClick }) {
                 </div>
               </div>
 
-              {/* Direct Email Link */}
+              {/* Official Social / LinkedIn Link */}
               <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '1.25rem' }}>
                 <a 
-                  href={`mailto:${member.email}`}
+                  href="https://www.linkedin.com/company/veloraglo-bal/"
+                  target="_blank"
+                  rel="noreferrer"
                   style={{
                     fontSize: '0.85rem',
                     color: '#2563eb',
                     fontWeight: '700',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '0.4rem'
+                    gap: '0.4rem',
+                    textDecoration: 'none'
                   }}
                 >
-                   {member.email}
+                  Connect on LinkedIn ➔
                 </a>
               </div>
 
@@ -246,7 +249,7 @@ export default function TeamPage({ onExploreClick }) {
             Ready to Mentored by Founding Industry Leaders?
           </h3>
           <p style={{ color: '#94a3b8', fontSize: '1.05rem', maxWidth: '600px', margin: '0 auto 2rem auto' }}>
-            Apply for our accredited 6 to 8-week internship programs across 10 specialized domain tracks.
+            Apply for our structured practical 6 to 8-week internship programs across 10 specialized domain tracks.
           </p>
           <button onClick={onExploreClick} className="btn-coral" style={{ padding: '0.9rem 2.4rem', fontSize: '1rem' }}>
             Explore Internship Opportunities ➔

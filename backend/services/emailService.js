@@ -7,19 +7,19 @@ const nodemailer = require('nodemailer');
  * Guide: https://support.google.com/accounts/answer/185833
  */
 function createTransporter() {
-  const user = (process.env.EMAIL_USER || 'veloraglobal.hr@gmail.com').trim();
-  const pass = (process.env.EMAIL_PASS || 'nadlcdqvobmmyggr').replace(/\s+/g, '').trim();
+  const user = (process.env.EMAIL_USER || '').trim();
+  const pass = (process.env.EMAIL_PASS || '').replace(/\s+/g, '').trim();
+
+  if (!user || !pass) {
+    throw new Error('EMAIL_USER and EMAIL_PASS environment variables must be set.');
+  }
+
   return nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
     secure: true,
-    auth: {
-      user,
-      pass
-    },
-    tls: {
-      rejectUnauthorized: false
-    }
+    auth: { user, pass },
+    tls: { rejectUnauthorized: true }
   });
 }
 
@@ -288,4 +288,52 @@ async function sendOtpEmail(toEmail, otpCode, name = 'Valued User') {
   }
 }
 
-module.exports = { sendPasswordResetEmail, sendVerificationEmail, sendOtpEmail };
+/**
+ * Sends notifications for new client inquiries and contact submissions.
+ */
+async function sendInquiryEmail(inquiry) {
+  try {
+    const transporter = createTransporter();
+    const adminEmail = process.env.EMAIL_USER || 'veloraglobal.hr@gmail.com';
+
+    // 1. Send notification to admin / operations team
+    await transporter.sendMail({
+      from: `"Velora Global Inquiries" <${adminEmail}>`,
+      to: adminEmail,
+      subject: `📩 New Inquiry: ${inquiry.projectType || 'General'} from ${inquiry.clientName}`,
+      html: `
+        <h2>New Inquiry / Contact Form Received</h2>
+        <p><strong>Name:</strong> ${inquiry.clientName}</p>
+        <p><strong>Email:</strong> ${inquiry.email}</p>
+        <p><strong>Phone:</strong> ${inquiry.phone || 'N/A'}</p>
+        <p><strong>Company:</strong> ${inquiry.companyName || 'N/A'}</p>
+        <p><strong>Topic / Project:</strong> ${inquiry.projectType || 'General'}</p>
+        <p><strong>Message:</strong></p>
+        <blockquote style="background:#f8fafc;padding:12px;border-left:4px solid #2563eb;">${inquiry.description}</blockquote>
+        <p><small>Received at: ${new Date().toISOString()}</small></p>
+      `
+    }).catch(e => console.error('Admin notification email skipped:', e.message));
+
+    // 2. Send confirmation auto-reply to client
+    await transporter.sendMail({
+      from: `"Velora Global" <${adminEmail}>`,
+      to: inquiry.email,
+      subject: `We have received your inquiry — Velora Global`,
+      html: `
+        <div style="font-family:Arial,sans-serif;line-height:1.6;color:#334155;max-width:600px;margin:0 auto;padding:20px;">
+          <h2 style="color:#0a2540;">Thank You for Contacting Velora Global</h2>
+          <p>Hello <strong>${inquiry.clientName}</strong>,</p>
+          <p>We have successfully received your inquiry regarding <strong>${inquiry.projectType || 'our programs/services'}</strong>.</p>
+          <p>Our team is reviewing your message and will respond with next steps within 24 business hours.</p>
+          <hr style="border:none;border-top:1px solid #e2e8f0;margin:20px 0;" />
+          <p style="font-size:12px;color:#94a3b8;">Velora Global • Technology, Training & Enterprise Solutions<br/>support@velora-global.online</p>
+        </div>
+      `
+    }).catch(e => console.error('Client auto-reply email skipped:', e.message));
+  } catch (err) {
+    console.error('Inquiry email error:', err.message);
+  }
+}
+
+module.exports = { sendPasswordResetEmail, sendVerificationEmail, sendOtpEmail, sendInquiryEmail };
+

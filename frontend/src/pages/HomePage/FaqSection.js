@@ -5,24 +5,24 @@ export default function FaqSection() {
 
   const faqs = [
     {
-      question: "Are the Velora Global internship certificates officially verified?",
-      answer: "Yes. Every certificate issued by Velora Global includes a unique certificate ID (e.g., VG-2026-88491) and a public QR code endpoint. Anyone, including employers and universities, can verify its authenticity on our public Verification Portal."
+      question: "Are the Velora Global internship completion certificates verifiable?",
+      answer: "Yes. Every certificate issued by Velora Global includes a unique certificate verification ID (e.g., VG-2026-88491) and a public verification endpoint. Anyone, including prospective employers and universities, can verify its authenticity on our public Verification Portal."
     },
     {
       question: "Who evaluates student project submissions?",
-      answer: "Project deliverables are evaluated directly by our founding team led by Rohit Sah (Founder & CEO), Rambilas Sah (Co-Founder), and Puja Rouniyar (Co-Founder & COO) using our 5-criteria evaluation framework."
+      answer: "Project deliverables and code repositories are reviewed directly by our founding team led by Rohit Sah (Founder & CEO), Krishna Sah (Co-Founder), and Puja Rouniyar (Co-Founder & COO) using our 5-criteria structured evaluation framework."
+    },
+    {
+      question: "What is the difference between the Internship and Training programs?",
+      answer: "The Internship program is project-driven and task-oriented, where candidates work independently on deliverables with mentor feedback and milestone reviews. The Guided Training program includes structured live lectures, hands-on step-by-step development, full codebase walkthroughs, and guaranteed internship placement."
     },
     {
       question: "What are the 5 criteria used for project grading?",
-      answer: "Evaluations assess Quality of Work, Technical Skills & Mastery, Creativity, Completion of Requirements, and Professional Approach. Students receive detailed written feedback along with their final grade."
-    },
-    {
-      question: "What tech stacks are covered in the internships?",
-      answer: "We offer 10 specialized domain tracks covering Frontend (React), Backend (Node.js & Express), Full Stack (MERN), Mobile Apps (React Native & Flutter), AI & ML (PyTorch & TensorFlow), Data Science (Pandas & SQL), Cybersecurity, UI/UX (Figma), Cloud & DevOps (Docker & AWS), and Software Testing (Jest & Cypress)."
+      answer: "Evaluations assess Quality of Code, Technical Mastery, Creative Problem Solving, Completion of Requirements, and Professional Documentation. Candidates receive detailed written feedback along with their final certificate record."
     },
     {
       question: "Can I participate in the internship remotely?",
-      answer: "Yes! All Velora Global internship programs support remote and hybrid participation with flexible schedules designed for university students and career switchers."
+      answer: "Yes. All Velora Global internship and training tracks support remote participation with flexible schedules designed for university students and working professionals."
     }
   ];
 
@@ -44,13 +44,13 @@ export default function FaqSection() {
             display: 'inline-block',
             marginBottom: '0.75rem'
           }}>
-            Got Questions?
+            Transparent Answers
           </span>
-          <h2 style={{ fontSize: '2.5rem', color: '#0b0f19', marginTop: '0.3rem', fontWeight: '800' }}>
+          <h2 style={{ fontSize: '2.5rem', color: '#0a2540', marginTop: '0.3rem', fontWeight: '800' }}>
             Frequently Asked Questions
           </h2>
           <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.5rem' }}>
-            Everything you need to know about Velora Global internships and credential verification.
+            Everything you need to know about Velora Global internships, training, and credential verification.
           </p>
         </div>
 
@@ -79,7 +79,9 @@ export default function FaqSection() {
                   justifyContent: 'space-between',
                   fontSize: '1.05rem',
                   fontWeight: '700',
-                  color: '#0b0f19'
+                  color: '#0b0f19',
+                  border: 'none',
+                  cursor: 'pointer'
                 }}
               >
                 <span>{faq.question}</span>

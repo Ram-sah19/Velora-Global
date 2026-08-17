@@ -31,7 +31,7 @@ function parseCookies(cookieHeader) {
 }
 
 function create30DaySession(res, user) {
-  const sessionId = `sess-${Date.now()}-${crypto.randomBytes(16).toString('hex')}`;
+const sessionId = crypto.randomBytes(32).toString('hex');
   const expiresAt = new Date(Date.now() + THIRTY_DAYS_MS).toISOString();
 
   const db = readLocalDb();
@@ -115,7 +115,10 @@ exports.logoutUser = async (req, res) => {
       }
     }
 
-    res.setHeader('Set-Cookie', 'velora_refresh_token=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax');
+  const isProd = process.env.NODE_ENV === 'production';
+  const sameSite = isProd ? 'SameSite=None' : 'SameSite=Lax';
+  const secure = isProd ? '; Secure' : '';
+  res.setHeader('Set-Cookie', `velora_refresh_token=; Path=/; Max-Age=0; HttpOnly; ${sameSite}${secure}`);
     res.json({ message: 'Logout successful' });
   } catch (err) {
     res.status(500).json({ error: 'Server error.' });
@@ -149,8 +152,7 @@ exports.deleteUser = async (req, res) => {
         $or: [
           { id: rawId },
           { id: cleanId },
-          { email: cleanId },
-          { email: new RegExp(`^${cleanId}$`, 'i') }
+          { email: cleanId }
         ]
       });
 
@@ -226,14 +228,21 @@ exports.deleteUser = async (req, res) => {
 };
 
 exports.getFounders = async (req, res) => {
+  const SAFE_FIELDS = ['name', 'role', 'bio', 'avatar', 'userType'];
+  function pickSafe(u) {
+    const obj = u.toObject ? u.toObject() : { ...u };
+    const safe = {};
+    SAFE_FIELDS.forEach(f => { if (obj[f] !== undefined) safe[f] = obj[f]; });
+    return safe;
+  }
   try {
-    const founders = await User.find({ userType: { $in: ['admin', 'superadmin'] } }).select('-password');
-    res.json(founders);
+    const founders = await User.find({ userType: { $in: ['admin', 'superadmin'] } }).select(SAFE_FIELDS.join(' '));
+    res.json(founders.map(pickSafe));
   } catch (err) {
     const db = readLocalDb();
     const founders = (db.users || [])
       .filter(u => u.userType === 'admin' || u.userType === 'superadmin')
-      .map(u => { const { password, ...safe } = u; return safe; });
+      .map(pickSafe);
     res.json(founders);
   }
 };
@@ -260,9 +269,12 @@ exports.registerStudent = async (req, res) => {
       return res.status(400).json({ error: 'An account with this email address is already registered. Please sign in.' });
     }
 
-    // Hash password with bcrypt
-    const rawPassword = password || 'student123';
-    const hashedPassword = await bcrypt.hash(rawPassword, SALT_ROUNDS);
+    // Require password
+    if (!password || password.length < 8) {
+      return res.status(400).json({ error: 'Password must be at least 8 characters.' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
     const newUser = {
       id: `user-student-${Date.now()}`,
@@ -295,7 +307,8 @@ exports.registerStudent = async (req, res) => {
       user: safeUser(savedUser)
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('registerStudent error:', err);
+    res.status(500).json({ error: 'Registration failed. Please try again.' });
   }
 };
 
@@ -320,8 +333,11 @@ exports.registerClient = async (req, res) => {
       return res.status(400).json({ error: 'A corporate client account with this email address already exists. Please sign in.' });
     }
 
-    const rawPassword = password || 'client123';
-    const hashedPassword = await bcrypt.hash(rawPassword, SALT_ROUNDS);
+    if (!password || password.length < 8) {
+      return res.status(400).json({ error: 'Password must be at least 8 characters.' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
     const newClient = {
       id: `user-client-${Date.now()}`,
@@ -353,7 +369,8 @@ exports.registerClient = async (req, res) => {
       user: safeUser(savedClient)
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('registerClient error:', err);
+    res.status(500).json({ error: 'Registration failed. Please try again.' });
   }
 };
 
@@ -362,8 +379,8 @@ exports.registerAdmin = async (req, res) => {
   try {
     const { name, email, password, adminSecretKey } = req.body;
 
-    const VALID_SECRET = process.env.ADMIN_SECRET_KEY || 'VELORA_SUPER_ADMIN_2026';
-    if (adminSecretKey !== VALID_SECRET) {
+    const VALID_SECRET = process.env.ADMIN_SECRET_KEY;
+    if (!VALID_SECRET || adminSecretKey !== VALID_SECRET) {
       return res.status(403).json({ error: 'Invalid Super Admin Registration Secret Key.' });
     }
 
@@ -410,7 +427,8 @@ exports.registerAdmin = async (req, res) => {
     create30DaySession(res, newAdmin);
     res.status(201).json({ message: 'Super Admin registered successfully', user: safeUser(savedAdmin) });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('registerAdmin error:', err);
+    res.status(500).json({ error: 'Admin registration failed. Please try again.' });
   }
 };
 
@@ -437,30 +455,10 @@ exports.loginUser = async (req, res) => {
       return res.status(404).json({ error: 'Account not found with this email. Please sign up.' });
     }
 
-    // Compare hashed password using bcrypt
+    // Compare hashed password using bcrypt (bcrypt-only — no plaintext fallback)
     let passwordMatch = false;
     if (user.password) {
-      const isHashed = user.password.startsWith('$2b$') || user.password.startsWith('$2a$');
-      if (isHashed) {
-        passwordMatch = await bcrypt.compare(password, user.password);
-      } else {
-        // Legacy plain-text comparison (for existing users before migration)
-        passwordMatch = user.password === password;
-        if (passwordMatch) {
-          // Upgrade plain-text password to bcrypt hash on successful login
-          const newHash = await bcrypt.hash(password, SALT_ROUNDS);
-          try {
-            await User.updateOne({ email: emailClean }, { password: newHash });
-          } catch (e) {
-            const db = readLocalDb();
-            const localUser = (db.users || []).find(u => u.email === emailClean);
-            if (localUser) {
-              localUser.password = newHash;
-              writeLocalDb(db);
-            }
-          }
-        }
-      }
+      passwordMatch = await bcrypt.compare(password, user.password);
     }
 
     if (!passwordMatch) {
@@ -512,8 +510,8 @@ exports.verifyOtp = async (req, res) => {
       return res.status(400).json({ error: 'The 6-digit verification code has expired after 10 minutes. Please click "Resend Code".' });
     }
 
-    // Match OTP Code
-    if (user.verificationOtp !== hashedOtp && user.verificationOtp !== cleanOtp) {
+    // Match OTP — compare hashed value only (never plaintext)
+    if (user.verificationOtp !== hashedOtp) {
       return res.status(400).json({ error: 'Incorrect 6-digit verification code. Please check your email and try again.' });
     }
 
@@ -569,7 +567,7 @@ exports.resendOtp = async (req, res) => {
       return res.json({ message: 'This account is already verified. You can sign in.' });
     }
 
-    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpCode = crypto.randomInt(100000, 999999).toString();
     const hashedOtp = crypto.createHash('sha256').update(otpCode).digest('hex');
     const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
@@ -612,20 +610,30 @@ exports.sendPhoneOtp = async (req, res) => {
     const codePrefix = countryCode.startsWith('+') ? countryCode : `+${countryCode}`;
     const fullPhone = `${codePrefix}${cleanPhone}`;
 
-    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpCode = crypto.randomInt(100000, 999999).toString();
+    const hashedOtp = crypto.createHash('sha256').update(otpCode).digest('hex');
+    const expiry = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+
+    // Store hashed OTP so verifyPhoneOtp can validate it
+    const db = readLocalDb();
+    if (!db.phoneOtps) db.phoneOtps = [];
+    db.phoneOtps = db.phoneOtps.filter(o => o.phone !== fullPhone); // remove old entry
+    db.phoneOtps.push({ phone: fullPhone, hashedOtp, expiry });
+    writeLocalDb(db);
+
     const waResult = await sendWhatsAppOtp(cleanPhone, codePrefix, otpCode, name);
 
     res.json({
-      message: `WhatsApp OTP sent successfully to ${fullPhone} (${codePrefix === '+977' ? 'Nepal 🇳🇵' : 'India 🇮🇳'})! Valid for 10 minutes.`,
+      message: `WhatsApp OTP sent successfully to ${fullPhone} (${codePrefix === '+977' ? 'Nepal' : 'India'})! Valid for 10 minutes.`,
       phone: fullPhone,
       countryCode: codePrefix,
-      waLink: waResult.waLink,
-      devOtpCode: otpCode
+      waLink: waResult.waLink
     });
   } catch (err) {
     res.status(500).json({ error: 'Failed to send WhatsApp OTP code.' });
   }
 };
+
 
 // ─── VERIFY WHATSAPP PHONE OTP ──────────────────────────────────────────────
 exports.verifyPhoneOtp = async (req, res) => {
@@ -639,13 +647,45 @@ exports.verifyPhoneOtp = async (req, res) => {
     const cleanOtp = otpCode.toString().trim();
     const codePrefix = countryCode.startsWith('+') ? countryCode : `+${countryCode}`;
 
+    // Look up stored OTP from DB
+    const db = require('./db') ? null : null;
+    let storedOtp = null;
+    try {
+      const u = await User.findOne({ phone: `${codePrefix}${cleanPhone}` }).select('+verificationOtp +verificationOtpExpiry');
+      if (u) {
+        storedOtp = u.verificationOtp;
+        if (u.verificationOtpExpiry && new Date(u.verificationOtpExpiry) < new Date()) {
+          return res.status(400).json({ error: 'OTP has expired. Please request a new code.' });
+        }
+      }
+    } catch (e) {
+      const { readLocalDb } = require('../db');
+      const localDb = readLocalDb();
+      const u = (localDb.phoneOtps || []).find(o => o.phone === `${codePrefix}${cleanPhone}`);
+      if (u) {
+        storedOtp = u.hashedOtp;
+        if (u.expiry && new Date(u.expiry) < new Date()) {
+          return res.status(400).json({ error: 'OTP has expired. Please request a new code.' });
+        }
+      }
+    }
+
+    if (!storedOtp) {
+      return res.status(400).json({ error: 'No pending OTP found for this number. Please request a new code.' });
+    }
+
+    const hashedInput = require('crypto').createHash('sha256').update(cleanOtp).digest('hex');
+    if (storedOtp !== hashedInput) {
+      return res.status(400).json({ error: 'Incorrect OTP code. Please try again.' });
+    }
+
     res.json({
-      message: `WhatsApp phone number ${codePrefix} ${cleanPhone} verified successfully!`,
+      message: `Phone number ${codePrefix} ${cleanPhone} verified successfully!`,
       isPhoneVerified: true,
       phone: `${codePrefix} ${cleanPhone}`
     });
   } catch (err) {
-    res.status(500).json({ error: 'Server error during WhatsApp OTP verification.' });
+    res.status(500).json({ error: 'Server error during phone OTP verification.' });
   }
 };
 

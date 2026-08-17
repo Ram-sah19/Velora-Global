@@ -228,6 +228,8 @@ export default function App() {
         <div style={{ display: activeTab === 'home' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
           <LandingPage 
             onExploreClick={() => handleTabChange('internships')}
+            onTrainingClick={() => handleTabChange('training')}
+            onServicesClick={() => handleTabChange('services')}
           />
         </div>
 
