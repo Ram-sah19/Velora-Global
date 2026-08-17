@@ -1,26 +1,13 @@
 /*
-  # Security Headers — Applied to all Cloudflare Pages responses
-  # Prevents clickjacking, MIME sniffing, XSS, information disclosure
-
-  X-Frame-Options: DENY
+  X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
-  X-XSS-Protection: 1; mode=block
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-
-  # Content Security Policy — restrict script/style/image/connect sources
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://api.dicebear.com https://velora-global.online https://www.velora-global.online; connect-src 'self' https://velora-global.onrender.com; frame-ancestors 'none';
 
 /api/*
   Cache-Control: no-store, no-cache, must-revalidate, private
   Pragma: no-cache
 
 /static/*
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.js
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.css
   Cache-Control: public, max-age=31536000, immutable

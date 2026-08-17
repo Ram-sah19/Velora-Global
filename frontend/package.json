@@ -14,9 +14,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "prestart": "node ../backend/copy_media.js",
     "start": "react-scripts start",
-    "build": "node ../backend/copy_media.js && react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
