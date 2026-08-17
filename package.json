@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Velora Global Platform",
   "scripts": {
-    "build": "cd frontend && npm install && npm run build",
+    "build": "cd frontend && npm run build",
     "start:backend": "cd backend && npm start",
     "start:frontend": "cd frontend && npm start",
     "start": "cd backend && npm start"
