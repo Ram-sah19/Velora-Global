@@ -337,7 +337,7 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
               100%
             </span>
             <span style={{ fontSize: '0.92rem', color: '#475569', fontWeight: '600', marginTop: '0.65rem', display: 'block' }}>
-              Official QR Verified Credentials
+              Verified Industry Credentials
             </span>
           </div>
 

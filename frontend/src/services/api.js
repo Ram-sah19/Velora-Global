@@ -52,10 +52,12 @@ export const api = {
   getProgramById: (id) => request(`/programs/${id}`),
   createProgram: (data) => request('/programs', { method: 'POST', body: JSON.stringify(data) }),
 
-  // Applications
-  getApplications: (studentId = '', status = '') => request(`/applications?studentId=${encodeURIComponent(studentId)}&status=${encodeURIComponent(status)}`),
+  // Applications & Enrollments
+  getApplications: (studentId = '', status = '', studentEmail = '') => request(`/applications?studentId=${encodeURIComponent(studentId)}&status=${encodeURIComponent(status)}&studentEmail=${encodeURIComponent(studentEmail)}`),
   submitApplication: (data) => request('/applications', { method: 'POST', body: JSON.stringify(data) }),
   updateApplicationStatus: (id, status, approvedBy = 'Super Admin') => request(`/applications/${id}/status`, { method: 'PUT', body: JSON.stringify({ status, approvedBy }) }),
+  updateApplication: (id, data) => request(`/applications/${encodeURIComponent(id)}`, { method: 'PUT', body: JSON.stringify(data) }),
+  deleteApplication: (id) => request(`/applications/${encodeURIComponent(id)}`, { method: 'DELETE' }),
 
   // Tasks & Submissions
   getTasks: (studentId = '', applicationId = '') => request(`/tasks?studentId=${encodeURIComponent(studentId)}&applicationId=${encodeURIComponent(applicationId)}`),

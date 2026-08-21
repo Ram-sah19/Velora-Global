@@ -17,14 +17,13 @@ function getRemainingTimeText(endDateStr) {
   return `${days} Days, ${hours} Hours, ${minutes} Mins Remaining`;
 }
 
-export default function StudentPortalPage({ onOpenCertificate, currentUser, onOpenAuth }) {
+export default function StudentPortalPage({ currentUser, onOpenAuth }) {
   const studentId = currentUser ? currentUser.id : null;
   const studentName = currentUser ? currentUser.name : 'Student Candidate';
   const studentEmail = currentUser ? currentUser.email : '';
 
   const [applications, setApplications] = useState([]);
   const [tasks, setTasks] = useState([]);
-  const [certificates, setCertificates] = useState([]);
   const [loading, setLoading] = useState(false);
   
   // Submission modal state
@@ -51,14 +50,33 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
   const loadStudentData = async (isSilent = false) => {
     if (!isSilent) setLoading(true);
     try {
-      const [appsData, tasksData, certsData] = await Promise.all([
-        api.getApplications(studentId),
-        api.getTasks(studentId),
-        api.getCertificates(studentId)
+      const [appsData, tasksData] = await Promise.all([
+        api.getApplications(studentId || '', '', studentEmail || ''),
+        api.getTasks(studentId || '', '')
       ]);
-      setApplications(appsData);
-      setTasks(tasksData);
-      setCertificates(certsData);
+
+      // STRICT LOGIC: Programs Enrolled is completely EMPTY until Admin lists/enrolls the student
+      const enrolledPrograms = (appsData || []).filter(app => {
+        const matchesStudent = 
+          (studentId && app.studentId === studentId) ||
+          (studentEmail && app.studentEmail && app.studentEmail.toLowerCase() === studentEmail.toLowerCase());
+
+        const isAdminEnrolled = 
+          app.status === 'Approved' || 
+          app.status === 'In-Progress' || 
+          app.status === 'Enrolled' || 
+          app.status === 'Completed';
+
+        return matchesStudent && isAdminEnrolled;
+      });
+
+      const userTasks = (tasksData || []).filter(t => {
+        return (studentId && t.studentId === studentId) ||
+               (studentEmail && t.studentEmail && t.studentEmail.toLowerCase() === studentEmail.toLowerCase());
+      });
+
+      setApplications(enrolledPrograms);
+      setTasks(userTasks);
     } catch (err) {
       console.error("Failed to load student portal data", err);
     } finally {
@@ -94,7 +112,6 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
       <section style={{ padding: '4rem 0', minHeight: '75vh' }}>
         <div className="container" style={{ maxWidth: '650px', textAlign: 'center' }}>
           <div className="corporate-card" style={{ padding: '3.5rem 2.5rem' }}>
-            <span style={{ fontSize: '3rem', display: 'block', marginBottom: '1rem' }}>🔒</span>
             <span className="badge badge-coral" style={{ marginBottom: '0.75rem' }}>Authentication Required</span>
             <h2 style={{ fontSize: '2rem', color: '#0b0f19', marginBottom: '0.75rem', fontWeight: '800' }}>
               Student Workspace Access Locked
@@ -122,7 +139,7 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
         
         {loading && (
           <div style={{ textAlign: 'center', padding: '1rem', color: '#64748b', fontSize: '0.85rem' }}>
-            ⚡ Syncing workspace data from Velora Global server...
+            Syncing workspace data from Velora Global server...
           </div>
         )}
 
@@ -160,66 +177,61 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
         {/* Workspace Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
           
-          {/* Column 1: Application Tracker */}
+          {/* Column 1: Programs Enrolled */}
           <div>
             <h3 style={{ fontSize: '1.35rem', color: '#0b0f19', marginBottom: '1.25rem' }}>
-              Program Applications ({applications.length})
+              Programs Enrolled ({applications.length})
             </h3>
 
             {applications.length === 0 ? (
               <div className="corporate-card" style={{ padding: '2.5rem 1.5rem', textAlign: 'center', background: '#ffffff', border: '1px dashed #cbd5e1' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>📚</div>
-                <h4 style={{ fontSize: '1.15rem', color: '#0b0f19', fontWeight: '800', marginBottom: '0.4rem' }}>
-                  Learning Materials & Curriculum
+                <h4 style={{ fontSize: '1.15rem', color: '#0b0f19', fontWeight: '800', marginBottom: '0.6rem' }}>
+                  No Program Assigned Yet
                 </h4>
-                <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.6', maxWidth: '380px', margin: '0 auto 1.25rem auto' }}>
-                  Your customized learning materials, domain repositories, and reference documentation will be available soon.
+                <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.6', maxWidth: '440px', margin: '0 auto 0.75rem auto' }}>
+                  Your application is currently being processed by the Administrator. Once your application has been reviewed, you will be assigned to a suitable internship track, training program, or project batch.
                 </p>
-                <span className="badge badge-gold" style={{ fontSize: '0.78rem' }}>⏳ Available Soon</span>
+                <p style={{ color: '#2563eb', fontSize: '0.85rem', fontWeight: '600', marginBottom: '1.25rem' }}>
+                  Your batch will be assigned soon. Please check back later for updates.
+                </p>
+                <span className="badge badge-blue" style={{ fontSize: '0.78rem' }}>Processing Review</span>
               </div>
             ) : (
               applications.map((app) => (
                 <div key={app.id} className="corporate-card" style={{ padding: '1.5rem', marginBottom: '1rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
                     <span className="badge badge-blue">{app.domain}</span>
-                    <span className={`badge ${
-                      app.status === 'Completed' ? 'badge-green' :
-                      app.status === 'In-Progress' || app.status === 'Approved' ? 'badge-blue' :
-                      app.status === 'Pending' ? 'badge-gold' : 'badge-coral'
-                    }`}>
-                      {app.status}
+                    <span className="badge badge-green">
+                      Enrolled & Active
                     </span>
                   </div>
 
                   <h4 style={{ fontSize: '1.15rem', color: '#0b0f19', marginBottom: '0.4rem' }}>{app.programTitle}</h4>
                   <p style={{ fontSize: '0.82rem', color: '#64748b', marginBottom: '0.75rem' }}>
-                    Applied Date: {app.appliedDate} • Selected Track: <strong>{app.selectedDuration || '1 Month'}</strong> ({app.programTrack || 'Internship'})
+                    Given by Admin: <strong style={{ color: '#2563eb' }}>{app.enrolledBy || 'Administrator'}</strong> • Track: <strong>{app.selectedDuration || '1 Month'}</strong> ({app.programTrack || 'Internship'})
                   </p>
 
-                  {/* APPROVED LIVE COUNTDOWN ACCESS TIMER */}
-                  {(app.status === 'Approved' || app.status === 'In-Progress') && (
-                    <div style={{ background: '#ecfdf5', border: '1px solid #6ee7b7', padding: '0.85rem', borderRadius: '10px', marginTop: '0.75rem', color: '#047857' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
-                        <strong style={{ fontSize: '0.88rem' }}>Access Unlocked (Approved)</strong>
-                        <span style={{ fontSize: '0.75rem', fontWeight: '800', background: '#d1fae5', padding: '0.15rem 0.5rem', borderRadius: '4px' }}>
-                          {app.selectedDuration}
-                        </span>
-                      </div>
-                      <span style={{ fontSize: '0.84rem', fontWeight: '800', color: '#065f46', display: 'block' }}>
-                        Access Countdown: {getRemainingTimeText(app.accessEndDate)}
+                  {/* ACTIVE LIVE COUNTDOWN ACCESS TIMER */}
+                  <div style={{ background: '#ecfdf5', border: '1px solid #6ee7b7', padding: '0.85rem', borderRadius: '10px', marginTop: '0.75rem', color: '#047857' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
+                      <strong style={{ fontSize: '0.88rem' }}>Active Workspace Access</strong>
+                      <span style={{ fontSize: '0.75rem', fontWeight: '800', background: '#d1fae5', padding: '0.15rem 0.5rem', borderRadius: '4px' }}>
+                        {app.selectedDuration || 'Active Track'}
                       </span>
                     </div>
-                  )}
+                    <span style={{ fontSize: '0.84rem', fontWeight: '800', color: '#065f46', display: 'block' }}>
+                      Access Countdown: {getRemainingTimeText(app.accessEndDate)}
+                    </span>
+                  </div>
 
-                  {/* Pipeline Status Progress */}
+                  {/* Enrollment Status Progress */}
                   <div style={{ background: '#f8fafc', padding: '0.75rem', borderRadius: '8px', border: '1px solid #e2e8f0', marginTop: '0.75rem' }}>
-                    <span style={{ fontSize: '0.75rem', color: '#64748b', display: 'block', marginBottom: '0.35rem', fontWeight: '600' }}>Pipeline Status</span>
+                    <span style={{ fontSize: '0.75rem', color: '#64748b', display: 'block', marginBottom: '0.35rem', fontWeight: '600' }}>Enrollment Milestones</span>
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem' }}>
-                      <span style={{ color: '#10b981', fontWeight: '700' }}>✓ Applied</span>
-                      <span style={{ color: '#10b981', fontWeight: '700' }}>✓ Reviewed</span>
-                      <span style={{ color: '#10b981', fontWeight: '700' }}>✓ Approved</span>
-                      <span style={{ color: app.status === 'Completed' ? '#10b981' : '#94a3b8', fontWeight: '700' }}>
-                        {app.status === 'Completed' ? '✓ Certified' : '○ Certified'}
+                      <span style={{ color: '#10b981', fontWeight: '700' }}>✓ Enrolled by Admin</span>
+                      <span style={{ color: '#10b981', fontWeight: '700' }}>✓ Workspace Active</span>
+                      <span style={{ color: tasks.length > 0 ? '#10b981' : '#94a3b8', fontWeight: '700' }}>
+                        {tasks.length > 0 ? '✓ Projects Assigned' : '○ Project Scope'}
                       </span>
                     </div>
                   </div>
@@ -237,14 +249,13 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
 
             {tasks.length === 0 ? (
               <div className="corporate-card" style={{ padding: '2.5rem 1.5rem', textAlign: 'center', background: '#ffffff', border: '1px dashed #cbd5e1' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🚀</div>
                 <h4 style={{ fontSize: '1.15rem', color: '#0b0f19', fontWeight: '800', marginBottom: '0.4rem' }}>
                   Assigned Tasks & Deliverables
                 </h4>
                 <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.6', maxWidth: '380px', margin: '0 auto 1.25rem auto' }}>
-                  Domain project tasks, repository access, and assignment deadlines will be available soon.
+                  Domain project tasks, repository access, and assignment deadlines assigned by executive mentors will appear here.
                 </p>
-                <span className="badge badge-gold" style={{ fontSize: '0.78rem' }}>⏳ Available Soon</span>
+                <span className="badge badge-gold" style={{ fontSize: '0.78rem' }}>Available Soon</span>
               </div>
             ) : (
               tasks.map((t) => (
@@ -286,33 +297,12 @@ export default function StudentPortalPage({ onOpenCertificate, currentUser, onOp
                   {t.status === 'Graded' && (
                     <div style={{ background: '#f8fafc', padding: '0.75rem', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
                       <span style={{ fontSize: '0.78rem', color: '#64748b', display: 'block' }}>Evaluation Complete</span>
-                      <strong style={{ color: '#10b981', fontSize: '0.95rem' }}>Status: Passed & Credential Generated</strong>
+                      <strong style={{ color: '#10b981', fontSize: '0.95rem' }}>Status: Passed & Verified by Admin</strong>
                     </div>
                   )}
                 </div>
               ))
             )}
-
-            {/* Issued Certificates Section */}
-            <h3 style={{ fontSize: '1.35rem', color: '#0b0f19', margin: '2rem 0 1.25rem 0' }}>
-              Official QR Certificates ({certificates.length})
-            </h3>
-
-            {certificates.map((cert) => (
-              <div key={cert.id} className="corporate-card" style={{ padding: '1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div>
-                  <h4 style={{ fontSize: '1rem', color: '#0b0f19' }}>{cert.programTitle}</h4>
-                  <span style={{ fontSize: '0.78rem', color: '#2563eb', fontWeight: '700' }}>ID: {cert.certificateId}</span>
-                </div>
-                <button 
-                  onClick={() => onOpenCertificate && onOpenCertificate(cert)}
-                  className="btn-coral"
-                  style={{ padding: '0.45rem 0.9rem', fontSize: '0.8rem' }}
-                >
-                  View QR Certificate ➔
-                </button>
-              </div>
-            ))}
 
           </div>
 

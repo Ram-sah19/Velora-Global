@@ -16,7 +16,7 @@ function getTrainingDeliverables(domainTitle = '', domainCategory = '') {
       'State Management, Routing & Performance Optimization',
       '1 Guided Production Frontend Portfolio Project',
       '1-on-1 Mentor Code Reviews & Live Technical Feedback',
-      'Official QR-Verified Skill Training Credential'
+      'Official Verified Industry Skill Credential'
     ];
   }
   if (name.includes('backend')) {
@@ -27,7 +27,7 @@ function getTrainingDeliverables(domainTitle = '', domainCategory = '') {
       'JWT Authentication, Password Hashing & Security Best Practices',
       '1 Guided Enterprise Backend Microservice Project',
       '1-on-1 Mentor Code Reviews & Postman API Testing',
-      'Official QR-Verified Skill Training Credential'
+      'Official Verified Industry Skill Credential'
     ];
   }
   if (name.includes('full stack with ai')) {
@@ -38,7 +38,7 @@ function getTrainingDeliverables(domainTitle = '', domainCategory = '') {
       'Real-Time WebSockets & AI Streaming Responses',
       '1 Production Full Stack + AI Application Project',
       '1-on-1 Executive Mentorship & Portfolio Review',
-      'Official QR-Verified Executive Credential'
+      'Official Verified Executive Credential'
     ];
   }
   if (name.includes('ai & machine learning') || name.includes('artificial intelligence') || name.includes('aiml')) {
@@ -49,7 +49,7 @@ function getTrainingDeliverables(domainTitle = '', domainCategory = '') {
       'Natural Language Processing (NLP) & Computer Vision (OpenCV)',
       'Model Training, Evaluation Metrics & Cloud Deployment',
       '1 Guided AI Model Engineering Capstone Project',
-      'Official QR-Verified Executive Credential'
+      'Official Verified Executive Credential'
     ];
   }
   if (name.includes('deep learning')) {
@@ -60,7 +60,7 @@ function getTrainingDeliverables(domainTitle = '', domainCategory = '') {
       'PyTorch / TensorFlow Framework Deep Dives & GPU Acceleration',
       '1 Guided Computer Vision / Neural Network Project',
       '1-on-1 Mentor Code Review & Model Debugging',
-      'Official QR-Verified Training Credential'
+      'Official Verified Training Credential'
     ];
   }
   if (name.includes('javascript') || name.includes('js')) {
@@ -71,7 +71,7 @@ function getTrainingDeliverables(domainTitle = '', domainCategory = '') {
       'Modern Package Managers (npm), Module Systems & Tooling',
       '1 Guided Interactive JavaScript Application',
       '1-on-1 Code Review & GitHub Code Formatting',
-      'Official QR-Verified Training Credential'
+      'Official Verified Training Credential'
     ];
   }
   if (name.includes('java')) {
@@ -82,7 +82,7 @@ function getTrainingDeliverables(domainTitle = '', domainCategory = '') {
       'Spring Data JPA, Hibernate ORM & PostgreSQL Integration',
       '1 Guided Java Enterprise Microservice Project',
       '1-on-1 Mentor Code Review & Architecture Guidance',
-      'Official QR-Verified Training Credential'
+      'Official Verified Training Credential'
     ];
   }
   if (name.includes('python')) {
@@ -93,7 +93,7 @@ function getTrainingDeliverables(domainTitle = '', domainCategory = '') {
       'FastAPI / Django REST API Development & SQLite/PostgreSQL',
       '1 Guided Python Automation & Backend API Project',
       '1-on-1 Mentor Code Review & Portfolio Formatting',
-      'Official QR-Verified Training Credential'
+      'Official Verified Training Credential'
     ];
   }
   if (name.includes('mern')) {
@@ -104,7 +104,7 @@ function getTrainingDeliverables(domainTitle = '', domainCategory = '') {
       'Node.js Runtime & Full-Stack Deployment on Cloud Hosting',
       '1 Guided Production MERN Stack Capstone Application',
       '1-on-1 Mentor Code Review & Career Fast-Track',
-      'Official QR-Verified Training Credential'
+      'Official Verified Training Credential'
     ];
   }
   if (name.includes('pern')) {
@@ -115,7 +115,7 @@ function getTrainingDeliverables(domainTitle = '', domainCategory = '') {
       'Node.js Backend System & Production Server Configuration',
       '1 Guided Production PERN Stack Capstone Application',
       '1-on-1 Mentor Code Review & Direct Career Referral',
-      'Official QR-Verified Training Credential'
+      'Official Verified Training Credential'
     ];
   }
 
@@ -124,7 +124,7 @@ function getTrainingDeliverables(domainTitle = '', domainCategory = '') {
     'Hands-on Guided Project Labs & Real-World Code Repositories',
     '1-on-1 Mentor Code Reviews & Troubleshooting Assistance',
     'GitHub Portfolio Formatting & Technical Resume Guidance',
-    'Official QR-Verified Training Credential'
+    'Official Verified Training Credential'
   ];
 }
 

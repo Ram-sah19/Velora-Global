@@ -73,10 +73,10 @@ export default function StudentTermsModal({ onClose }) {
 
           <section>
             <h3 style={{ fontSize: '1.1rem', color: '#0b0f19', fontWeight: '700', marginBottom: '0.35rem' }}>
-              4. Official QR-Verified Certificate Credential Issuance
+              4. Verified Certificate Credential Issuance
             </h3>
             <p>
-              Upon successful completion and verification of project submissions, students receive an official digital certificate featuring a unique QR code. The QR code links directly to the Velora Global database for instant employer verification. Certificates are non-transferable and subject to revocation if academic dishonesty is discovered post-issuance.
+              Upon successful completion and evaluation of assigned project submissions, students receive an official digital certificate of completion verified by Velora Global executive leadership. Certificates are non-transferable and subject to revocation if academic dishonesty is discovered post-issuance.
             </p>
           </section>
 
