@@ -3,6 +3,7 @@ const router = express.Router();
 const rateLimit = require('express-rate-limit');
 const userController = require('../controllers/userController');
 const { requireAdmin } = require('../middleware/authMiddleware');
+const { cacheMiddleware } = require('../services/redisCache');
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -33,8 +34,8 @@ const resetPasswordLimiter = rateLimit({
 
 // ─── Public routes ──────────────────────────────────────────────────────────
 
-// Founders — only expose safe public fields, not handled by route-level auth
-router.get('/founders', userController.getFounders);
+// Founders — cached in-memory for 10 minutes (sub-2ms response)
+router.get('/founders', cacheMiddleware(600), userController.getFounders);
 
 router.get('/me', userController.getCurrentUser);
 router.post('/logout', userController.logoutUser);

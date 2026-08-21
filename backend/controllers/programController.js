@@ -1,5 +1,6 @@
 const Program = require('../models/Program');
 const { readLocalDb, writeLocalDb } = require('../db');
+const { clearCache } = require('../services/redisCache');
 
 exports.getPrograms = async (req, res) => {
   try {
@@ -86,6 +87,10 @@ exports.createProgram = async (req, res) => {
       db.programs.unshift(newProg);
       writeLocalDb(db);
     }
+
+    // Auto-invalidate programs and stats caches
+    clearCache('/api/programs*');
+    clearCache('/api/stats*');
 
     res.status(201).json({ message: 'Program created successfully', program: newProg });
   } catch (err) {
