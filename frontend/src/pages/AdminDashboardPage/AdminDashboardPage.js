@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
 import { showToast } from '../../components/NotificationToast';
-import { SkeletonTable, SkeletonStatCard } from '../../components/UIStates';
+import { SkeletonTable } from '../../components/UIStates';
 
 function getCleanDomainTitle(title = '', domain = '') {
   if (!title && !domain) return 'Software Engineering';

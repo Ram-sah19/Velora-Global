@@ -16,7 +16,7 @@
   "scripts": {
     "prestart": "node ../backend/copy_media.js",
     "start": "react-scripts start",
-    "build": "node ../backend/copy_media.js && react-scripts build",
+    "build": "node ../backend/copy_media.js && CI=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

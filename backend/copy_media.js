@@ -15,8 +15,9 @@ const componentsDir = path.join(__dirname, '../frontend/src/components');
 try {
   const fileMap = [
     { src: 'media_1785955734224.jpg', name: 'rambilas_sah.jpg' },
-    { src: 'media_1785955759112.jpg', name: 'puja_rouniyar.jpg' },
-    { src: 'media_1785955812212.jpg', name: 'rohit_sah.jpg' }
+    { src: 'media_1787288057703.jpg', name: 'puja_rouniyar.jpg' },
+    { src: 'media_1785955812212.jpg', name: 'rohit_sah.jpg' },
+    { src: 'media_1787288100477.jpg', name: 'shivshankar_sah.jpg' }
   ];
 
   fileMap.forEach(({ src, name }) => {
