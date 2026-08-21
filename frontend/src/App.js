@@ -9,6 +9,7 @@ import NotificationToast from './components/NotificationToast';
 import CookieBanner from './components/CookieBanner';
 import ResetPasswordModal from './components/ResetPasswordModal';
 import VerifyEmailModal from './components/VerifyEmailModal';
+import { ErrorBoundary, OfflineBanner } from './components/UIStates';
 
 // Unified Authentication Modal
 import AuthModal from './pages/Auth/AuthModal';
@@ -207,160 +208,163 @@ export default function App() {
   };
 
   return (
-    <div className="app-container">
-      <NotificationToast />
-      <CookieBanner />
-      
-      {/* Global Navigation Header */}
-      <Navbar 
-        activeTab={activeTab} 
-        setActiveTab={handleTabChange}
-        onSelectServiceCategory={(cat) => setSelectedServiceCategory(cat)}
-        currentUser={currentUser}
-        onOpenAuth={(mode = 'login') => { setAuthInitialMode(mode); setShowAuthModal(true); }}
-        onLogout={handleLogout}
-      />
-
-      {/* Main Content Area */}
-      <main className="main-content">
+    <ErrorBoundary>
+      <div className="app-container">
+        <OfflineBanner />
+        <NotificationToast />
+        <CookieBanner />
         
-        {/* Home / Landing Page */}
-        <div style={{ display: activeTab === 'home' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
-          <LandingPage 
-            onExploreClick={() => handleTabChange('internships')}
-            onTrainingClick={() => handleTabChange('training')}
-            onServicesClick={() => handleTabChange('services')}
-          />
-        </div>
+        {/* Global Navigation Header */}
+        <Navbar 
+          activeTab={activeTab} 
+          setActiveTab={handleTabChange}
+          onSelectServiceCategory={(cat) => setSelectedServiceCategory(cat)}
+          currentUser={currentUser}
+          onOpenAuth={(mode = 'login') => { setAuthInitialMode(mode); setShowAuthModal(true); }}
+          onLogout={handleLogout}
+        />
 
-        {/* Dedicated Client Services Page */}
-        <div style={{ display: activeTab === 'services' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
-          <ServicesPage 
-            selectedCategory={selectedServiceCategory}
-            onSelectCategory={(cat) => setSelectedServiceCategory(cat)}
-            currentUser={currentUser}
-            onOpenClientAuth={() => {
-              setAuthInitialMode('login');
-              setShowAuthModal(true);
-            }}
-          />
-        </div>
-
-        {/* Dedicated Executive Team Page */}
-        <div style={{ display: activeTab === 'team' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
-          <TeamPage 
-            onExploreClick={() => handleTabChange('internships')}
-          />
-        </div>
-
-        {/* Dedicated Practical Internships Page */}
-        <div style={{ display: activeTab === 'internships' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
-          <InternshipsPage 
-            activeRole={activeRole}
-            currentUser={currentUser}
-            onOpenAuth={() => {
-              setAuthInitialMode('login');
-              setShowAuthModal(true);
-            }}
-            onApplySuccess={() => handleTabChange('student')}
-          />
-        </div>
-
-        {/* Dedicated Guided Skill Training Page */}
-        <div style={{ display: activeTab === 'training' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
-          <TrainingPage 
-            activeRole={activeRole}
-            currentUser={currentUser}
-            onOpenAuth={() => {
-              setAuthInitialMode('login');
-              setShowAuthModal(true);
-            }}
-            onApplySuccess={() => handleTabChange('student')}
-          />
-        </div>
-
-        {/* Dedicated Student Workspace */}
-        <div style={{ display: activeTab === 'student' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
-          <StudentPortalPage 
-            currentUser={currentUser} 
-            onViewCertificate={(cert) => setActiveCertificate(cert)}
-          />
-        </div>
-
-        {/* Dedicated Corporate Client Workspace */}
-        <div style={{ display: activeTab === 'client' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
-          <ClientWorkspacePage 
-            currentUser={currentUser} 
-            onLogout={handleLogout}
-          />
-        </div>
-
-        {/* Dedicated Admin Executive Dashboard Page */}
-        {activeTab === 'admin' && (
-          <div style={{ minHeight: '80vh', width: '100%' }}>
-            <AdminDashboardPage 
-              currentUser={currentUser} 
-              onOpenAdminRegister={() => setShowAdminRegisterModal(true)}
+        {/* Main Content Area */}
+        <main className="main-content">
+          
+          {/* Home / Landing Page */}
+          <div style={{ display: activeTab === 'home' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
+            <LandingPage 
+              onExploreClick={() => handleTabChange('internships')}
+              onTrainingClick={() => handleTabChange('training')}
+              onServicesClick={() => handleTabChange('services')}
             />
           </div>
+
+          {/* Dedicated Corporate Services Page */}
+          <div style={{ display: activeTab === 'services' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
+            <ServicesPage 
+              selectedCategory={selectedServiceCategory}
+              onSelectCategory={(cat) => setSelectedServiceCategory(cat)}
+              currentUser={currentUser}
+              onOpenClientAuth={() => {
+                setAuthInitialMode('login');
+                setShowAuthModal(true);
+              }}
+            />
+          </div>
+
+          {/* Dedicated Executive Team Page */}
+          <div style={{ display: activeTab === 'team' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
+            <TeamPage 
+              onExploreClick={() => handleTabChange('internships')}
+            />
+          </div>
+
+          {/* Dedicated Practical Internships Page */}
+          <div style={{ display: activeTab === 'internships' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
+            <InternshipsPage 
+              activeRole={activeRole}
+              currentUser={currentUser}
+              onOpenAuth={() => {
+                setAuthInitialMode('login');
+                setShowAuthModal(true);
+              }}
+              onApplySuccess={() => handleTabChange('student')}
+            />
+          </div>
+
+          {/* Dedicated Guided Skill Training Page */}
+          <div style={{ display: activeTab === 'training' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
+            <TrainingPage 
+              activeRole={activeRole}
+              currentUser={currentUser}
+              onOpenAuth={() => {
+                setAuthInitialMode('login');
+                setShowAuthModal(true);
+              }}
+              onApplySuccess={() => handleTabChange('student')}
+            />
+          </div>
+
+          {/* Dedicated Student Workspace */}
+          <div style={{ display: activeTab === 'student' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
+            <StudentPortalPage 
+              currentUser={currentUser} 
+              onViewCertificate={(cert) => setActiveCertificate(cert)}
+            />
+          </div>
+
+          {/* Dedicated Corporate Client Workspace */}
+          <div style={{ display: activeTab === 'client' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
+            <ClientWorkspacePage 
+              currentUser={currentUser} 
+              onLogout={handleLogout}
+            />
+          </div>
+
+          {/* Dedicated Admin Executive Dashboard Page */}
+          {activeTab === 'admin' && (
+            <div style={{ minHeight: '80vh', width: '100%' }}>
+              <AdminDashboardPage 
+                currentUser={currentUser} 
+                onOpenAdminRegister={() => setShowAdminRegisterModal(true)}
+              />
+            </div>
+          )}
+
+        </main>
+
+        {/* Password Reset Modal — opens automatically from email reset link (?resetToken=...) */}
+        {resetToken && (
+          <ResetPasswordModal
+            token={resetToken}
+            onClose={() => {
+              setResetToken(null);
+              window.history.replaceState({}, document.title, window.location.pathname);
+            }}
+          />
         )}
 
-      </main>
+        {/* Email Verification Modal — opens automatically from email confirmation link (?verifyToken=...) */}
+        {verifyToken && (
+          <VerifyEmailModal
+            token={verifyToken}
+            onClose={() => {
+              setVerifyToken(null);
+              window.history.replaceState({}, document.title, window.location.pathname);
+            }}
+            onVerifySuccess={(user) => {
+              handleAuthSuccess(user);
+              setVerifyToken(null);
+            }}
+          />
+        )}
 
-      {/* Password Reset Modal — opens automatically from email reset link (?resetToken=...) */}
-      {resetToken && (
-        <ResetPasswordModal
-          token={resetToken}
-          onClose={() => {
-            setResetToken(null);
-            window.history.replaceState({}, document.title, window.location.pathname);
-          }}
-        />
-      )}
+        {/* Unified Authentication Modal */}
+        {showAuthModal && (
+          <AuthModal 
+            initialMode={authInitialMode}
+            onClose={() => setShowAuthModal(false)}
+            onAuthSuccess={handleAuthSuccess}
+          />
+        )}
 
-      {/* Email Verification Modal — opens automatically from email confirmation link (?verifyToken=...) */}
-      {verifyToken && (
-        <VerifyEmailModal
-          token={verifyToken}
-          onClose={() => {
-            setVerifyToken(null);
-            window.history.replaceState({}, document.title, window.location.pathname);
-          }}
-          onVerifySuccess={(user) => {
-            handleAuthSuccess(user);
-            setVerifyToken(null);
-          }}
-        />
-      )}
+        {/* Secret Super Admin Registration Modal */}
+        {showAdminRegisterModal && (
+          <AdminRegisterModal 
+            onClose={() => setShowAdminRegisterModal(false)}
+            onAdminSuccess={(user) => handleAuthSuccess(user)}
+          />
+        )}
 
-      {/* Unified Authentication Modal */}
-      {showAuthModal && (
-        <AuthModal 
-          initialMode={authInitialMode}
-          onClose={() => setShowAuthModal(false)}
-          onAuthSuccess={handleAuthSuccess}
-        />
-      )}
+        {/* Official Certificate Popup Modal */}
+        {activeCertificate && (
+          <CertificateModal 
+            certificate={activeCertificate} 
+            onClose={() => setActiveCertificate(null)}
+          />
+        )}
 
-      {/* Secret Super Admin Registration Modal */}
-      {showAdminRegisterModal && (
-        <AdminRegisterModal 
-          onClose={() => setShowAdminRegisterModal(false)}
-          onAdminSuccess={(user) => handleAuthSuccess(user)}
-        />
-      )}
+        {/* Global Footer */}
+        <Footer setActiveTab={handleTabChange} />
 
-      {/* Official Certificate Popup Modal */}
-      {activeCertificate && (
-        <CertificateModal 
-          certificate={activeCertificate} 
-          onClose={() => setActiveCertificate(null)}
-        />
-      )}
-
-      {/* Global Footer */}
-      <Footer setActiveTab={handleTabChange} />
-
-    </div>
+      </div>
+    </ErrorBoundary>
   );
 }

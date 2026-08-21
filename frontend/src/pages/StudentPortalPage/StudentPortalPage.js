@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
+import { SkeletonCard } from '../../components/UIStates';
 
 function getRemainingTimeText(endDateStr) {
   if (!endDateStr) return 'Active Program Access';
@@ -24,7 +25,7 @@ export default function StudentPortalPage({ currentUser, onOpenAuth }) {
 
   const [applications, setApplications] = useState([]);
   const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   
   // Submission modal state
   const [selectedTask, setSelectedTask] = useState(null);
@@ -183,7 +184,9 @@ export default function StudentPortalPage({ currentUser, onOpenAuth }) {
               Programs Enrolled ({applications.length})
             </h3>
 
-            {applications.length === 0 ? (
+            {loading && applications.length === 0 ? (
+              <SkeletonCard />
+            ) : applications.length === 0 ? (
               <div className="corporate-card" style={{ padding: '2.5rem 1.5rem', textAlign: 'center', background: '#ffffff', border: '1px dashed #cbd5e1' }}>
                 <h4 style={{ fontSize: '1.15rem', color: '#0b0f19', fontWeight: '800', marginBottom: '0.6rem' }}>
                   No Program Assigned Yet
@@ -247,7 +250,9 @@ export default function StudentPortalPage({ currentUser, onOpenAuth }) {
               Assigned Domain Projects ({tasks.length})
             </h3>
 
-            {tasks.length === 0 ? (
+            {loading && tasks.length === 0 ? (
+              <SkeletonCard />
+            ) : tasks.length === 0 ? (
               <div className="corporate-card" style={{ padding: '2.5rem 1.5rem', textAlign: 'center', background: '#ffffff', border: '1px dashed #cbd5e1' }}>
                 <h4 style={{ fontSize: '1.15rem', color: '#0b0f19', fontWeight: '800', marginBottom: '0.4rem' }}>
                   Assigned Tasks & Deliverables

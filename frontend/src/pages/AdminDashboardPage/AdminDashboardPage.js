@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
 import { showToast } from '../../components/NotificationToast';
+import { SkeletonTable, SkeletonStatCard } from '../../components/UIStates';
 
 function getCleanDomainTitle(title = '', domain = '') {
   if (!title && !domain) return 'Software Engineering';
@@ -17,6 +18,7 @@ export default function AdminDashboardPage({ currentUser, onCertificateGenerated
   const [users, setUsers] = useState([]);
   const [programs, setPrograms] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('enrollments');
   const [userFilter, setUserFilter] = useState('all');
   const [enrollmentFilter, setEnrollmentFilter] = useState('all');
@@ -91,6 +93,8 @@ export default function AdminDashboardPage({ currentUser, onCertificateGenerated
       setTasks(tasksRes);
     } catch (e) {
       console.warn('Sync warning:', e.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -638,7 +642,9 @@ export default function AdminDashboardPage({ currentUser, onCertificateGenerated
                 </div>
 
                 {/* Table of Enrollments */}
-                {filteredApplications.length === 0 ? (
+                {loading && applications.length === 0 ? (
+                  <SkeletonTable rows={4} columns={6} />
+                ) : filteredApplications.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '3.5rem 1.5rem', background: '#f8fafc', borderRadius: '12px', border: '1px dashed #cbd5e1' }}>
                     <h4 style={{ fontSize: '1.15rem', color: '#0b0f19', marginBottom: '0.4rem' }}>
                       No Enrolled Students Found
@@ -817,17 +823,20 @@ export default function AdminDashboardPage({ currentUser, onCertificateGenerated
                   </div>
                 </div>
 
-                <div style={{ overflowX: 'auto' }}>
-                  <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
-                    <thead>
-                      <tr style={{ borderBottom: '2px solid #e2e8f0', color: '#64748b', fontSize: '0.82rem' }}>
-                        <th style={{ padding: '0.8rem' }}>User / Candidate</th>
-                        <th style={{ padding: '0.8rem' }}>Account Type</th>
-                        <th style={{ padding: '0.8rem' }}>Institution / Company</th>
-                        <th style={{ padding: '0.8rem' }}>Enrolled Program Track</th>
-                        <th style={{ padding: '0.8rem', textAlign: 'right' }}>Management</th>
-                      </tr>
-                    </thead>
+                {loading && users.length === 0 ? (
+                  <SkeletonTable rows={5} columns={5} />
+                ) : (
+                  <div style={{ overflowX: 'auto' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
+                      <thead>
+                        <tr style={{ borderBottom: '2px solid #e2e8f0', color: '#64748b', fontSize: '0.82rem' }}>
+                          <th style={{ padding: '0.8rem' }}>User / Candidate</th>
+                          <th style={{ padding: '0.8rem' }}>Account Type</th>
+                          <th style={{ padding: '0.8rem' }}>Institution / Company</th>
+                          <th style={{ padding: '0.8rem' }}>Enrolled Program Track</th>
+                          <th style={{ padding: '0.8rem', textAlign: 'right' }}>Management</th>
+                        </tr>
+                      </thead>
                     <tbody>
                       {users
                         .filter(u => {
@@ -938,6 +947,7 @@ export default function AdminDashboardPage({ currentUser, onCertificateGenerated
                     </tbody>
                   </table>
                 </div>
+                )}
               </div>
             )}
 

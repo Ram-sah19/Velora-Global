@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
 import TrainingDetailsModal from './TrainingDetailsModal';
+import { SkeletonCard } from '../../components/UIStates';
 
 const softwareDevSubDomains = [
   'Frontend Development',
@@ -143,6 +144,7 @@ const defaultTrainingPrograms = [
 
 export default function TrainingPage({ activeRole, onApplySuccess, currentUser, onOpenAuth }) {
   const [programs, setPrograms] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedDomain, setSelectedDomain] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProgramForDetails, setSelectedProgramForDetails] = useState(null);
@@ -208,6 +210,8 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser, 
         setPrograms(filtered);
       } catch (err) {
         console.error("Failed to load training programs", err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchPrograms();
@@ -296,7 +300,12 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser, 
           gap: '1.75rem',
           width: '100%'
         }}>
-          {programs.map((prog) => (
+          {loading && programs.length === 0 ? (
+            Array.from({ length: 6 }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))
+          ) : (
+            programs.map((prog) => (
             <div 
               key={prog.id} 
               className="corporate-card" 
@@ -415,7 +424,7 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser, 
                 </button>
               </div>
             </div>
-          ))}
+          )))}
         </div>
 
       </div>

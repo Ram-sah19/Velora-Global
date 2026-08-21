@@ -6,25 +6,26 @@ export default function ClientWorkspacePage({ currentUser, onLogout }) {
       <div className="container" style={{ maxWidth: '750px' }}>
         
         {/* Basic Corporate Account Details Card */}
-        <div className="corporate-card" style={{ padding: '2.5rem', background: '#ffffff', borderTop: '6px solid #f94d4d' }}>
+        <div className="corporate-card" style={{ padding: '2.5rem', background: '#ffffff', borderTop: '6px solid #2563eb' }}>
           
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginBottom: '1.75rem' }}>
             <div style={{
-              width: '64px',
-              height: '64px',
-              borderRadius: '16px',
-              background: '#f94d4d',
-              color: '#ffffff',
+              width: '60px',
+              height: '60px',
+              borderRadius: '14px',
+              background: '#eff6ff',
+              color: '#2563eb',
+              border: '1px solid #bfdbfe',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '1.8rem',
+              fontSize: '1.2rem',
               fontWeight: '800'
             }}>
-              🏢
+              VG
             </div>
             <div>
-              <span className="badge badge-coral" style={{ marginBottom: '0.35rem' }}>Corporate Partner</span>
+              <span className="badge badge-blue" style={{ marginBottom: '0.35rem' }}>Corporate Partner</span>
               <h2 style={{ fontSize: '1.75rem', color: '#0b0f19', fontWeight: '800', margin: 0 }}>
                 {currentUser?.companyName || currentUser?.name || 'Corporate Account'}
               </h2>
