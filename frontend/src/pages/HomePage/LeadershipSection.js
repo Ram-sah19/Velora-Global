@@ -11,10 +11,10 @@ export default function LeadershipSection() {
     },
     {
       name: "Krishna Sah",
-      role: "Co-Founder",
-      image: "/media/krishna_sah.jpg",
-      bio: "Co-Founder driving student success initiatives, university relations, operational strategy, and industry partner alignments.",
-      badge: "Co-Founder"
+      role: "Co-Founder & CTO",
+      image: "/media/rambilas_sah.png",
+      bio: "Directing technical infrastructure, cloud deployments, platform engineering, AI integrations, and full-stack curriculum roadmaps.",
+      badge: "Co-Founder & CTO"
     },
     {
       name: "Puja Rouniyar",
@@ -22,6 +22,13 @@ export default function LeadershipSection() {
       image: "/media/puja_rouniyar.jpg",
       bio: "Operations executive driving program execution, intern onboarding, quality standards, and talent evaluation workflows across all domains.",
       badge: "Co-Founder & COO"
+    },
+    {
+      name: "Shivshankar Sah",
+      role: "Contracts & Operations Manager",
+      image: "/media/shivshankar_sah.jpg",
+      bio: "Overseeing enterprise contracts, corporate agreements, institutional MoUs, vendor relations, and legal compliance.",
+      badge: "Contracts Manager"
     }
   ];
 

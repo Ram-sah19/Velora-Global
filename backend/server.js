@@ -20,6 +20,23 @@ const inquiryRoutes = require('./routes/inquiryRoutes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Sync leadership media assets
+try {
+  const srcPuja = 'C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\22635c0b-f003-455d-a5d6-433977a33f53\\.user_uploaded\\media_1787288057703.jpg';
+  const srcShiv = 'C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\22635c0b-f003-455d-a5d6-433977a33f53\\.user_uploaded\\media_1787288100477.jpg';
+  const dirs = [
+    path.join(__dirname, '..', 'frontend', 'public', 'media'),
+    path.join(__dirname, '..', 'frontend', 'public', 'images')
+  ];
+  for (const d of dirs) {
+    if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
+    if (fs.existsSync(srcPuja)) fs.copyFileSync(srcPuja, path.join(d, 'puja_rouniyar.jpg'));
+    if (fs.existsSync(srcShiv)) fs.copyFileSync(srcShiv, path.join(d, 'shivshankar_sah.jpg'));
+  }
+} catch (e) {
+  console.warn('Media copy check:', e.message);
+}
+
 
 
 // ─── 1. SECURITY HTTP HEADERS (Helmet) ────────────────────────────────────────

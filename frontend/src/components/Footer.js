@@ -45,7 +45,7 @@ export default function Footer({ setActiveTab }) {
             </p>
 
             <span style={{ fontSize: '0.8rem', color: 'rgb(96, 165, 250)', display: 'block', fontWeight: '600' }}>
-              Founded by Rohit Sah • Co-Founded by Krishna Sah & Puja Rouniyar
+              Founded by Rohit Sah • Co-Founded by Krishna Sah (CTO) & Puja Rouniyar (COO)
             </span>
           </div>
 
@@ -65,7 +65,7 @@ export default function Footer({ setActiveTab }) {
               </li>
               <li>
                 <button onClick={() => setActiveTab('team')} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0 }}>
-                  Executive Team
+                  About Us
                 </button>
               </li>
               <li>

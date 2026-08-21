@@ -226,7 +226,7 @@ export default function Navbar({
                 whiteSpace: 'nowrap'
               }}
             >
-              Our Team
+              About Us
             </button>
 
             {!isClient && (
@@ -526,7 +526,7 @@ export default function Navbar({
                 cursor: 'pointer'
               }}
             >
-              Our Executive Team
+              About Us
             </button>
 
             {!isClient && (

@@ -9,16 +9,16 @@ export default function TeamPage({ onExploreClick }) {
       badge: "Founder & CEO",
       bio: "Technology leader and founder directing platform architecture, technical curriculum design, project evaluation criteria, and strategic engineering growth.",
       expertise: ["System Architecture", "Executive Leadership", "Technical Evaluation", "Curriculum Design"],
-      email: ""
+      accentColor: "#2563eb"
     },
     {
       name: "Krishna Sah",
-      role: "Co-Founder",
+      role: "Co-Founder & CTO",
       image: "/media/rambilas_sah.png",
-      badge: "Co-Founder",
-      bio: "Co-Founder dedicated to building Velora Global into a premier career bridge. Driving strategic growth, student success initiatives, university relations, and industry partner alignments.",
-      expertise: ["Strategic Growth", "Industry Partnerships", "Career Pathways", "Student Success"],
-      email: ""
+      badge: "Co-Founder & CTO",
+      bio: "Directing technical infrastructure, cloud deployments, platform engineering, AI integrations, and full-stack curriculum roadmaps across all domain specializations.",
+      expertise: ["Cloud Architecture", "Platform Engineering", "Technical Strategy", "AI Systems"],
+      accentColor: "#ff6b6b"
     },
     {
       name: "Puja Rouniyar",
@@ -27,16 +27,44 @@ export default function TeamPage({ onExploreClick }) {
       badge: "Co-Founder & COO",
       bio: "Operations executive overseeing program execution, candidate onboarding, quality assurance standards, and talent evaluation workflows across all 10 domain specializations.",
       expertise: ["Global Operations", "Talent Onboarding", "Program Quality", "Workflow Optimization"],
-      email: ""
+      accentColor: "#10b981"
+    },
+    {
+      name: "Shivshankar Sah",
+      role: "Contracts & Operations Manager",
+      image: "/media/shivshankar_sah.jpg",
+      badge: "Contracts Manager",
+      bio: "Directs enterprise contracts, corporate agreements, vendor operations, institutional MoUs, and legal compliance workflows for all student and client engagements.",
+      expertise: ["Contracts Management", "Corporate MoUs", "SLA Compliance", "Vendor Operations"],
+      accentColor: "#f59e0b"
+    }
+  ];
+
+  const managementTeam = [
+    {
+      name: "Aayush Shrestha",
+      role: "Technical Programs Lead",
+      badge: "Programs Lead",
+      bio: "Manages technical cohort sprints, domain syllabus roadmaps, and technical mentor allocations across engineering tracks.",
+      expertise: ["Cohort Management", "Sprint Planning", "Technical Roadmaps"],
+      accentColor: "#6366f1"
+    },
+    {
+      name: "Sunita Thapa",
+      role: "University Relations & Placement Lead",
+      badge: "University Relations",
+      bio: "Leads academic outreach, institutional agreements, candidate onboarding verification, and post-internship career placement.",
+      expertise: ["University Partnerships", "Candidate Placement", "Campus Outreach"],
+      accentColor: "#ec4899"
     }
   ];
 
   return (
-    <section style={{ padding: '4rem 0 5rem 0' }}>
+    <section style={{ padding: '4rem 0 5rem 0', background: '#f8fafc' }}>
       <div className="container">
         
         {/* Page Header */}
-        <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 4rem auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 4rem auto' }}>
           <span style={{
             fontSize: '0.82rem',
             color: '#2563eb',
@@ -50,24 +78,24 @@ export default function TeamPage({ onExploreClick }) {
             display: 'inline-block',
             marginBottom: '0.85rem'
           }}>
-            Executive Leadership & Team
+            About Us & Executive Leadership
           </span>
           
           <h1 style={{ fontSize: '3.2rem', color: '#0b0f19', marginTop: '0.2rem', fontWeight: '800', lineHeight: '1.15' }}>
-            Meet the Minds Behind <br />
-            <span className="text-coral">Velora Global</span>
+            Empowering Careers Through <br />
+            <span className="text-coral">Real-World Innovation</span>
           </h1>
 
           <p style={{ color: '#64748b', fontSize: '1.15rem', marginTop: '1rem', lineHeight: '1.6' }}>
-            Our founding team brings together vision, operational rigor, and engineering excellence to shape the future of student career development.
+            Velora Global was founded by engineering leaders and industry mentors dedicated to bridging the gap between academic theory and high-impact industry execution.
           </p>
         </div>
 
-        {/* 3 Executive Founders Grid */}
+        {/* 4 Executive Leadership Grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '2.5rem',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '2rem',
           marginBottom: '5rem'
         }}>
           {founders.map((member, idx) => (
@@ -78,7 +106,7 @@ export default function TeamPage({ onExploreClick }) {
                 background: '#ffffff',
                 border: '1px solid #e2e8f0',
                 borderRadius: '24px',
-                padding: '2.75rem 2rem',
+                padding: '2.5rem 1.75rem',
                 textAlign: 'center',
                 boxShadow: 'var(--shadow-sm)',
                 display: 'flex',
@@ -92,7 +120,7 @@ export default function TeamPage({ onExploreClick }) {
               <div style={{
                 height: '5px',
                 width: '100%',
-                background: idx === 0 ? '#2563eb' : idx === 1 ? '#ff6b6b' : '#10b981',
+                background: member.accentColor,
                 position: 'absolute',
                 top: 0,
                 left: 0
@@ -106,17 +134,15 @@ export default function TeamPage({ onExploreClick }) {
                     alt={member.name}
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = idx === 0 ? "/images/rambilas_sah.jpg"
-                        : idx === 1 ? "/images/puja_rouniyar.jpg"
-                        : "/images/rohit_sah.jpg";
+                      e.target.src = member.image.replace('/media/', '/images/');
                     }}
                     style={{
                       width: '100%',
                       height: '100%',
                       borderRadius: '50%',
                       objectFit: 'cover',
-                      border: '4px solid #2563eb',
-                      boxShadow: '0 10px 25px rgba(37, 99, 235, 0.25)'
+                      border: `4px solid ${member.accentColor || '#2563eb'}`,
+                      boxShadow: '0 10px 25px rgba(0, 0, 0, 0.08)'
                     }}
                   />
                   <span style={{
@@ -127,7 +153,7 @@ export default function TeamPage({ onExploreClick }) {
                     fontSize: '0.78rem',
                     fontWeight: '800',
                     color: '#ffffff',
-                    background: idx === 0 ? '#0b0f19' : idx === 1 ? '#ff6b6b' : '#2563eb',
+                    background: member.accentColor || '#2563eb',
                     padding: '0.3rem 0.9rem',
                     borderRadius: '9999px',
                     whiteSpace: 'nowrap',
@@ -188,6 +214,117 @@ export default function TeamPage({ onExploreClick }) {
 
             </div>
           ))}
+        </div>
+
+        {/* Operations & Management Team Section */}
+        <div style={{ marginBottom: '5rem' }}>
+          <div style={{ textAlign: 'center', maxWidth: '650px', margin: '0 auto 2.5rem auto' }}>
+            <span style={{ fontSize: '0.8rem', color: '#2563eb', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+              Operations & Student Success
+            </span>
+            <h3 style={{ fontSize: '2rem', color: '#0b0f19', marginTop: '0.3rem', fontWeight: '800' }}>
+              Departmental Management
+            </h3>
+            <p style={{ color: '#64748b', fontSize: '0.95rem' }}>
+              Dedicated domain leaders overseeing curriculum delivery, institutional MoUs, contracts, and student career outcomes.
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '2rem',
+            maxWidth: '900px',
+            margin: '0 auto'
+          }}>
+            {managementTeam.map((member, idx) => (
+              <div 
+                key={idx}
+                className="corporate-card"
+                style={{
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '20px',
+                  padding: '2rem',
+                  textAlign: 'center',
+                  boxShadow: 'var(--shadow-sm)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}
+              >
+                <div style={{
+                  height: '4px',
+                  width: '100%',
+                  background: member.accentColor,
+                  position: 'absolute',
+                  top: 0,
+                  left: 0
+                }} />
+
+                <div>
+                  <div style={{
+                    width: '72px',
+                    height: '72px',
+                    borderRadius: '50%',
+                    background: '#f1f5f9',
+                    color: member.accentColor,
+                    border: `2px solid ${member.accentColor}`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.3rem',
+                    fontWeight: '800',
+                    margin: '0 auto 1rem auto',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+                  }}>
+                    {member.name.split(' ').map(n => n[0]).join('')}
+                  </div>
+
+                  <span style={{
+                    display: 'inline-block',
+                    fontSize: '0.72rem',
+                    fontWeight: '800',
+                    color: '#ffffff',
+                    background: member.accentColor,
+                    padding: '0.22rem 0.8rem',
+                    borderRadius: '9999px',
+                    marginBottom: '0.65rem'
+                  }}>
+                    {member.badge}
+                  </span>
+
+                  <h3 style={{ fontSize: '1.35rem', color: '#0b0f19', fontWeight: '800', marginBottom: '0.2rem' }}>
+                    {member.name}
+                  </h3>
+                  <div style={{ color: '#2563eb', fontWeight: '700', fontSize: '0.88rem', marginBottom: '1rem' }}>
+                    {member.role}
+                  </div>
+
+                  <p style={{ color: '#64748b', fontSize: '0.88rem', lineHeight: '1.55', marginBottom: '1.25rem' }}>
+                    {member.bio}
+                  </p>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', justifyContent: 'center' }}>
+                    {member.expertise.map((exp, i) => (
+                      <span key={i} style={{
+                        fontSize: '0.72rem',
+                        background: '#f1f5f9',
+                        color: '#334155',
+                        fontWeight: '600',
+                        padding: '0.2rem 0.55rem',
+                        borderRadius: '6px'
+                      }}>
+                        {exp}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Company Vision & Values Section */}

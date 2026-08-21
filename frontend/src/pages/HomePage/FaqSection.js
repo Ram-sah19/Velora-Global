@@ -10,7 +10,7 @@ export default function FaqSection() {
     },
     {
       question: "Who evaluates student project submissions?",
-      answer: "Project deliverables and code repositories are reviewed directly by our founding team led by Rohit Sah (Founder & CEO), Krishna Sah (Co-Founder), and Puja Rouniyar (Co-Founder & COO) using our 5-criteria structured evaluation framework."
+      answer: "Project deliverables and code repositories are reviewed directly by our founding team led by Rohit Sah (Founder & CEO), Krishna Sah (Co-Founder & CTO), and Puja Rouniyar (Co-Founder & COO) using our 5-criteria structured evaluation framework."
     },
     {
       question: "What is the difference between the Internship and Training programs?",
