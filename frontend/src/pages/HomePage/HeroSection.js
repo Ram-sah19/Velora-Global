@@ -1,7 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function HeroSection({ onExploreClick, onTrainingClick, onServicesClick }) {
   const [selectedDomainIndex, setSelectedDomainIndex] = useState(0);
+  const [activeCategory, setActiveCategory] = useState('eng');
+
+  // Premium entrance animation — triggers once on mount
+  const [heroReady, setHeroReady] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setHeroReady(true), 60);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Staggered reveal helper: returns inline transition styles per element
+  // delay = ms offset for each element's stagger
+  const reveal = (delay = 0) => ({
+    opacity: heroReady ? 1 : 0,
+    transform: heroReady ? 'translateY(0px)' : 'translateY(22px)',
+    transition: `opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms`,
+    willChange: 'opacity, transform',
+  });
 
   const categories = [
     { id: 'eng', label: 'Software Development', color: '#2563eb', bg: '#eff6ff' },
@@ -9,8 +26,6 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
     { id: 'ops', label: 'Cloud, Security & QA', color: '#7c3aed', bg: '#f5f3ff' },
     { id: 'design', label: 'Product & Design', color: '#e11d48', bg: '#fff1f2' }
   ];
-
-  const [activeCategory, setActiveCategory] = useState('eng');
 
   const domains = [
     {
@@ -149,8 +164,76 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
   const activeSpotlight = filteredDomains[selectedDomainIndex] || filteredDomains[0] || domains[0];
 
   return (
-    <section style={{ padding: '4.5rem 0 3rem 0', background: 'linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)' }}>
-      <div className="container">
+    <section style={{
+      padding: '4.5rem 0 3rem 0',
+      position: 'relative',
+      overflow: 'hidden',
+      background: '#ffffff',
+    }}>
+
+      {/* ── Premium Ambient Background ─────────────────────────────────
+          Slow-drifting blurred orbs in brand colors — dot grid is now
+          applied globally via body in index.css.
+      ──────────────────────────────────────────────────────────────── */}
+
+      {/* Orb 1 — primary blue, top-left */}
+      <div aria-hidden="true" style={{
+        position: 'absolute', top: '-5%', left: '-5%', zIndex: 0, pointerEvents: 'none',
+        width: 650, height: 650,
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(37,99,235,0.38) 0%, rgba(37,99,235,0.14) 45%, transparent 70%)',
+        filter: 'blur(28px)',
+        animation: 'vgOrb1 14s ease-in-out infinite alternate',
+      }} />
+
+      {/* Orb 2 — coral/accent, top-right */}
+      <div aria-hidden="true" style={{
+        position: 'absolute', top: '-10%', right: '-8%', zIndex: 0, pointerEvents: 'none',
+        width: 580, height: 580,
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(255,107,107,0.32) 0%, rgba(255,107,107,0.10) 48%, transparent 70%)',
+        filter: 'blur(30px)',
+        animation: 'vgOrb2 17s ease-in-out infinite alternate',
+      }} />
+
+      {/* Orb 3 — indigo, center-bottom */}
+      <div aria-hidden="true" style={{
+        position: 'absolute', bottom: '0%', left: '35%', zIndex: 0, pointerEvents: 'none',
+        width: 480, height: 480,
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(99,102,241,0.22) 0%, rgba(99,102,241,0.07) 52%, transparent 70%)',
+        filter: 'blur(35px)',
+        animation: 'vgOrb3 20s ease-in-out infinite alternate',
+      }} />
+
+      {/* Bottom fade-to-white */}
+      <div aria-hidden="true" style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 0,
+        height: 120,
+        background: 'linear-gradient(to bottom, transparent, #ffffff)',
+        pointerEvents: 'none',
+      }} />
+
+      {/* Orb keyframes */}
+      <style>{`
+        @keyframes vgOrb1 {
+          0%   { transform: translate(0px,   0px)   scale(1); }
+          50%  { transform: translate(40px,  30px)  scale(1.08); }
+          100% { transform: translate(-20px, 50px)  scale(0.95); }
+        }
+        @keyframes vgOrb2 {
+          0%   { transform: translate(0px,   0px)   scale(1); }
+          50%  { transform: translate(-35px, 45px)  scale(1.06); }
+          100% { transform: translate(25px, -30px)  scale(0.97); }
+        }
+        @keyframes vgOrb3 {
+          0%   { transform: translate(0px,   0px)   scale(1); }
+          50%  { transform: translate(30px, -20px)  scale(1.05); }
+          100% { transform: translate(-40px, 30px)  scale(0.96); }
+        }
+      `}</style>
+
+      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         
         {/* Top Hero Split Layout */}
         <div style={{
@@ -163,7 +246,8 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
           
           {/* Left Hero Text Column */}
           <div>
-            <div style={{ marginBottom: '1rem' }}>
+            {/* Badge — delay 0ms */}
+            <div style={{ marginBottom: '1rem', ...reveal(0) }}>
               <span style={{
                 fontSize: '0.82rem',
                 color: '#2563eb',
@@ -180,30 +264,34 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
               </span>
             </div>
 
+            {/* H1 — delay 100ms */}
             <h1 style={{
               fontSize: 'clamp(2.4rem, 5vw, 3.6rem)',
               lineHeight: '1.15',
               fontWeight: '800',
               color: '#0a2540',
               marginBottom: '1.25rem',
-              letterSpacing: '-0.02em'
+              letterSpacing: '-0.02em',
+              ...reveal(100)
             }}>
               Technology. Training. <br />
               <span className="text-coral">Opportunity.</span>
             </h1>
 
+            {/* Subtitle — delay 200ms */}
             <p style={{
               fontSize: '1.15rem',
               color: '#64748b',
               marginBottom: '2.25rem',
               maxWidth: '560px',
-              lineHeight: '1.65'
+              lineHeight: '1.65',
+              ...reveal(200)
             }}>
               Delivering scalable enterprise IT solutions for businesses while empowering students and aspiring technology professionals through practical training and industry-focused internships.
             </p>
 
-            {/* 3 Core Action CTAs */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap' }}>
+            {/* CTA Buttons — delay 320ms */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap', ...reveal(320) }}>
               <button 
                 onClick={onExploreClick} 
                 className="btn-coral" 
@@ -243,8 +331,8 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
             </div>
           </div>
 
-          {/* Right Hero Founder Image Spotlight */}
-          <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+          {/* Right Hero Founder Image Spotlight — delay 180ms, slides in from right */}
+          <div style={{ display: 'flex', justifyContent: 'center', width: '100%', ...reveal(180) }}>
             <div style={{
               position: 'relative',
               width: '100%',
@@ -307,7 +395,7 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
 
         </div>
 
-        {/* 🌟 Unified 4-Metrics Clean Card Banner (Exact User Design) */}
+        {/* 🌟 Unified 4-Metrics Clean Card Banner — delay 440ms */}
         <div style={{
           background: '#ffffff',
           border: '1px solid #e2e8f0',
@@ -318,7 +406,8 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
           gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
           gap: '2.5rem',
           marginBottom: '5rem',
-          alignItems: 'flex-start'
+          alignItems: 'flex-start',
+          ...reveal(440)
         }}>
           
           {/* Stat 1: 10+ */}
@@ -363,8 +452,8 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
 
         </div>
 
-        {/* 📚 "What We Do" Domain Specializations Section (Exact User Design) */}
-        <div style={{ marginBottom: '5.5rem' }}>
+        {/* 📚 "What We Do" Domain Specializations Section — delay 560ms */}
+        <div style={{ marginBottom: '5.5rem', ...reveal(560) }}>
           
           <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 3rem auto' }}>
             <span style={{

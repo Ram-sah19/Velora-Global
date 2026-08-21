@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { api } from './services/api';
 
+// Premium Motion System
+import { VeloraIntro, PageTransition } from './components/Motion';
+
 // Global Layout Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -61,6 +64,7 @@ export default function App() {
   const [selectedServiceCategory, setSelectedServiceCategory] = useState('all');
   const [activeRole] = useState('student');
   const [activeCertificate, setActiveCertificate] = useState(null);
+  const [introReady, setIntroReady] = useState(!!sessionStorage.getItem('vg_intro_done'));
 
   // Helper to sync browser URL bar with selected tab
   const navigateTab = (tab, replace = false) => {
@@ -209,7 +213,13 @@ export default function App() {
 
   return (
     <ErrorBoundary>
-      <div className="app-container">
+      {/* Premium Brand Intro Splash — plays once per session */}
+      <VeloraIntro onComplete={() => setIntroReady(true)} />
+
+      <div className="app-container" style={{
+        opacity: introReady ? 1 : 0,
+        transition: 'opacity 0.4s ease',
+      }}>
         <OfflineBanner />
         <NotificationToast />
         <CookieBanner />
@@ -224,8 +234,9 @@ export default function App() {
           onLogout={handleLogout}
         />
 
-        {/* Main Content Area */}
+        {/* Main Content Area with smooth page transitions */}
         <main className="main-content">
+          <PageTransition tabKey={activeTab}>
           
           {/* Home / Landing Page */}
           <div style={{ display: activeTab === 'home' ? 'block' : 'none', minHeight: '80vh', width: '100%' }}>
@@ -308,6 +319,7 @@ export default function App() {
             </div>
           )}
 
+          </PageTransition>
         </main>
 
         {/* Password Reset Modal — opens automatically from email reset link (?resetToken=...) */}

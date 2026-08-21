@@ -69,12 +69,29 @@ html, body, #root {
 }
 
 body {
-  background-color: var(--bg-slate);
+  background-color: #f8fafc;
   color: var(--text-dark);
   font-family: var(--font-body);
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+/* ── Global Dot-Grid Overlay ──────────────────────────────────────────────
+   Applied as a fixed pseudo-element on body::before so it's truly global
+   and sits behind all content via mix-blend-mode: multiply.
+   Visible on white AND light-grey pages.
+─────────────────────────────────────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #94a3b8 1.2px, transparent 1.2px);
+  background-size: 28px 28px;
+  opacity: 0.45;
+  mix-blend-mode: multiply;   /* visible on white, blends naturally on grey */
 }
 
 h1, h2, h3, h4, h5, h6 {
