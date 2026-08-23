@@ -35,13 +35,15 @@ try {
 
 // Copy Favicon Assets for Google Search Crawler
 try {
-  const faviconSrc = `C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\bb31b85a-bbc3-4986-82d9-a8435f3f07f6\\favicon_512x512_1786809076610.jpg`;
+  const faviconSrc = `C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\a4d534a8-3984-4b8e-bff6-79644a6f4e38\\.user_uploaded\\media_1787497027076.png`;
   const publicDir = path.join(__dirname, '../frontend/public');
   if (fs.existsSync(faviconSrc)) {
     const targets = [
+      'logo.png',
       'favicon.ico',
       'favicon.png',
       'favicon-48x48.png',
+      'favicon-96x96.png',
       'favicon-192x192.png',
       'favicon-512x512.png',
       'apple-touch-icon.png'
