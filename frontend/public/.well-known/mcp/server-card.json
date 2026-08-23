@@ -1,0 +1,67 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schema/server-card.json",
+  "serverInfo": {
+    "name": "velora-global-mcp",
+    "version": "1.0.0",
+    "title": "Velora Global Platform MCP Server",
+    "description": "Exposes Velora Global platform tools to AI assistants for certificate verification, domain internship search, guided training track discovery, and founder mentorship access."
+  },
+  "transport": {
+    "type": "sse",
+    "endpoint": "https://velora-global.online/api/mcp/sse"
+  },
+  "capabilities": {
+    "tools": {
+      "list": true
+    },
+    "resources": {
+      "subscribe": false,
+      "list": true
+    },
+    "prompts": {
+      "list": true
+    }
+  },
+  "tools": [
+    {
+      "name": "verifyCertificate",
+      "description": "Verifies a student internship or training certificate by ID, returning student name, domain, grade, and cryptographic issue date.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "certificateId": {
+            "type": "string",
+            "description": "The unique certificate ID (e.g. VG-2026-88491)"
+          }
+        },
+        "required": ["certificateId"]
+      }
+    },
+    {
+      "name": "getInternshipTracks",
+      "description": "Retrieves the list of 10 specialized industry internship domain tracks, durations (2 weeks to 6 months), and pricing in NPR.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "description": "Optional domain filter (e.g. 'fullstack', 'ai_ml', 'devops', 'cybersecurity')"
+          }
+        }
+      }
+    },
+    {
+      "name": "getTrainingPrograms",
+      "description": "Retrieves structured guided training programs with interactive modules, mentorship schedules, and syllabus breakdowns.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "duration": {
+            "type": "string",
+            "description": "Optional duration filter (e.g. '1_month', '2_months')"
+          }
+        }
+      }
+    }
+  ]
+}

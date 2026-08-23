@@ -59,6 +59,54 @@
     />
     <meta name="twitter:image" content="https://velora-global.online/favicon.svg" />
 
+    <!-- AI Agent Discovery & Emerging Standards (ARD, MCP, RFC 9727, Agent Skills) -->
+    <link rel="ai-catalog" type="application/json" href="%PUBLIC_URL%/.well-known/ai-catalog.json" />
+    <link rel="api-catalog" type="application/linkset+json" href="%PUBLIC_URL%/.well-known/api-catalog" />
+    <link rel="agent-skills" type="application/json" href="%PUBLIC_URL%/.well-known/agent-skills/index.json" />
+    <link rel="mcp-server-card" type="application/json" href="%PUBLIC_URL%/.well-known/mcp/server-card.json" />
+    <link rel="service-desc" type="application/openapi+json" href="%PUBLIC_URL%/openapi.json" />
+    <link rel="service-doc" type="text/markdown" href="%PUBLIC_URL%/auth.md" />
+
+    <!-- WebMCP (Web Model Context Protocol) In-Browser Agent Discovery -->
+    <script>
+      (function() {
+        var tools = [
+          {
+            name: "verifyCertificate",
+            description: "Verify student internship certificates and completion credentials with tamper-proof cryptographic signatures.",
+            inputSchema: {
+              type: "object",
+              properties: {
+                certificateId: { type: "string", description: "Certificate ID (e.g. VG-2026-88491)" }
+              },
+              required: ["certificateId"]
+            }
+          },
+          {
+            name: "getInternshipPrograms",
+            description: "Retrieve 10 technology internship domain tracks, duration options, and transparent pricing in NPR.",
+            inputSchema: { type: "object", properties: {} }
+          },
+          {
+            name: "getLeadershipTeam",
+            description: "Retrieve executive founding leadership contacts (Ram Sah, Krishna Sah, Rohit Sah, Shivshankar Sah).",
+            inputSchema: { type: "object", properties: {} }
+          }
+        ];
+        if (window.navigator) {
+          if (!window.navigator.modelContext) {
+            window.navigator.modelContext = {
+              tools: tools,
+              provideContext: function(ctx) { if (ctx && ctx.tools) { this.tools.push.apply(this.tools, ctx.tools); } },
+              getTools: function() { return this.tools; }
+            };
+          } else if (typeof window.navigator.modelContext.provideContext === 'function') {
+            try { window.navigator.modelContext.provideContext({ tools: tools }); } catch(e) {}
+          }
+        }
+      })();
+    </script>
+
     <!-- Google Fonts: Inter & Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

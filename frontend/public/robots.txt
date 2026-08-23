@@ -1,7 +1,40 @@
-# Velora Global — Search Engine Crawler Instructions
+# As a condition of accessing this website, you agree to abide by the following content signals:
+# (a) If a Content-Signal = yes, you may collect content for the corresponding use.
+# (b) If a Content-Signal = no, you may not collect content for the corresponding use.
+# Content-Signal: search=yes, ai-train=yes, ai-inference=yes
+
 User-agent: *
 Allow: /
 Disallow: /admin
-Disallow: /api/
 
+# AI Bot Directives
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: ByteSpider
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Agent & Search Index Maps
 Sitemap: https://velora-global.online/sitemap.xml
+Agentmap: https://velora-global.online/.well-known/ai-catalog.json

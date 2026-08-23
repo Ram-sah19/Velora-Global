@@ -1,0 +1,25 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schema/server-card.json",
+  "serverInfo": {
+    "name": "velora-global-mcp",
+    "version": "1.0.0",
+    "title": "Velora Global Platform MCP Server",
+    "description": "Exposes Velora Global platform tools to AI assistants for certificate verification, domain internship search, guided training track discovery, and founder mentorship access."
+  },
+  "transport": {
+    "type": "sse",
+    "endpoint": "https://velora-global.online/api/mcp/sse"
+  },
+  "capabilities": {
+    "tools": {
+      "list": true
+    },
+    "resources": {
+      "subscribe": false,
+      "list": true
+    },
+    "prompts": {
+      "list": true
+    }
+  }
+}

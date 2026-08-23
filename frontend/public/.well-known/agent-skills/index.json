@@ -1,0 +1,23 @@
+{
+  "$schema": "https://agentskills.io/schema/v0.2.0/index.json",
+  "skills": [
+    {
+      "name": "verify-certificate",
+      "type": "skill",
+      "description": "Verify student internship certificates and completion credentials with tamper-proof cryptographic signatures.",
+      "url": "https://velora-global.online/.well-known/agent-skills/verify-certificate/SKILL.md"
+    },
+    {
+      "name": "explore-internships",
+      "type": "skill",
+      "description": "Discover available 10 domain technology internship tracks, pricing in NPR, curriculum, and mentorship details.",
+      "url": "https://velora-global.online/.well-known/agent-skills/explore-internships/SKILL.md"
+    },
+    {
+      "name": "explore-training",
+      "type": "skill",
+      "description": "Discover guided technology training programs, syllabi, duration options, and career placement.",
+      "url": "https://velora-global.online/.well-known/agent-skills/explore-training/SKILL.md"
+    }
+  ]
+}

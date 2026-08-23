@@ -1,0 +1,16 @@
+{
+  "ucp_version": "1.0",
+  "name": "Velora Global Commerce Profile",
+  "currencies_supported": ["NPR", "USD"],
+  "payment_methods": ["esewa", "khalti", "bank_transfer", "card"],
+  "merchant": {
+    "name": "Velora Global",
+    "url": "https://velora-global.online",
+    "support_email": "contact@veloraglobal.com"
+  },
+  "capabilities": {
+    "instant_enrollment": true,
+    "duration_calculator": true,
+    "qr_credential_delivery": true
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "acp_version": "1.0",
+  "name": "Velora Global Agentic Commerce Protocol",
+  "endpoint": "https://velora-global.online/api/commerce/checkout",
+  "supported_products": [
+    {
+      "id": "internship_2w",
+      "name": "Practical Internship - 2 Weeks",
+      "price": 199,
+      "currency": "NPR"
+    },
+    {
+      "id": "internship_1m",
+      "name": "Practical Internship - 1 Month",
+      "price": 499,
+      "currency": "NPR"
+    },
+    {
+      "id": "training_1m",
+      "name": "Guided Training Track - 1 Month",
+      "price": 1200,
+      "currency": "NPR"
+    }
+  ]
+}

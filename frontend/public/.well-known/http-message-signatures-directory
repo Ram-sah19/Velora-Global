@@ -1,0 +1,17 @@
+{
+  "directory": {
+    "keys": [
+      {
+        "keyid": "velora-bot-key-1",
+        "algorithm": "rsa-v1_5-sha256",
+        "publicKey": "https://velora-global.online/.well-known/jwks.json"
+      }
+    ],
+    "coveredComponents": [
+      "@method",
+      "@target-uri",
+      "@authority",
+      "content-digest"
+    ]
+  }
+}

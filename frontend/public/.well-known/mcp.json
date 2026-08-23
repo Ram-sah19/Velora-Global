@@ -1,0 +1,11 @@
+{
+  "serverInfo": {
+    "name": "velora-global-mcp",
+    "version": "1.0.0",
+    "description": "Velora Global Platform MCP Server"
+  },
+  "transport": {
+    "type": "sse",
+    "endpoint": "https://velora-global.online/api/mcp/sse"
+  }
+}

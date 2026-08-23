@@ -1,0 +1,13 @@
+{
+  "resources": [
+    {
+      "path": "/api/certificates/verify",
+      "method": "POST",
+      "price": {
+        "amount": "0.00",
+        "currency": "USD"
+      },
+      "description": "Free public cryptographic verification for all Velora Global certificates."
+    }
+  ]
+}

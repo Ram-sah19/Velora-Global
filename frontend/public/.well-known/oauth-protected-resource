@@ -1,0 +1,18 @@
+{
+  "resource": "https://velora-global.online",
+  "authorization_servers": [
+    "https://velora-global.online"
+  ],
+  "scopes_supported": [
+    "read",
+    "write",
+    "internships",
+    "training",
+    "verify",
+    "certificates"
+  ],
+  "bearer_methods_supported": [
+    "header"
+  ],
+  "resource_documentation": "https://velora-global.online/docs/api"
+}

@@ -1,0 +1,116 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Velora Global Platform API",
+    "version": "1.0.0",
+    "description": "Public and authenticated REST API for Velora Global internship tracks, training programs, applicant enrollment, and cryptographic certificate verification.",
+    "contact": {
+      "name": "Velora Global Technical Support",
+      "email": "support@veloraglobal.com",
+      "url": "https://velora-global.online"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://velora-global.online/api",
+      "description": "Production Edge Gateway"
+    },
+    {
+      "url": "https://velora-global.onrender.com/api",
+      "description": "Core Backend Cluster"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Platform Health Check",
+        "description": "Returns operational status of the Velora Global backend API and database connection.",
+        "responses": {
+          "200": {
+            "description": "System Healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "example": "UP" },
+                    "timestamp": { "type": "string", "example": "2026-08-23T09:30:00Z" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/certificates/{certificateId}": {
+      "get": {
+        "summary": "Verify Student Certificate",
+        "description": "Public verification endpoint for student credentials by certificate ID.",
+        "parameters": [
+          {
+            "name": "certificateId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "VG-2026-88491"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Certificate details and validity status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "valid": { "type": "boolean" },
+                    "certificateId": { "type": "string" },
+                    "studentName": { "type": "string" },
+                    "programTitle": { "type": "string" },
+                    "domain": { "type": "string" },
+                    "issueDate": { "type": "string" },
+                    "duration": { "type": "string" },
+                    "grade": { "type": "string" },
+                    "founderSignature": { "type": "string" },
+                    "founderTitle": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/programs": {
+      "get": {
+        "summary": "List Available Internship & Training Programs",
+        "description": "Returns all 10 domain specializations, curriculum modules, and duration pricing in NPR.",
+        "responses": {
+          "200": {
+            "description": "List of domains and programs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "title": { "type": "string" },
+                      "domain": { "type": "string" },
+                      "description": { "type": "string" },
+                      "pricing": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "keys": [
+    {
+      "kty": "RSA",
+      "use": "sig",
+      "alg": "RS256",
+      "kid": "velora-bot-key-1",
+      "n": "u1w_...",
+      "e": "AQAB"
+    }
+  ]
+}

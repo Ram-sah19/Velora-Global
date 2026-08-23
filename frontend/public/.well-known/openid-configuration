@@ -1,0 +1,13 @@
+{
+  "issuer": "https://velora-global.online",
+  "authorization_endpoint": "https://velora-global.online/oauth/authorize",
+  "token_endpoint": "https://velora-global.online/api/auth/token",
+  "userinfo_endpoint": "https://velora-global.online/api/auth/userinfo",
+  "jwks_uri": "https://velora-global.online/.well-known/jwks.json",
+  "response_types_supported": ["code", "token", "id_token"],
+  "subject_types_supported": ["public"],
+  "id_token_signing_alg_values_supported": ["RS256", "HS256"],
+  "scopes_supported": ["openid", "profile", "email", "internships", "training", "verify"],
+  "token_endpoint_auth_methods_supported": ["client_secret_basic", "client_secret_post", "bearer"],
+  "claims_supported": ["sub", "name", "email", "role", "userType"]
+}

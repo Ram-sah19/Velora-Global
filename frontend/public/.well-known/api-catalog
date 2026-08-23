@@ -1,0 +1,25 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://velora-global.online/api",
+      "service-desc": [
+        {
+          "href": "https://velora-global.online/openapi.json",
+          "type": "application/openapi+json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://velora-global.online/docs/api",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://velora-global.online/api/health",
+          "type": "application/json"
+        }
+      ]
+    }
+  ]
+}
