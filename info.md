@@ -1,24 +1,25 @@
-# 🧠 Velora Global — Project Architecture & Mental Map (`info.md`)
+# Velora Global — Project Architecture & Mental Map (`info.md`)
 
 > **Velora Global** is an enterprise-grade MERN-stack platform providing tech internships, industry training, and client project deliverables.
+> **Headquarters**: Balkumari, Ring Road, Kathmandu Valley, Bagmati Province, Nepal (44600) | **Contact**: +977 9826031419 | contact@velora-global.online
 
 ---
 
-## 🗺️ High-Level System Architecture (Mental Map)
+## High-Level System Architecture (Mental Map)
 
 ```mermaid
 graph TD
-    Client[📱 Web Browser / Client]
+    Client[Web Browser / Client]
     
-    subgraph Frontend ["🎨 Frontend (React SPA - Cloudflare Pages)"]
+    subgraph Frontend ["Frontend (React SPA - Cloudflare Pages)"]
         App[App.js Root]
         Nav[Navbar Header]
-        Footer[Footer / Secret Admin Trigger]
+        Footer[Footer / Admin Trigger]
         Cookie[CookieBanner]
         AuthModal[AuthModal - Login / Signup / Forgot]
         ResetModal[ResetPasswordModal - Token Handler]
         
-        Pages["📄 Pages & Portals"]
+        Pages["Pages & Portals"]
         HomePage[Home Page]
         InternPage[Internships Page]
         TrainPage[Training & Courses Page]
@@ -26,10 +27,10 @@ graph TD
         ClientPortal[Client Workspace]
     end
 
-    subgraph Backend ["⚡ Backend API (Express.js - Render.com)"]
+    subgraph Backend ["Backend API (Express.js - Render.com)"]
         Server[Server.js Core]
         
-        subgraph Middleware ["🔒 Security Stack"]
+        subgraph Middleware ["Security Stack"]
             Helmet[Helmet Headers]
             RateLimit[Express Rate Limit]
             Sanitize[NoSQL Mongo Sanitize]
@@ -37,7 +38,7 @@ graph TD
             AuthGuard[JWT Cookie Auth & Admin Guards]
         end
         
-        subgraph Controllers ["🎮 API Controllers"]
+        subgraph Controllers ["API Controllers"]
             UserController[userController.js]
             ProgController[programController.js]
             AppController[applicationController.js]
@@ -45,12 +46,12 @@ graph TD
             InqController[clientInquiryController.js]
         end
         
-        subgraph Services ["📧 External Services"]
+        subgraph Services ["External Services"]
             EmailService[emailService.js - Gmail SMTP]
         end
     end
 
-    subgraph Database ["💾 Persistence Layer"]
+    subgraph Database ["Persistence Layer"]
         MongoDB[(MongoDB Atlas Production)]
         LocalDB[(Local JSON DB Fallback)]
     end
@@ -65,11 +66,11 @@ graph TD
 
 ---
 
-## 📁 Repository Structure & Directory Map
+## Repository Structure & Directory Map
 
 ```
 Company/
-├── info.md                      # 👈 System Mental Map & Complete Documentation
+├── info.md                      # System Mental Map & Complete Documentation
 ├── backend/                     # Node.js + Express REST API
 │   ├── .env                     # Environment variables (DB, Secrets, SMTP)
 │   ├── server.js                # Express entry point & middleware initialization
@@ -96,34 +97,34 @@ Company/
 │   └── services/
 │       └── emailService.js      # Nodemailer SMTP engine (Branded HTML Reset Emails)
 │
-└── frontend/                    # React 18 Single-Page Application
+└── frontend/                    # React 19 Single-Page Application
     ├── public/
     │   └── index.html           # Main HTML with CSP & Security Meta Headers
     └── src/
         ├── App.js               # Root component, global state, router tab manager
-        ├── App.css              # Glassmorphism design system & micro-animations
+        ├── index.css            # Pro Corporate Design Tokens
         ├── components/          # Reusable UI components
         │   ├── Navbar.js        # Sticky Header with Role-aware Workspace navigation
-        │   ├── Footer.js        # Footer with links & hidden Super Admin trigger
-        │   ├── CookieBanner.js  # Animated GDPR-compliant Cookie Consent Banner
+        │   ├── Footer.js        # Footer with links & hidden Admin trigger
+        │   ├── CookieBanner.js  # GDPR-compliant Cookie Consent Banner
         │   ├── ResetPasswordModal.js # Interactive Password Reset token modal
         │   ├── NotificationToast.js # Custom animated alert/notification system
         │   └── CertificateModal.js   # Official QR Certificate viewer
         ├── pages/               # Views & Role Workspaces
-        │   ├── Home/            # Landing page, stats, hero, services, founders
+        │   ├── HomePage/        # Landing page, stats, hero, services, founders
         │   ├── Auth/
         │   │   └── AuthModal.js # Unified Auth Modal (Login / Signup / Forgot Pw)
         │   ├── InternshipsPage/ # Internship Domain Explorer & Application Modal
         │   ├── TrainingPage/    # Professional Courses & Skill Programs
         │   ├── StudentPortalPage/# Student Workspace, Tasks, Learning Modules
-        │   └── ClientPortalPage/# Streamlined Client Workspace & Inquiry Details
+        │   └── ClientWorkspacePage/# Streamlined Client Workspace & Inquiry Details
         └── services/
             └── api.js           # Fetch API wrapper with credentials: 'include'
 ```
 
 ---
 
-## 🔐 Security Architecture & Hardening
+## Security Architecture & Hardening
 
 | Layer | Technology / Implementation | Details |
 |---|---|---|
@@ -138,7 +139,7 @@ Company/
 
 ---
 
-## 🔑 User Roles & User Types
+## User Roles & User Types
 
 ```mermaid
 pie title User Types Distribution
@@ -155,13 +156,13 @@ pie title User Types Distribution
    - Client inquiry submission and project tracking basic details.
 3. **Admin & Super Admin** (`userType: 'admin'` / `'superadmin'`):
    - Access to user management, assigning student tasks, reviewing candidate applications, and creating new programs.
-   - Accessible via secret key combination (`Ctrl + Alt + Shift + A`) or hidden footer access.
+   - Accessible via secret key combination or hidden footer access.
 
 ---
 
-## 🔑 Key API Endpoints Reference
+## Key API Endpoints Reference
 
-### 👤 User & Authentication Routes (`/api/users`)
+### User & Authentication Routes (`/api/users`)
 - `POST /api/users/login` — Log in user & set `velora_refresh_token` HttpOnly cookie.
 - `POST /api/users/logout` — Clear session cookie & revoke session.
 - `GET /api/users/me` — Auto-sync current logged-in user from session cookie on page refresh.
@@ -171,18 +172,18 @@ pie title User Types Distribution
 - `POST /api/users/forgot-password` — Generate reset token & email reset link.
 - `POST /api/users/reset-password` — Reset password using token from email.
 
-### 📚 Program Routes (`/api/programs`)
+### Program Routes (`/api/programs`)
 - `GET /api/programs` — Fetch available internship & training programs with domain/search filtering.
 - `GET /api/programs/:id` — Fetch details for a specific program.
 - `POST /api/programs` — Create new program (*Admin only*).
 
-### 📋 Application Routes (`/api/applications`)
+### Application Routes (`/api/applications`)
 - `POST /api/applications` — Submit internship application.
 - `GET /api/applications/user/:userId` — Fetch user's submitted applications.
 
 ---
 
-## ⚙️ Environment Variables Setup (`backend/.env`)
+## Environment Variables Setup (`backend/.env`)
 
 ```env
 PORT=5000
@@ -200,15 +201,15 @@ EMAIL_PASS=your-16-char-app-password
 
 ---
 
-## 🚀 Deployment Overview
+## Deployment Overview
 
 ```mermaid
 graph LR
-    Dev[💻 Developer Workstation]
-    Dev -- git push --> GitHub[🐙 GitHub Repository]
-    GitHub -- Auto Deploy --> CF[⚡ Cloudflare Pages - Frontend]
-    GitHub -- Auto Deploy --> Render[☁️ Render.com - Backend Node Server]
-    Render -- Database Queries --> DB[(🍃 MongoDB Atlas)]
+    Dev[Developer Workstation]
+    Dev -- git push --> GitHub[GitHub Repository]
+    GitHub -- Auto Deploy --> CF[Cloudflare Pages - Frontend]
+    GitHub -- Auto Deploy --> Render[Render.com - Backend Node Server]
+    Render -- Database Queries --> DB[(MongoDB Atlas)]
 ```
 
 * **Frontend Hosting**: Cloudflare Pages (`https://velora-global.pages.dev`)

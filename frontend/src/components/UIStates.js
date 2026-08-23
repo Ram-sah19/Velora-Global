@@ -1,8 +1,29 @@
 import React, { Component, useState, useEffect } from 'react';
 
 /* ==========================================================================
-   1. SHIMMER SKELETON LOADERS
+   1. SHIMMER SKELETON LOADERS & PAGE LOADER
    ========================================================================== */
+
+export function PageLoader() {
+  return (
+    <div style={{ padding: '4rem 1.5rem', minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.25rem' }}>
+      <div style={{
+        width: '44px',
+        height: '44px',
+        border: '3px solid #e2e8f0',
+        borderTopColor: '#2563eb',
+        borderRadius: '50%',
+        animation: 'veloraSpin 0.8s linear infinite'
+      }} />
+      <style>{`
+        @keyframes veloraSpin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
+      <p style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: '500' }}>Loading content...</p>
+    </div>
+  );
+}
 
 export function SkeletonBox({ width = '100%', height = '1rem', borderRadius = '6px', style = {} }) {
   return (

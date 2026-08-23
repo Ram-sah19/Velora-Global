@@ -46,8 +46,12 @@ a {
 }
 
 button:focus {
-  outline: none !important;
-  box-shadow: none !important;
+  outline: none;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--primary-blue) !important;
+  outline-offset: 2px !important;
 }
 
 @media (max-width: 768px) {
@@ -278,10 +282,6 @@ input:focus, textarea:focus, select:focus {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-}
-
-.main-content {
-  flex: 1;
 }
 
 /* Dropdown Menu Interactive Items */

@@ -115,15 +115,21 @@ export default function Footer({ setActiveTab }) {
 
           {/* Contact & Social Channels */}
           <div>
-            <h4 style={{ color: '#ffffff', fontSize: '1.05rem', marginBottom: '1rem' }}>Contact & Support</h4>
-            <p style={{ fontSize: '0.85rem', marginBottom: '0.35rem', color: '#94a3b8' }}>
-              <strong>Support:</strong> <a href="mailto:support@velora-global.online" style={{ color: '#60a5fa' }}>support@velora-global.online</a>
+            <h4 style={{ color: '#ffffff', fontSize: '1.05rem', marginBottom: '1rem' }}>Contact & Headquarters</h4>
+            <p style={{ fontSize: '0.84rem', marginBottom: '0.45rem', color: '#cbd5e1', lineHeight: '1.45' }}>
+              <strong>Headquarters:</strong> Balkumari, Ring Road, Kathmandu Valley, Nepal
             </p>
-            <p style={{ fontSize: '0.85rem', marginBottom: '0.35rem', color: '#94a3b8' }}>
-              <strong>Corporate:</strong> <a href="mailto:contact@velora-global.online" style={{ color: '#60a5fa' }}>contact@velora-global.online</a>
+            <p style={{ fontSize: '0.84rem', marginBottom: '0.45rem', color: '#94a3b8' }}>
+              <strong>Direct Helpline:</strong> <a href="tel:+9779826031419" style={{ color: '#60a5fa' }}>+977 9826031419</a>
             </p>
-            <p style={{ fontSize: '0.85rem', marginBottom: '0.35rem', color: '#94a3b8' }}>
-              <strong>HR Desk:</strong> <a href="mailto:hr@velora-global.online" style={{ color: '#60a5fa' }}>hr@velora-global.online</a>
+            <p style={{ fontSize: '0.84rem', marginBottom: '0.35rem', color: '#94a3b8' }}>
+              <strong>Technical Support:</strong> <a href="mailto:support@velora-global.online" style={{ color: '#60a5fa' }}>support@velora-global.online</a>
+            </p>
+            <p style={{ fontSize: '0.84rem', marginBottom: '0.35rem', color: '#94a3b8' }}>
+              <strong>Corporate Desk:</strong> <a href="mailto:contact@velora-global.online" style={{ color: '#60a5fa' }}>contact@velora-global.online</a>
+            </p>
+            <p style={{ fontSize: '0.84rem', marginBottom: '0.35rem', color: '#94a3b8' }}>
+              <strong>Admissions & HR:</strong> <a href="mailto:hr@velora-global.online" style={{ color: '#60a5fa' }}>hr@velora-global.online</a>
             </p>
 
             {/* Official Social Media Channels */}
@@ -178,7 +184,7 @@ export default function Footer({ setActiveTab }) {
                     </svg>
                     <span>LinkedIn</span>
                   </div>
-                  <span style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: '500' }}>@veloraglo-bal ➔</span>
+                  <span style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: '500' }}>@veloraglo-bal</span>
                 </a>
 
                 {/* Instagram */}
@@ -218,7 +224,7 @@ export default function Footer({ setActiveTab }) {
                     </svg>
                     <span>Instagram</span>
                   </div>
-                  <span style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: '500' }}>@veloraglobal_ ➔</span>
+                  <span style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: '500' }}>@veloraglobal_</span>
                 </a>
 
                 {/* Facebook */}
@@ -243,7 +249,7 @@ export default function Footer({ setActiveTab }) {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = 'rgba(24, 119, 242, 0.12)';
-                    e.currentTarget.style.borderColor = 'rgba(147, 197, 253, 0.4)';
+                    e.currentTarget.style.borderColor = 'rgba(96, 165, 250, 0.4)';
                     e.currentTarget.style.transform = 'translateX(4px)';
                   }}
                   onMouseLeave={(e) => {
@@ -253,12 +259,12 @@ export default function Footer({ setActiveTab }) {
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#93c5fd" style={{ flexShrink: 0 }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#60a5fa" style={{ flexShrink: 0 }}>
                       <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                     </svg>
                     <span>Facebook</span>
                   </div>
-                  <span style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: '500' }}>@veloraglobal02 ➔</span>
+                  <span style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: '500' }}>@veloraglobal02</span>
                 </a>
               </div>
             </div>

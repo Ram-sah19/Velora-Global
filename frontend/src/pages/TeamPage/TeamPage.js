@@ -131,7 +131,7 @@ export default function TeamPage({ onExploreClick }) {
                 <div style={{ position: 'relative', width: '160px', height: '160px', margin: '0 auto 1.75rem auto' }}>
                   <img 
                     src={member.image} 
-                    alt={member.name}
+                    alt={`${member.name} - ${member.role} at Velora Global Nepal`}
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = member.image.replace('/media/', '/images/');

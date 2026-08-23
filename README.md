@@ -4,7 +4,7 @@
 
 ---
 
-## 🌟 Executive Summary
+## Executive Summary
 
 **Velora Global** is a modern MERN stack platform designed to empower students and early-career developers with practical project experience, executive mentorship, and official verified certifications across 10 specialized technology and design domains.
 
@@ -14,11 +14,15 @@ Founding Leadership:
 - **Rohit Sah** — Co-Founder & COO
 - **Shivshankar Sah** — Contracts & Operations Director
 
+- **Corporate Headquarters**: Balkumari, Ring Road, Kathmandu Valley, Bagmati Province, Nepal (44600)  
+- **Helpline & WhatsApp**: +977 9826031419
+- **Email Inquiries**: contact@velora-global.online | support@velora-global.online
+
 ---
 
-## 🚀 Dedicated Program Pages
+## Dedicated Program Pages
 
-### 1. 🎯 Practical Internships Page (`/internships`)
+### 1. Practical Internships Page (`/internships`)
 - **Focus**: Real-world production project work, 5-criteria evaluation, and QR-verified certificate.
 - **Duration Pricing Options**:
   - `2 Weeks`: **NPR 199**
@@ -27,7 +31,7 @@ Founding Leadership:
   - `3 Months`: **NPR 1,999**
   - `6 Months`: **NPR 4,999**
 
-### 2. 🚀 Training Programs Page (`/training`)
+### 2. Training Programs Page (`/training`)
 - **Focus**: Structured skill curriculum modules, hands-on lab projects, co-founder mentorship, and practical internship placement.
 - **Duration Pricing Options**:
   - `1 Week`: **NPR 500**
@@ -38,7 +42,7 @@ Founding Leadership:
 
 ---
 
-## 📂 Modular Frontend Architecture (`frontend/src/`)
+## Modular Frontend Architecture (`frontend/src/`)
 
 ```text
 src/
@@ -72,7 +76,7 @@ src/
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Layer | Technology Used |
 | :--- | :--- |
@@ -83,30 +87,39 @@ src/
 
 ---
 
-## ⚙️ Quick Start & Setup Guide
+## Quick Start & Setup Guide
 
-### 1. Configure Environment Variables
+### 1. Install Dependencies
+```bash
+# Backend dependencies
+cd backend && npm ci
+
+# Frontend dependencies
+cd ../frontend && npm ci
+```
+
+### 2. Configure Environment Variables
 Verify your connection string in `backend/.env`:
 ```env
 PORT=5000
 MONGODB_URI=mongodb+srv://<YOUR_DB_USER>:<YOUR_DB_PASSWORD>@cluster0.7iotdng.mongodb.net/velora_global?retryWrites=true&w=majority
 ```
 
-### 2. Seed MongoDB Atlas Database
-In the root directory, run the database seed script:
+### 3. Seed MongoDB Atlas Database
 ```bash
 cd backend
 npm run seed
 ```
 
-### 3. Start Backend Server
+### 4. Start Backend Server
 ```bash
 cd backend
-npm start
+npm run dev   # Development mode with auto-reload
+# or npm start for production
 ```
 *Backend server runs on `http://localhost:5000`.*
 
-### 4. Start Frontend React Application
+### 5. Start Frontend React Application
 In a new terminal window:
 ```bash
 cd frontend
@@ -116,7 +129,7 @@ npm start
 
 ---
 
-## 📜 License & Ownership
+## License & Ownership
 
 © 2026 **Velora Global**. All rights reserved.  
 Founded by **Ram Sah** (Founder & CEO) • Co-Founded by **Krishna Sah** (Co-Founder & CTO) & **Rohit Sah** (Co-Founder & COO).

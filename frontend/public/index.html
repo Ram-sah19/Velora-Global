@@ -28,15 +28,22 @@
     <meta name="title" content="Velora Global | Technology Training, Internships & Enterprise Solutions" />
     <meta
       name="description"
-      content="Practical technology training, project-driven internships, and custom enterprise IT solutions for businesses and aspiring tech professionals."
+      content="Practical technology training, project-driven internships, and custom enterprise IT solutions (Web, Mobile & AI) in Kathmandu, Nepal."
     />
     <meta
       name="keywords"
-      content="Velora Global, Technology Training, Tech Internships, Enterprise IT Solutions, Custom Web Development, Full Stack MERN, Python AI ML, Mobile App Engineering, Software Solutions"
+      content="Velora Global, Software Company in Nepal, IT Company Kathmandu, Technology Training Nepal, Tech Internships Nepal, Web Development Nepal, MERN Stack Kathmandu, Mobile App Development Flutter React Native, AI Chatbot Nepal, Python AI ML, Enterprise Software Solutions Nepal, Ram Sah Velora"
     />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="author" content="Velora Global Executive Leadership" />
+    <meta name="publisher" content="Velora Global" />
     <link rel="canonical" href="https://velora-global.online" />
+
+    <!-- Local & Geographic SEO Meta Tags (Nepal & Global) -->
+    <meta name="geo.region" content="NP-BA" />
+    <meta name="geo.placename" content="Balkumari, Kathmandu, Nepal" />
+    <meta name="geo.position" content="27.6710;85.3400" />
+    <meta name="ICBM" content="27.6710, 85.3400" />
 
     <!-- Open Graph / Facebook / LinkedIn / WhatsApp Social Card Previews -->
     <meta property="og:type" content="website" />
@@ -44,20 +51,26 @@
     <meta property="og:title" content="Velora Global | Technology Training, Internships & Enterprise Solutions" />
     <meta
       property="og:description"
-      content="Practical technology training, project-driven internships, and custom enterprise IT solutions for businesses and aspiring tech professionals."
+      content="Practical technology training, project-driven internships, and custom enterprise IT solutions (Web, Mobile & AI) in Kathmandu, Nepal."
     />
     <meta property="og:image" content="https://velora-global.online/logo.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Velora Global Official Logo & Brand" />
     <meta property="og:site_name" content="Velora Global" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ne_NP" />
 
     <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://velora-global.online" />
     <meta name="twitter:title" content="Velora Global | Technology Training, Internships & Enterprise Solutions" />
     <meta
       name="twitter:description"
-      content="Practical technology training, project-driven internships, and custom enterprise IT solutions for businesses and aspiring tech professionals."
+      content="Practical technology training, project-driven internships, and custom enterprise IT solutions (Web, Mobile & AI) in Kathmandu, Nepal."
     />
     <meta name="twitter:image" content="https://velora-global.online/logo.png" />
+    <meta name="twitter:image:alt" content="Velora Global Technology Platform" />
 
     <!-- AI Agent Discovery & Emerging Standards (ARD, MCP, RFC 9727, Agent Skills) -->
     <link rel="ai-catalog" type="application/json" href="%PUBLIC_URL%/.well-known/ai-catalog.json" />
@@ -121,21 +134,49 @@
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": "EducationalOrganization",
+          "@type": ["EducationalOrganization", "ProfessionalService", "LocalBusiness"],
           "@id": "https://velora-global.online/#organization",
           "name": "Velora Global",
+          "alternateName": "Velora Global Tech",
           "url": "https://velora-global.online",
           "logo": {
             "@type": "ImageObject",
             "url": "https://velora-global.online/logo.png"
           },
-          "description": "Practical technology training, project-driven internships, and custom enterprise IT solutions for businesses and aspiring professionals.",
+          "image": "https://velora-global.online/logo.png",
+          "description": "Leading technology training, project-driven internships, and custom enterprise software development company based in Kathmandu, Nepal.",
+          "priceRange": "NPR",
+          "currenciesAccepted": "NPR, USD",
+          "paymentAccepted": "Cash, Bank Transfer, eSewa, Khalti, ConnectIPS",
           "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "4.9",
             "bestRating": "5",
             "ratingCount": "1280"
           },
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Balkumari, Ring Road",
+            "addressLocality": "Kathmandu",
+            "addressRegion": "Bagmati Province",
+            "postalCode": "44600",
+            "addressCountry": "NP"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 27.6710,
+            "longitude": 85.3400
+          },
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Sunday"],
+              "opens": "09:00",
+              "closes": "18:00"
+            }
+          ],
+          "telephone": "+977-9826031419",
+          "email": "contact@velora-global.online",
           "founder": [
             {
               "@type": "Person",
@@ -179,6 +220,36 @@
           }
         },
         {
+          "@type": "FAQPage",
+          "@id": "https://velora-global.online/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What technology internships does Velora Global offer in Nepal?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Velora Global provides 10 specialized domain tracks including Full Stack MERN Web Development, Python AI/ML, Cloud DevOps, Cybersecurity, and Flutter/React Native Mobile App Development with live mentor code reviews and verified certificates."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How can I verify a Velora Global internship certificate?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Certificates can be instantly verified on our official website at https://velora-global.online/verify using the unique Certificate ID (e.g. VG-2026-88491) with cryptographic signature validation."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does Velora Global build custom software for businesses in Nepal?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, Velora Global develops custom web applications (MERN Stack), cross-platform iOS & Android mobile apps, and 24/7 AI chatbot systems. We offer face-to-face consultation at our Balkumari, Kathmandu headquarters or virtual discovery meetings."
+              }
+            }
+          ]
+        },
+        {
           "@type": "ItemList",
           "@id": "https://velora-global.online/#sitelinks",
           "name": "Velora Global Navigation & Programs",
@@ -186,23 +257,23 @@
             {
               "@type": "SiteNavigationElement",
               "position": 1,
+              "name": "Enterprise IT Solutions & Services",
+              "description": "Custom enterprise web systems, scalable microservices, AI workflows, and mobile apps for modern businesses.",
+              "url": "https://velora-global.online/services"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "position": 2,
               "name": "Technology Internship Programs",
               "description": "10 specialized tech domains including MERN Full Stack, AI/ML, Cloud DevOps, Cybersecurity, and Mobile App Engineering with verified credentials.",
               "url": "https://velora-global.online/internships"
             },
             {
               "@type": "SiteNavigationElement",
-              "position": 2,
+              "position": 3,
               "name": "Guided Technology Training",
               "description": "Practical bootcamps from 1 week to 2 months with live mentor code reviews, production pipelines, and industry capstones.",
               "url": "https://velora-global.online/training"
-            },
-            {
-              "@type": "SiteNavigationElement",
-              "position": 3,
-              "name": "Enterprise Client Solutions",
-              "description": "Custom enterprise web systems, scalable microservices, AI workflows, and digital transformation services for modern businesses.",
-              "url": "https://velora-global.online/clients"
             },
             {
               "@type": "SiteNavigationElement",
@@ -217,13 +288,6 @@
               "name": "Executive Founding Leadership",
               "description": "Meet executive mentors Ram Sah (CEO), Krishna Sah (CTO), Rohit Sah (COO), and Shivshankar Sah.",
               "url": "https://velora-global.online/team"
-            },
-            {
-              "@type": "SiteNavigationElement",
-              "position": 6,
-              "name": "Student & Client Portal Login",
-              "description": "Access the centralized portal for task tracking, deliverable submissions, and performance evaluations.",
-              "url": "https://velora-global.online/login"
             }
           ]
         }

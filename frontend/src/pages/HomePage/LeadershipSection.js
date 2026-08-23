@@ -83,7 +83,7 @@ export default function LeadershipSection() {
               <div style={{ position: 'relative', width: '150px', height: '150px', margin: '0 auto 1.5rem auto' }}>
                 <img 
                   src={member.image} 
-                  alt={member.name}
+                  alt={`${member.name} - ${member.role} at Velora Global Nepal`}
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = member.image.replace('/media/', '/images/');

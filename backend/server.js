@@ -20,41 +20,17 @@ const inquiryRoutes = require('./routes/inquiryRoutes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Sync leadership media assets
+// Ensure media and public asset directories exist
 try {
-  const srcRam = 'C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\a4d534a8-3984-4b8e-bff6-79644a6f4e38\\.user_uploaded\\media_1787455923289.jpg';
-  const srcShiv = 'C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\22635c0b-f003-455d-a5d6-433977a33f53\\.user_uploaded\\media_1787288100477.jpg';
-  const srcLogo = 'C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\a4d534a8-3984-4b8e-bff6-79644a6f4e38\\.user_uploaded\\media_1787497027076.png';
   const dirs = [
     path.join(__dirname, '..', 'frontend', 'public', 'media'),
     path.join(__dirname, '..', 'frontend', 'public', 'images')
   ];
   for (const d of dirs) {
     if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
-    if (fs.existsSync(srcRam)) {
-      fs.copyFileSync(srcRam, path.join(d, 'ram_sah.jpg'));
-      fs.copyFileSync(srcRam, path.join(d, 'rambilas_sah.jpg'));
-    }
-    if (fs.existsSync(srcShiv)) fs.copyFileSync(srcShiv, path.join(d, 'shivshankar_sah.jpg'));
-  }
-  const publicDir = path.join(__dirname, '..', 'frontend', 'public');
-  if (fs.existsSync(srcLogo)) {
-    const logoTargets = [
-      'logo.png',
-      'favicon.png',
-      'favicon-48x48.png',
-      'favicon-96x96.png',
-      'favicon-192x192.png',
-      'favicon-512x512.png',
-      'favicon.ico',
-      'apple-touch-icon.png'
-    ];
-    logoTargets.forEach(target => {
-      fs.copyFileSync(srcLogo, path.join(publicDir, target));
-    });
   }
 } catch (e) {
-  console.warn('Media copy check:', e.message);
+  console.warn('Asset directory check:', e.message);
 }
 
 
@@ -103,7 +79,9 @@ const SITE_MARKDOWN = `# Velora Global — Technology Training, Internships & En
 
 ---
 
-## 🌟 Executive Leadership
+## Executive Leadership & Headquarters
+- **Headquarters**: Balkumari, Ring Road, Kathmandu Valley, Bagmati Province, Nepal (44600)
+- **Contact Helpline**: +977 9826031419 (WhatsApp & Direct Helpline) | support@velora-global.online
 - **Ram Sah** — Founder & CEO (ram@veloraglobal.com)
 - **Krishna Sah** — Co-Founder & CTO (krishna@veloraglobal.com)
 - **Rohit Sah** — Co-Founder & COO (rohit@veloraglobal.com)
@@ -111,7 +89,7 @@ const SITE_MARKDOWN = `# Velora Global — Technology Training, Internships & En
 
 ---
 
-## 🎯 10 Specialized Technology Internship Domains
+## Specialized Technology Internship Tracks
 1. Full Stack Web Development (MERN, Next.js)
 2. Backend & Cloud Infrastructure (Node.js, Docker, Microservices)
 3. Frontend & Modern UI/UX (React 19, Tailwind, Accessibility)
@@ -128,7 +106,7 @@ const SITE_MARKDOWN = `# Velora Global — Technology Training, Internships & En
 
 ---
 
-## 🤖 AI Agent Endpoints
+## AI Agent Endpoints
 - **Agent Resource Discovery (ARD)**: https://velora-global.online/.well-known/ai-catalog.json
 - **MCP Server Card**: https://velora-global.online/.well-known/mcp/server-card.json
 - **Agent Skills Index**: https://velora-global.online/.well-known/agent-skills/index.json
