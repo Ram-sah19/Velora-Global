@@ -347,11 +347,11 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
               overflow: 'hidden'
             }}>
               <img 
-                src="/media/rohit_sah.jpg" 
-                alt="Rohit Sah - Founder & CEO"
+                src="/media/ram_sah.jpg" 
+                alt="Ram Sah - Founder & CEO"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = "/images/rohit_sah.jpg";
+                  e.target.src = "/images/ram_sah.jpg";
                 }}
                 style={{
                   width: '100%',
@@ -376,7 +376,7 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
                 boxShadow: '0 8px 20px rgba(0,0,0,0.1)'
               }}>
                 <div>
-                  <h4 style={{ fontSize: '0.95rem', color: '#0b0f19', margin: 0, fontWeight: '800' }}>Rohit Sah</h4>
+                  <h4 style={{ fontSize: '0.95rem', color: '#0b0f19', margin: 0, fontWeight: '800' }}>Ram Sah</h4>
                   <span style={{ fontSize: '0.75rem', color: '#2563eb', fontWeight: '700' }}>Founder & CEO • Velora Global</span>
                 </div>
                 <span style={{
@@ -430,10 +430,10 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
             </span>
           </div>
 
-          {/* Stat 3: 3 */}
+          {/* Stat 3: 4 */}
           <div>
             <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#f87171', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
-              3
+              4
             </span>
             <span style={{ fontSize: '0.92rem', color: '#475569', fontWeight: '600', marginTop: '0.65rem', display: 'block' }}>
               Founding Executive Mentors

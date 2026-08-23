@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 5000;
 
 // Sync leadership media assets
 try {
-  const srcPuja = 'C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\22635c0b-f003-455d-a5d6-433977a33f53\\.user_uploaded\\media_1787288057703.jpg';
+  const srcRam = 'C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\a4d534a8-3984-4b8e-bff6-79644a6f4e38\\.user_uploaded\\media_1787455923289.jpg';
   const srcShiv = 'C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\22635c0b-f003-455d-a5d6-433977a33f53\\.user_uploaded\\media_1787288100477.jpg';
   const dirs = [
     path.join(__dirname, '..', 'frontend', 'public', 'media'),
@@ -30,7 +30,10 @@ try {
   ];
   for (const d of dirs) {
     if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
-    if (fs.existsSync(srcPuja)) fs.copyFileSync(srcPuja, path.join(d, 'puja_rouniyar.jpg'));
+    if (fs.existsSync(srcRam)) {
+      fs.copyFileSync(srcRam, path.join(d, 'ram_sah.jpg'));
+      fs.copyFileSync(srcRam, path.join(d, 'rambilas_sah.jpg'));
+    }
     if (fs.existsSync(srcShiv)) fs.copyFileSync(srcShiv, path.join(d, 'shivshankar_sah.jpg'));
   }
 } catch (e) {

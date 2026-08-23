@@ -52,7 +52,7 @@ export default function ClientTermsModal({ onClose }) {
               2. Phased Project Execution & Milestone Deliverables
             </h3>
             <p>
-              Projects follow a structured 5-phase delivery roadmap overseen directly by executive leadership (Founder & CEO <strong>Rohit Sah</strong>, Co-Founder <strong>Rambilas Sah</strong>, and Co-Founder & COO <strong>Puja Rouniyar</strong>):
+              Projects follow a structured 5-phase delivery roadmap overseen directly by executive leadership (Founder & CEO <strong>Ram Sah</strong>, Co-Founder & CTO <strong>Krishna Sah</strong>, Co-Founder & COO <strong>Rohit Sah</strong>, and Contracts & Operations Director <strong>Shivshankar Sah</strong>):
             </p>
             <ol style={{ paddingLeft: '1.25rem', marginTop: '0.35rem' }}>
               <li><strong>Phase 1 — Scope & Architecture Alignment:</strong> Defining technical requirements, database models, and API blueprints.</li>

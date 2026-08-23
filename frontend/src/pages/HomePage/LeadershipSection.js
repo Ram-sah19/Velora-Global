@@ -3,9 +3,9 @@ import React from 'react';
 export default function LeadershipSection() {
   const team = [
     {
-      name: "Rohit Sah",
+      name: "Ram Sah",
       role: "Founder & CEO",
-      image: "/media/rohit_sah.jpg",
+      image: "/media/ram_sah.jpg",
       bio: "Tech leader and founder directing platform vision, system architecture, curriculum design, and strategic growth for Velora Global.",
       badge: "Founder & CEO"
     },
@@ -17,18 +17,18 @@ export default function LeadershipSection() {
       badge: "Co-Founder & CTO"
     },
     {
-      name: "Puja Rouniyar",
+      name: "Rohit Sah",
       role: "Co-Founder & COO",
-      image: "/media/puja_rouniyar.jpg",
-      bio: "Operations executive driving program execution, intern onboarding, quality standards, and talent evaluation workflows across all domains.",
+      image: "/media/rohit_sah.jpg",
+      bio: "Overseeing operations, cohort management, mentor allocations, student success workflows, and operational scalability.",
       badge: "Co-Founder & COO"
     },
     {
       name: "Shivshankar Sah",
-      role: "Contracts & Operations Manager",
+      role: "Contracts & Operations Director",
       image: "/media/shivshankar_sah.jpg",
       bio: "Overseeing enterprise contracts, corporate agreements, institutional MoUs, vendor relations, and legal compliance.",
-      badge: "Contracts Manager"
+      badge: "Contracts Director"
     }
   ];
 
@@ -86,9 +86,7 @@ export default function LeadershipSection() {
                   alt={member.name}
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = idx === 0 ? "/images/rohit_sah.jpg"
-                      : idx === 1 ? "/images/krishna_sah.jpg"
-                      : "/images/puja_rouniyar.jpg";
+                    e.target.src = member.image.replace('/media/', '/images/');
                   }}
                   style={{
                     width: '100%',

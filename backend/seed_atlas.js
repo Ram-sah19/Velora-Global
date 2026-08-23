@@ -21,30 +21,39 @@ const initialData = {
   users: [
     {
       id: "user-admin-1",
-      name: "Rambilas Sah",
-      email: "rambilas@veloraglobal.com",
+      name: "Ram Sah",
+      email: "ram@veloraglobal.com",
       role: "Founder & CEO",
       userType: "admin",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
-      bio: "Founder & CEO of Velora Global. Passionate about empowering students with real-world industry experience."
+      avatar: "/media/ram_sah.jpg",
+      bio: "Founder & CEO of Velora Global. Directing platform architecture and executive vision."
     },
     {
       id: "user-cofounder-1",
-      name: "Puja Rouniyar",
-      email: "puja@veloraglobal.com",
-      role: "Co-Founder & COO",
+      name: "Krishna Sah",
+      email: "krishna@veloraglobal.com",
+      role: "Co-Founder & CTO",
       userType: "admin",
-      avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80",
-      bio: "Co-Founder driving operations and student success programs at Velora Global."
+      avatar: "/media/rambilas_sah.png",
+      bio: "Co-Founder directing cloud architecture, systems engineering, and AI infrastructure at Velora Global."
     },
     {
       id: "user-cofounder-2",
       name: "Rohit Sah",
       email: "rohit@veloraglobal.com",
-      role: "Co-Founder & CTO",
+      role: "Co-Founder & COO",
       userType: "admin",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
-      bio: "Co-Founder leading technology strategy and engineering mentorship at Velora Global."
+      avatar: "/media/rohit_sah.jpg",
+      bio: "Co-Founder driving operations and student success programs at Velora Global."
+    },
+    {
+      id: "user-cofounder-3",
+      name: "Shivshankar Sah",
+      email: "shivshankar@veloraglobal.com",
+      role: "Contracts & Operations Director",
+      userType: "admin",
+      avatar: "/media/shivshankar_sah.jpg",
+      bio: "Contracts and Operations Director overseeing corporate agreements and compliance."
     },
     {
       id: "user-student-1",
@@ -348,9 +357,9 @@ const initialData = {
       issueDate: "2026-08-05",
       duration: "8 Weeks",
       grade: "A+",
-      founderSignature: "Rambilas Sah",
+      founderSignature: "Ram Sah",
       founderTitle: "Founder & CEO",
-      coFounders: ["Puja Rouniyar", "Rohit Sah"],
+      coFounders: ["Krishna Sah", "Rohit Sah"],
       verificationUrl: "https://veloraglobal.com/verify/VG-2026-88491"
     }
   ]

@@ -235,7 +235,7 @@ export default function AdminDashboardPage({ currentUser, onCertificateGenerated
         title: assignForm.title,
         description: assignForm.description,
         dueDate: assignForm.dueDate,
-        assignedBy: currentUser?.name || 'Rohit Sah (Founder & CEO)'
+        assignedBy: currentUser?.name || 'Ram Sah (Founder & CEO)'
       });
 
       showToast('Domain Task Assigned Successfully!', 'success');
@@ -267,7 +267,7 @@ export default function AdminDashboardPage({ currentUser, onCertificateGenerated
         ...newProgram,
         skillsRequired: formattedSkills,
         deliverables: formattedDeliverables,
-        postedBy: currentUser?.name || 'Rohit Sah (Founder & CEO)'
+        postedBy: currentUser?.name || 'Ram Sah (Founder & CEO)'
       });
 
       showToast('New Internship Opportunity Published Successfully!', 'success');
@@ -300,7 +300,7 @@ export default function AdminDashboardPage({ currentUser, onCertificateGenerated
         creativity: evalScores.creativity,
         completionOfRequirements: evalScores.completionOfRequirements,
         professionalApproach: evalScores.professionalApproach,
-        evaluatorName: currentUser?.name || 'Rohit Sah (Founder & CEO)',
+        evaluatorName: currentUser?.name || 'Ram Sah (Founder & CEO)',
         feedback: evalScores.feedback
       });
 
@@ -355,24 +355,24 @@ export default function AdminDashboardPage({ currentUser, onCertificateGenerated
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
             <img 
-              src="/media/rambilas_sah.jpg" 
-              alt="Rambilas Sah"
+              src="/media/ram_sah.jpg" 
+              alt="Ram Sah"
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = "/images/rambilas_sah.jpg";
+                e.target.src = "/images/ram_sah.jpg";
               }}
               style={{ width: '65px', height: '65px', borderRadius: '50%', objectFit: 'cover', border: '3px solid #2563eb' }}
             />
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.15rem' }}>
-                <h2 style={{ fontSize: '1.5rem', color: '#0b0f19', margin: 0 }}>Rambilas Sah</h2>
+                <h2 style={{ fontSize: '1.5rem', color: '#0b0f19', margin: 0 }}>Ram Sah</h2>
                 <span className="badge badge-coral" style={{ fontSize: '0.72rem' }}>Founder & CEO</span>
                 <span className="badge badge-green" style={{ fontSize: '0.72rem' }}>Real-Time Sync</span>
               </div>
               <p style={{ color: '#64748b', fontSize: '0.85rem', margin: 0 }}>
                 Executive Founder Panel • Velora Global Leadership Desk
               </p>
-              <span style={{ fontSize: '0.75rem', color: '#2563eb', fontWeight: '600' }}>Co-Founders: Puja Rouniyar & Rohit Sah</span>
+              <span style={{ fontSize: '0.75rem', color: '#2563eb', fontWeight: '600' }}>Executive Leadership: Ram Sah (CEO), Krishna Sah (CTO) & Rohit Sah (COO)</span>
             </div>
           </div>
 

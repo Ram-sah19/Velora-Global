@@ -101,10 +101,10 @@ export default function CertificateModal({ certificate, onClose }) {
           }}>
             <div>
               <div style={{ fontFamily: "'Brush Script MT', cursive, sans-serif", fontSize: '1.8rem', color: '#0b0f19', marginBottom: '0.25rem' }}>
-                Rohit Sah
+                Ram Sah
               </div>
               <div style={{ borderTop: '1px solid #94a3b8', paddingTop: '0.35rem', fontSize: '0.85rem', fontWeight: 'bold', color: '#0b0f19', fontFamily: 'sans-serif' }}>
-                Rohit Sah
+                Ram Sah
               </div>
               <span style={{ fontSize: '0.75rem', color: '#64748b', fontFamily: 'sans-serif' }}>Founder & CEO</span>
             </div>
@@ -132,10 +132,10 @@ export default function CertificateModal({ certificate, onClose }) {
 
             <div>
               <div style={{ fontFamily: "'Brush Script MT', cursive, sans-serif", fontSize: '1.8rem', color: '#0b0f19', marginBottom: '0.25rem' }}>
-                Puja & Rohit
+                Krishna & Rohit
               </div>
               <div style={{ borderTop: '1px solid #94a3b8', paddingTop: '0.35rem', fontSize: '0.85rem', fontWeight: 'bold', color: '#0b0f19', fontFamily: 'sans-serif' }}>
-                Puja R. & Rohit S.
+                Krishna S. & Rohit S.
               </div>
               <span style={{ fontSize: '0.75rem', color: '#64748b', fontFamily: 'sans-serif' }}>Co-Founders</span>
             </div>

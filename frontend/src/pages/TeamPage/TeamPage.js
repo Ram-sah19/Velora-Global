@@ -3,12 +3,12 @@ import React from 'react';
 export default function TeamPage({ onExploreClick }) {
   const founders = [
     {
-      name: "Rohit Sah",
+      name: "Ram Sah",
       role: "Founder & CEO",
-      image: "/media/rohit_sah.jpg",
+      image: "/media/ram_sah.jpg",
       badge: "Founder & CEO",
       bio: "Technology leader and founder directing platform architecture, technical curriculum design, project evaluation criteria, and strategic engineering growth.",
-      expertise: ["System Architecture", "Executive Leadership", "Technical Evaluation", "Curriculum Design"],
+      expertise: ["System Architecture", "Executive Leadership", "Technical Evaluation", "Strategic Growth"],
       accentColor: "#2563eb"
     },
     {
@@ -21,21 +21,21 @@ export default function TeamPage({ onExploreClick }) {
       accentColor: "#ff6b6b"
     },
     {
-      name: "Puja Rouniyar",
+      name: "Rohit Sah",
       role: "Co-Founder & COO",
-      image: "/media/puja_rouniyar.jpg",
+      image: "/media/rohit_sah.jpg",
       badge: "Co-Founder & COO",
-      bio: "Operations executive overseeing program execution, candidate onboarding, quality assurance standards, and talent evaluation workflows across all 10 domain specializations.",
-      expertise: ["Global Operations", "Talent Onboarding", "Program Quality", "Workflow Optimization"],
+      bio: "Directing company operations, cohort execution, student mentorship systems, strategic partnerships, and operational excellence across all internship programs.",
+      expertise: ["Operations Strategy", "Cohort Execution", "Mentorship Systems", "Strategic Partnerships"],
       accentColor: "#10b981"
     },
     {
       name: "Shivshankar Sah",
-      role: "Contracts & Operations Manager",
+      role: "Contracts & Operations Director",
       image: "/media/shivshankar_sah.jpg",
-      badge: "Contracts Manager",
+      badge: "Contracts Director",
       bio: "Directs enterprise contracts, corporate agreements, vendor operations, institutional MoUs, and legal compliance workflows for all student and client engagements.",
-      expertise: ["Contracts Management", "Corporate MoUs", "SLA Compliance", "Vendor Operations"],
+      expertise: ["Contracts Strategy", "Corporate MoUs", "SLA Compliance", "Vendor Operations"],
       accentColor: "#f59e0b"
     }
   ];

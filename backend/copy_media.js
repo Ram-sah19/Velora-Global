@@ -13,18 +13,19 @@ const componentsDir = path.join(__dirname, '../frontend/src/components');
 });
 
 try {
+  const ramSrc = 'C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\a4d534a8-3984-4b8e-bff6-79644a6f4e38\\.user_uploaded\\media_1787455923289.jpg';
   const fileMap = [
-    { src: 'media_1785955734224.jpg', name: 'rambilas_sah.jpg' },
-    { src: 'media_1787288057703.jpg', name: 'puja_rouniyar.jpg' },
+    { fullSrc: ramSrc, name: 'ram_sah.jpg' },
+    { fullSrc: ramSrc, name: 'rambilas_sah.jpg' },
     { src: 'media_1785955812212.jpg', name: 'rohit_sah.jpg' },
     { src: 'media_1787288100477.jpg', name: 'shivshankar_sah.jpg' }
   ];
 
-  fileMap.forEach(({ src, name }) => {
-    const fullSrc = path.join(srcDir, src);
-    if (fs.existsSync(fullSrc)) {
-      fs.copyFileSync(fullSrc, path.join(destMediaDir, name));
-      fs.copyFileSync(fullSrc, path.join(destImagesDir, name));
+  fileMap.forEach(({ src, fullSrc, name }) => {
+    const filePath = fullSrc || path.join(srcDir, src);
+    if (fs.existsSync(filePath)) {
+      fs.copyFileSync(filePath, path.join(destMediaDir, name));
+      fs.copyFileSync(filePath, path.join(destImagesDir, name));
     }
   });
   console.log("📸 Executive founder photos successfully copied to frontend/public/media/ & public/images/");

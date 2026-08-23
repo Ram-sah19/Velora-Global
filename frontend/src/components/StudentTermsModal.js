@@ -38,7 +38,7 @@ export default function StudentTermsModal({ onClose }) {
               1. Preamble & Binding Enrollment Contract
             </h3>
             <p>
-              By enrolling in any Practical Internship Track or Guided Training Program at Velora Global ("Company", "Platform"), you ("Student Candidate") enter into a legally binding agreement governed by company leadership under Founder & CEO <strong>Rohit Sah</strong>, Co-Founder <strong>Rambilas Sah</strong>, and Co-Founder & COO <strong>Puja Rouniyar</strong>. These terms govern your academic obligations, project deliverables, and credential eligibility.
+              By enrolling in any Practical Internship Track or Guided Training Program at Velora Global ("Company", "Platform"), you ("Student Candidate") enter into a legally binding agreement governed by company leadership under Founder & CEO <strong>Ram Sah</strong>, Co-Founder & CTO <strong>Krishna Sah</strong>, Co-Founder & COO <strong>Rohit Sah</strong>, and Contracts & Operations Director <strong>Shivshankar Sah</strong>. These terms govern your academic obligations, project deliverables, and credential eligibility.
             </p>
           </section>
 
@@ -112,7 +112,7 @@ export default function StudentTermsModal({ onClose }) {
               8. Executive Founder Mentorship Guidelines
             </h3>
             <p>
-              Direct mentorship from Rambilas Sah, Puja Rouniyar, and Rohit Sah is conducted through scheduled reviews and asynchronous code feedback. Students are expected to maintain professional communication standards at all times.
+              Direct mentorship from Ram Sah, Krishna Sah, Rohit Sah, and Shivshankar Sah is conducted through scheduled reviews and asynchronous code feedback. Students are expected to maintain professional communication standards at all times.
             </p>
           </section>
 

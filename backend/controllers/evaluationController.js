@@ -71,9 +71,9 @@ exports.evaluateTask = async (req, res) => {
       issueDate: new Date().toISOString().split('T')[0],
       duration: '8 Weeks',
       grade,
-      founderSignature: 'Rambilas Sah',
+      founderSignature: 'Ram Sah',
       founderTitle: 'Founder & CEO',
-      coFounders: ['Puja Rouniyar', 'Rohit Sah'],
+      coFounders: ['Krishna Sah', 'Rohit Sah'],
       verificationUrl: `https://veloraglobal.com/verify/${certId}`
     });
 

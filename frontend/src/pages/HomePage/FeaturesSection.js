@@ -10,7 +10,7 @@ export default function FeaturesSection() {
     {
       badge: "DIRECT MENTORSHIP",
       title: "Executive Founding Leadership",
-      description: "Direct evaluation and mentorship from Rohit Sah (Founder & CEO), Krishna Sah (Co-Founder & CTO), and Puja Rouniyar (Co-Founder & COO)."
+      description: "Direct evaluation and mentorship from Ram Sah (Founder & CEO), Krishna Sah (Co-Founder & CTO), and Rohit Sah (Co-Founder & COO)."
     },
     {
       badge: "PORTFOLIO PROJECTS",

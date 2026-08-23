@@ -9,9 +9,10 @@
 **Velora Global** is a modern MERN stack platform designed to empower students and early-career developers with practical project experience, executive mentorship, and official verified certifications across 10 specialized technology and design domains.
 
 Founding Leadership:
-- **Rambilas Sah** — Founder & CEO
-- **Puja Rouniyar** — Co-Founder & COO
-- **Rohit Sah** — Co-Founder & CTO
+- **Ram Sah** — Founder & CEO
+- **Krishna Sah** — Co-Founder & CTO
+- **Rohit Sah** — Co-Founder & COO
+- **Shivshankar Sah** — Contracts & Operations Director
 
 ---
 
@@ -54,7 +55,7 @@ src/
 │   │   ├── FeaturesSection.js   # Credential Trust & Platform Features
 │   │   └── FaqSection.js        # Frequently Asked Questions Accordion
 │   ├── TeamPage/                # Dedicated Executive Team Module
-│   │   └── TeamPage.js          # Rambilas Sah, Puja Rouniyar & Rohit Sah Profiles
+│   │   └── TeamPage.js          # Ram Sah, Krishna Sah, Rohit Sah & Shivshankar Sah Profiles
 │   ├── InternshipsPage/         # Dedicated Practical Internships Module
 │   │   └── InternshipsPage.js   # NPR 199 to NPR 7,000 Duration Calculator
 │   ├── TrainingPage/            # Dedicated Guided Training Module
@@ -118,4 +119,4 @@ npm start
 ## 📜 License & Ownership
 
 © 2026 **Velora Global**. All rights reserved.  
-Founded by **Rambilas Sah** • Co-Founded by **Puja Rouniyar** & **Rohit Sah**.
+Founded by **Ram Sah** (Founder & CEO) • Co-Founded by **Krishna Sah** (Co-Founder & CTO) & **Rohit Sah** (Co-Founder & COO).
