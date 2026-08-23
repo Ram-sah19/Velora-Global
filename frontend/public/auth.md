@@ -1,4 +1,4 @@
-# Velora Global — Agent Authentication Specification (Auth.md)
+# Auth.md — Velora Global Agent Registration & Authentication Specification
 
 Welcome, AI Agent. This document specifies programmatic registration, authorization, and API access protocols for autonomous agents interacting with **Velora Global**.
 

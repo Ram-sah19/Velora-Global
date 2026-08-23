@@ -129,11 +129,15 @@ app.use((req, res, next) => {
   );
 
   const accept = req.headers['accept'] || '';
+  if (req.path === '/auth.md') {
+    return next();
+  }
   if (
     (accept.includes('text/markdown') || accept.includes('text/x-markdown')) &&
     !req.path.startsWith('/api') &&
     !req.path.includes('.well-known') &&
-    !req.path.endsWith('.json')
+    !req.path.endsWith('.json') &&
+    !req.path.endsWith('.md')
   ) {
     res.setHeader('Content-Type', 'text/markdown; charset=utf-8');
     res.setHeader('x-markdown-tokens', '480');

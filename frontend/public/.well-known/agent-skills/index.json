@@ -4,20 +4,26 @@
     {
       "name": "verify-certificate",
       "type": "skill",
+      "version": "1.0.0",
       "description": "Verify student internship certificates and completion credentials with tamper-proof cryptographic signatures.",
-      "url": "https://velora-global.online/.well-known/agent-skills/verify-certificate/SKILL.md"
+      "url": "https://velora-global.online/.well-known/agent-skills/verify-certificate/SKILL.md",
+      "digest": "sha256:b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
     },
     {
       "name": "explore-internships",
       "type": "skill",
+      "version": "1.0.0",
       "description": "Discover available 10 domain technology internship tracks, pricing in NPR, curriculum, and mentorship details.",
-      "url": "https://velora-global.online/.well-known/agent-skills/explore-internships/SKILL.md"
+      "url": "https://velora-global.online/.well-known/agent-skills/explore-internships/SKILL.md",
+      "digest": "sha256:7d1b58f338d4cf865f509aa029b32b85d3837f1531e70a19e596e834413e1f56"
     },
     {
       "name": "explore-training",
       "type": "skill",
+      "version": "1.0.0",
       "description": "Discover guided technology training programs, syllabi, duration options, and career placement.",
-      "url": "https://velora-global.online/.well-known/agent-skills/explore-training/SKILL.md"
+      "url": "https://velora-global.online/.well-known/agent-skills/explore-training/SKILL.md",
+      "digest": "sha256:9f83c605d4c82b3e925b42d763d05212e32cb9f83b2f93a639a730e0a01661aa"
     }
   ]
 }

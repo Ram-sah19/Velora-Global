@@ -5,7 +5,7 @@
       "use": "sig",
       "alg": "RS256",
       "kid": "velora-bot-key-1",
-      "n": "u1w_...",
+      "n": "vXk8a7M1qLp3r9t5w7y0z2b4c6d8e0f2g4h6i8j0k2l4m6n8o0p2q4r6s8t0u2v4w6x8y0z2a4b6c8d0e2f4g6h8i0j2k4l6m8n0o2p4q6r8s0t2u4v6w8x0y2z4a6b8c0d2e4f6g8h0i2j4k6l8m0n2o4p6r8s0t2u4v6w8x0y2z4a6b8c0d2e4f6g8h0i2j4k6l8m0n2o4p6r8s0t2u4v6w8x0y2z4a6b8c0d2e4f6g8h0i2j4k6l8m0n2o4p6r8s0t2u4v6w8x0y2z4a6b8c0d2e4f6g8",
       "e": "AQAB"
     }
   ]

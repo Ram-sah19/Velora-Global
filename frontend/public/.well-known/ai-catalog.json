@@ -7,7 +7,7 @@
   },
   "entries": [
     {
-      "id": "urn:air:velora-global.online:mcp:server",
+      "identifier": "urn:air:velora-global.online:mcp:server",
       "displayName": "Velora Global MCP Server",
       "description": "Model Context Protocol (MCP) server providing real-time certificate verification, domain internship discovery, and training program details.",
       "type": "application/json",
@@ -20,7 +20,7 @@
       ]
     },
     {
-      "id": "urn:air:velora-global.online:skills:catalog",
+      "identifier": "urn:air:velora-global.online:skills:catalog",
       "displayName": "Velora Global Agent Skills",
       "description": "Agent Skills for autonomous AI workflows to explore internships, search syllabi, and check completion status.",
       "type": "application/json",
@@ -32,7 +32,7 @@
       ]
     },
     {
-      "id": "urn:air:velora-global.online:api:openapi",
+      "identifier": "urn:air:velora-global.online:api:openapi",
       "displayName": "Velora Global OpenAPI Specification",
       "description": "OpenAPI 3.0 specification for Velora Global REST API endpoints including public verification and catalog services.",
       "type": "application/openapi+json",
@@ -44,7 +44,7 @@
       ]
     },
     {
-      "id": "urn:air:velora-global.online:auth:guide",
+      "identifier": "urn:air:velora-global.online:auth:guide",
       "displayName": "Velora Global Agent Auth Specification",
       "description": "Auth.md instructions for autonomous AI agents registering and authenticating with Velora Global platform APIs.",
       "type": "text/markdown",
