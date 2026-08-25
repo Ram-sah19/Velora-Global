@@ -255,16 +255,20 @@ input:focus, textarea:focus, select:focus {
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
   width: 100vw;
   height: 100vh;
   background: rgba(11, 15, 25, 0.75);
   backdrop-filter: blur(8px);
-  z-index: 1000;
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 999999;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .modal-content {
@@ -272,9 +276,13 @@ input:focus, textarea:focus, select:focus {
   border-radius: var(--radius-lg);
   max-width: 700px;
   width: 100%;
+  max-height: min(90vh, 780px);
   padding: 2.25rem;
   position: relative;
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  overflow-y: auto;
+  box-sizing: border-box;
+  margin: auto;
 }
 
 /* Layout Sticky Footer & Page Transition Stability */

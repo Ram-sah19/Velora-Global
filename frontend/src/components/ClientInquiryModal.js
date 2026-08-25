@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { api } from '../services/api';
 
 const TARGET_EMAIL = "contact@velora-global.online";
@@ -16,6 +17,14 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
 
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
+
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,9 +64,46 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
     }
   };
 
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '640px' }}>
+  const modalJSX = (
+    <div 
+      className="modal-overlay" 
+      onClick={onClose}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100vw',
+        height: '100vh',
+        background: 'rgba(11, 15, 25, 0.75)',
+        backdropFilter: 'blur(8px)',
+        zIndex: 999999,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '1.5rem',
+        overflowY: 'auto',
+        boxSizing: 'border-box'
+      }}
+    >
+      <div 
+        className="modal-content" 
+        onClick={(e) => e.stopPropagation()} 
+        style={{ 
+          maxWidth: '640px',
+          width: '100%',
+          maxHeight: 'min(90vh, 760px)',
+          overflowY: 'auto',
+          borderRadius: '24px',
+          padding: '2.25rem 2rem',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.35)',
+          background: '#ffffff',
+          position: 'relative',
+          margin: 'auto',
+          boxSizing: 'border-box'
+        }}
+      >
         <button 
           onClick={onClose}
           style={{
@@ -196,4 +242,6 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
       </div>
     </div>
   );
+
+  return typeof document !== 'undefined' ? ReactDOM.createPortal(modalJSX, document.body) : modalJSX;
 }

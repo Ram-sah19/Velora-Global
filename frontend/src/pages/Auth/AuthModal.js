@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { api } from '../../services/api';
 
 // Password criteria validator helper
@@ -88,6 +89,14 @@ function PasswordChecklist({ password, confirmPassword }) {
 export default function AuthModal({ initialMode = 'login', onClose, onAuthSuccess }) {
   const [authMode, setAuthMode] = useState(initialMode); // 'login', 'signup', 'forgot'
   const [signupRole, setSignupRole] = useState('student'); // 'student' or 'client'
+
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
 
   // Visibility Toggles
   const [showLoginPassword, setShowLoginPassword] = useState(false);
@@ -258,20 +267,44 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
     }
   };
 
-  return (
-    <div className="modal-overlay" onClick={onClose} style={{ padding: '1rem', zIndex: 1000 }}>
+  const modalJSX = (
+    <div 
+      className="modal-overlay" 
+      onClick={onClose} 
+      style={{ 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100vw',
+        height: '100vh',
+        background: 'rgba(11, 15, 25, 0.75)',
+        backdropFilter: 'blur(8px)',
+        zIndex: 999999,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '1.5rem',
+        overflowY: 'auto',
+        boxSizing: 'border-box'
+      }}
+    >
       <div 
         className="modal-content" 
         onClick={(e) => e.stopPropagation()} 
         style={{
           maxWidth: '540px',
           width: '100%',
-          maxHeight: '92vh',
+          maxHeight: 'min(90vh, 760px)',
           overflowY: 'auto',
           borderRadius: '24px',
-          padding: '1.5rem 1.25rem',
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-          animation: 'modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+          padding: '1.75rem 1.5rem',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.35)',
+          background: '#ffffff',
+          position: 'relative',
+          margin: 'auto',
+          boxSizing: 'border-box'
         }}
       >
         {/* Close Button */}
@@ -880,4 +913,6 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
       </div>
     </div>
   );
+
+  return typeof document !== 'undefined' ? ReactDOM.createPortal(modalJSX, document.body) : modalJSX;
 }

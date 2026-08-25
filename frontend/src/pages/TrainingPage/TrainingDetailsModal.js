@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { api } from '../../services/api';
 import { showToast } from '../../components/NotificationToast';
 
@@ -129,6 +130,14 @@ function getTrainingDeliverables(domainTitle = '', domainCategory = '') {
 }
 
 export default function TrainingDetailsModal({ program, currentUser, onOpenAuth, onApplySuccess, onClose }) {
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
   if (!program) return null;
 
   const displayFee = program.fee || 'NPR 3,000';
@@ -162,32 +171,56 @@ export default function TrainingDetailsModal({ program, currentUser, onOpenAuth,
     }
 
     // Open Official Google Form in new browser tab
-    showToast(`🚀 Enrollment submitted for ${program.title}! Opening verification form...`, 'success');
+    showToast(`Enrollment submitted for ${program.title}! Opening verification form...`, 'success');
     window.open(GOOGLE_FORM_URL, '_blank');
     onClose();
     if (onApplySuccess) onApplySuccess();
   };
 
-  return (
-    <div className="modal-overlay" onClick={onClose} style={{ padding: '1rem', zIndex: 1000 }}>
+  const modalJSX = (
+    <div 
+      className="modal-overlay" 
+      onClick={onClose} 
+      style={{ 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100vw',
+        height: '100vh',
+        background: 'rgba(11, 15, 25, 0.75)',
+        backdropFilter: 'blur(8px)',
+        zIndex: 999999,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '1.5rem',
+        overflowY: 'auto',
+        boxSizing: 'border-box'
+      }}
+    >
       <div 
         className="modal-content" 
         onClick={(e) => e.stopPropagation()} 
         style={{
           maxWidth: '680px',
           width: '100%',
-          maxHeight: '90vh',
+          maxHeight: 'min(90vh, 760px)',
           overflowY: 'auto',
           borderRadius: '24px',
-          padding: '2.5rem 2rem',
-          boxShadow: 'var(--shadow-lg)',
-          animation: 'modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-          position: 'relative'
+          padding: '2.25rem 2rem',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.35)',
+          background: '#ffffff',
+          position: 'relative',
+          margin: 'auto',
+          boxSizing: 'border-box'
         }}
       >
         {/* Close Button */}
         <button 
           onClick={onClose}
+          aria-label="Close dialog"
           style={{
             position: 'absolute',
             top: '1.25rem',
@@ -203,40 +236,43 @@ export default function TrainingDetailsModal({ program, currentUser, onOpenAuth,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            transition: 'all 0.2s ease'
+            transition: 'all 0.2s ease',
+            zIndex: 10
           }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = '#e2e8f0'; e.currentTarget.style.color = '#0b0f19'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = '#f1f5f9'; e.currentTarget.style.color = '#64748b'; }}
         >
           ✕
         </button>
 
         {/* Modal Header */}
-        <div style={{ marginBottom: '1.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.5rem' }}>
+        <div style={{ marginBottom: '1.5rem', paddingRight: '2rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
             <span className="badge badge-blue">{program.domain}</span>
             <span className="badge badge-coral">Guided Skill Training</span>
           </div>
 
-          <h2 style={{ fontSize: '1.8rem', color: '#0b0f19', marginBottom: '0.5rem', fontWeight: '800' }}>
+          <h2 style={{ fontSize: 'clamp(1.4rem, 2.5vw, 1.8rem)', color: '#0b0f19', marginBottom: '0.5rem', fontWeight: '800', lineHeight: 1.25 }}>
             {program.title}
           </h2>
 
-          <p style={{ color: '#64748b', fontSize: '0.95rem', lineHeight: '1.6' }}>
+          <p style={{ color: '#64748b', fontSize: '0.92rem', lineHeight: '1.6', margin: 0 }}>
             {program.description}
           </p>
         </div>
 
         {/* Required Tech Stack */}
-        <div style={{ marginBottom: '1.75rem' }}>
-          <span style={{ fontSize: '0.82rem', color: '#64748b', fontWeight: '700', display: 'block', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+        <div style={{ marginBottom: '1.5rem' }}>
+          <span style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: '800', display: 'block', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
             Technologies & Tools Taught:
           </span>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem' }}>
             {(program.skillsRequired || []).map((skill, i) => (
               <span key={i} style={{
-                fontSize: '0.82rem',
+                fontSize: '0.8rem',
                 background: '#eff6ff',
                 border: '1px solid #dbeafe',
-                padding: '0.3rem 0.75rem',
+                padding: '0.28rem 0.7rem',
                 borderRadius: '6px',
                 color: '#2563eb',
                 fontWeight: '700'
@@ -252,11 +288,11 @@ export default function TrainingDetailsModal({ program, currentUser, onOpenAuth,
           background: '#f8fafc',
           border: '1px solid #e2e8f0',
           borderRadius: '18px',
-          padding: '1.5rem',
-          marginBottom: '2rem'
+          padding: '1.25rem',
+          marginBottom: '1.75rem'
         }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <span style={{ fontSize: '1rem', fontWeight: '800', color: '#0b0f19' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+            <span style={{ fontSize: '0.95rem', fontWeight: '800', color: '#0b0f19' }}>
               Curriculum & Deliverables Included
             </span>
             <span className="badge badge-blue" style={{ fontSize: '0.85rem', fontWeight: '800' }}>
@@ -264,10 +300,10 @@ export default function TrainingDetailsModal({ program, currentUser, onOpenAuth,
             </span>
           </div>
 
-          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.65rem', fontSize: '0.9rem', color: '#334155' }}>
+          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.55rem', fontSize: '0.88rem', color: '#334155', margin: 0, padding: 0 }}>
             {deliverables.map((item, idx) => (
-              <li key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                <span style={{ color: '#2563eb', fontWeight: '800', fontSize: '1rem' }}>✓</span>
+              <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.55rem', lineHeight: '1.45' }}>
+                <span style={{ color: '#2563eb', fontWeight: '800', fontSize: '0.95rem', flexShrink: 0 }}>✓</span>
                 <span>{item}</span>
               </li>
             ))}
@@ -275,10 +311,10 @@ export default function TrainingDetailsModal({ program, currentUser, onOpenAuth,
         </div>
 
         {/* Bottom Call to Action */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '1rem', borderTop: '1px solid #e2e8f0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '1rem', borderTop: '1px solid #e2e8f0', flexWrap: 'wrap', gap: '1rem' }}>
           <div>
-            <span style={{ display: 'block', fontSize: '0.78rem', color: '#64748b' }}>Training Program Fee</span>
-            <span style={{ fontSize: '1.4rem', fontWeight: '800', color: '#2563eb' }}>
+            <span style={{ display: 'block', fontSize: '0.75rem', color: '#64748b', fontWeight: '600' }}>Training Program Fee</span>
+            <span style={{ fontSize: '1.35rem', fontWeight: '800', color: '#2563eb' }}>
               {displayFee}
             </span>
           </div>
@@ -286,13 +322,16 @@ export default function TrainingDetailsModal({ program, currentUser, onOpenAuth,
           <button 
             onClick={handleEnrollClick}
             className="btn-primary"
-            style={{ padding: '0.75rem 1.75rem', fontSize: '0.95rem', fontWeight: '800', cursor: 'pointer' }}
+            style={{ padding: '0.75rem 1.75rem', fontSize: '0.92rem', fontWeight: '800', cursor: 'pointer', borderRadius: '10px' }}
           >
-            Enroll in Training Program ➔
+            Enroll in Training Program
           </button>
         </div>
 
       </div>
     </div>
   );
+
+  return typeof document !== 'undefined' ? ReactDOM.createPortal(modalJSX, document.body) : modalJSX;
 }
+

@@ -1,28 +1,64 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import VeloraLogo from './VeloraLogo';
 
 export default function CertificateModal({ certificate, onClose }) {
+  useEffect(() => {
+    if (!certificate) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [certificate]);
+
   if (!certificate) return null;
 
   const handlePrint = () => {
     window.print();
   };
 
-  return (
-    <div className="modal-overlay" onClick={onClose}>
+  const modalJSX = (
+    <div 
+      className="modal-overlay" 
+      onClick={onClose}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100vw',
+        height: '100vh',
+        background: 'rgba(11, 15, 25, 0.75)',
+        backdropFilter: 'blur(8px)',
+        zIndex: 999999,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '1.5rem',
+        overflowY: 'auto',
+        boxSizing: 'border-box'
+      }}
+    >
       <div 
         className="modal-content" 
         onClick={(e) => e.stopPropagation()}
         style={{
           maxWidth: '850px',
+          width: '100%',
+          maxHeight: 'min(92vh, 850px)',
+          overflowY: 'auto',
           background: '#ffffff',
           color: '#0f172a',
-          padding: '3rem',
+          padding: '2.5rem 2rem',
           borderRadius: '16px',
-          border: '12px solid #0b0f19',
+          border: '10px solid #0b0f19',
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)',
           fontFamily: 'serif',
-          position: 'relative'
+          position: 'relative',
+          margin: 'auto',
+          boxSizing: 'border-box'
         }}
       >
         {/* Close Button */}
@@ -157,4 +193,6 @@ export default function CertificateModal({ certificate, onClose }) {
       </div>
     </div>
   );
+
+  return typeof document !== 'undefined' ? ReactDOM.createPortal(modalJSX, document.body) : modalJSX;
 }

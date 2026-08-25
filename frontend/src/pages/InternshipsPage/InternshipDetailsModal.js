@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { api } from '../../services/api';
 import { showToast } from '../../components/NotificationToast';
 
@@ -274,6 +275,14 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
 export default function InternshipDetailsModal({ program, currentUser, onOpenAuth, onApplySuccess, onClose }) {
   const [selectedTier, setSelectedTier] = useState('2w');
 
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
   if (!program) return null;
 
   const durationTiers = getDomainDurationTiers(program.title, program.domain);
@@ -306,26 +315,50 @@ export default function InternshipDetailsModal({ program, currentUser, onOpenAut
       console.warn("Recorded application locally", e);
     }
     // Open Official Google Form in new browser tab
-    showToast(`🚀 Application submitted for ${program.title}! Opening verification form...`, 'success');
+    showToast(`Application submitted for ${program.title}! Opening verification form...`, 'success');
     window.open(GOOGLE_FORM_URL, '_blank');
     onClose();
     if (onApplySuccess) onApplySuccess();
   };
 
-  return (
-    <div className="modal-overlay" onClick={onClose} style={{ padding: '1rem', zIndex: 1000 }}>
+  const modalJSX = (
+    <div 
+      className="modal-overlay" 
+      onClick={onClose} 
+      style={{ 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100vw',
+        height: '100vh',
+        background: 'rgba(11, 15, 25, 0.75)',
+        backdropFilter: 'blur(8px)',
+        zIndex: 999999,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '1.5rem',
+        overflowY: 'auto',
+        boxSizing: 'border-box'
+      }}
+    >
       <div 
         className="modal-content" 
         onClick={(e) => e.stopPropagation()} 
         style={{
           maxWidth: '680px',
           width: '100%',
-          maxHeight: '90vh',
+          maxHeight: 'min(90vh, 760px)',
           overflowY: 'auto',
           borderRadius: '24px',
-          padding: '2.5rem 2rem',
-          boxShadow: 'var(--shadow-lg)',
-          animation: 'modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+          padding: '2.25rem 2rem',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.35)',
+          background: '#ffffff',
+          position: 'relative',
+          margin: 'auto',
+          boxSizing: 'border-box'
         }}
       >
         {/* Close Button */}
@@ -470,13 +503,15 @@ export default function InternshipDetailsModal({ program, currentUser, onOpenAut
           <button 
             onClick={handleApplyClick}
             className="btn-coral"
-            style={{ padding: '0.75rem 1.75rem', fontSize: '0.95rem', fontWeight: '800', cursor: 'pointer' }}
+            style={{ padding: '0.75rem 1.75rem', fontSize: '0.95rem', fontWeight: '800', cursor: 'pointer', borderRadius: '10px' }}
           >
-            Apply for Internship ➔
+            Apply for Internship
           </button>
         </div>
 
       </div>
     </div>
   );
+
+  return typeof document !== 'undefined' ? ReactDOM.createPortal(modalJSX, document.body) : modalJSX;
 }
