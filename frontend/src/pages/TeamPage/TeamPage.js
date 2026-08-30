@@ -4,11 +4,11 @@ export default function TeamPage({ onExploreClick }) {
   const founders = [
     {
       name: "Ram Sah",
-      role: "Founder & CEO",
+      role: "Founder & CEO • Full Stack & AI/ML Engineer",
       image: "/media/ram_sah.jpg",
       badge: "Founder & CEO",
-      bio: "Technology leader and founder directing platform architecture, technical curriculum design, project evaluation criteria, and strategic engineering growth.",
-      expertise: ["System Architecture", "Executive Leadership", "Technical Evaluation", "Strategic Growth"],
+      bio: "Full Stack Developer and AI/ML Engineer from Nepal. Former AI/ML Intern at Infosys Springboard and active open-source contributor, dedicated to transforming student engineers through real-world tech.",
+      expertise: ["Full Stack Development", "AI/ML Engineering", "Open Source", "System Architecture", "Tech Leadership"],
       accentColor: "#2563eb"
     },
     {
@@ -214,6 +214,259 @@ export default function TeamPage({ onExploreClick }) {
 
             </div>
           ))}
+        </div>
+
+        {/* ── THE FOUNDER'S STORY SPOTLIGHT SECTION ── */}
+        <div style={{
+          background: 'linear-gradient(135deg, #0b0f19 0%, #0f172a 50%, #1e1b4b 100%)',
+          borderRadius: '28px',
+          padding: 'clamp(2.5rem, 5vw, 4rem)',
+          color: '#ffffff',
+          marginBottom: '5rem',
+          boxShadow: '0 20px 50px rgba(11, 15, 25, 0.25)',
+          position: 'relative',
+          overflow: 'hidden',
+          border: '1px solid rgba(255, 255, 255, 0.1)'
+        }}>
+          {/* Ambient Glows */}
+          <div aria-hidden="true" style={{
+            position: 'absolute', top: '-15%', right: '-10%', width: '450px', height: '450px',
+            background: 'radial-gradient(circle, rgba(37, 99, 235, 0.25) 0%, transparent 70%)',
+            filter: 'blur(40px)', pointerEvents: 'none'
+          }} />
+          <div aria-hidden="true" style={{
+            position: 'absolute', bottom: '-15%', left: '-10%', width: '400px', height: '400px',
+            background: 'radial-gradient(circle, rgba(255, 107, 107, 0.2) 0%, transparent 70%)',
+            filter: 'blur(40px)', pointerEvents: 'none'
+          }} />
+
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            
+            {/* Header Badge */}
+            <div style={{ marginBottom: '1.25rem' }}>
+              <span style={{
+                fontSize: '0.82rem',
+                color: '#60a5fa',
+                fontWeight: '800',
+                textTransform: 'uppercase',
+                letterSpacing: '0.14em',
+                background: 'rgba(37, 99, 235, 0.18)',
+                backdropFilter: 'blur(8px)',
+                padding: '0.4rem 1.25rem',
+                borderRadius: '9999px',
+                border: '1px solid rgba(96, 165, 250, 0.3)',
+                display: 'inline-block'
+              }}>
+                🇳🇵 FOUNDER'S JOURNEY & VISION
+              </span>
+            </div>
+
+            {/* Grid Layout */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gap: '3.5rem',
+              alignItems: 'center'
+            }}>
+              
+              {/* Left Column: The Narrative Story */}
+              <div>
+                <h2 style={{
+                  fontSize: 'clamp(2rem, 3.8vw, 2.9rem)',
+                  fontWeight: '800',
+                  lineHeight: '1.2',
+                  color: '#ffffff',
+                  marginBottom: '1.5rem',
+                  letterSpacing: '-0.02em'
+                }}>
+                  From a Village in Nepal to <br />
+                  <span style={{
+                    background: 'linear-gradient(90deg, #60a5fa 0%, #f87171 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}>
+                    Engineering the Future of Tech.
+                  </span>
+                </h2>
+
+                <p style={{ color: '#cbd5e1', fontSize: '1.02rem', lineHeight: '1.75', marginBottom: '1.25rem' }}>
+                  Born and raised in a small rural village in Nepal, <strong>Ram Sah</strong> embarked on his journey into technology with pure curiosity, relentless discipline, and a drive to solve real-world problems through code. Overcoming geographical and institutional constraints, he transformed himself into an accomplished <strong>Full Stack Developer and AI/ML Engineer</strong>.
+                </p>
+
+                <p style={{ color: '#94a3b8', fontSize: '0.98rem', lineHeight: '1.75', marginBottom: '1.75rem' }}>
+                  His technical journey is backed by hands-on industry experience—actively contributing to <strong>open-source software</strong>, completing production <strong>Full Stack internships</strong>, and undergoing rigorous specialized training as an <strong>AI/ML Intern at Infosys Springboard</strong>.
+                </p>
+
+                {/* Founder Quote Card */}
+                <div style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(12px)',
+                  borderLeft: '4px solid #2563eb',
+                  borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '0 16px 16px 0',
+                  padding: '1.25rem 1.5rem',
+                  marginTop: '1.5rem'
+                }}>
+                  <p style={{ fontStyle: 'italic', color: '#e2e8f0', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>
+                    "Coming from a small village taught me that talent is everywhere, but opportunity must be built. I founded Velora Global to give every passionate student the exact hands-on engineering experience required to build global software careers."
+                  </p>
+                  <span style={{ display: 'block', marginTop: '0.75rem', fontSize: '0.85rem', color: '#60a5fa', fontWeight: '700' }}>
+                    — Ram Sah, Founder & CEO
+                  </span>
+                </div>
+              </div>
+
+              {/* Right Column: 4 Milestone Impact Cards */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                
+                {/* Milestone 1 */}
+                <div style={{
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  backdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '18px',
+                  padding: '1.35rem 1.6rem',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '1.2rem',
+                  transition: 'transform 0.2s ease, border-color 0.2s ease'
+                }}>
+                  <div style={{
+                    width: '46px',
+                    height: '46px',
+                    borderRadius: '12px',
+                    background: 'rgba(37, 99, 235, 0.2)',
+                    color: '#60a5fa',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.3rem',
+                    flexShrink: 0
+                  }}>
+                    🏔️
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: '1.05rem', color: '#ffffff', fontWeight: '800', margin: '0 0 0.35rem 0' }}>
+                      Village Roots & Grit
+                    </h3>
+                    <p style={{ color: '#94a3b8', fontSize: '0.88rem', lineHeight: '1.5', margin: 0 }}>
+                      Rose from a rural village in Nepal, mastering computing, data structures, and modern software architectures through self-driven perseverance.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Milestone 2 */}
+                <div style={{
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  backdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '18px',
+                  padding: '1.35rem 1.6rem',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '1.2rem'
+                }}>
+                  <div style={{
+                    width: '46px',
+                    height: '46px',
+                    borderRadius: '12px',
+                    background: 'rgba(255, 107, 107, 0.2)',
+                    color: '#f87171',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.3rem',
+                    flexShrink: 0
+                  }}>
+                    💻
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: '1.05rem', color: '#ffffff', fontWeight: '800', margin: '0 0 0.35rem 0' }}>
+                      Full Stack & Open Source Contributor
+                    </h3>
+                    <p style={{ color: '#94a3b8', fontSize: '0.88rem', lineHeight: '1.5', margin: 0 }}>
+                      Engineered scalable web applications across the MERN and cloud stacks while contributing to open-source developer toolkits and repositories.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Milestone 3 */}
+                <div style={{
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  backdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '18px',
+                  padding: '1.35rem 1.6rem',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '1.2rem'
+                }}>
+                  <div style={{
+                    width: '46px',
+                    height: '46px',
+                    borderRadius: '12px',
+                    background: 'rgba(16, 185, 129, 0.2)',
+                    color: '#34d399',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.3rem',
+                    flexShrink: 0
+                  }}>
+                    🤖
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: '1.05rem', color: '#ffffff', fontWeight: '800', margin: '0 0 0.35rem 0' }}>
+                      Infosys Springboard AI/ML Alum
+                    </h3>
+                    <p style={{ color: '#94a3b8', fontSize: '0.88rem', lineHeight: '1.5', margin: 0 }}>
+                      Completed intensive AI/ML internship training through Infosys Springboard, developing machine learning models and intelligent data pipelines.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Milestone 4 */}
+                <div style={{
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  backdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '18px',
+                  padding: '1.35rem 1.6rem',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '1.2rem'
+                }}>
+                  <div style={{
+                    width: '46px',
+                    height: '46px',
+                    borderRadius: '12px',
+                    background: 'rgba(245, 158, 11, 0.2)',
+                    color: '#fbbf24',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.3rem',
+                    flexShrink: 0
+                  }}>
+                    🚀
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: '1.05rem', color: '#ffffff', fontWeight: '800', margin: '0 0 0.35rem 0' }}>
+                      Founder & CEO • Velora Global
+                    </h3>
+                    <p style={{ color: '#94a3b8', fontSize: '0.88rem', lineHeight: '1.5', margin: 0 }}>
+                      Directs company strategy, curriculum architecture, and corporate client solutions across 10 specialized engineering domains.
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
         </div>
 
         {/* Operations & Management Team Section */}

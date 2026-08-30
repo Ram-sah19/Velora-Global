@@ -58,7 +58,7 @@ const pathToTabMap = {
 const pageTitles = {
   home: 'Velora Global | Technology Training, Internships & Enterprise Solutions',
   services: 'Enterprise IT Solutions & Services | Velora Global',
-  team: 'Executive Leadership & Founders | Velora Global',
+  team: 'About Us & Executive Leadership | Velora Global',
   internships: 'Practical Technology Internships | Velora Global',
   training: 'Guided Skills Training & Bootcamps | Velora Global',
   student: 'Student Workspace & Portal | Velora Global',
@@ -67,9 +67,9 @@ const pageTitles = {
 };
 
 const pageDescriptions = {
-  home: 'Practical technology training, project-driven internships, and custom enterprise IT solutions (Web, Mobile & AI) in Kathmandu, Nepal.',
+  home: 'Practical technology training, project-driven internships, and scalable enterprise IT solutions (Web, Mobile & AI) in Kathmandu, Nepal. Founded by Ram Sah.',
   services: 'Custom web development (MERN Stack), cross-platform iOS & Android mobile apps, and 24/7 AI chatbot integrations for modern businesses.',
-  team: 'Meet the executive leadership and engineering founders of Velora Global: Ram Sah (CEO), Krishna Sah (CTO), Rohit Sah (COO), and Shivshankar Sah.',
+  team: 'Learn about Velora Global and our executive leadership: Ram Sah (Founder & CEO, Full Stack & AI/ML Engineer), Krishna Sah (CTO), Rohit Sah (COO), and Shivshankar Sah.',
   internships: 'Explore 10 specialized technology internship tracks with production code reviews, verified certificates, and industry mentorship.',
   training: 'Practical technology bootcamps from 1 week to 2 months covering Full Stack MERN, Python AI/ML, and cloud engineering with live capstones.',
   student: 'Centralized student workspace for task tracking, deliverable submissions, and performance evaluations.',
@@ -301,7 +301,7 @@ export default function App() {
         />
 
         {/* Main Content Area with Code-Splitting Suspense & Transitions */}
-        <main className="main-content">
+        <main className="main-content" style={{ paddingTop: activeTab === 'home' ? 0 : '72px' }}>
           <PageTransition tabKey={activeTab}>
             <Suspense fallback={<PageLoader />}>
               {activeTab === 'home' && (

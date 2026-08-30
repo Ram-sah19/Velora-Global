@@ -13,6 +13,7 @@ export default function Navbar({
   const [showServicesDropdown, setShowServicesDropdown] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const dropdownRef = useRef(null);
   const userDropdownRef = useRef(null);
@@ -21,6 +22,20 @@ export default function Navbar({
   const isSuperAdmin = currentUser && (currentUser.userType === 'superadmin' || currentUser.userType === 'admin');
   const isStudent = currentUser && (currentUser.userType === 'student' || currentUser.userType === 'Student Candidate');
   const isClient = currentUser && currentUser.userType === 'client';
+
+  // Dynamic scroll listener for transparent navbar effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -62,16 +77,23 @@ export default function Navbar({
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   };
 
+  const isTransparent = activeTab === 'home' && !isScrolled;
+
   return (
     <nav style={{
-      position: 'sticky',
+      position: 'fixed',
       top: 0,
+      left: 0,
+      right: 0,
+      width: '100%',
       zIndex: 500,
-      background: 'rgba(255, 255, 255, 0.95)',
-      backdropFilter: 'blur(12px)',
-      WebkitBackdropFilter: 'blur(12px)',
-      borderBottom: '1px solid #e2e8f0',
-      padding: '0.85rem 0'
+      background: isTransparent ? 'transparent' : 'rgba(255, 255, 255, 0.88)',
+      backdropFilter: isTransparent ? 'none' : 'blur(16px)',
+      WebkitBackdropFilter: isTransparent ? 'none' : 'blur(16px)',
+      borderBottom: isTransparent ? 'none' : '1px solid rgba(226, 232, 240, 0.8)',
+      boxShadow: isTransparent ? 'none' : '0 4px 20px rgba(0, 0, 0, 0.05)',
+      padding: '0.9rem 0',
+      transition: 'background 0.3s ease, backdrop-filter 0.3s ease, border 0.3s ease, box-shadow 0.3s ease'
     }}>
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'nowrap', width: '100%' }}>
         
@@ -119,13 +141,16 @@ export default function Navbar({
             <button 
               onClick={() => setActiveTab('home')}
               style={{
-                padding: '0.5rem 1.1rem',
+                padding: '0.5rem 1.15rem',
                 borderRadius: '9999px',
                 fontSize: '0.88rem',
-                fontWeight: '600',
+                fontWeight: '700',
                 background: activeTab === 'home' ? '#2563eb' : 'transparent',
-                color: activeTab === 'home' ? '#ffffff' : '#64748b',
-                whiteSpace: 'nowrap'
+                color: activeTab === 'home' ? '#ffffff' : '#0b0f19',
+                whiteSpace: 'nowrap',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease'
               }}
             >
               Home
@@ -145,16 +170,19 @@ export default function Navbar({
                     setShowServicesDropdown(prev => !prev);
                   }}
                   style={{
-                    padding: '0.5rem 1.1rem',
+                    padding: '0.5rem 1.15rem',
                     borderRadius: '9999px',
                     fontSize: '0.88rem',
-                    fontWeight: '600',
+                    fontWeight: '700',
                     background: activeTab === 'services' ? '#2563eb' : 'transparent',
-                    color: activeTab === 'services' ? '#ffffff' : '#64748b',
+                    color: activeTab === 'services' ? '#ffffff' : '#0b0f19',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.3rem',
-                    whiteSpace: 'nowrap'
+                    whiteSpace: 'nowrap',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
                   }}
                 >
                   Services ▾
@@ -217,13 +245,16 @@ export default function Navbar({
             <button 
               onClick={() => setActiveTab('team')}
               style={{
-                padding: '0.5rem 1.1rem',
+                padding: '0.5rem 1.15rem',
                 borderRadius: '9999px',
                 fontSize: '0.88rem',
-                fontWeight: '600',
+                fontWeight: '700',
                 background: activeTab === 'team' ? '#2563eb' : 'transparent',
-                color: activeTab === 'team' ? '#ffffff' : '#64748b',
-                whiteSpace: 'nowrap'
+                color: activeTab === 'team' ? '#ffffff' : '#0b0f19',
+                whiteSpace: 'nowrap',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease'
               }}
             >
               About Us
@@ -234,13 +265,16 @@ export default function Navbar({
                 <button 
                   onClick={() => setActiveTab('internships')}
                   style={{
-                    padding: '0.5rem 1.1rem',
+                    padding: '0.5rem 1.15rem',
                     borderRadius: '9999px',
                     fontSize: '0.88rem',
-                    fontWeight: '600',
+                    fontWeight: '700',
                     background: activeTab === 'internships' ? '#ff6b6b' : 'transparent',
-                    color: activeTab === 'internships' ? '#ffffff' : '#64748b',
-                    whiteSpace: 'nowrap'
+                    color: activeTab === 'internships' ? '#ffffff' : '#0b0f19',
+                    whiteSpace: 'nowrap',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
                   }}
                 >
                   Explore Internships
@@ -249,13 +283,16 @@ export default function Navbar({
                 <button 
                   onClick={() => setActiveTab('training')}
                   style={{
-                    padding: '0.5rem 1.1rem',
+                    padding: '0.5rem 1.15rem',
                     borderRadius: '9999px',
                     fontSize: '0.88rem',
-                    fontWeight: '600',
+                    fontWeight: '700',
                     background: activeTab === 'training' ? '#2563eb' : 'transparent',
-                    color: activeTab === 'training' ? '#ffffff' : '#64748b',
-                    whiteSpace: 'nowrap'
+                    color: activeTab === 'training' ? '#ffffff' : '#0b0f19',
+                    whiteSpace: 'nowrap',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
                   }}
                 >
                   Training Programs
@@ -264,13 +301,16 @@ export default function Navbar({
                 <button 
                   onClick={() => setActiveTab('student')}
                   style={{
-                    padding: '0.5rem 1.1rem',
+                    padding: '0.5rem 1.15rem',
                     borderRadius: '9999px',
                     fontSize: '0.88rem',
-                    fontWeight: '600',
+                    fontWeight: '700',
                     background: activeTab === 'student' ? '#2563eb' : 'transparent',
-                    color: activeTab === 'student' ? '#ffffff' : '#64748b',
-                    whiteSpace: 'nowrap'
+                    color: activeTab === 'student' ? '#ffffff' : '#0b0f19',
+                    whiteSpace: 'nowrap',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
                   }}
                 >
                   Student Workspace
