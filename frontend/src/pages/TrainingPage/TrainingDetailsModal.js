@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { api } from '../../services/api';
 import { showToast } from '../../components/NotificationToast';
 
-const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/11D9YEYK13bavROGMxlvO35k46MzrDHTTiHFd-PQqfy4/preview";
+const GOOGLE_FORM_URL = "https://forms.gle/kZMHj7jF3s8NL5wb6";
 
 // Helper function to get domain-tailored training deliverables
 function getTrainingDeliverables(domainTitle = '', domainCategory = '') {
@@ -143,38 +143,33 @@ export default function TrainingDetailsModal({ program, currentUser, onOpenAuth,
   const displayFee = program.fee || 'NPR 3,000';
   const deliverables = getTrainingDeliverables(program.title, program.domain);
 
-  const handleEnrollClick = async () => {
-    if (!currentUser) {
-      onClose();
-      if (onOpenAuth) onOpenAuth();
-      return;
-    }
-
-    try {
-      const feeMatch = displayFee.match(/\d[\d,]*/);
-      const feeNum = program.feeAmount || (feeMatch ? parseInt(feeMatch[0].replace(/,/g, ''), 10) : 3000);
-
-      await api.submitApplication({
-        studentId: currentUser.id,
-        studentName: currentUser.name,
-        studentEmail: currentUser.email,
-        programId: program.id || `prog-${Date.now()}`,
-        programTitle: program.title,
-        domain: program.domain,
-        programTrack: 'Guided Skill Training',
-        selectedDuration: 'Complete Track',
-        feeAmount: feeNum,
-        statementOfPurpose: 'Training enrollment via Google Form Link'
-      });
-    } catch (e) {
-      console.warn("Recorded training application locally", e);
-    }
-
-    // Open Official Google Form in new browser tab
-    showToast(`Enrollment submitted for ${program.title}! Opening verification form...`, 'success');
-    window.open(GOOGLE_FORM_URL, '_blank');
+  const handleEnrollClick = () => {
+    // 1. Instantly close the popup modal
     onClose();
+
+    // 2. Instantly open the official Google Form in a new tab
+    window.open(GOOGLE_FORM_URL, '_blank');
+    showToast(`Opening official verification form for ${program.title}...`, 'success');
     if (onApplySuccess) onApplySuccess();
+
+    // 3. Record training application in backend in the background
+    const feeMatch = displayFee.match(/\d[\d,]*/);
+    const feeNum = program.feeAmount || (feeMatch ? parseInt(feeMatch[0].replace(/,/g, ''), 10) : 3000);
+
+    api.submitApplication({
+      studentId: currentUser ? currentUser.id : `guest-${Date.now()}`,
+      studentName: currentUser ? currentUser.name : 'Candidate Applicant',
+      studentEmail: currentUser ? currentUser.email : 'applicant@veloraglobal.com',
+      programId: program.id || `prog-${Date.now()}`,
+      programTitle: program.title,
+      domain: program.domain,
+      programTrack: 'Guided Skill Training',
+      selectedDuration: 'Complete Track',
+      feeAmount: feeNum,
+      statementOfPurpose: 'Training enrollment via Google Form Link'
+    }).catch(e => {
+      console.warn("Recorded training application locally", e);
+    });
   };
 
   const modalJSX = (

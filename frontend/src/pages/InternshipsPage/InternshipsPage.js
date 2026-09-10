@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
 import InternshipDetailsModal from './InternshipDetailsModal';
 import { SkeletonCard } from '../../components/UIStates';
+import { showToast } from '../../components/NotificationToast';
+
+const GOOGLE_FORM_URL = "https://forms.gle/MEfqFcLcFaybJ2Dq5";
 
 const softwareDevSubDomains = [
   'Frontend Development',
@@ -440,13 +443,34 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
                   </span>
                 </div>
 
-                <button 
-                  onClick={() => setSelectedProgramForDetails(prog)}
-                  className="btn-coral"
-                  style={{ padding: '0.6rem 1.25rem', fontSize: '0.85rem', fontWeight: '700', borderRadius: '10px' }}
-                >
-                  View Details ➔
-                </button>
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                  <button 
+                    onClick={() => setSelectedProgramForDetails(prog)}
+                    style={{ 
+                      padding: '0.55rem 0.85rem', 
+                      fontSize: '0.82rem', 
+                      fontWeight: '700', 
+                      borderRadius: '8px',
+                      background: '#ffffff',
+                      color: '#2563eb',
+                      border: '1.5px solid #2563eb',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Details
+                  </button>
+
+                  <button 
+                    onClick={() => {
+                      window.open(GOOGLE_FORM_URL, '_blank');
+                      showToast(`Opening official application form for ${prog.title}...`, 'success');
+                    }}
+                    className="btn-coral"
+                    style={{ padding: '0.55rem 0.95rem', fontSize: '0.82rem', fontWeight: '800', borderRadius: '8px', cursor: 'pointer' }}
+                  >
+                    Apply ➔
+                  </button>
+                </div>
               </div>
             </div>
           )))}

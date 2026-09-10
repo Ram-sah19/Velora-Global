@@ -205,6 +205,36 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', app: 'Velora Global Enterprise Server', timestamp: new Date() });
 });
 
+// ─── 7.1 HERO BACKGROUND ASSET SYNC & SERVE ──────────────────────────────────
+const HERO_BG_SRC = 'C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\e5b26319-5da9-48a7-9a68-6a08c9f02003\\hero_golden_valley_1789032128090.jpg';
+try {
+  if (fs.existsSync(HERO_BG_SRC)) {
+    const targets = [
+      path.join(__dirname, '../frontend/public/media/hero_mountain.png'),
+      path.join(__dirname, '../frontend/public/images/hero_mountain.png'),
+      path.join(__dirname, '../frontend/public/media/hero_mountain.jpg')
+    ];
+    targets.forEach(tgt => {
+      const p = path.dirname(tgt);
+      if (!fs.existsSync(p)) fs.mkdirSync(p, { recursive: true });
+      fs.copyFileSync(HERO_BG_SRC, tgt);
+    });
+  }
+} catch (e) {
+  console.warn('Hero background sync notice:', e.message);
+}
+
+app.get('/api/media/hero-bg', (req, res) => {
+  if (fs.existsSync(HERO_BG_SRC)) {
+    return res.sendFile(HERO_BG_SRC);
+  }
+  const fallback = path.join(__dirname, '../frontend/public/media/hero_mountain.png');
+  if (fs.existsSync(fallback)) {
+    return res.sendFile(fallback);
+  }
+  res.status(404).send('Hero background not found');
+});
+
 // ─── 8. ROUTES ────────────────────────────────────────────────────────────────
 app.use('/api/users', userRoutes);
 app.use('/api/programs', programRoutes);

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { api } from '../../services/api';
 import { showToast } from '../../components/NotificationToast';
 
-const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/11D9YEYK13bavROGMxlvO35k46MzrDHTTiHFd-PQqfy4/preview";
+const GOOGLE_FORM_URL = "https://forms.gle/MEfqFcLcFaybJ2Dq5";
 
 // Helper function to get domain-tailored duration tiers
 function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
@@ -288,37 +288,33 @@ export default function InternshipDetailsModal({ program, currentUser, onOpenAut
   const durationTiers = getDomainDurationTiers(program.title, program.domain);
   const activeT = durationTiers.find(t => t.id === selectedTier) || durationTiers[0];
 
-  const handleApplyClick = async () => {
-    if (!currentUser) {
-      onClose();
-      if (onOpenAuth) onOpenAuth();
-      return;
-    }
-
-    try {
-      const feeMatch = (activeT.fee || '').match(/\d[\d,]*/);
-      const feeNum = feeMatch ? parseInt(feeMatch[0].replace(/,/g, ''), 10) : 199;
-
-      await api.submitApplication({
-        studentId: currentUser.id,
-        studentName: currentUser.name,
-        studentEmail: currentUser.email,
-        programId: program.id || `prog-${Date.now()}`,
-        programTitle: program.title,
-        domain: program.domain,
-        programTrack: 'Practical Internship',
-        selectedDuration: activeT.duration,
-        feeAmount: feeNum,
-        statementOfPurpose: 'Application via Google Form Link'
-      });
-    } catch (e) {
-      console.warn("Recorded application locally", e);
-    }
-    // Open Official Google Form in new browser tab
-    showToast(`Application submitted for ${program.title}! Opening verification form...`, 'success');
-    window.open(GOOGLE_FORM_URL, '_blank');
+  const handleApplyClick = () => {
+    // 1. Instantly close the popup modal
     onClose();
+
+    // 2. Instantly open the official Google Form in a new tab
+    window.open(GOOGLE_FORM_URL, '_blank');
+    showToast(`Opening official application form for ${program.title}...`, 'success');
     if (onApplySuccess) onApplySuccess();
+
+    // 3. Record application in backend in the background
+    const feeMatch = (activeT.fee || '').match(/\d[\d,]*/);
+    const feeNum = feeMatch ? parseInt(feeMatch[0].replace(/,/g, ''), 10) : 199;
+
+    api.submitApplication({
+      studentId: currentUser ? currentUser.id : `guest-${Date.now()}`,
+      studentName: currentUser ? currentUser.name : 'Candidate Applicant',
+      studentEmail: currentUser ? currentUser.email : 'applicant@veloraglobal.com',
+      programId: program.id || `prog-${Date.now()}`,
+      programTitle: program.title,
+      domain: program.domain,
+      programTrack: 'Practical Internship',
+      selectedDuration: activeT.duration,
+      feeAmount: feeNum,
+      statementOfPurpose: 'Application via Google Form Link'
+    }).catch(e => {
+      console.warn("Recorded application locally", e);
+    });
   };
 
   const modalJSX = (

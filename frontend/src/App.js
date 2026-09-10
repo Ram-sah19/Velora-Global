@@ -342,7 +342,11 @@ export default function App() {
                     setAuthInitialMode('login');
                     setShowAuthModal(true);
                   }}
-                  onApplySuccess={() => handleTabChange('student')}
+                  onApplySuccess={() => {
+                    if (currentUser) {
+                      handleTabChange('student');
+                    }
+                  }}
                 />
               )}
 
@@ -354,7 +358,11 @@ export default function App() {
                     setAuthInitialMode('login');
                     setShowAuthModal(true);
                   }}
-                  onApplySuccess={() => handleTabChange('student')}
+                  onApplySuccess={() => {
+                    if (currentUser) {
+                      handleTabChange('student');
+                    }
+                  }}
                 />
               )}
 
