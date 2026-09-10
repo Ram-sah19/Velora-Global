@@ -18,6 +18,7 @@ import { ErrorBoundary, OfflineBanner, PageLoader } from './components/UIStates'
 // Unified Authentication Modal
 import AuthModal from './pages/Auth/AuthModal';
 import AdminRegisterModal from './pages/AdminDashboardPage/AdminRegisterModal';
+import BookConsultationModal from './components/BookConsultationModal';
 
 // Code-Split Lazy Loaded Feature Pages
 const LandingPage = lazy(() => import('./pages/HomePage/LandingPage'));
@@ -107,6 +108,7 @@ export default function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authInitialMode, setAuthInitialMode] = useState('login');
   const [showAdminRegisterModal, setShowAdminRegisterModal] = useState(false);
+  const [showConsultationModal, setShowConsultationModal] = useState(false);
   const [resetToken, setResetToken] = useState(null);
   const [verifyToken, setVerifyToken] = useState(null);
 
@@ -309,6 +311,7 @@ export default function App() {
                   onExploreClick={() => handleTabChange('internships')}
                   onTrainingClick={() => handleTabChange('training')}
                   onServicesClick={() => handleTabChange('services')}
+                  onConsultationClick={() => setShowConsultationModal(true)}
                 />
               )}
 
@@ -327,6 +330,7 @@ export default function App() {
               {activeTab === 'team' && (
                 <TeamPage 
                   onExploreClick={() => handleTabChange('internships')}
+                  onConsultationClick={() => setShowConsultationModal(true)}
                 />
               )}
 
@@ -426,6 +430,14 @@ export default function App() {
           <CertificateModal 
             certificate={activeCertificate} 
             onClose={() => setActiveCertificate(null)}
+          />
+        )}
+
+        {/* 1-on-1 Discovery & Mentorship Consultation Modal */}
+        {showConsultationModal && (
+          <BookConsultationModal 
+            isOpen={showConsultationModal}
+            onClose={() => setShowConsultationModal(false)}
           />
         )}
 

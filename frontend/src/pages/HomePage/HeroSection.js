@@ -11,43 +11,6 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
     return () => clearTimeout(t);
   }, []);
 
-  // Scroll Progress tracker for Cinematic Sticky Horizon Storytelling
-  const scrollContainerRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    let animId = null;
-    const handleScroll = () => {
-      if (!scrollContainerRef.current) return;
-      const rect = scrollContainerRef.current.getBoundingClientRect();
-      const totalScrollable = rect.height - window.innerHeight;
-      if (totalScrollable <= 0) return;
-      
-      const currentScroll = -rect.top;
-      const progress = Math.min(Math.max(currentScroll / totalScrollable, 0), 1);
-      
-      if (animId) cancelAnimationFrame(animId);
-      animId = requestAnimationFrame(() => {
-        setScrollProgress(progress);
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (animId) cancelAnimationFrame(animId);
-    };
-  }, []);
-
-  const scrollToSlide = (slideIndex) => {
-    if (!scrollContainerRef.current) return;
-    const containerTop = scrollContainerRef.current.offsetTop;
-    const totalScrollable = scrollContainerRef.current.offsetHeight - window.innerHeight;
-    const targetScroll = containerTop + (slideIndex === 0 ? 0 : slideIndex === 1 ? totalScrollable * 0.45 : totalScrollable * 0.85);
-    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
-  };
-
   // Staggered reveal helper: returns inline transition styles per element
   const reveal = (delay = 0) => ({
     opacity: heroReady ? 1 : 0,
@@ -313,6 +276,49 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
     if (callback) callback();
   };
 
+  // Lock window / body scroll when story is in frozen mode
+  useEffect(() => {
+    if (isFrozen) {
+      document.body.style.overflow = 'hidden';
+      window.scrollTo(0, 0);
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    const handleKeyDown = (e) => {
+      if (!isFrozen) return;
+
+      if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
+        e.preventDefault();
+        if (isTransitioningRef.current) return;
+        isTransitioningRef.current = true;
+        setStoryStep((prev) => {
+          if (prev < 2) return prev + 1;
+          setIsFrozen(false);
+          return 3;
+        });
+        setTimeout(() => {
+          isTransitioningRef.current = false;
+        }, 380);
+      } else if (['ArrowUp', 'PageUp'].includes(e.key)) {
+        e.preventDefault();
+        if (isTransitioningRef.current) return;
+        isTransitioningRef.current = true;
+        setStoryStep((prev) => Math.max(0, prev - 1));
+        setTimeout(() => {
+          isTransitioningRef.current = false;
+        }, 380);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isFrozen]);
+
   return (
     <section style={{
       position: 'relative',
@@ -320,16 +326,16 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
       padding: 0
     }}>
 
-      {/* ── HERO VIEWPORT STAGE ── */}
+      {/* ── HERO VIEWPORT STAGE (Exact 100vh so next section cannot bleed in) ── */}
       <div style={{
         position: 'relative',
-        minHeight: '100vh',
+        height: '100vh',
         width: '100%',
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '6rem 0 3rem 0'
+        padding: 0
       }}>
 
         {/* ── Cinematic Mountain Horizon Hero Background Image ─────────── */}
@@ -678,7 +684,7 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
               marginBottom: '1.25rem',
               textShadow: '0 2px 16px rgba(255, 255, 255, 0.95), 0 1px 4px rgba(255, 255, 255, 0.8)'
             }}>
-              Students engineer and <span style={{ color: '#ff5252', textShadow: '0 0 24px rgba(255, 82, 82, 0.35)' }}>ship production software</span> directly for enterprise clients.
+              Students engineer and <span style={{ color: '#ff5252', textShadow: '0 0 24px rgba(255, 82, 82, 0.35)' }}>ship production software</span> directly for clients in the USA & globally.
             </h2>
 
             <p style={{
@@ -688,7 +694,7 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
               lineHeight: '1.6',
               textShadow: '0 1px 6px rgba(255, 255, 255, 0.9)'
             }}>
-              From scalable full-stack apps to cloud infrastructure pipelines.
+              From scalable cloud systems to AI models for foreign multinational companies.
             </p>
           </div>
         </div>
@@ -724,7 +730,7 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
                 border: '1px solid rgba(255, 255, 255, 0.9)',
                 display: 'inline-block'
               }}>
-                CAREER ACCELERATION
+                GLOBAL TALENT & IMPACT
               </span>
             </div>
 
@@ -737,9 +743,9 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
               marginBottom: '1.25rem',
               textShadow: '0 2px 16px rgba(255, 255, 255, 0.95), 0 1px 4px rgba(255, 255, 255, 0.8)'
             }}>
-              <span style={{ color: '#2563eb', textShadow: '0 0 24px rgba(37, 99, 235, 0.35)' }}>10+ Tracks</span> • 
-              <span style={{ color: '#0a2540' }}> 1-on-1 Mentorship</span> • 
-              <span style={{ color: '#ff5252', textShadow: '0 0 24px rgba(255, 82, 82, 0.35)' }}> Verified Credentials.</span>
+              <span style={{ color: '#2563eb', textShadow: '0 0 24px rgba(37, 99, 235, 0.35)' }}>100+ Trained</span> • 
+              <span style={{ color: '#0a2540' }}> 50+ Active Interns</span> • 
+              <span style={{ color: '#ff5252', textShadow: '0 0 24px rgba(255, 82, 82, 0.35)' }}> USA & Global Clients.</span>
             </h2>
 
             <p style={{
@@ -749,7 +755,7 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
               lineHeight: '1.6',
               textShadow: '0 1px 6px rgba(255, 255, 255, 0.9)'
             }}>
-              Transforming ambitious developers into high-impact technology leaders.
+              Empowering talented interns from Nepal, the USA, and international cohorts.
             </p>
           </div>
         </div>
@@ -806,9 +812,29 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
           alignItems: 'flex-start'
         }}>
           
-          {/* Stat 1: 10+ */}
+          {/* Stat 1: 100+ */}
           <div>
             <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#0b0f19', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
+              100+
+            </span>
+            <span style={{ fontSize: '0.92rem', color: '#334155', fontWeight: '700', marginTop: '0.65rem', display: 'block' }}>
+              Students in Active Training
+            </span>
+          </div>
+
+          {/* Stat 2: 50+ */}
+          <div>
+            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#2563eb', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
+              50+
+            </span>
+            <span style={{ fontSize: '0.92rem', color: '#334155', fontWeight: '700', marginTop: '0.65rem', display: 'block' }}>
+              Active Tech Interns Across Tracks
+            </span>
+          </div>
+
+          {/* Stat 3: 10+ */}
+          <div>
+            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#f87171', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
               10+
             </span>
             <span style={{ fontSize: '0.92rem', color: '#334155', fontWeight: '700', marginTop: '0.65rem', display: 'block' }}>
@@ -816,33 +842,13 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
             </span>
           </div>
 
-          {/* Stat 2: 100% */}
+          {/* Stat 4: Global & USA */}
           <div>
-            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#2563eb', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
-              100%
-            </span>
-            <span style={{ fontSize: '0.92rem', color: '#334155', fontWeight: '700', marginTop: '0.65rem', display: 'block' }}>
-              Verified Industry Credentials
-            </span>
-          </div>
-
-          {/* Stat 3: 4 */}
-          <div>
-            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#f87171', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
-              4
-            </span>
-            <span style={{ fontSize: '0.92rem', color: '#334155', fontWeight: '700', marginTop: '0.65rem', display: 'block' }}>
-              Founding Executive Mentors
-            </span>
-          </div>
-
-          {/* Stat 4: 1 Batch */}
-          <div>
-            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#10b981', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
-              1 Batch
+            <span style={{ fontSize: '2.3rem', fontWeight: '800', color: '#10b981', display: 'block', lineHeight: '1.15', letterSpacing: '-0.02em' }}>
+              USA & Global
             </span>
             <span style={{ fontSize: '0.92rem', color: '#334155', fontWeight: '700', marginTop: '0.65rem', display: 'block', lineHeight: '1.4' }}>
-              Students Trained & Projects Shipped
+              Clients & International Interns
             </span>
           </div>
 

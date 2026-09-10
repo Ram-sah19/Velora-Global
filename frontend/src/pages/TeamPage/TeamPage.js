@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function TeamPage({ onExploreClick }) {
+export default function TeamPage({ onExploreClick, onConsultationClick }) {
   const founders = [
     {
       name: "Ram Sah",
@@ -257,7 +257,7 @@ export default function TeamPage({ onExploreClick }) {
                 border: '1px solid rgba(96, 165, 250, 0.3)',
                 display: 'inline-block'
               }}>
-                🇳🇵 FOUNDER'S JOURNEY & VISION
+                FOUNDER'S JOURNEY & VISION
               </span>
             </div>
 
@@ -334,18 +334,19 @@ export default function TeamPage({ onExploreClick }) {
                   transition: 'transform 0.2s ease, border-color 0.2s ease'
                 }}>
                   <div style={{
-                    width: '46px',
-                    height: '46px',
+                    width: '42px',
+                    height: '42px',
                     borderRadius: '12px',
                     background: 'rgba(37, 99, 235, 0.2)',
                     color: '#60a5fa',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '1.3rem',
+                    fontSize: '0.85rem',
+                    fontWeight: '800',
                     flexShrink: 0
                   }}>
-                    🏔️
+                    01
                   </div>
                   <div>
                     <h3 style={{ fontSize: '1.05rem', color: '#ffffff', fontWeight: '800', margin: '0 0 0.35rem 0' }}>
@@ -369,18 +370,19 @@ export default function TeamPage({ onExploreClick }) {
                   gap: '1.2rem'
                 }}>
                   <div style={{
-                    width: '46px',
-                    height: '46px',
+                    width: '42px',
+                    height: '42px',
                     borderRadius: '12px',
                     background: 'rgba(255, 107, 107, 0.2)',
                     color: '#f87171',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '1.3rem',
+                    fontSize: '0.85rem',
+                    fontWeight: '800',
                     flexShrink: 0
                   }}>
-                    💻
+                    02
                   </div>
                   <div>
                     <h3 style={{ fontSize: '1.05rem', color: '#ffffff', fontWeight: '800', margin: '0 0 0.35rem 0' }}>
@@ -404,18 +406,19 @@ export default function TeamPage({ onExploreClick }) {
                   gap: '1.2rem'
                 }}>
                   <div style={{
-                    width: '46px',
-                    height: '46px',
+                    width: '42px',
+                    height: '42px',
                     borderRadius: '12px',
                     background: 'rgba(16, 185, 129, 0.2)',
                     color: '#34d399',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '1.3rem',
+                    fontSize: '0.85rem',
+                    fontWeight: '800',
                     flexShrink: 0
                   }}>
-                    🤖
+                    03
                   </div>
                   <div>
                     <h3 style={{ fontSize: '1.05rem', color: '#ffffff', fontWeight: '800', margin: '0 0 0.35rem 0' }}>
@@ -439,25 +442,26 @@ export default function TeamPage({ onExploreClick }) {
                   gap: '1.2rem'
                 }}>
                   <div style={{
-                    width: '46px',
-                    height: '46px',
+                    width: '42px',
+                    height: '42px',
                     borderRadius: '12px',
                     background: 'rgba(245, 158, 11, 0.2)',
                     color: '#fbbf24',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '1.3rem',
+                    fontSize: '0.85rem',
+                    fontWeight: '800',
                     flexShrink: 0
                   }}>
-                    🚀
+                    04
                   </div>
                   <div>
                     <h3 style={{ fontSize: '1.05rem', color: '#ffffff', fontWeight: '800', margin: '0 0 0.35rem 0' }}>
-                      Founder & CEO • Velora Global
+                      100+ Trained • 50+ Active Interns (USA & Global)
                     </h3>
                     <p style={{ color: '#94a3b8', fontSize: '0.88rem', lineHeight: '1.5', margin: 0 }}>
-                      Directs company strategy, curriculum architecture, and corporate client solutions across 10 specialized engineering domains.
+                      Leading cohorts of 100+ students in active training and 50+ interns across 10 tracks, including international interns from the USA delivering production software for US and foreign multinational clients.
                     </p>
                   </div>
                 </div>
@@ -636,14 +640,33 @@ export default function TeamPage({ onExploreClick }) {
           boxShadow: 'var(--shadow-lg)'
         }}>
           <h3 style={{ fontSize: '2.2rem', color: '#ffffff', marginBottom: '0.75rem', fontWeight: '800' }}>
-            Ready to Mentored by Founding Industry Leaders?
+            Ready to Be Mentored by Founding Industry Leaders?
           </h3>
-          <p style={{ color: '#94a3b8', fontSize: '1.05rem', maxWidth: '600px', margin: '0 auto 2rem auto' }}>
-            Apply for our structured practical 6 to 8-week internship programs across 10 specialized domain tracks.
+          <p style={{ color: '#94a3b8', fontSize: '1.05rem', maxWidth: '640px', margin: '0 auto 2rem auto' }}>
+            Join 100+ students in active training and 50+ interns across 10 specialized domain tracks, collaborating with teams across Nepal, the USA, and multinational clients.
           </p>
-          <button onClick={onExploreClick} className="btn-coral" style={{ padding: '0.9rem 2.4rem', fontSize: '1rem' }}>
-            Explore Internship Opportunities ➔
-          </button>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <button onClick={onExploreClick} className="btn-coral" style={{ padding: '0.9rem 2.4rem', fontSize: '1rem' }}>
+              Explore Internship Opportunities ➔
+            </button>
+            {onConsultationClick && (
+              <button 
+                onClick={onConsultationClick}
+                style={{
+                  padding: '0.9rem 2rem',
+                  fontSize: '1rem',
+                  fontWeight: '700',
+                  color: '#ffffff',
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  border: '1.5px solid rgba(255, 255, 255, 0.25)',
+                  borderRadius: '9999px',
+                  cursor: 'pointer'
+                }}
+              >
+                Book 1-on-1 with Ram Sah
+              </button>
+            )}
+          </div>
         </div>
 
       </div>
