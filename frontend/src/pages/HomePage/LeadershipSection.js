@@ -57,7 +57,7 @@ export default function LeadershipSection() {
             Meet the Founders of <span className="text-coral">Velora Global</span>
           </h2>
           <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.5rem' }}>
-            Driven by educational transformation, practical skill development, and creating verified career pathways.
+            Founded in 2024, driving enterprise software innovation, practical developer mentoring, and verified global career pathways.
           </p>
         </div>
 

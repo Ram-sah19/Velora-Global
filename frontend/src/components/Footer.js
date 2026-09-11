@@ -45,7 +45,7 @@ export default function Footer({ setActiveTab }) {
             </p>
 
             <span style={{ fontSize: '0.8rem', color: 'rgb(96, 165, 250)', display: 'block', fontWeight: '600' }}>
-              Founded by Abhishek Sah (Founder & CEO) • Co-Founded by Krishna Sah (CTO) & Rohit Sah (COO)
+              Founded in 2024 by Abhishek Sah (Founder & CEO) • Co-Founded by Krishna Sah (CTO) & Rohit Sah (COO)
             </span>
           </div>
 

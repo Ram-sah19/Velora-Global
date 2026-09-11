@@ -87,7 +87,7 @@ export default function TeamPage({ onExploreClick, onConsultationClick }) {
           </h1>
 
           <p style={{ color: '#64748b', fontSize: '1.15rem', marginTop: '1rem', lineHeight: '1.6' }}>
-            Velora Global was founded by engineering leaders and industry mentors dedicated to bridging the gap between academic theory and high-impact industry execution.
+            Founded in 2024 by engineering leaders and industry mentors dedicated to bridging the gap between academic theory, enterprise software delivery, and high-impact career execution.
           </p>
         </div>
 
@@ -419,42 +419,6 @@ export default function TeamPage({ onExploreClick, onConsultationClick }) {
                     flexShrink: 0
                   }}>
                     03
-                  </div>
-                  <div>
-                    <h3 style={{ fontSize: '1.05rem', color: '#ffffff', fontWeight: '800', margin: '0 0 0.35rem 0' }}>
-                      Infosys Springboard AI/ML Alum
-                    </h3>
-                    <p style={{ color: '#94a3b8', fontSize: '0.88rem', lineHeight: '1.5', margin: 0 }}>
-                      Completed intensive AI/ML internship training through Infosys Springboard, developing machine learning models and intelligent data pipelines.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Milestone 4 */}
-                <div style={{
-                  background: 'rgba(255, 255, 255, 0.04)',
-                  backdropFilter: 'blur(16px)',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
-                  borderRadius: '18px',
-                  padding: '1.35rem 1.6rem',
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '1.2rem'
-                }}>
-                  <div style={{
-                    width: '42px',
-                    height: '42px',
-                    borderRadius: '12px',
-                    background: 'rgba(245, 158, 11, 0.2)',
-                    color: '#fbbf24',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '0.85rem',
-                    fontWeight: '800',
-                    flexShrink: 0
-                  }}>
-                    04
                   </div>
                   <div>
                     <h3 style={{ fontSize: '1.05rem', color: '#ffffff', fontWeight: '800', margin: '0 0 0.35rem 0' }}>
