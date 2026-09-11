@@ -417,95 +417,93 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
               {/* Left Hero Text Column */}
               <div>
                 {/* Badge — delay 0ms */}
-                <div style={{ marginBottom: '1rem', ...reveal(0) }}>
+                <div style={{ marginBottom: '0.85rem', ...reveal(0) }}>
                   <span style={{
-                    fontSize: '0.82rem',
+                    fontSize: '0.75rem',
                     color: '#2563eb',
                     fontWeight: '800',
                     textTransform: 'uppercase',
-                    letterSpacing: '0.14em',
+                    letterSpacing: '0.12em',
                     background: 'rgba(239, 246, 255, 0.90)',
                     backdropFilter: 'blur(8px)',
                     WebkitBackdropFilter: 'blur(8px)',
-                    padding: '0.35rem 1.1rem',
+                    padding: '0.3rem 0.95rem',
                     borderRadius: '9999px',
                     border: '1px solid rgba(219, 234, 254, 0.9)',
                     display: 'inline-block'
                   }}>
-                    VELORA GLOBAL
+                    GLOBAL ENTERPRISE IT & AI SOLUTIONS
                   </span>
                 </div>
 
                 {/* H1 — delay 100ms */}
                 <h1 style={{
-                  fontSize: 'clamp(2.4rem, 5vw, 3.6rem)',
-                  lineHeight: '1.15',
+                  fontSize: 'clamp(1.85rem, 3.6vw, 2.75rem)',
+                  lineHeight: '1.2',
                   fontWeight: '800',
                   color: '#0a2540',
-                  marginBottom: '1.25rem',
+                  marginBottom: '1rem',
                   letterSpacing: '-0.02em',
                   textShadow: '0 1px 12px rgba(255, 255, 255, 0.6)',
                   ...reveal(100)
                 }}>
-                  Technology. Training. <br />
-                  <span className="text-coral">Opportunity.</span>
+                  Enterprise Software & AI. <br />
+                  <span className="text-coral">Built for Global Scale.</span>
                 </h1>
 
                 {/* Subtitle — delay 200ms */}
                 <p style={{
-                  fontSize: '1.15rem',
+                  fontSize: '0.98rem',
                   color: '#1e293b',
                   fontWeight: '500',
-                  marginBottom: '2.25rem',
+                  marginBottom: '1.75rem',
                   maxWidth: '560px',
-                  lineHeight: '1.65',
+                  lineHeight: '1.6',
                   textShadow: '0 1px 4px rgba(255, 255, 255, 0.8)',
                   ...reveal(200)
                 }}>
-                  Delivering scalable enterprise IT solutions for businesses while empowering students and aspiring technology professionals through practical training and industry-focused internships.
+                  Delivering production-grade web applications, cross-platform mobile platforms, and AI automation for corporate clients across the <strong>USA, Nepal, and international markets</strong> — powered by an elite engineering talent academy.
                 </p>
 
                 {/* CTA Buttons — delay 320ms */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', ...reveal(320) }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexWrap: 'wrap', ...reveal(320) }}>
+                  <button 
+                    onClick={() => unlockAndExplore(onServicesClick || onExploreClick)} 
+                    className="btn-coral" 
+                    style={{ padding: '0.72rem 1.45rem', fontSize: '0.88rem', fontWeight: '800', borderRadius: '9999px', boxShadow: '0 4px 14px rgba(255, 107, 107, 0.35)', cursor: 'pointer' }}
+                  >
+                    Enterprise Solutions ➔
+                  </button>
+
+                  <button 
+                    onClick={() => unlockAndExplore(onServicesClick || onTrainingClick)} 
+                    className="btn-primary" 
+                    style={{ padding: '0.72rem 1.35rem', fontSize: '0.88rem', fontWeight: '800', borderRadius: '9999px', boxShadow: '0 4px 14px rgba(37, 99, 235, 0.35)', cursor: 'pointer' }}
+                  >
+                    Client Case Studies
+                  </button>
+
                   <button 
                     onClick={() => unlockAndExplore(onExploreClick)} 
-                    className="btn-coral" 
-                    style={{ padding: '0.85rem 1.6rem', fontSize: '0.95rem', fontWeight: '800', borderRadius: '9999px', boxShadow: '0 4px 14px rgba(255, 107, 107, 0.35)', cursor: 'pointer' }}
+                    style={{
+                      padding: '0.72rem 1.3rem',
+                      fontSize: '0.86rem',
+                      fontWeight: '800',
+                      color: '#0a2540',
+                      background: 'rgba(255, 255, 255, 0.88)',
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                      border: '1.5px solid rgba(203, 213, 225, 0.9)',
+                      borderRadius: '9999px',
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.05)',
+                      transition: 'all 0.15s ease'
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#0a2540'; e.currentTarget.style.background = '#ffffff'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(203, 213, 225, 0.9)'; e.currentTarget.style.background = 'rgba(255, 255, 255, 0.88)'; }}
                   >
-                    Explore Internships
+                    Academy & Internships
                   </button>
-
-                  <button 
-                    onClick={() => unlockAndExplore(onTrainingClick || onExploreClick)} 
-                    className="btn-primary" 
-                    style={{ padding: '0.85rem 1.6rem', fontSize: '0.95rem', fontWeight: '800', borderRadius: '9999px', boxShadow: '0 4px 14px rgba(37, 99, 235, 0.35)', cursor: 'pointer' }}
-                  >
-                    Tech Training
-                  </button>
-
-                  {onServicesClick && (
-                    <button 
-                      onClick={() => unlockAndExplore(onServicesClick)} 
-                      style={{
-                        padding: '0.85rem 1.6rem',
-                        fontSize: '0.95rem',
-                        fontWeight: '800',
-                        color: '#0a2540',
-                        background: 'rgba(255, 255, 255, 0.88)',
-                        backdropFilter: 'blur(10px)',
-                        WebkitBackdropFilter: 'blur(10px)',
-                        border: '1.5px solid rgba(203, 213, 225, 0.9)',
-                        borderRadius: '9999px',
-                        cursor: 'pointer',
-                        boxShadow: '0 4px 14px rgba(0, 0, 0, 0.05)',
-                        transition: 'all 0.15s ease'
-                      }}
-                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#0a2540'; e.currentTarget.style.background = '#ffffff'; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(203, 213, 225, 0.9)'; e.currentTarget.style.background = 'rgba(255, 255, 255, 0.88)'; }}
-                    >
-                      Enterprise Solutions ➔
-                    </button>
-                  )}
                 </div>
               </div>
 
@@ -577,7 +575,7 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
         </div>
 
         {/* ═════════════════════════════════════════════════════════════ */}
-        {/* STEP 1: LINE 1 (Classroom to Real-World Engineering)          */}
+        {/* STEP 1: LINE 1 (Enterprise Software Solutions)               */}
         {/* ═════════════════════════════════════════════════════════════ */}
         <div style={{
           position: 'absolute',
@@ -593,55 +591,53 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
           zIndex: storyStep === 1 ? 5 : 1
         }}>
           <div style={{ maxWidth: '960px', textAlign: 'center' }}>
-            <div style={{ marginBottom: '1.25rem' }}>
+            <div style={{ marginBottom: '0.85rem' }}>
               <span style={{
-                fontSize: '0.82rem',
+                fontSize: '0.75rem',
                 color: '#2563eb',
                 fontWeight: '800',
                 textTransform: 'uppercase',
-                letterSpacing: '0.14em',
+                letterSpacing: '0.12em',
                 background: 'rgba(255, 255, 255, 0.75)',
                 backdropFilter: 'blur(12px)',
-                padding: '0.4rem 1.25rem',
+                padding: '0.3rem 0.95rem',
                 borderRadius: '9999px',
                 border: '1px solid rgba(255, 255, 255, 0.9)',
                 display: 'inline-block'
               }}>
-                THE PROBLEM WE SOLVE
+                ENTERPRISE SOFTWARE SOLUTIONS
               </span>
             </div>
 
             <h2 style={{
-              fontSize: 'clamp(2rem, 4.5vw, 3.4rem)',
+              fontSize: 'clamp(1.55rem, 3.2vw, 2.35rem)',
               fontWeight: '900',
               color: '#0a2540',
-              lineHeight: '1.2',
-              letterSpacing: '-0.025em',
-              marginBottom: '1.25rem',
+              lineHeight: '1.25',
+              letterSpacing: '-0.02em',
+              marginBottom: '0.85rem',
               textShadow: '0 2px 16px rgba(255, 255, 255, 0.95), 0 1px 4px rgba(255, 255, 255, 0.8)'
             }}>
-              We bridge the gap between <br />
-              <span style={{ color: '#2563eb', textShadow: '0 0 24px rgba(37, 99, 235, 0.35)' }}>
-                classroom theory
-              </span> and <span style={{ color: '#ff5252', textShadow: '0 0 24px rgba(255, 82, 82, 0.35)' }}>
-                real-world engineering.
+              Tailored Web, Mobile & AI Solutions for <br />
+              <span style={{ color: '#ff5252', textShadow: '0 0 24px rgba(255, 82, 82, 0.35)' }}>
+                Modern Global Businesses.
               </span>
             </h2>
 
             <p style={{
-              fontSize: 'clamp(1.15rem, 2vw, 1.45rem)',
+              fontSize: 'clamp(0.95rem, 1.4vw, 1.12rem)',
               color: '#1e293b',
               fontWeight: '600',
-              lineHeight: '1.6',
+              lineHeight: '1.55',
               textShadow: '0 1px 6px rgba(255, 255, 255, 0.9)'
             }}>
-              At Velora Global, students don't just study software in textbooks.
+              We engineer custom SaaS architectures, high-concurrency cloud systems, and native mobile apps with enterprise precision.
             </p>
           </div>
         </div>
 
         {/* ═════════════════════════════════════════════════════════════ */}
-        {/* STEP 2: LINE 2 (Ship Production Software)                     */}
+        {/* STEP 2: LINE 2 (Global Client Deliveries)                    */}
         {/* ═════════════════════════════════════════════════════════════ */}
         <div style={{
           position: 'absolute',
@@ -657,50 +653,50 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
           zIndex: storyStep === 2 ? 5 : 1
         }}>
           <div style={{ maxWidth: '960px', textAlign: 'center' }}>
-            <div style={{ marginBottom: '1.25rem' }}>
+            <div style={{ marginBottom: '0.85rem' }}>
               <span style={{
-                fontSize: '0.82rem',
+                fontSize: '0.75rem',
                 color: '#ff5252',
                 fontWeight: '800',
                 textTransform: 'uppercase',
-                letterSpacing: '0.14em',
+                letterSpacing: '0.12em',
                 background: 'rgba(255, 255, 255, 0.75)',
                 backdropFilter: 'blur(12px)',
-                padding: '0.4rem 1.25rem',
+                padding: '0.3rem 0.95rem',
                 borderRadius: '9999px',
                 border: '1px solid rgba(255, 255, 255, 0.9)',
                 display: 'inline-block'
               }}>
-                PRACTICAL PRODUCTION CODE
+                GLOBAL CLIENT DELIVERIES
               </span>
             </div>
 
             <h2 style={{
-              fontSize: 'clamp(2rem, 4.5vw, 3.4rem)',
+              fontSize: 'clamp(1.55rem, 3.2vw, 2.35rem)',
               fontWeight: '900',
               color: '#0a2540',
-              lineHeight: '1.2',
-              letterSpacing: '-0.025em',
-              marginBottom: '1.25rem',
+              lineHeight: '1.25',
+              letterSpacing: '-0.02em',
+              marginBottom: '0.85rem',
               textShadow: '0 2px 16px rgba(255, 255, 255, 0.95), 0 1px 4px rgba(255, 255, 255, 0.8)'
             }}>
-              Students engineer and <span style={{ color: '#ff5252', textShadow: '0 0 24px rgba(255, 82, 82, 0.35)' }}>ship production software</span> directly for clients in the USA & globally.
+              Shipping production software for corporate clients in the <span style={{ color: '#ff5252', textShadow: '0 0 24px rgba(255, 82, 82, 0.35)' }}>USA, Nepal & International Markets</span>.
             </h2>
 
             <p style={{
-              fontSize: 'clamp(1.15rem, 2vw, 1.45rem)',
+              fontSize: 'clamp(0.95rem, 1.4vw, 1.12rem)',
               color: '#1e293b',
               fontWeight: '600',
-              lineHeight: '1.6',
+              lineHeight: '1.55',
               textShadow: '0 1px 6px rgba(255, 255, 255, 0.9)'
             }}>
-              From scalable cloud systems to AI models for foreign multinational companies.
+              From scalable cloud platforms to custom LLM chatbots and enterprise business automation.
             </p>
           </div>
         </div>
 
         {/* ═════════════════════════════════════════════════════════════ */}
-        {/* STEP 3: LINE 3 (Tracks, Mentors & Outcomes)                   */}
+        {/* STEP 3: LINE 3 (Talent Engine & Scale)                       */}
         {/* ═════════════════════════════════════════════════════════════ */}
         <div style={{
           position: 'absolute',
@@ -716,55 +712,55 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
           zIndex: storyStep === 3 ? 5 : 1
         }}>
           <div style={{ maxWidth: '960px', textAlign: 'center' }}>
-            <div style={{ marginBottom: '1.25rem' }}>
+            <div style={{ marginBottom: '0.85rem' }}>
               <span style={{
-                fontSize: '0.82rem',
+                fontSize: '0.75rem',
                 color: '#059669',
                 fontWeight: '800',
                 textTransform: 'uppercase',
-                letterSpacing: '0.14em',
+                letterSpacing: '0.12em',
                 background: 'rgba(255, 255, 255, 0.75)',
                 backdropFilter: 'blur(12px)',
-                padding: '0.4rem 1.25rem',
+                padding: '0.3rem 0.95rem',
                 borderRadius: '9999px',
                 border: '1px solid rgba(255, 255, 255, 0.9)',
                 display: 'inline-block'
               }}>
-                GLOBAL TALENT & IMPACT
+                HIGH-CALIBER TALENT ECOSYSTEM
               </span>
             </div>
 
             <h2 style={{
-              fontSize: 'clamp(2rem, 4.5vw, 3.4rem)',
+              fontSize: 'clamp(1.55rem, 3.2vw, 2.35rem)',
               fontWeight: '900',
               color: '#0a2540',
-              lineHeight: '1.2',
-              letterSpacing: '-0.025em',
-              marginBottom: '1.25rem',
+              lineHeight: '1.25',
+              letterSpacing: '-0.02em',
+              marginBottom: '0.85rem',
               textShadow: '0 2px 16px rgba(255, 255, 255, 0.95), 0 1px 4px rgba(255, 255, 255, 0.8)'
             }}>
-              <span style={{ color: '#2563eb', textShadow: '0 0 24px rgba(37, 99, 235, 0.35)' }}>100+ Trained</span> • 
-              <span style={{ color: '#0a2540' }}> 50+ Active Interns</span> • 
-              <span style={{ color: '#ff5252', textShadow: '0 0 24px rgba(255, 82, 82, 0.35)' }}> USA & Global Clients.</span>
+              <span style={{ color: '#2563eb', textShadow: '0 0 24px rgba(37, 99, 235, 0.35)' }}>USA & Global Delivery</span> • 
+              <span style={{ color: '#0a2540' }}> 50+ Active Engineers</span> • 
+              <span style={{ color: '#ff5252', textShadow: '0 0 24px rgba(255, 82, 82, 0.35)' }}> 100+ Trained & Placed Developers.</span>
             </h2>
 
             <p style={{
-              fontSize: 'clamp(1.15rem, 2vw, 1.45rem)',
+              fontSize: 'clamp(0.95rem, 1.4vw, 1.12rem)',
               color: '#1e293b',
               fontWeight: '600',
-              lineHeight: '1.6',
+              lineHeight: '1.55',
               textShadow: '0 1px 6px rgba(255, 255, 255, 0.9)'
             }}>
-              Empowering talented interns from Nepal, the USA, and international cohorts.
+              Combining founder-led engineering excellence with an agile global talent pipeline.
             </p>
           </div>
         </div>
 
-        {/* ── Minimalist Story Step Dots (No skip button) ── */}
-        {isFrozen && storyStep < 4 && (
+        {/* Step Indicator Bullets */}
+        {isFrozen && (
           <div style={{
             position: 'absolute',
-            bottom: '2.5rem',
+            bottom: '1.5rem',
             left: '50%',
             transform: 'translateX(-50%)',
             zIndex: 20,
@@ -812,43 +808,43 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
           alignItems: 'flex-start'
         }}>
           
-          {/* Stat 1: 100+ */}
-          <div>
-            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#0b0f19', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
-              100+
-            </span>
-            <span style={{ fontSize: '0.92rem', color: '#334155', fontWeight: '700', marginTop: '0.65rem', display: 'block' }}>
-              Students in Active Training
-            </span>
-          </div>
-
-          {/* Stat 2: 50+ */}
-          <div>
-            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#2563eb', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
-              50+
-            </span>
-            <span style={{ fontSize: '0.92rem', color: '#334155', fontWeight: '700', marginTop: '0.65rem', display: 'block' }}>
-              Active Tech Interns Across Tracks
-            </span>
-          </div>
-
-          {/* Stat 3: 10+ */}
-          <div>
-            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#f87171', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
-              10+
-            </span>
-            <span style={{ fontSize: '0.92rem', color: '#334155', fontWeight: '700', marginTop: '0.65rem', display: 'block' }}>
-              Specialized Domain Tracks
-            </span>
-          </div>
-
-          {/* Stat 4: Global & USA */}
+          {/* Stat 1: USA & Global */}
           <div>
             <span style={{ fontSize: '2.3rem', fontWeight: '800', color: '#10b981', display: 'block', lineHeight: '1.15', letterSpacing: '-0.02em' }}>
               USA & Global
             </span>
             <span style={{ fontSize: '0.92rem', color: '#334155', fontWeight: '700', marginTop: '0.65rem', display: 'block', lineHeight: '1.4' }}>
-              Clients & International Interns
+              Clients & International Delivery
+            </span>
+          </div>
+
+          {/* Stat 2: 10+ */}
+          <div>
+            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#2563eb', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
+              10+
+            </span>
+            <span style={{ fontSize: '0.92rem', color: '#334155', fontWeight: '700', marginTop: '0.65rem', display: 'block' }}>
+              Enterprise Solutions & Tracks
+            </span>
+          </div>
+
+          {/* Stat 3: 50+ */}
+          <div>
+            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#f87171', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
+              50+
+            </span>
+            <span style={{ fontSize: '0.92rem', color: '#334155', fontWeight: '700', marginTop: '0.65rem', display: 'block' }}>
+              Active Engineers & Tech Interns
+            </span>
+          </div>
+
+          {/* Stat 4: 100+ */}
+          <div>
+            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#0b0f19', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
+              100+
+            </span>
+            <span style={{ fontSize: '0.92rem', color: '#334155', fontWeight: '700', marginTop: '0.65rem', display: 'block' }}>
+              Developers Trained, Mentored & Placed / Hired
             </span>
           </div>
 

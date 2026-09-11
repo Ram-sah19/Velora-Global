@@ -1,458 +1,593 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const PROJECTS_3D = [
+const PROJECTS = [
   {
     id: 1,
-    label: 'Education & Global Consultancy',
-    labelColor: '#60a5fa',
-    title: 'Overseas Education\nConsultancy Platform',
-    tagline: 'Automated student inquiries for study abroad in Australia, USA, Canada & UK.',
-    deliverables: [
-      'Interactive visa eligibility assessment form',
-      'University & course discovery directory',
-      'Direct WhatsApp lead capture & consultation',
-      'Mobile-first SEO ranking architecture',
-    ],
-    stack: ['React.js', 'Node.js', 'REST API', 'WhatsApp CRM', 'SEO Engine'],
-    bg: 'linear-gradient(145deg, #0c1445 0%, #1a2a6c 50%, #1e3a5f 100%)',
-    shimmer: '#3b82f6',
-    accentColor: '#3b82f6',
-    icon: (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{color:'rgba(255,255,255,0.15)'}}>
-        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
-      </svg>
+    sector: 'Enterprise Security & Cryptography',
+    title: 'Velora Circle — End-to-End Encrypted Collaboration Suite',
+    tagline: 'Military-grade end-to-end encrypted messaging, HD video conferencing, confidential file transmission vault, and isolated enterprise workspaces engineered for zero data leaks.',
+    metric: '256-Bit E2E Zero-Leak Protocol',
+    region: 'Global Enterprise & High-Security Nodes',
+    status: 'Live in Production',
+    mockupUrl: 'https://circle.veloraglobal.com/vault',
+    previewUi: (
+      <div style={{ background: '#f8fafc', padding: '1.15rem', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', borderBottom: '1px solid #e2e8f0', paddingBottom: '0.65rem' }}>
+          <div>
+            <span style={{ display: 'block', fontSize: '0.85rem', color: '#0f172a', fontWeight: '800' }}>Velora Circle Vault • Node #9421</span>
+            <span style={{ fontSize: '0.72rem', color: '#2563eb', fontWeight: '600' }}>Cryptographic E2EE Mesh Active</span>
+          </div>
+          <span style={{ fontSize: '0.68rem', color: '#059669', background: '#ecfdf5', border: '1px solid #a7f3d0', padding: '0.2rem 0.6rem', borderRadius: '9999px', fontWeight: '700' }}>
+            ● AES-256 / RSA-4096
+          </span>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.65rem', marginBottom: '0.85rem' }}>
+          <div style={{ background: '#ffffff', padding: '0.75rem', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
+            <span style={{ display: 'block', fontSize: '0.72rem', color: '#64748b', fontWeight: '600', marginBottom: '0.2rem' }}>Encrypted Meet Hub</span>
+            <span style={{ fontSize: '0.86rem', color: '#0f172a', fontWeight: '800' }}>HD WebRTC Video</span>
+          </div>
+          <div style={{ background: '#ffffff', padding: '0.75rem', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
+            <span style={{ display: 'block', fontSize: '0.72rem', color: '#64748b', fontWeight: '600', marginBottom: '0.2rem' }}>Confidential Vault</span>
+            <span style={{ fontSize: '0.86rem', color: '#0f172a', fontWeight: '800' }}>Zero Metadata Leak</span>
+          </div>
+        </div>
+
+        <div style={{ background: '#ffffff', padding: '0.65rem 0.85rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
+          <span style={{ fontSize: '0.74rem', color: '#475569', fontWeight: '600' }}>Private Workspace & Channels</span>
+          <span style={{ fontSize: '0.74rem', color: '#2563eb', fontWeight: '700' }}>Active Node Sync</span>
+        </div>
+      </div>
     ),
-    inquireTitle: 'Education Consultancy Platform Discussion',
+    deliverables: [
+      'End-to-end cryptographic messaging with ephemeral chat destruction',
+      'Encrypted multi-party HD video & audio conferencing with screen share',
+      'Zero-knowledge encrypted file transmission and credential vault',
+      'Isolated enterprise team workspaces & role-partitioned channels',
+      'Client-side key derivation with zero server-side metadata retention'
+    ],
+    stack: ['WebRTC', 'AES-256 / RSA-4096', 'Node.js', 'React.js', 'Socket.io', 'PostgreSQL']
   },
   {
     id: 2,
-    label: 'Hospitality & Food Tech',
-    labelColor: '#fb923c',
-    title: 'Restaurant Digital QR\nMenu & Ordering System',
-    tagline: 'Contactless zero-install digital menu — scan table QR and browse instantly.',
-    deliverables: [
-      'Zero-app QR scan for instant menu access',
-      'Live food & beverage catalog with search',
-      'Dietary tags: Veg / Non-Veg / Spiciness',
-      'Admin panel for real-time price updates',
-    ],
-    stack: ['React 19', 'Mobile-First', 'Cloud Storage', 'QR Generator', 'Admin Panel'],
-    bg: 'linear-gradient(145deg, #1c0900 0%, #4a1800 50%, #7c2d12 100%)',
-    shimmer: '#f97316',
-    accentColor: '#f97316',
-    icon: (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{color:'rgba(255,255,255,0.15)'}}>
-        <path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
-      </svg>
+    sector: 'Education & Global Consultancy',
+    title: 'Overseas Education & Visa Advisory Platform',
+    tagline: 'High-conversion multi-country consultancy portal connecting prospective students directly to university admissions across Australia, USA, Canada & UK.',
+    metric: '+380% Qualified Lead Growth',
+    region: 'Australia, USA & Nepal',
+    status: 'Live in Production',
+    mockupUrl: 'https://visasolutions.edu.global',
+    previewUi: (
+      <div style={{ background: '#f8fafc', padding: '1.15rem', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', borderBottom: '1px solid #e2e8f0', paddingBottom: '0.65rem' }}>
+          <div>
+            <span style={{ display: 'block', fontSize: '0.85rem', color: '#0f172a', fontWeight: '800' }}>Visa Eligibility Screener</span>
+            <span style={{ fontSize: '0.72rem', color: '#2563eb', fontWeight: '600' }}>Student AI Profile Matcher</span>
+          </div>
+          <span style={{ fontSize: '0.68rem', color: '#2563eb', background: '#eff6ff', border: '1px solid #dbeafe', padding: '0.2rem 0.6rem', borderRadius: '9999px', fontWeight: '700' }}>
+            ● Automated CRM Sync
+          </span>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem', marginBottom: '0.85rem' }}>
+          <div style={{ background: '#ffffff', padding: '0.65rem 0.4rem', borderRadius: '8px', textAlign: 'center', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
+            <span style={{ display: 'block', fontSize: '0.86rem', color: '#0f172a', fontWeight: '800' }}>USA</span>
+            <span style={{ fontSize: '0.65rem', color: '#64748b' }}>F1 Visa Track</span>
+          </div>
+          <div style={{ background: '#ffffff', padding: '0.65rem 0.4rem', borderRadius: '8px', textAlign: 'center', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
+            <span style={{ display: 'block', fontSize: '0.86rem', color: '#0f172a', fontWeight: '800' }}>AUS</span>
+            <span style={{ fontSize: '0.65rem', color: '#64748b' }}>GTE Portal</span>
+          </div>
+          <div style={{ background: '#ffffff', padding: '0.65rem 0.4rem', borderRadius: '8px', textAlign: 'center', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
+            <span style={{ display: 'block', fontSize: '0.86rem', color: '#0f172a', fontWeight: '800' }}>CAN</span>
+            <span style={{ fontSize: '0.65rem', color: '#64748b' }}>SDS Stream</span>
+          </div>
+        </div>
+
+        <div style={{ background: '#ffffff', padding: '0.65rem 0.85rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
+          <span style={{ fontSize: '0.74rem', color: '#475569', fontWeight: '600' }}>Direct WhatsApp Lead Pipeline</span>
+          <span style={{ fontSize: '0.74rem', color: '#059669', fontWeight: '700' }}>Instant Intake Active</span>
+        </div>
+      </div>
     ),
-    inquireTitle: 'Restaurant Digital QR Menu System Discussion',
+    deliverables: [
+      'Interactive multi-country visa eligibility assessment form',
+      'Global university course directory with entry requirements filter',
+      'Direct WhatsApp lead capture & instant CRM pipeline dispatch',
+      'Mobile-first performance architecture with sub-second page loads',
+      'Lighthouse 98+ PageSpeed index & enterprise SEO optimization'
+    ],
+    stack: ['React.js', 'Node.js', 'REST API', 'WhatsApp CRM', 'Cloudflare']
   },
   {
     id: 3,
-    label: 'Retail & E-Commerce',
-    labelColor: '#c084fc',
-    title: 'E-Commerce Brand Store\n& Landing Page',
-    tagline: 'Replaced Instagram DMs with an automated product catalog & order system.',
-    deliverables: [
-      'Visual product showcase with photo gallery',
-      'One-click cart & WhatsApp order routing',
-      'Payment ready — eSewa / Khalti / COD',
-      'Stock toggle & customer review highlights',
-    ],
-    stack: ['MERN Stack', 'React.js', 'eSewa', 'Khalti', 'MongoDB Atlas'],
-    bg: 'linear-gradient(145deg, #0d001a 0%, #1e0338 50%, #2e0657 100%)',
-    shimmer: '#a855f7',
-    accentColor: '#a855f7',
-    icon: (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{color:'rgba(255,255,255,0.15)'}}>
-        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-      </svg>
+    sector: 'Hospitality & Food Tech',
+    title: 'Restaurant Digital QR Menu & Table Ordering System',
+    tagline: 'Contactless zero-install digital menu allowing restaurant guests to scan table QR codes, browse live food & drink catalogs, and order in real-time.',
+    metric: 'Zero-App Instant Load Speed',
+    region: 'Kathmandu Valley & Pokhara',
+    status: 'Live in Production',
+    mockupUrl: 'https://menu.dinefresh.app/table-08',
+    previewUi: (
+      <div style={{ background: '#f8fafc', padding: '1.15rem', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', borderBottom: '1px solid #e2e8f0', paddingBottom: '0.65rem' }}>
+          <div>
+            <span style={{ display: 'block', fontSize: '0.85rem', color: '#0f172a', fontWeight: '800' }}>Table 08 • Live Digital Menu</span>
+            <span style={{ fontSize: '0.72rem', color: '#2563eb', fontWeight: '600' }}>Cloud Kitchen Sync Connected</span>
+          </div>
+          <span style={{ fontSize: '0.68rem', color: '#059669', background: '#ecfdf5', border: '1px solid #a7f3d0', padding: '0.2rem 0.6rem', borderRadius: '9999px', fontWeight: '700' }}>
+            ● Instant QR Scan
+          </span>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '0.85rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#ffffff', padding: '0.55rem 0.8rem', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
+            <div>
+              <span style={{ display: 'block', fontSize: '0.78rem', color: '#0f172a', fontWeight: '700' }}>Chef Signature Pasta</span>
+              <span style={{ fontSize: '0.65rem', color: '#059669', fontWeight: '600' }}>● Freshly Prepared</span>
+            </div>
+            <span style={{ fontSize: '0.86rem', color: '#2563eb', fontWeight: '800' }}>NPR 650</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#ffffff', padding: '0.55rem 0.8rem', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
+            <div>
+              <span style={{ display: 'block', fontSize: '0.78rem', color: '#0f172a', fontWeight: '700' }}>Organic Himalayan Mint Tea</span>
+              <span style={{ fontSize: '0.65rem', color: '#64748b' }}>● Hot Beverage</span>
+            </div>
+            <span style={{ fontSize: '0.86rem', color: '#2563eb', fontWeight: '800' }}>NPR 180</span>
+          </div>
+        </div>
+
+        <div style={{ background: '#ffffff', padding: '0.65rem 0.85rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
+          <span style={{ fontSize: '0.74rem', color: '#475569', fontWeight: '600' }}>Manager Cloud Price & Item Sync</span>
+          <span style={{ fontSize: '0.74rem', color: '#059669', fontWeight: '700' }}>Real-Time Push</span>
+        </div>
+      </div>
     ),
-    inquireTitle: 'E-Commerce Brand Store Discussion',
+    deliverables: [
+      'Zero-app installation QR scan for instantaneous menu loading',
+      'Dynamic food & drink catalog with instant full-text search',
+      'Dietary identification tags: Veg / Non-Veg / Vegan / Spiciness',
+      'Merchant admin portal for real-time menu and pricing adjustments',
+      'Offline-tolerant image caching for high-reliability peak traffic'
+    ],
+    stack: ['React 19', 'Node.js', 'Cloud Storage', 'QR Engine', 'Admin Console']
   },
+  {
+    id: 4,
+    sector: 'Retail & E-Commerce',
+    title: 'E-Commerce Brand Store & Direct Order System',
+    tagline: 'High-speed modern online storefront replacing manual social media direct messages with an automated catalog, digital checkout, and live inventory sync.',
+    metric: '100% Automated Checkout Flow',
+    region: 'Nepal Nationwide Delivery',
+    status: 'Live in Production',
+    mockupUrl: 'https://store.velorabrand.com',
+    previewUi: (
+      <div style={{ background: '#f8fafc', padding: '1.15rem', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', borderBottom: '1px solid #e2e8f0', paddingBottom: '0.65rem' }}>
+          <div>
+            <span style={{ display: 'block', fontSize: '0.85rem', color: '#0f172a', fontWeight: '800' }}>Express Cart Checkout</span>
+            <span style={{ fontSize: '0.72rem', color: '#2563eb', fontWeight: '600' }}>eSewa, Khalti & COD Active</span>
+          </div>
+          <span style={{ fontSize: '0.68rem', color: '#059669', background: '#ecfdf5', border: '1px solid #a7f3d0', padding: '0.2rem 0.6rem', borderRadius: '9999px', fontWeight: '700' }}>
+            ● SSL Encrypted
+          </span>
+        </div>
+
+        <div style={{ background: '#ffffff', padding: '0.75rem', borderRadius: '8px', marginBottom: '0.85rem', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+            <span style={{ fontSize: '0.8rem', color: '#0f172a', fontWeight: '700' }}>Premium Urban Winter Jacket</span>
+            <span style={{ fontSize: '0.86rem', color: '#2563eb', fontWeight: '800' }}>NPR 4,500</span>
+          </div>
+          <div style={{ display: 'flex', gap: '0.35rem' }}>
+            <span style={{ fontSize: '0.65rem', color: '#059669', background: '#ecfdf5', border: '1px solid #a7f3d0', padding: '0.1rem 0.4rem', borderRadius: '4px', fontWeight: '700' }}>In Stock</span>
+            <span style={{ fontSize: '0.65rem', color: '#64748b', background: '#f1f5f9', padding: '0.1rem 0.4rem', borderRadius: '4px' }}>Size: M/L/XL</span>
+          </div>
+        </div>
+
+        <div style={{ background: '#ffffff', padding: '0.65rem 0.85rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
+          <span style={{ fontSize: '0.74rem', color: '#475569', fontWeight: '600' }}>1-Click WhatsApp Order Routing</span>
+          <span style={{ fontSize: '0.74rem', color: '#2563eb', fontWeight: '700' }}>Zero DMs Dropped</span>
+        </div>
+      </div>
+    ),
+    deliverables: [
+      'Interactive visual product storefront with responsive media gallery',
+      'One-click shopping cart & automated WhatsApp order dispatch routing',
+      'Local digital payment integration (eSewa / Khalti / Cash on Delivery)',
+      'Real-time inventory toggle and customer verification system',
+      'Merchant order fulfillment and shipment dispatch dashboard'
+    ],
+    stack: ['MERN Stack', 'React.js', 'eSewa', 'Khalti', 'MongoDB Atlas']
+  }
 ];
 
 export default function ProjectCarousel3D({ onConsultationClick }) {
-  const [current, setCurrent] = useState(0);
-  const [animating, setAnimating] = useState(false);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [dragDelta, setDragDelta] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const dragStart = useRef(null);
-  const lastWheelTime = useRef(0);
-  const activeCardRef = useRef(null);
-  const total = PROJECTS_3D.length;
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  const goTo = useCallback((idx) => {
-    if (animating || idx === current || idx < 0 || idx >= total) return;
-    setAnimating(true);
-    setCurrent(idx);
-    setTilt({ x: 0, y: 0 });
-    setTimeout(() => setAnimating(false), 700);
-  }, [animating, current, total]);
+  const activeProject = PROJECTS[activeIndex] || PROJECTS[0];
 
-  // Mouse wheel listener for natural up-down scroll flipping
-  const handleWheel = (e) => {
-    const now = Date.now();
-    if (now - lastWheelTime.current < 450) return;
-    if (Math.abs(e.deltaY) < 16) return;
-
-    if (e.deltaY > 0) {
-      if (current < total - 1) {
-        goTo(current + 1);
-        lastWheelTime.current = now;
-      }
-    } else {
-      if (current > 0) {
-        goTo(current - 1);
-        lastWheelTime.current = now;
-      }
-    }
-  };
-
-  // Mouse tilt on active card
-  const handleMouseMove = (e) => {
-    if (!activeCardRef.current || isDragging) return;
-    const rect = activeCardRef.current.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const dx = (e.clientX - cx) / (rect.width / 2);
-    const dy = (e.clientY - cy) / (rect.height / 2);
-    setTilt({ x: dy * -9, y: dx * 10 });
-  };
-  const handleMouseLeave = () => setTilt({ x: 0, y: 0 });
-
-  // Vertical Drag/Swipe
-  const onDragStart = (e) => {
-    const y = e.clientY ?? e.touches?.[0]?.clientY;
-    if (y !== undefined) {
-      dragStart.current = y;
-      setIsDragging(true);
-    }
-  };
-  const onDragMove = (e) => {
-    if (!isDragging || dragStart.current === null) return;
-    const y = e.clientY ?? e.touches?.[0]?.clientY;
-    if (y !== undefined) {
-      setDragDelta(y - dragStart.current);
-    }
-  };
-  const onDragEnd = () => {
-    if (dragDelta < -50 && current < total - 1) {
-      goTo(current + 1);
-    } else if (dragDelta > 50 && current > 0) {
-      goTo(current - 1);
-    }
-    setIsDragging(false);
-    setDragDelta(0);
-    dragStart.current = null;
-  };
-
-  // Vertical 3D perspective geometry
-  const getCardStyle = (i) => {
-    const offset = i - current;
-    const absOffset = Math.abs(offset);
-
-    if (absOffset > 1) return { display: 'none' };
-
-    const rotateX    = offset * 46;                   // 3D tilt up/down
-    const translateY = offset * 68;                   // % offset vertically
-    const translateZ = absOffset === 0 ? 0 : -240;    // recede in 3D depth
-    const scale      = absOffset === 0 ? 1 : 0.82;
-    const opacity    = absOffset === 0 ? 1 : 0.42;
-    const zIndex     = absOffset === 0 ? 10 : 5;
-    const blur       = absOffset === 0 ? 0 : 2;
-
-    const tiltX = absOffset === 0 ? tilt.x + (isDragging ? dragDelta * 0.08 : 0) : 0;
-    const tiltY = absOffset === 0 ? tilt.y : 0;
-
-    return {
-      position: 'absolute',
-      width: '88%',
-      maxWidth: '680px',
-      height: 'clamp(340px,46vw,440px)',
-      left: '50%',
-      top: '50%',
-      borderRadius: '24px',
-      overflow: 'hidden',
-      cursor: absOffset === 0 ? 'default' : 'pointer',
-      zIndex,
-      opacity,
-      filter: blur > 0 ? `blur(${blur}px) brightness(0.6)` : 'none',
-      transform: `
-        translate(-50%, -50%)
-        translateY(${translateY}%)
-        perspective(1200px)
-        rotateX(${rotateX + tiltX}deg)
-        rotateY(${tiltY}deg)
-        translateZ(${translateZ}px)
-        scale(${scale})
-      `,
-      transition: isDragging ? 'none' : 'transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s ease, filter 0.7s ease',
-      boxShadow: absOffset === 0
-        ? '0 32px 70px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.1)'
-        : '0 16px 36px rgba(0,0,0,0.3)',
-      background: PROJECTS_3D[i].bg,
-      willChange: 'transform',
-    };
-  };
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % PROJECTS.length);
+    }, 6500);
+    return () => clearInterval(timer);
+  }, [isAutoPlaying]);
 
   return (
-    <div style={{ marginTop: '5rem', marginBottom: '4rem' }}>
-      {/* Section header */}
-      <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 2.5rem auto' }}>
-        <span style={{
-          display: 'inline-block', fontSize: '0.7rem', fontWeight: '800',
-          letterSpacing: '0.1em', textTransform: 'uppercase', color: '#ef4444',
-          background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.22)',
-          padding: '0.3rem 0.9rem', borderRadius: '9999px', marginBottom: '0.75rem',
-        }}>PROVEN PRODUCTION SYSTEMS</span>
-        <h3 style={{
-          fontSize: 'clamp(1.65rem,3vw,2.3rem)', color: '#0b0f19',
-          fontWeight: '800', lineHeight: '1.2', margin: '0 0 0.55rem 0',
-        }}>Delivered Client Projects</h3>
-        <p style={{ color: '#64748b', fontSize: '0.97rem', lineHeight: '1.65', margin: 0 }}>
-          Scroll your mouse wheel down / up over the stage to flip through production systems built by our teams.
+    <section 
+      style={{ marginTop: '4.5rem', marginBottom: '5.5rem' }}
+      onMouseEnter={() => setIsAutoPlaying(false)}
+      onMouseLeave={() => setIsAutoPlaying(true)}
+    >
+      {/* Section Header */}
+      <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 2.5rem auto' }}>
+        <div style={{ marginBottom: '0.75rem' }}>
+          <span style={{
+            fontSize: '0.78rem',
+            fontWeight: '700',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: '#2563eb',
+            background: '#eff6ff',
+            border: '1px solid #dbeafe',
+            padding: '0.35rem 1rem',
+            borderRadius: '9999px',
+            display: 'inline-block'
+          }}>
+            DELIVERED CLIENT PLATFORMS
+          </span>
+        </div>
+
+        <h2 style={{
+          fontSize: 'clamp(1.85rem, 3.4vw, 2.5rem)',
+          color: '#0b0f19',
+          fontWeight: '800',
+          lineHeight: '1.2',
+          margin: '0 0 0.75rem 0',
+          letterSpacing: '-0.025em'
+        }}>
+          Production Systems & Enterprise Engineering
+        </h2>
+
+        <p style={{
+          color: '#64748b',
+          fontSize: '0.98rem',
+          lineHeight: '1.6',
+          margin: 0
+        }}>
+          Explore production-grade enterprise software, mobile platforms, and AI-automated systems engineered by Velora Global.
         </p>
       </div>
 
-      {/* Stage Container */}
-      <div
-        style={{
-          position: 'relative',
-          width: '100%',
-          height: 'clamp(460px,58vw,620px)',
-          background: 'linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%)',
-          borderRadius: '32px',
-          overflow: 'hidden',
-          userSelect: 'none',
-          boxShadow: '0 12px 36px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)',
-        }}
-        onWheel={handleWheel}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        onMouseDown={onDragStart}
-        onMouseMoveCapture={onDragMove}
-        onMouseUp={onDragEnd}
-        onTouchStart={onDragStart}
-        onTouchMove={onDragMove}
-        onTouchEnd={onDragEnd}
-      >
-        {/* Ambient colored glow */}
-        <div style={{
-          position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none',
-          background: `radial-gradient(ellipse 70% 60% at 50% 50%, ${PROJECTS_3D[current].shimmer}22 0%, transparent 70%)`,
-          transition: 'background 0.7s ease',
-        }} />
-
-        {/* Scroll helper hint pill (top right) */}
-        <div style={{
-          position: 'absolute', top: '1.25rem', right: '1.25rem', zIndex: 30,
-          display: 'flex', alignItems: 'center', gap: '0.45rem',
-          background: 'rgba(15,23,42,0.7)', backdropFilter: 'blur(10px)',
-          borderRadius: '9999px', padding: '0.4rem 0.9rem',
-          fontSize: '0.75rem', color: '#ffffff', fontWeight: '700',
-          border: '1px solid rgba(255,255,255,0.12)',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-          pointerEvents: 'none',
-        }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="5" y="2" width="14" height="20" rx="7" />
-            <line x1="12" y1="6" x2="12" y2="10" />
-          </svg>
-          Scroll Wheel Up / Down
-        </div>
-
-        {/* 3D Vertical Cards Deck */}
-        {PROJECTS_3D.map((proj, i) => {
-          const offset = i - current;
-          if (Math.abs(offset) > 1) return null;
-          const isActive = i === current;
-
+      {/* ── CLEAN ENTERPRISE TAB SWITCHER ── */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+        gap: '0.75rem',
+        marginBottom: '1.5rem'
+      }}>
+        {PROJECTS.map((proj, idx) => {
+          const isSelected = activeIndex === idx;
           return (
-            <div
+            <button
               key={proj.id}
-              ref={isActive ? activeCardRef : null}
-              style={getCardStyle(i)}
-              onClick={() => !isActive && goTo(i)}
+              onClick={() => setActiveIndex(idx)}
+              style={{
+                background: '#ffffff',
+                border: isSelected ? '1.5px solid #2563eb' : '1px solid #e2e8f0',
+                borderRadius: '12px',
+                padding: '0.85rem 1rem',
+                textAlign: 'left',
+                cursor: 'pointer',
+                boxShadow: isSelected 
+                  ? '0 8px 24px -4px rgba(37, 99, 235, 0.16), 0 2px 6px rgba(0, 0, 0, 0.04)' 
+                  : '0 2px 8px rgba(0, 0, 0, 0.03)',
+                transition: 'all 0.2s ease',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.25rem'
+              }}
+              onMouseEnter={(e) => {
+                if (!isSelected) {
+                  e.currentTarget.style.borderColor = '#cbd5e1';
+                  e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.06)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isSelected) {
+                  e.currentTarget.style.borderColor = '#e2e8f0';
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.03)';
+                }
+              }}
             >
-              {/* Mesh texture */}
-              <div style={{
-                position: 'absolute', inset: 0, zIndex: 0,
-                backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)',
-                backgroundSize: '28px 28px',
-              }} />
-
-              {/* Decorative category icon */}
-              <div style={{
-                position: 'absolute', top: '1.25rem', right: '1.25rem',
-                zIndex: 0, transform: 'scale(2.2)', transformOrigin: 'top right', opacity: 0.4,
+              <span style={{
+                fontSize: '0.68rem',
+                fontWeight: '800',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                color: isSelected ? '#2563eb' : '#64748b'
               }}>
-                {proj.icon}
-              </div>
-
-              {/* Accent light sphere */}
-              <div style={{
-                position: 'absolute', top: '-60px', left: '-60px', zIndex: 0,
-                width: '240px', height: '240px', borderRadius: '50%',
-                background: `radial-gradient(circle, ${proj.accentColor}35 0%, transparent 65%)`,
-              }} />
-
-              {/* Bottom dark gradient for text legibility */}
-              <div style={{
-                position: 'absolute', inset: 0, zIndex: 1,
-                background: 'linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.3) 60%, transparent 100%)',
-              }} />
-
-              {/* Top rim shimmer */}
-              <div style={{
-                position: 'absolute', top: 0, left: 0, right: 0, height: '1px', zIndex: 2,
-                background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%)',
-              }} />
-
-              {/* Card Main Content */}
-              <div style={{
-                position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 3,
-                padding: 'clamp(1.2rem,2.8vw,2.2rem)',
+                {proj.sector}
+              </span>
+              <span style={{
+                fontSize: '0.86rem',
+                fontWeight: '800',
+                color: isSelected ? '#0f172a' : '#475569',
+                lineHeight: '1.3',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
               }}>
-                <span style={{
-                  display: 'inline-block', fontSize: '0.65rem', fontWeight: '800',
-                  letterSpacing: '0.12em', textTransform: 'uppercase',
-                  color: proj.labelColor, background: `${proj.labelColor}20`,
-                  border: `1px solid ${proj.labelColor}45`,
-                  padding: '0.22rem 0.7rem', borderRadius: '9999px',
-                  marginBottom: '0.6rem', backdropFilter: 'blur(6px)',
-                }}>{proj.label}</span>
-
-                <h3 style={{
-                  fontSize: 'clamp(1.15rem,2.2vw,1.75rem)', color: '#ffffff',
-                  fontWeight: '800', lineHeight: '1.2', margin: '0 0 0.4rem 0',
-                  whiteSpace: 'pre-line', textShadow: '0 2px 12px rgba(0,0,0,0.5)',
-                }}>{proj.title}</h3>
-
-                <p style={{
-                  color: 'rgba(255,255,255,0.68)',
-                  fontSize: 'clamp(0.75rem,1.2vw,0.88rem)',
-                  lineHeight: '1.45', margin: '0 0 0.8rem 0', maxWidth: '480px',
-                }}>{proj.tagline}</p>
-
-                {isActive && (
-                  <ul style={{ margin: '0 0 0.9rem 0', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.22rem' }}>
-                    {proj.deliverables.map((d, di) => (
-                      <li key={di} style={{
-                        fontSize: '0.77rem', color: 'rgba(255,255,255,0.65)',
-                        display: 'flex', alignItems: 'center', gap: '0.4rem',
-                      }}>
-                        <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: proj.accentColor, flexShrink: 0 }} />
-                        {d}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginBottom: isActive ? '1.1rem' : '0' }}>
-                  {proj.stack.map((t, ti) => (
-                    <span key={ti} style={{
-                      fontSize: '0.67rem', fontWeight: '700', color: '#fff',
-                      background: 'rgba(255,255,255,0.09)', border: '1px solid rgba(255,255,255,0.13)',
-                      padding: '0.18rem 0.5rem', borderRadius: '5px', backdropFilter: 'blur(4px)',
-                    }}>{t}</span>
-                  ))}
-                </div>
-
-                {isActive && onConsultationClick && (
-                  <button
-                    onClick={(e) => { e.stopPropagation(); onConsultationClick(); }}
-                    style={{
-                      padding: '0.6rem 1.4rem', fontSize: '0.83rem', fontWeight: '700',
-                      background: proj.accentColor, color: '#fff', border: 'none',
-                      borderRadius: '9px', cursor: 'pointer',
-                      boxShadow: `0 4px 22px ${proj.accentColor}55`,
-                      transition: 'opacity 0.18s, transform 0.18s',
-                    }}
-                    onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; e.currentTarget.style.transform = 'scale(1.03)'; }}
-                    onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'scale(1)'; }}
-                  >
-                    Inquire for Similar Architecture with Ram Sah ➔
-                  </button>
-                )}
-              </div>
-            </div>
+                {proj.title.split('—')[0].trim()}
+              </span>
+            </button>
           );
         })}
+      </div>
 
-        {/* Vertical Navigation Controls (Right Side) */}
+      {/* ── MAIN SHOWCASE STAGE (CLEAN ENTERPRISE CARD) ── */}
+      <div style={{
+        background: '#ffffff',
+        borderRadius: '20px',
+        border: '1px solid #e2e8f0',
+        boxShadow: '0 16px 40px -12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.02)',
+        overflow: 'hidden'
+      }}>
+        {/* Top Browser Title Bar */}
         <div style={{
-          position: 'absolute', right: '1.25rem', top: '50%', transform: 'translateY(-50%)',
-          zIndex: 25, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem',
+          background: '#f8fafc',
+          borderBottom: '1px solid #e2e8f0',
+          padding: '0.75rem 1.5rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '0.75rem'
         }}>
-          {/* Up button */}
-          <button
-            onClick={() => goTo(current - 1)}
-            disabled={current === 0}
-            aria-label="Previous project up"
-            style={{
-              width: '42px', height: '42px', borderRadius: '50%',
-              border: '1.5px solid rgba(15,23,42,0.15)', background: current === 0 ? 'rgba(255,255,255,0.4)' : '#ffffff',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: current === 0 ? 'not-allowed' : 'pointer',
-              opacity: current === 0 ? 0.35 : 1,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseEnter={e => { if (current > 0) e.currentTarget.style.transform = 'scale(1.08)'; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0b0f19" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
-          </button>
-
-          {/* Vertical Step Dots */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', padding: '0.3rem 0' }}>
-            {PROJECTS_3D.map((p, i) => (
-              <button
-                key={p.id}
-                onClick={() => goTo(i)}
-                aria-label={`Project ${i + 1}`}
-                style={{
-                  width: '8px', height: i === current ? '26px' : '8px',
-                  borderRadius: '9999px',
-                  background: i === current ? PROJECTS_3D[current].accentColor : '#94a3b8',
-                  border: 'none', padding: 0, cursor: 'pointer',
-                  transition: 'all 0.35s cubic-bezier(0.34,1.56,0.64,1)',
-                  boxShadow: i === current ? `0 0 10px ${PROJECTS_3D[current].accentColor}` : 'none',
-                }}
-              />
-            ))}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ef4444' }} />
+            <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#eab308' }} />
+            <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#22c55e' }} />
+            <span style={{ marginLeft: '0.5rem', fontSize: '0.76rem', color: '#475569', fontWeight: '700' }}>
+              Production System • {activeProject.sector}
+            </span>
           </div>
 
-          {/* Down button */}
-          <button
-            onClick={() => goTo(current + 1)}
-            disabled={current === total - 1}
-            aria-label="Next project down"
-            style={{
-              width: '42px', height: '42px', borderRadius: '50%',
-              border: '1.5px solid rgba(15,23,42,0.15)', background: current === total - 1 ? 'rgba(255,255,255,0.4)' : '#ffffff',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: current === total - 1 ? 'not-allowed' : 'pointer',
-              opacity: current === total - 1 ? 0.35 : 1,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseEnter={e => { if (current < total - 1) e.currentTarget.style.transform = 'scale(1.08)'; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0b0f19" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
+          <div style={{
+            background: '#ffffff',
+            padding: '0.25rem 0.85rem',
+            borderRadius: '6px',
+            fontSize: '0.72rem',
+            color: '#64748b',
+            fontWeight: '600',
+            border: '1px solid #e2e8f0',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
+          }}>
+            <span style={{ color: '#16a34a' }}>🔒</span>
+            <span>{activeProject.mockupUrl}</span>
+          </div>
+
+          {/* Navigation Arrows */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <button
+              onClick={() => setActiveIndex((prev) => (prev === 0 ? PROJECTS.length - 1 : prev - 1))}
+              aria-label="Previous system"
+              style={{
+                background: '#ffffff',
+                border: '1px solid #cbd5e1',
+                color: '#334155',
+                width: '30px',
+                height: '30px',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '0.75rem',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+                transition: 'all 0.15s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = '#f1f5f9'}
+              onMouseLeave={(e) => e.currentTarget.style.background = '#ffffff'}
+            >
+              ◀
+            </button>
+            <button
+              onClick={() => setActiveIndex((prev) => (prev + 1) % PROJECTS.length)}
+              aria-label="Next system"
+              style={{
+                background: '#ffffff',
+                border: '1px solid #cbd5e1',
+                color: '#334155',
+                width: '30px',
+                height: '30px',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '0.75rem',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+                transition: 'all 0.15s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = '#f1f5f9'}
+              onMouseLeave={(e) => e.currentTarget.style.background = '#ffffff'}
+            >
+              ▶
+            </button>
+          </div>
+        </div>
+
+        {/* Stage Content (Left Simulated UI Preview + Right Specifications) */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: '2.5rem',
+          padding: '2.25rem',
+          alignItems: 'center'
+        }}>
+          {/* Left Column: UI Console (Clean White with Soft Elevation) */}
+          <div>
+            <div style={{
+              background: '#ffffff',
+              borderRadius: '16px',
+              padding: '1.35rem',
+              boxShadow: '0 16px 36px -8px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.02)',
+              border: '1px solid #e2e8f0'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                <span style={{
+                  fontSize: '0.72rem',
+                  fontWeight: '700',
+                  color: '#2563eb',
+                  background: '#eff6ff',
+                  padding: '0.25rem 0.75rem',
+                  borderRadius: '9999px',
+                  border: '1px solid #dbeafe'
+                }}>
+                  {activeProject.sector}
+                </span>
+
+                <span style={{ fontSize: '0.72rem', color: '#059669', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '0.35rem', background: '#ecfdf5', padding: '0.25rem 0.65rem', borderRadius: '9999px', border: '1px solid #a7f3d0' }}>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#059669' }} />
+                  {activeProject.status}
+                </span>
+              </div>
+
+              {activeProject.previewUi}
+
+              <div style={{
+                marginTop: '1rem',
+                background: '#eff6ff',
+                border: '1px solid #dbeafe',
+                padding: '0.7rem 1rem',
+                borderRadius: '10px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}>
+                <span style={{ fontSize: '0.76rem', color: '#1e40af', fontWeight: '700' }}>Verified Metric Outcome</span>
+                <span style={{ fontSize: '0.84rem', color: '#1d4ed8', fontWeight: '800' }}>⚡ {activeProject.metric}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Architectural Specifications */}
+          <div>
+            <span style={{
+              fontSize: '0.76rem',
+              fontWeight: '700',
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: '#2563eb',
+              display: 'block',
+              marginBottom: '0.4rem'
+            }}>
+              {activeProject.region}
+            </span>
+
+            <h3 style={{
+              fontSize: 'clamp(1.4rem, 2.3vw, 1.85rem)',
+              fontWeight: '800',
+              color: '#0f172a',
+              lineHeight: '1.25',
+              margin: '0 0 0.85rem 0',
+              letterSpacing: '-0.02em'
+            }}>
+              {activeProject.title}
+            </h3>
+
+            <p style={{
+              fontSize: '0.94rem',
+              color: '#475569',
+              lineHeight: '1.6',
+              margin: '0 0 1.35rem 0'
+            }}>
+              {activeProject.tagline}
+            </p>
+
+            {/* Architectural Deliverables with Crisp SVG Checkmarks */}
+            <div style={{ marginBottom: '1.35rem' }}>
+              <span style={{
+                display: 'block',
+                fontSize: '0.74rem',
+                fontWeight: '800',
+                textTransform: 'uppercase',
+                color: '#64748b',
+                letterSpacing: '0.08em',
+                marginBottom: '0.65rem'
+              }}>
+                Key Architectural Deliverables
+              </span>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
+                {activeProject.deliverables.map((item, idx) => (
+                  <li key={idx} style={{ fontSize: '0.86rem', color: '#334155', display: 'flex', alignItems: 'flex-start', gap: '0.55rem' }}>
+                    <svg width="15" height="15" viewBox="0 0 20 20" fill="none" style={{ flexShrink: 0, marginTop: '3px' }}>
+                      <circle cx="10" cy="10" r="10" fill="#eff6ff" />
+                      <path d="M6 10L8.5 12.5L14 7" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Stack Tags */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1.5rem' }}>
+              {activeProject.stack.map((tech, idx) => (
+                <span
+                  key={idx}
+                  style={{
+                    fontSize: '0.74rem',
+                    fontWeight: '700',
+                    color: '#334155',
+                    background: '#f1f5f9',
+                    border: '1px solid #e2e8f0',
+                    padding: '0.25rem 0.65rem',
+                    borderRadius: '6px'
+                  }}
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+
+            {/* Action CTA */}
+            {onConsultationClick && (
+              <button
+                onClick={onConsultationClick}
+                style={{
+                  padding: '0.82rem 1.85rem',
+                  fontSize: '0.9rem',
+                  fontWeight: '700',
+                  background: '#2563eb',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '10px',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 14px rgba(37, 99, 235, 0.3)',
+                  transition: 'all 0.18s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#1d4ed8';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#2563eb';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                Inquire for Similar Architecture ➔
+              </button>
+            )}
+          </div>
         </div>
       </div>
-
-      {/* Counter */}
-      <div style={{ textAlign: 'center', marginTop: '1.25rem' }}>
-        <span style={{ color: '#64748b', fontSize: '0.82rem', fontWeight: '700', letterSpacing: '0.05em' }}>
-          PROJECT {current + 1} OF {total}
-        </span>
-      </div>
-    </div>
+    </section>
   );
 }

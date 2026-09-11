@@ -72,7 +72,7 @@ export default function VerifyEmailModal({ token, onClose, onVerifySuccess }) {
                 className="btn-coral"
                 style={{ padding: '0.8rem 2rem', fontSize: '1rem', fontWeight: '800' }}
               >
-                Access My Workspace 🚀
+                Continue to Velora Global ➔
               </button>
             </div>
           ) : (

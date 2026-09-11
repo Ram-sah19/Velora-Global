@@ -26,7 +26,6 @@ const ServicesPage = lazy(() => import('./pages/ServicesPage/ServicesPage'));
 const TeamPage = lazy(() => import('./pages/TeamPage/TeamPage'));
 const InternshipsPage = lazy(() => import('./pages/InternshipsPage/InternshipsPage'));
 const TrainingPage = lazy(() => import('./pages/TrainingPage/TrainingPage'));
-const StudentPortalPage = lazy(() => import('./pages/StudentPortalPage/StudentPortalPage'));
 const ClientWorkspacePage = lazy(() => import('./pages/ClientWorkspacePage/ClientWorkspacePage'));
 const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage/AdminDashboardPage'));
 
@@ -36,7 +35,6 @@ const tabToPathMap = {
   team: '/team',
   internships: '/internships',
   training: '/training',
-  student: '/student',
   client: '/client',
   admin: '/admin'
 };
@@ -50,8 +48,8 @@ const pathToTabMap = {
   '/about': 'team',
   '/internships': 'internships',
   '/training': 'training',
-  '/student': 'student',
-  '/workspace': 'student',
+  '/student': 'internships',
+  '/workspace': 'home',
   '/client': 'client',
   '/admin': 'admin'
 };
@@ -62,7 +60,6 @@ const pageTitles = {
   team: 'About Us & Executive Leadership | Velora Global',
   internships: 'Practical Technology Internships | Velora Global',
   training: 'Guided Skills Training & Bootcamps | Velora Global',
-  student: 'Student Workspace & Portal | Velora Global',
   client: 'Corporate Client Workspace | Velora Global',
   admin: 'Executive Admin Dashboard | Velora Global'
 };
@@ -73,7 +70,6 @@ const pageDescriptions = {
   team: 'Learn about Velora Global and our executive leadership: Ram Sah (Founder & CEO, Full Stack & AI/ML Engineer), Krishna Sah (CTO), Rohit Sah (COO), and Shivshankar Sah.',
   internships: 'Explore 10 specialized technology internship tracks with production code reviews, verified certificates, and industry mentorship.',
   training: 'Practical technology bootcamps from 1 week to 2 months covering Full Stack MERN, Python AI/ML, and cloud engineering with live capstones.',
-  student: 'Centralized student workspace for task tracking, deliverable submissions, and performance evaluations.',
   client: 'Corporate client portal for software project tracking, milestone reviews, and technical specifications.',
   admin: 'Executive administration dashboard for Velora Global.'
 };
@@ -222,7 +218,7 @@ export default function App() {
   // Enforce role-based workspace routing for Corporate Clients
   useEffect(() => {
     if (currentUser) {
-      if (currentUser.userType === 'client' && (activeTab === 'student' || activeTab === 'internships' || activeTab === 'training')) {
+      if (currentUser.userType === 'client' && (activeTab === 'internships' || activeTab === 'training')) {
         setActiveTab('client');
         navigateTab('client', true);
       }
@@ -230,14 +226,9 @@ export default function App() {
   }, [currentUser, activeTab]);
 
   const handleTabChange = (tab, replace = false) => {
-    if (currentUser && currentUser.userType === 'client' && (tab === 'student' || tab === 'internships' || tab === 'training')) {
+    if (currentUser && currentUser.userType === 'client' && (tab === 'internships' || tab === 'training')) {
       setActiveTab('client');
       navigateTab('client', replace);
-      return;
-    }
-    if (tab === 'student' && !currentUser) {
-      setAuthInitialMode('login');
-      setShowAuthModal(true);
       return;
     }
     setActiveTab(tab);
@@ -263,7 +254,7 @@ export default function App() {
     } else if (user.userType === 'client') {
       handleTabChange('client');
     } else {
-      handleTabChange('student');
+      handleTabChange('home');
     }
   };
 
@@ -342,11 +333,7 @@ export default function App() {
                     setAuthInitialMode('login');
                     setShowAuthModal(true);
                   }}
-                  onApplySuccess={() => {
-                    if (currentUser) {
-                      handleTabChange('student');
-                    }
-                  }}
+                  onApplySuccess={() => {}}
                 />
               )}
 
@@ -358,18 +345,7 @@ export default function App() {
                     setAuthInitialMode('login');
                     setShowAuthModal(true);
                   }}
-                  onApplySuccess={() => {
-                    if (currentUser) {
-                      handleTabChange('student');
-                    }
-                  }}
-                />
-              )}
-
-              {activeTab === 'student' && (
-                <StudentPortalPage 
-                  currentUser={currentUser} 
-                  onViewCertificate={(cert) => setActiveCertificate(cert)}
+                  onApplySuccess={() => {}}
                 />
               )}
 

@@ -8,7 +8,7 @@ export default function GlobalFootprintSection({ onConsultationClick, onExploreC
       city: 'Kathmandu (HQ)',
       code: 'NP',
       badge: 'Headquarters & Core Engineering Hub',
-      stat: '100+ Students Trained',
+      stat: '100+ Trained & Placed / Hired',
       description: 'Core campus engineering center, live mentoring facility, and full-stack curriculum delivery.',
       color: '#2563eb'
     },
@@ -23,14 +23,54 @@ export default function GlobalFootprintSection({ onConsultationClick, onExploreC
       color: '#ff5252'
     },
     {
+      id: 'india',
+      country: 'India',
+      city: 'Bengaluru & Delhi NCR',
+      code: 'IN',
+      badge: 'Subcontinent Engineering & Tech Talent',
+      stat: 'Cross-Border Engineering Sprints',
+      description: 'Collaborative development pipelines, high-scale backend services, and distributed engineering cohorts.',
+      color: '#f59e0b'
+    },
+    {
+      id: 'australia',
+      country: 'Australia',
+      city: 'Sydney & Melbourne',
+      code: 'AU',
+      badge: 'APAC Enterprise & Systems Delivery',
+      stat: 'APAC Client Projects & Mentorship',
+      description: 'Delivering enterprise software systems, cross-timezone client support, and specialized technology internships.',
+      color: '#06b6d4'
+    },
+    {
+      id: 'bangladesh',
+      country: 'Bangladesh',
+      city: 'Dhaka',
+      code: 'BD',
+      badge: 'South Asia Regional Talent Hub',
+      stat: 'Active Developer Training & Sync',
+      description: 'Regional talent training cohorts, full-stack MVC applications, and real-world client deliverables.',
+      color: '#10b981'
+    },
+    {
+      id: 'nigeria',
+      country: 'Nigeria',
+      city: 'Lagos',
+      code: 'NG',
+      badge: 'African Tech Innovation & Talent',
+      stat: 'Global Remote Internship Cohort',
+      description: 'Empowering top African engineering talent with hands-on production code, microservices, and AI integrations.',
+      color: '#8b5cf6'
+    },
+    {
       id: 'global',
       country: 'Global & Multinational',
       city: 'Worldwide Remote Network',
       code: 'GL',
       badge: 'Cross-Border Deliveries',
       stat: '50+ Active Interns Across Tracks',
-      description: 'Synchronized cross-timezone engineering sprints across NPT (UTC+5:45), EST, and PST timezones.',
-      color: '#10b981'
+      description: 'Synchronized cross-timezone engineering sprints across NPT (UTC+5:45), EST, IST, AEST, and WAT.',
+      color: '#ec4899'
     }
   ];
 
@@ -59,7 +99,7 @@ export default function GlobalFootprintSection({ onConsultationClick, onExploreC
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         
         {/* Section Header */}
-        <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 3.5rem auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '880px', margin: '0 auto 3.5rem auto' }}>
           <span style={{
             fontSize: '0.82rem',
             color: '#60a5fa',
@@ -77,7 +117,7 @@ export default function GlobalFootprintSection({ onConsultationClick, onExploreC
           </span>
 
           <h2 style={{
-            fontSize: 'clamp(2.2rem, 4vw, 3.2rem)',
+            fontSize: 'clamp(2rem, 3.8vw, 3.1rem)',
             color: '#ffffff',
             fontWeight: '800',
             lineHeight: '1.2',
@@ -86,16 +126,16 @@ export default function GlobalFootprintSection({ onConsultationClick, onExploreC
           }}>
             Connecting Talent Across <br />
             <span style={{
-              background: 'linear-gradient(90deg, #60a5fa 0%, #f87171 50%, #34d399 100%)',
+              background: 'linear-gradient(90deg, #60a5fa 0%, #f87171 25%, #fbbf24 50%, #34d399 75%, #a78bfa 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>
-              Nepal, the USA & Global Clients
+              Nepal, USA, India, Bangladesh, Nigeria, Australia & Global Clients
             </span>
           </h2>
 
-          <p style={{ color: '#94a3b8', fontSize: '1.05rem', lineHeight: '1.65', margin: '0 auto', maxWidth: '680px' }}>
-            Over <strong>100+ students in active training</strong> and <strong>50+ interns</strong> building real-world software solutions. Our cohorts include interns from the USA collaborating with international clients and foreign multinational companies.
+          <p style={{ color: '#94a3b8', fontSize: '1.05rem', lineHeight: '1.65', margin: '0 auto', maxWidth: '750px' }}>
+            Over <strong>100+ students in active training</strong> and <strong>50+ interns</strong> building real-world software solutions. Our cohorts include interns from the <strong>USA, India, Bangladesh, Nigeria, and Australia</strong> collaborating with international clients and foreign multinational companies.
           </p>
         </div>
 
@@ -116,7 +156,7 @@ export default function GlobalFootprintSection({ onConsultationClick, onExploreC
           <div style={{
             position: 'relative',
             width: '100%',
-            height: '320px',
+            height: '350px',
             borderRadius: '16px',
             background: 'radial-gradient(ellipse at center, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%)',
             border: '1px solid rgba(255, 255, 255, 0.06)',
@@ -128,121 +168,93 @@ export default function GlobalFootprintSection({ onConsultationClick, onExploreC
             
             {/* SVG Connecting Arcs */}
             <svg 
-              viewBox="0 0 1000 320" 
+              viewBox="0 0 1000 350" 
               style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
             >
               <defs>
                 <linearGradient id="arcGradUSANepal" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#ff5252" stopOpacity="0.8" />
+                  <stop offset="0%" stopColor="#ff5252" stopOpacity="0.85" />
                   <stop offset="50%" stopColor="#a855f7" stopOpacity="0.9" />
-                  <stop offset="100%" stopColor="#2563eb" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="#2563eb" stopOpacity="0.85" />
                 </linearGradient>
-                <linearGradient id="arcGradGlobal" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#10b981" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#2563eb" stopOpacity="0.8" />
+                <linearGradient id="arcGradNigeria" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.85" />
+                  <stop offset="100%" stopColor="#2563eb" stopOpacity="0.85" />
+                </linearGradient>
+                <linearGradient id="arcGradIndia" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.85" />
+                  <stop offset="100%" stopColor="#2563eb" stopOpacity="0.85" />
+                </linearGradient>
+                <linearGradient id="arcGradBangladesh" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#10b981" stopOpacity="0.85" />
+                  <stop offset="100%" stopColor="#2563eb" stopOpacity="0.85" />
+                </linearGradient>
+                <linearGradient id="arcGradAustralia" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.85" />
+                  <stop offset="100%" stopColor="#2563eb" stopOpacity="0.85" />
                 </linearGradient>
               </defs>
 
               {/* Grid Lines */}
-              <line x1="0" y1="80" x2="1000" y2="80" stroke="rgba(255, 255, 255, 0.04)" strokeDasharray="4 4" />
-              <line x1="0" y1="160" x2="1000" y2="160" stroke="rgba(255, 255, 255, 0.04)" strokeDasharray="4 4" />
-              <line x1="0" y1="240" x2="1000" y2="240" stroke="rgba(255, 255, 255, 0.04)" strokeDasharray="4 4" />
-              <line x1="250" y1="0" x2="250" y2="320" stroke="rgba(255, 255, 255, 0.04)" strokeDasharray="4 4" />
-              <line x1="500" y1="0" x2="500" y2="320" stroke="rgba(255, 255, 255, 0.04)" strokeDasharray="4 4" />
-              <line x1="750" y1="0" x2="750" y2="320" stroke="rgba(255, 255, 255, 0.04)" strokeDasharray="4 4" />
+              <line x1="0" y1="90" x2="1000" y2="90" stroke="rgba(255, 255, 255, 0.04)" strokeDasharray="4 4" />
+              <line x1="0" y1="180" x2="1000" y2="180" stroke="rgba(255, 255, 255, 0.04)" strokeDasharray="4 4" />
+              <line x1="0" y1="270" x2="1000" y2="270" stroke="rgba(255, 255, 255, 0.04)" strokeDasharray="4 4" />
+              <line x1="200" y1="0" x2="200" y2="350" stroke="rgba(255, 255, 255, 0.04)" strokeDasharray="4 4" />
+              <line x1="450" y1="0" x2="450" y2="350" stroke="rgba(255, 255, 255, 0.04)" strokeDasharray="4 4" />
+              <line x1="700" y1="0" x2="700" y2="350" stroke="rgba(255, 255, 255, 0.04)" strokeDasharray="4 4" />
+              <line x1="880" y1="0" x2="880" y2="350" stroke="rgba(255, 255, 255, 0.04)" strokeDasharray="4 4" />
 
-              {/* Arc from USA (240, 130) to Nepal (720, 160) */}
+              {/* Arc from USA (180, 120) to Nepal (700, 140) */}
               <path 
-                d="M 240,130 Q 480,20 720,160" 
+                d="M 180,120 Q 440,20 700,140" 
                 fill="none" 
                 stroke="url(#arcGradUSANepal)" 
                 strokeWidth="2.5" 
                 strokeDasharray="6 6"
               />
 
-              {/* Arc from Europe/Global (520, 100) to Nepal (720, 160) */}
+              {/* Arc from Nigeria (460, 200) to Nepal (700, 140) */}
               <path 
-                d="M 520,100 Q 620,80 720,160" 
+                d="M 460,200 Q 580,120 700,140" 
                 fill="none" 
-                stroke="url(#arcGradGlobal)" 
+                stroke="url(#arcGradNigeria)" 
+                strokeWidth="2" 
+                strokeDasharray="5 5"
+              />
+
+              {/* Arc from India (630, 180) to Nepal (700, 140) */}
+              <path 
+                d="M 630,180 Q 665,150 700,140" 
+                fill="none" 
+                stroke="url(#arcGradIndia)" 
                 strokeWidth="2" 
                 strokeDasharray="4 4"
+              />
+
+              {/* Arc from Bangladesh (760, 180) to Nepal (700, 140) */}
+              <path 
+                d="M 760,180 Q 730,150 700,140" 
+                fill="none" 
+                stroke="url(#arcGradBangladesh)" 
+                strokeWidth="2" 
+                strokeDasharray="4 4"
+              />
+
+              {/* Arc from Australia (880, 260) to Nepal (700, 140) */}
+              <path 
+                d="M 880,260 Q 820,130 700,140" 
+                fill="none" 
+                stroke="url(#arcGradAustralia)" 
+                strokeWidth="2" 
+                strokeDasharray="5 5"
               />
             </svg>
 
             {/* Hub Node 1: USA */}
             <div style={{
               position: 'absolute',
-              left: '24%',
-              top: '40%',
-              transform: 'translate(-50%, -50%)',
-              textAlign: 'center',
-              zIndex: 2
-            }}>
-              <div style={{
-                width: '48px',
-                height: '48px',
-                borderRadius: '50%',
-                background: 'rgba(255, 82, 82, 0.2)',
-                border: '2px solid #ff5252',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '0.85rem',
-                fontWeight: '900',
-                color: '#ffffff',
-                margin: '0 auto 0.4rem auto',
-                boxShadow: '0 0 25px rgba(255, 82, 82, 0.5)'
-              }}>
-                USA
-              </div>
-              <span style={{ fontSize: '0.85rem', fontWeight: '800', color: '#ffffff', display: 'block' }}>
-                USA Hub
-              </span>
-              <span style={{ fontSize: '0.72rem', color: '#f87171', fontWeight: '700' }}>
-                Interns & Enterprise Clients
-              </span>
-            </div>
-
-            {/* Hub Node 2: Nepal HQ */}
-            <div style={{
-              position: 'absolute',
-              left: '72%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              textAlign: 'center',
-              zIndex: 2
-            }}>
-              <div style={{
-                width: '54px',
-                height: '54px',
-                borderRadius: '50%',
-                background: 'rgba(37, 99, 235, 0.25)',
-                border: '2.5px solid #60a5fa',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '0.9rem',
-                fontWeight: '900',
-                color: '#ffffff',
-                margin: '0 auto 0.4rem auto',
-                boxShadow: '0 0 35px rgba(37, 99, 235, 0.6)'
-              }}>
-                HQ
-              </div>
-              <span style={{ fontSize: '0.92rem', fontWeight: '800', color: '#ffffff', display: 'block' }}>
-                Kathmandu (HQ)
-              </span>
-              <span style={{ fontSize: '0.75rem', color: '#60a5fa', fontWeight: '700' }}>
-                100+ Students • 10 Tracks
-              </span>
-            </div>
-
-            {/* Hub Node 3: Global / Remote */}
-            <div style={{
-              position: 'absolute',
-              left: '52%',
-              top: '30%',
+              left: '18%',
+              top: '34%',
               transform: 'translate(-50%, -50%)',
               textAlign: 'center',
               zIndex: 2
@@ -251,34 +263,204 @@ export default function GlobalFootprintSection({ onConsultationClick, onExploreC
                 width: '44px',
                 height: '44px',
                 borderRadius: '50%',
-                background: 'rgba(16, 185, 129, 0.2)',
-                border: '2px solid #34d399',
+                background: 'rgba(255, 82, 82, 0.2)',
+                border: '2px solid #ff5252',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontSize: '0.8rem',
                 fontWeight: '900',
                 color: '#ffffff',
-                margin: '0 auto 0.4rem auto',
+                margin: '0 auto 0.35rem auto',
+                boxShadow: '0 0 20px rgba(255, 82, 82, 0.5)'
+              }}>
+                USA
+              </div>
+              <span style={{ fontSize: '0.8rem', fontWeight: '800', color: '#ffffff', display: 'block' }}>
+                USA Hub
+              </span>
+              <span style={{ fontSize: '0.68rem', color: '#f87171', fontWeight: '700' }}>
+                Interns & Clients
+              </span>
+            </div>
+
+            {/* Hub Node 2: Nigeria */}
+            <div style={{
+              position: 'absolute',
+              left: '46%',
+              top: '57%',
+              transform: 'translate(-50%, -50%)',
+              textAlign: 'center',
+              zIndex: 2
+            }}>
+              <div style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                background: 'rgba(139, 92, 246, 0.2)',
+                border: '2px solid #a78bfa',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '0.78rem',
+                fontWeight: '900',
+                color: '#ffffff',
+                margin: '0 auto 0.35rem auto',
+                boxShadow: '0 0 20px rgba(139, 92, 246, 0.4)'
+              }}>
+                NG
+              </div>
+              <span style={{ fontSize: '0.8rem', fontWeight: '800', color: '#ffffff', display: 'block' }}>
+                Nigeria
+              </span>
+              <span style={{ fontSize: '0.68rem', color: '#c084fc', fontWeight: '700' }}>
+                Tech Cohort
+              </span>
+            </div>
+
+            {/* Hub Node 3: India */}
+            <div style={{
+              position: 'absolute',
+              left: '63%',
+              top: '51%',
+              transform: 'translate(-50%, -50%)',
+              textAlign: 'center',
+              zIndex: 2
+            }}>
+              <div style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                background: 'rgba(245, 158, 11, 0.2)',
+                border: '2px solid #fbbf24',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '0.78rem',
+                fontWeight: '900',
+                color: '#ffffff',
+                margin: '0 auto 0.35rem auto',
+                boxShadow: '0 0 20px rgba(245, 158, 11, 0.4)'
+              }}>
+                IN
+              </div>
+              <span style={{ fontSize: '0.8rem', fontWeight: '800', color: '#ffffff', display: 'block' }}>
+                India
+              </span>
+              <span style={{ fontSize: '0.68rem', color: '#fbbf24', fontWeight: '700' }}>
+                Engineering
+              </span>
+            </div>
+
+            {/* Hub Node 4: Nepal HQ (Central Hub) */}
+            <div style={{
+              position: 'absolute',
+              left: '70%',
+              top: '40%',
+              transform: 'translate(-50%, -50%)',
+              textAlign: 'center',
+              zIndex: 3
+            }}>
+              <div style={{
+                width: '54px',
+                height: '54px',
+                borderRadius: '50%',
+                background: 'rgba(37, 99, 235, 0.3)',
+                border: '2.5px solid #60a5fa',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '0.9rem',
+                fontWeight: '900',
+                color: '#ffffff',
+                margin: '0 auto 0.35rem auto',
+                boxShadow: '0 0 35px rgba(37, 99, 235, 0.7)'
+              }}>
+                HQ
+              </div>
+              <span style={{ fontSize: '0.92rem', fontWeight: '800', color: '#ffffff', display: 'block' }}>
+                Kathmandu (HQ)
+              </span>
+              <span style={{ fontSize: '0.72rem', color: '#60a5fa', fontWeight: '700' }}>
+                100+ Students • 10 Tracks
+              </span>
+            </div>
+
+            {/* Hub Node 5: Bangladesh */}
+            <div style={{
+              position: 'absolute',
+              left: '77%',
+              top: '51%',
+              transform: 'translate(-50%, -50%)',
+              textAlign: 'center',
+              zIndex: 2
+            }}>
+              <div style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                background: 'rgba(16, 185, 129, 0.2)',
+                border: '2px solid #34d399',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '0.78rem',
+                fontWeight: '900',
+                color: '#ffffff',
+                margin: '0 auto 0.35rem auto',
                 boxShadow: '0 0 20px rgba(16, 185, 129, 0.4)'
               }}>
-                INTL
+                BD
               </div>
-              <span style={{ fontSize: '0.82rem', fontWeight: '800', color: '#ffffff', display: 'block' }}>
-                Multinational Network
+              <span style={{ fontSize: '0.8rem', fontWeight: '800', color: '#ffffff', display: 'block' }}>
+                Bangladesh
               </span>
-              <span style={{ fontSize: '0.72rem', color: '#34d399', fontWeight: '700' }}>
-                Global Client Delivery
+              <span style={{ fontSize: '0.68rem', color: '#34d399', fontWeight: '700' }}>
+                Developers
+              </span>
+            </div>
+
+            {/* Hub Node 6: Australia */}
+            <div style={{
+              position: 'absolute',
+              left: '88%',
+              top: '74%',
+              transform: 'translate(-50%, -50%)',
+              textAlign: 'center',
+              zIndex: 2
+            }}>
+              <div style={{
+                width: '42px',
+                height: '42px',
+                borderRadius: '50%',
+                background: 'rgba(6, 182, 212, 0.2)',
+                border: '2px solid #22d3ee',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '0.78rem',
+                fontWeight: '900',
+                color: '#ffffff',
+                margin: '0 auto 0.35rem auto',
+                boxShadow: '0 0 20px rgba(6, 182, 212, 0.4)'
+              }}>
+                AU
+              </div>
+              <span style={{ fontSize: '0.8rem', fontWeight: '800', color: '#ffffff', display: 'block' }}>
+                Australia
+              </span>
+              <span style={{ fontSize: '0.68rem', color: '#22d3ee', fontWeight: '700' }}>
+                APAC Enterprise
               </span>
             </div>
 
           </div>
 
-          {/* 3 Hub Cards Below Map */}
+          {/* Hub Cards Below Map */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '1.5rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: '1.25rem',
             marginTop: '2rem'
           }}>
             {hubs.map((h) => (

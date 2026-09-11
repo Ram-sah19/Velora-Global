@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
 import TrainingDetailsModal from './TrainingDetailsModal';
 import { SkeletonCard } from '../../components/UIStates';
-import { showToast } from '../../components/NotificationToast';
 
 const GOOGLE_FORM_URL = "https://forms.gle/kZMHj7jF3s8NL5wb6";
 
@@ -438,7 +437,6 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser, 
                   <button 
                     onClick={() => {
                       window.open(GOOGLE_FORM_URL, '_blank');
-                      showToast(`Opening official verification form for ${prog.title}...`, 'success');
                     }}
                     className="btn-primary"
                     style={{ padding: '0.55rem 0.95rem', fontSize: '0.82rem', fontWeight: '800', borderRadius: '8px', cursor: 'pointer' }}

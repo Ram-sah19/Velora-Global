@@ -156,91 +156,89 @@ export default function Navbar({
               Home
             </button>
 
-            {/* Services Tab - Only shown to unauthenticated visitors or corporate clients */}
-            {!isStudent && (
-              <div 
-                ref={dropdownRef}
-                style={{ position: 'relative' }}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
+            {/* Services Tab - Global Enterprise Solutions */}
+            <div 
+              ref={dropdownRef}
+              style={{ position: 'relative' }}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <button 
+                onClick={() => {
+                  setActiveTab('services');
+                  setShowServicesDropdown(prev => !prev);
+                }}
+                style={{
+                  padding: '0.5rem 1.15rem',
+                  borderRadius: '9999px',
+                  fontSize: '0.88rem',
+                  fontWeight: '700',
+                  background: activeTab === 'services' ? '#2563eb' : 'transparent',
+                  color: activeTab === 'services' ? '#ffffff' : '#0b0f19',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.3rem',
+                  whiteSpace: 'nowrap',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease'
+                }}
               >
-                <button 
-                  onClick={() => {
-                    setActiveTab('services');
-                    setShowServicesDropdown(prev => !prev);
-                  }}
-                  style={{
-                    padding: '0.5rem 1.15rem',
-                    borderRadius: '9999px',
-                    fontSize: '0.88rem',
-                    fontWeight: '700',
-                    background: activeTab === 'services' ? '#2563eb' : 'transparent',
-                    color: activeTab === 'services' ? '#ffffff' : '#0b0f19',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.3rem',
-                    whiteSpace: 'nowrap',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease'
-                  }}
-                >
-                  Services ▾
-                </button>
+                Services ▾
+              </button>
 
-                {/* Dropdown Menu */}
+              {/* Dropdown Menu */}
+              <div style={{
+                position: 'absolute',
+                top: '100%',
+                left: '0',
+                paddingTop: '0.4rem',
+                zIndex: 600,
+                opacity: showServicesDropdown ? 1 : 0,
+                visibility: showServicesDropdown ? 'visible' : 'hidden',
+                transform: showServicesDropdown ? 'translateY(0) scale(1)' : 'translateY(-8px) scale(0.96)',
+                transition: 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
+                pointerEvents: showServicesDropdown ? 'auto' : 'none'
+              }}>
                 <div style={{
-                  position: 'absolute',
-                  top: '100%',
-                  left: '0',
-                  paddingTop: '0.4rem',
-                  zIndex: 600,
-                  opacity: showServicesDropdown ? 1 : 0,
-                  visibility: showServicesDropdown ? 'visible' : 'hidden',
-                  transform: showServicesDropdown ? 'translateY(0) scale(1)' : 'translateY(-8px) scale(0.96)',
-                  transition: 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
-                  pointerEvents: showServicesDropdown ? 'auto' : 'none'
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '16px',
+                  padding: '0.6rem',
+                  boxShadow: 'var(--shadow-lg)',
+                  minWidth: '260px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.2rem'
                 }}>
-                  <div style={{
-                    background: '#ffffff',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '16px',
-                    padding: '0.6rem',
-                    boxShadow: 'var(--shadow-lg)',
-                    minWidth: '260px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '0.2rem'
-                  }}>
-                    <button
-                      onClick={() => handleServiceSelect('all')}
-                      className="dropdown-menu-item"
-                      style={{ fontWeight: '700', color: '#0b0f19' }}
-                    >
-                      All Services Overview
-                    </button>
-                    <button
-                      onClick={() => handleServiceSelect('web')}
-                      className="dropdown-menu-item"
-                    >
-                      Web App Development
-                    </button>
-                    <button
-                      onClick={() => handleServiceSelect('mobile')}
-                      className="dropdown-menu-item"
-                    >
-                      Mobile App Development
-                    </button>
-                    <button
-                      onClick={() => handleServiceSelect('ai')}
-                      className="dropdown-menu-item"
-                    >
-                      AI Chatbot Integration in Web Apps
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => handleServiceSelect('all')}
+                    className="dropdown-menu-item"
+                    style={{ fontWeight: '700', color: '#0b0f19' }}
+                  >
+                    All Services Overview
+                  </button>
+                  <button
+                    onClick={() => handleServiceSelect('web')}
+                    className="dropdown-menu-item"
+                  >
+                    Web App Development
+                  </button>
+                  <button
+                    onClick={() => handleServiceSelect('mobile')}
+                    className="dropdown-menu-item"
+                  >
+                    Mobile App Development
+                  </button>
+                  <button
+                    onClick={() => handleServiceSelect('ai')}
+                    className="dropdown-menu-item"
+                  >
+                    AI Chatbot Integration in Web Apps
+                  </button>
                 </div>
               </div>
-            )}
+            </div>
 
             <button 
               onClick={() => setActiveTab('team')}
@@ -296,24 +294,6 @@ export default function Navbar({
                   }}
                 >
                   Training Programs
-                </button>
-
-                <button 
-                  onClick={() => setActiveTab('student')}
-                  style={{
-                    padding: '0.5rem 1.15rem',
-                    borderRadius: '9999px',
-                    fontSize: '0.88rem',
-                    fontWeight: '700',
-                    background: activeTab === 'student' ? '#2563eb' : 'transparent',
-                    color: activeTab === 'student' ? '#ffffff' : '#0b0f19',
-                    whiteSpace: 'nowrap',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease'
-                  }}
-                >
-                  Student Workspace
                 </button>
               </>
             )}
@@ -399,36 +379,34 @@ export default function Navbar({
                     </span>
                   </div>
 
-                  {/* Workspace Shortcut */}
-                  <button
-                    onClick={() => {
-                      setShowUserDropdown(false);
-                      if (currentUser.userType === 'superadmin' || currentUser.userType === 'admin') {
-                        setActiveTab('admin');
-                      } else if (currentUser.userType === 'client') {
-                        setActiveTab('client');
-                      } else {
-                        setActiveTab('student');
-                      }
-                    }}
-                    style={{
-                      padding: '0.55rem 0.75rem',
-                      borderRadius: '8px',
-                      border: '1px solid #e2e8f0',
-                      background: '#f8fafc',
-                      color: '#2563eb',
-                      fontSize: '0.82rem',
-                      fontWeight: '700',
-                      cursor: 'pointer',
-                      textAlign: 'left'
-                    }}
-                  >
-                    {currentUser.userType === 'superadmin' || currentUser.userType === 'admin' 
-                      ? 'Executive Dashboard ➔' 
-                      : currentUser.userType === 'client' 
-                      ? 'My Corporate Workspace ➔' 
-                      : 'My Student Workspace ➔'}
-                  </button>
+                  {/* Workspace / Dashboard Shortcut for Admin and Corporate Clients */}
+                  {(currentUser.userType === 'superadmin' || currentUser.userType === 'admin' || currentUser.userType === 'client') && (
+                    <button
+                      onClick={() => {
+                        setShowUserDropdown(false);
+                        if (currentUser.userType === 'superadmin' || currentUser.userType === 'admin') {
+                          setActiveTab('admin');
+                        } else if (currentUser.userType === 'client') {
+                          setActiveTab('client');
+                        }
+                      }}
+                      style={{
+                        padding: '0.55rem 0.75rem',
+                        borderRadius: '8px',
+                        border: '1px solid #e2e8f0',
+                        background: '#f8fafc',
+                        color: '#2563eb',
+                        fontSize: '0.82rem',
+                        fontWeight: '700',
+                        cursor: 'pointer',
+                        textAlign: 'left'
+                      }}
+                    >
+                      {currentUser.userType === 'superadmin' || currentUser.userType === 'admin' 
+                        ? 'Executive Dashboard ➔' 
+                        : 'My Corporate Workspace ➔'}
+                    </button>
+                  )}
 
                   {/* Logout Button */}
                   <button
@@ -607,25 +585,6 @@ export default function Navbar({
                   }}
                 >
                   Guided Training Programs
-                </button>
-
-                <button
-                  onClick={() => {
-                    setActiveTab('student');
-                    setIsMobileMenuOpen(false);
-                  }}
-                  style={{
-                    padding: '0.75rem 1rem',
-                    borderRadius: '10px',
-                    textAlign: 'left',
-                    fontWeight: '700',
-                    background: activeTab === 'student' ? '#eff6ff' : '#f8fafc',
-                    color: activeTab === 'student' ? '#2563eb' : '#0b0f19',
-                    border: 'none',
-                    cursor: 'pointer'
-                  }}
-                >
-                  Student Workspace
                 </button>
               </>
             )}

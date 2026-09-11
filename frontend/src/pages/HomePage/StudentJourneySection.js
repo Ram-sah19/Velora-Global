@@ -32,23 +32,23 @@ export default function StudentJourneySection({ onApplyClick }) {
           <span style={{
             fontSize: '0.82rem',
             color: '#2563eb',
-            fontWeight: '700',
+            fontWeight: '800',
             textTransform: 'uppercase',
             letterSpacing: '0.12em',
             background: '#eff6ff',
-            padding: '0.35rem 1rem',
+            padding: '0.35rem 1.1rem',
             borderRadius: '9999px',
             border: '1px solid #dbeafe',
             display: 'inline-block',
             marginBottom: '0.75rem'
           }}>
-            Structured Learning Path
+            OUR TALENT & ACADEMY ENGINE
           </span>
           <h2 style={{ fontSize: '2.5rem', color: '#0b0f19', marginTop: '0.3rem', fontWeight: '800' }}>
-            How Velora Global Works
+            How We Cultivate & Mentor Top Engineering Talent
           </h2>
           <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.5rem' }}>
-            A transparent 4-step framework designed to take you from candidate to certified industry professional.
+            A transparent 4-step framework taking candidates through real code reviews, practical software projects, and verified credentials.
           </p>
         </div>
 

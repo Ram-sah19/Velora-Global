@@ -458,10 +458,10 @@ export default function TeamPage({ onExploreClick, onConsultationClick }) {
                   </div>
                   <div>
                     <h3 style={{ fontSize: '1.05rem', color: '#ffffff', fontWeight: '800', margin: '0 0 0.35rem 0' }}>
-                      100+ Trained • 50+ Active Interns (USA & Global)
+                      100+ Trained & Placed / Hired • 50+ Active Interns (USA & Global)
                     </h3>
                     <p style={{ color: '#94a3b8', fontSize: '0.88rem', lineHeight: '1.5', margin: 0 }}>
-                      Leading cohorts of 100+ students in active training and 50+ interns across 10 tracks, including international interns from the USA delivering production software for US and foreign multinational clients.
+                      Leading cohorts of 100+ students in active training and 50+ interns across 10 tracks, including international interns from the USA, India, Bangladesh, Nigeria, and Australia delivering production software for global enterprise clients.
                     </p>
                   </div>
                 </div>

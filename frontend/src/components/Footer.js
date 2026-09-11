@@ -78,11 +78,6 @@ export default function Footer({ setActiveTab }) {
                   Training Programs
                 </button>
               </li>
-              <li>
-                <button onClick={() => setActiveTab('student')} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0 }}>
-                  Student Workspace
-                </button>
-              </li>
             </ul>
           </div>
 

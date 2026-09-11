@@ -225,7 +225,7 @@ export default function StudentAuthModal({ initialMode = 'login', onClose, onAut
               className="btn-primary" 
               style={{ width: '100%', padding: '0.85rem', marginTop: '0.5rem', fontSize: '0.98rem', fontWeight: '800' }}
             >
-              {loading ? 'Authenticating Student...' : 'Sign In to Student Workspace ➔'}
+              {loading ? 'Authenticating...' : 'Sign In to Velora Global ➔'}
             </button>
           </form>
         )}

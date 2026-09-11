@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { api } from '../../services/api';
-import { showToast } from '../../components/NotificationToast';
 
 const GOOGLE_FORM_URL = "https://forms.gle/kZMHj7jF3s8NL5wb6";
 
@@ -149,7 +148,6 @@ export default function TrainingDetailsModal({ program, currentUser, onOpenAuth,
 
     // 2. Instantly open the official Google Form in a new tab
     window.open(GOOGLE_FORM_URL, '_blank');
-    showToast(`Opening official verification form for ${program.title}...`, 'success');
     if (onApplySuccess) onApplySuccess();
 
     // 3. Record training application in backend in the background

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { api } from '../../services/api';
-import { showToast } from '../../components/NotificationToast';
 
 const GOOGLE_FORM_URL = "https://forms.gle/MEfqFcLcFaybJ2Dq5";
 
@@ -294,7 +293,6 @@ export default function InternshipDetailsModal({ program, currentUser, onOpenAut
 
     // 2. Instantly open the official Google Form in a new tab
     window.open(GOOGLE_FORM_URL, '_blank');
-    showToast(`Opening official application form for ${program.title}...`, 'success');
     if (onApplySuccess) onApplySuccess();
 
     // 3. Record application in backend in the background
