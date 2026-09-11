@@ -3,10 +3,10 @@ import React from 'react';
 export default function LeadershipSection() {
   const team = [
     {
-      name: "Ram Sah",
+      name: "Abhishek Sah",
       role: "Founder & CEO",
-      image: "/media/ram_sah.jpg",
-      bio: "Tech leader and founder directing platform vision, system architecture, curriculum design, and strategic growth for Velora Global.",
+      image: "/media/abhishek_sah.jpg",
+      bio: "Tech leader and founder directing platform vision, system architecture, enterprise software engineering, and strategic growth for Velora Global.",
       badge: "Founder & CEO"
     },
     {

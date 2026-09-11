@@ -20,7 +20,7 @@ const inquiryRoutes = require('./routes/inquiryRoutes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Ensure media and public asset directories exist
+// Ensure media and public asset directories exist and sync founder photo
 try {
   const dirs = [
     path.join(__dirname, '..', 'frontend', 'public', 'media'),
@@ -28,6 +28,19 @@ try {
   ];
   for (const d of dirs) {
     if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
+  }
+
+  const founderUploads = [
+    'C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\e5b26319-5da9-48a7-9a68-6a08c9f02003\\.user_uploaded\\media_1789143037639.jpg'
+  ];
+
+  for (const src of founderUploads) {
+    if (fs.existsSync(src)) {
+      for (const d of dirs) {
+        fs.copyFileSync(src, path.join(d, 'abhishek_sah.jpg'));
+        fs.copyFileSync(src, path.join(d, 'ram_sah.jpg'));
+      }
+    }
   }
 } catch (e) {
   console.warn('Asset directory check:', e.message);

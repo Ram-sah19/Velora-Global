@@ -137,10 +137,10 @@ export default function CertificateModal({ certificate, onClose }) {
           }}>
             <div>
               <div style={{ fontFamily: "'Brush Script MT', cursive, sans-serif", fontSize: '1.8rem', color: '#0b0f19', marginBottom: '0.25rem' }}>
-                Ram Sah
+                Abhishek Sah
               </div>
               <div style={{ borderTop: '1px solid #94a3b8', paddingTop: '0.35rem', fontSize: '0.85rem', fontWeight: 'bold', color: '#0b0f19', fontFamily: 'sans-serif' }}>
-                Ram Sah
+                Abhishek Sah
               </div>
               <span style={{ fontSize: '0.75rem', color: '#64748b', fontFamily: 'sans-serif' }}>Founder & CEO</span>
             </div>

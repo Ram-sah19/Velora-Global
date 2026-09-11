@@ -792,7 +792,7 @@ export default function AuthModal({ initialMode = 'login', onClose, onAuthSucces
                   <input 
                     type="text" 
                     required
-                    placeholder="e.g. Ram Sah"
+                    placeholder="e.g. Abhishek Sah"
                     value={clientData.name}
                     onChange={(e) => setClientData({ ...clientData, name: e.target.value })}
                     style={{ width: '100%', fontSize: '0.95rem' }}

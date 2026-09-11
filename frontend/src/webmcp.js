@@ -69,7 +69,7 @@ export function registerWebMCP() {
       inputSchema: { type: "object", properties: {} },
       execute: async () => {
         return {
-          founderCEO: "Ram Sah",
+          founderCEO: "Abhishek Sah",
           coFounderCTO: "Krishna Sah",
           coFounderCOO: "Rohit Sah",
           contractsDirector: "Shivshankar Sah",

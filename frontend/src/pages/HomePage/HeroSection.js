@@ -466,44 +466,75 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
                 </p>
 
                 {/* CTA Buttons — delay 320ms */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexWrap: 'wrap', ...reveal(320) }}>
-                  <button 
-                    onClick={() => unlockAndExplore(onServicesClick || onExploreClick)} 
-                    className="btn-coral" 
-                    style={{ padding: '0.72rem 1.45rem', fontSize: '0.88rem', fontWeight: '800', borderRadius: '9999px', boxShadow: '0 4px 14px rgba(255, 107, 107, 0.35)', cursor: 'pointer' }}
-                  >
-                    Enterprise Solutions ➔
-                  </button>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'flex-start', ...reveal(320) }}>
+                  {/* Row 1: Explore Internships & Tech Training */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+                    <button 
+                      onClick={() => unlockAndExplore(onExploreClick)} 
+                      style={{
+                        padding: '0.75rem 1.6rem',
+                        fontSize: '0.92rem',
+                        fontWeight: '800',
+                        color: '#ffffff',
+                        background: '#ff5454',
+                        border: 'none',
+                        borderRadius: '9999px',
+                        boxShadow: '0 4px 18px rgba(255, 84, 84, 0.4)',
+                        cursor: 'pointer',
+                        transition: 'all 0.18s ease'
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 22px rgba(255, 84, 84, 0.55)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 18px rgba(255, 84, 84, 0.4)'; }}
+                    >
+                      Explore Internships
+                    </button>
 
-                  <button 
-                    onClick={() => unlockAndExplore(onServicesClick || onTrainingClick)} 
-                    className="btn-primary" 
-                    style={{ padding: '0.72rem 1.35rem', fontSize: '0.88rem', fontWeight: '800', borderRadius: '9999px', boxShadow: '0 4px 14px rgba(37, 99, 235, 0.35)', cursor: 'pointer' }}
-                  >
-                    Client Case Studies
-                  </button>
+                    <button 
+                      onClick={() => unlockAndExplore(onTrainingClick)} 
+                      style={{
+                        padding: '0.75rem 1.6rem',
+                        fontSize: '0.92rem',
+                        fontWeight: '800',
+                        color: '#ffffff',
+                        background: '#1d68ff',
+                        border: 'none',
+                        borderRadius: '9999px',
+                        boxShadow: '0 4px 18px rgba(29, 104, 255, 0.4)',
+                        cursor: 'pointer',
+                        transition: 'all 0.18s ease'
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 22px rgba(29, 104, 255, 0.55)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 18px rgba(29, 104, 255, 0.4)'; }}
+                    >
+                      Tech Training
+                    </button>
+                  </div>
 
-                  <button 
-                    onClick={() => unlockAndExplore(onExploreClick)} 
-                    style={{
-                      padding: '0.72rem 1.3rem',
-                      fontSize: '0.86rem',
-                      fontWeight: '800',
-                      color: '#0a2540',
-                      background: 'rgba(255, 255, 255, 0.88)',
-                      backdropFilter: 'blur(10px)',
-                      WebkitBackdropFilter: 'blur(10px)',
-                      border: '1.5px solid rgba(203, 213, 225, 0.9)',
-                      borderRadius: '9999px',
-                      cursor: 'pointer',
-                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.05)',
-                      transition: 'all 0.15s ease'
-                    }}
-                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#0a2540'; e.currentTarget.style.background = '#ffffff'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(203, 213, 225, 0.9)'; e.currentTarget.style.background = 'rgba(255, 255, 255, 0.88)'; }}
-                  >
-                    Academy & Internships
-                  </button>
+                  {/* Row 2: Enterprise Solutions ➔ */}
+                  <div>
+                    <button 
+                      onClick={() => unlockAndExplore(onServicesClick)} 
+                      style={{
+                        padding: '0.75rem 1.75rem',
+                        fontSize: '0.92rem',
+                        fontWeight: '800',
+                        color: '#0a2540',
+                        background: '#e2e8f0',
+                        border: '1px solid rgba(255, 255, 255, 0.5)',
+                        borderRadius: '9999px',
+                        cursor: 'pointer',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)',
+                        transition: 'all 0.18s ease',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.45rem'
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = '#ffffff'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 22px rgba(0, 0, 0, 0.15)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = '#e2e8f0'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.1)'; }}
+                    >
+                      Enterprise Solutions ➔
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -523,11 +554,11 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
                   overflow: 'hidden'
                 }}>
                   <img 
-                    src="/media/ram_sah.jpg" 
-                    alt="Ram Sah - Founder & CEO"
+                    src="/media/abhishek_sah.jpg" 
+                    alt="Abhishek Sah - Founder & CEO"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = "/images/ram_sah.jpg";
+                      e.target.src = "/media/ram_sah.jpg";
                     }}
                     style={{
                       width: '100%',
@@ -553,7 +584,7 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
                     boxShadow: '0 8px 25px rgba(0, 0, 0, 0.12)'
                   }}>
                     <div>
-                      <h4 style={{ fontSize: '0.95rem', color: '#0b0f19', margin: 0, fontWeight: '800' }}>Ram Sah</h4>
+                      <h4 style={{ fontSize: '0.95rem', color: '#0b0f19', margin: 0, fontWeight: '800' }}>Abhishek Sah</h4>
                       <span style={{ fontSize: '0.75rem', color: '#2563eb', fontWeight: '700' }}>Founder & CEO • Velora Global</span>
                     </div>
                     <span style={{

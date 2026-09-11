@@ -368,7 +368,7 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser, on
               Schedule a Face-to-Face Project Discussion
             </h3>
             <p style={{ color: '#cbd5e1', fontSize: '1.05rem', maxWidth: '680px', margin: '0 auto 2rem auto', lineHeight: '1.6' }}>
-              Visit our office in Balkumari, Kathmandu, or book an interactive video session with Founder Ram Sah & our technical team to discuss your project requirements.
+              Visit our office in Balkumari, Kathmandu, or book an interactive video session with Founder Abhishek Sah & our technical team to discuss your project requirements.
             </p>
 
             <div style={{

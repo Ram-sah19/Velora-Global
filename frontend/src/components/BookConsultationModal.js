@@ -33,7 +33,7 @@ export default function BookConsultationModal({ isOpen, onClose }) {
           fullName: formData.name,
           email: formData.email,
           phone: formData.phone,
-          serviceCategory: userType === 'client' ? `Enterprise Discovery (${formData.interest})` : `Career Mentorship with Ram Sah (${formData.interest})`,
+          serviceCategory: userType === 'client' ? `Enterprise Discovery (${formData.interest})` : `Career Mentorship with Abhishek Sah (${formData.interest})`,
           projectScope: `Location: ${formData.location} | Preferred Time: ${formData.preferredTime} | Notes: ${formData.message}`
         })
       });
@@ -47,7 +47,7 @@ export default function BookConsultationModal({ isOpen, onClose }) {
 
   const generateWhatsAppLink = () => {
     const text = encodeURIComponent(
-      `Hello Ram Sah (Founder & CEO, Velora Global)!\n\nI would like to schedule a 1-on-1 ${userType === 'client' ? 'Enterprise Software Discovery' : 'Career Mentorship'} call.\n\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nLocation/Timezone: ${formData.location}\nTopic: ${formData.interest}\nPreferred Time: ${formData.preferredTime}\nNotes: ${formData.message}`
+      `Hello Abhishek Sah (Founder & CEO, Velora Global)!\n\nI would like to schedule a 1-on-1 ${userType === 'client' ? 'Enterprise Software Discovery' : 'Career Mentorship'} call.\n\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nLocation/Timezone: ${formData.location}\nTopic: ${formData.interest}\nPreferred Time: ${formData.preferredTime}\nNotes: ${formData.message}`
     );
     return `https://wa.me/9779826031419?text=${text}`;
   };
@@ -129,7 +129,7 @@ export default function BookConsultationModal({ isOpen, onClose }) {
               </h2>
 
               <p style={{ color: '#64748b', fontSize: '0.92rem', margin: 0 }}>
-                Direct discovery session with <strong>Ram Sah (Founder & CEO)</strong> & technical leadership.
+                Direct discovery session with <strong>Abhishek Sah (Founder & CEO)</strong> & technical leadership.
               </p>
             </div>
 
@@ -388,7 +388,7 @@ export default function BookConsultationModal({ isOpen, onClose }) {
             </h3>
 
             <p style={{ color: '#64748b', fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '1.75rem' }}>
-              Thank you, <strong>{formData.name}</strong>. Ram Sah and our executive engineering team will reach out to you at <strong>{formData.email}</strong> within 24 hours.
+              Thank you, <strong>{formData.name}</strong>. Abhishek Sah and our executive engineering team will reach out to you at <strong>{formData.email}</strong> within 24 hours.
             </p>
 
             <div style={{
@@ -403,7 +403,7 @@ export default function BookConsultationModal({ isOpen, onClose }) {
                 Need an Immediate Response?
               </span>
               <p style={{ fontSize: '0.88rem', color: '#334155', margin: '0 0 1rem 0', lineHeight: '1.5' }}>
-                Connect directly with <strong>Ram Sah (Founder & CEO)</strong> right now via WhatsApp with your inquiry details.
+                Connect directly with <strong>Abhishek Sah (Founder & CEO)</strong> right now via WhatsApp with your inquiry details.
               </p>
               
               <a

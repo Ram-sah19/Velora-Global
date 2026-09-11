@@ -282,7 +282,7 @@ export default function EnterpriseSolutionsSection({ onServicesClick, onContactC
               Have a Project in Mind?
             </h3>
             <p style={{ margin: 0, color: '#94a3b8', fontSize: '0.95rem', lineHeight: '1.5' }}>
-              Consult directly with <strong>Ram Sah (Founder & CEO)</strong> and our senior engineering team to discuss system architecture, deliverables, and timelines.
+              Consult directly with <strong>Abhishek Sah (Founder & CEO)</strong> and our senior engineering team to discuss system architecture, deliverables, and timelines.
             </p>
           </div>
           

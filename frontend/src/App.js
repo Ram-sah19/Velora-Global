@@ -65,9 +65,9 @@ const pageTitles = {
 };
 
 const pageDescriptions = {
-  home: 'Practical technology training, project-driven internships, and scalable enterprise IT solutions (Web, Mobile & AI) in Kathmandu, Nepal. Founded by Ram Sah.',
+  home: 'Practical technology training, project-driven internships, and scalable enterprise IT solutions (Web, Mobile & AI) in Kathmandu, Nepal. Founded by Abhishek Sah.',
   services: 'Custom web development (MERN Stack), cross-platform iOS & Android mobile apps, and 24/7 AI chatbot integrations for modern businesses.',
-  team: 'Learn about Velora Global and our executive leadership: Ram Sah (Founder & CEO, Full Stack & AI/ML Engineer), Krishna Sah (CTO), Rohit Sah (COO), and Shivshankar Sah.',
+  team: 'Learn about Velora Global and our executive leadership: Abhishek Sah (Founder & CEO, Full Stack & AI/ML Engineer), Krishna Sah (CTO), Rohit Sah (COO), and Shivshankar Sah.',
   internships: 'Explore 10 specialized technology internship tracks with production code reviews, verified certificates, and industry mentorship.',
   training: 'Practical technology bootcamps from 1 week to 2 months covering Full Stack MERN, Python AI/ML, and cloud engineering with live capstones.',
   client: 'Corporate client portal for software project tracking, milestone reviews, and technical specifications.',

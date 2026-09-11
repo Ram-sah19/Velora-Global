@@ -3,12 +3,12 @@ import React from 'react';
 export default function TeamPage({ onExploreClick, onConsultationClick }) {
   const founders = [
     {
-      name: "Ram Sah",
+      name: "Abhishek Sah",
       role: "Founder & CEO • Full Stack & AI/ML Engineer",
-      image: "/media/ram_sah.jpg",
+      image: "/media/abhishek_sah.jpg",
       badge: "Founder & CEO",
-      bio: "Full Stack Developer and AI/ML Engineer from Nepal. Former AI/ML Intern at Infosys Springboard and active open-source contributor, dedicated to transforming student engineers through real-world tech.",
-      expertise: ["Full Stack Development", "AI/ML Engineering", "Open Source", "System Architecture", "Tech Leadership"],
+      bio: "Full Stack Developer and AI/ML Engineer from Nepal. Leading platform engineering, open-source innovation, enterprise solutions, and career mentorship for global engineering talent.",
+      expertise: ["Full Stack Development", "AI/ML Engineering", "Enterprise Systems", "System Architecture", "Tech Leadership"],
       accentColor: "#2563eb"
     },
     {
@@ -290,11 +290,11 @@ export default function TeamPage({ onExploreClick, onConsultationClick }) {
                 </h2>
 
                 <p style={{ color: '#cbd5e1', fontSize: '1.02rem', lineHeight: '1.75', marginBottom: '1.25rem' }}>
-                  Born and raised in a small rural village in Nepal, <strong>Ram Sah</strong> embarked on his journey into technology with pure curiosity, relentless discipline, and a drive to solve real-world problems through code. Overcoming geographical and institutional constraints, he transformed himself into an accomplished <strong>Full Stack Developer and AI/ML Engineer</strong>.
+                  Born and raised in Nepal, <strong>Abhishek Sah</strong> embarked on his journey into technology with pure curiosity, relentless discipline, and a drive to solve real-world problems through code. Overcoming geographical and institutional constraints, he transformed himself into an accomplished <strong>Full Stack Developer and AI/ML Engineer</strong>.
                 </p>
 
                 <p style={{ color: '#94a3b8', fontSize: '0.98rem', lineHeight: '1.75', marginBottom: '1.75rem' }}>
-                  His technical journey is backed by hands-on industry experience—actively contributing to <strong>open-source software</strong>, completing production <strong>Full Stack internships</strong>, and undergoing rigorous specialized training as an <strong>AI/ML Intern at Infosys Springboard</strong>.
+                  His technical leadership is backed by hands-on industry experience—actively architecting enterprise systems, leading production <strong>Full Stack & AI development</strong>, and championing talent empowerment across global software cohorts.
                 </p>
 
                 {/* Founder Quote Card */}
@@ -310,10 +310,10 @@ export default function TeamPage({ onExploreClick, onConsultationClick }) {
                   marginTop: '1.5rem'
                 }}>
                   <p style={{ fontStyle: 'italic', color: '#e2e8f0', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>
-                    "Coming from a small village taught me that talent is everywhere, but opportunity must be built. I founded Velora Global to give every passionate student the exact hands-on engineering experience required to build global software careers."
+                    "Talent is universal, but high-impact industry exposure must be built. I founded Velora Global to give passionate developers and global clients a proven ecosystem of world-class software engineering and real-world tech leadership."
                   </p>
                   <span style={{ display: 'block', marginTop: '0.75rem', fontSize: '0.85rem', color: '#60a5fa', fontWeight: '700' }}>
-                    — Ram Sah, Founder & CEO
+                    — Abhishek Sah, Founder & CEO
                   </span>
                 </div>
               </div>
@@ -663,7 +663,7 @@ export default function TeamPage({ onExploreClick, onConsultationClick }) {
                   cursor: 'pointer'
                 }}
               >
-                Book 1-on-1 with Ram Sah
+                Book 1-on-1 with Abhishek Sah
               </button>
             )}
           </div>

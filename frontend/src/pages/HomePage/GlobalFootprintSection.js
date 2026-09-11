@@ -555,7 +555,7 @@ export default function GlobalFootprintSection({ onConsultationClick, onExploreC
                 cursor: 'pointer'
               }}
             >
-              Book 1-on-1 Discovery with Ram Sah
+              Book 1-on-1 Discovery with Abhishek Sah
             </button>
           )}
 
