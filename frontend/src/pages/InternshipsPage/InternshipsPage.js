@@ -177,7 +177,7 @@ const defaultInternshipPrograms = [
   }
 ];
 
-export default function InternshipsPage({ activeRole, onApplySuccess, currentUser, onOpenAuth }) {
+export default function InternshipsPage({ activeRole, onApplySuccess, currentUser }) {
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedDomain, setSelectedDomain] = useState('All');
@@ -481,7 +481,6 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
         <InternshipDetailsModal 
           program={selectedProgramForDetails}
           currentUser={currentUser}
-          onOpenAuth={onOpenAuth}
           onApplySuccess={onApplySuccess}
           onClose={() => setSelectedProgramForDetails(null)}
         />

@@ -10,15 +10,8 @@ import Footer from './components/Footer';
 import CertificateModal from './components/CertificateModal';
 import NotificationToast from './components/NotificationToast';
 import CookieBanner from './components/CookieBanner';
-import ResetPasswordModal from './components/ResetPasswordModal';
-import VerifyEmailModal from './components/VerifyEmailModal';
 import WhatsAppFloatingButton from './components/WhatsAppFloatingButton';
 import { ErrorBoundary, OfflineBanner, PageLoader } from './components/UIStates';
-
-// Unified Authentication Modal
-import AuthModal from './pages/Auth/AuthModal';
-import AdminRegisterModal from './pages/AdminDashboardPage/AdminRegisterModal';
-import BookConsultationModal from './components/BookConsultationModal';
 
 // Code-Split Lazy Loaded Feature Pages
 const LandingPage = lazy(() => import('./pages/HomePage/LandingPage'));
@@ -101,12 +94,9 @@ export default function App() {
     return null;
   });
 
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authInitialMode, setAuthInitialMode] = useState('login');
-  const [showAdminRegisterModal, setShowAdminRegisterModal] = useState(false);
-  const [showConsultationModal, setShowConsultationModal] = useState(false);
-  const [resetToken, setResetToken] = useState(null);
-  const [verifyToken, setVerifyToken] = useState(null);
+  const handleOneToOneCounseling = () => {
+    window.open("https://forms.gle/WQtcGspuwXZtbUu5A", "_blank");
+  };
 
   // Dynamic active role derived from authenticated user
   const activeRole = currentUser?.role || currentUser?.userType || 'student';
@@ -180,14 +170,7 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Detect ?resetToken= or ?verifyToken= in the URL when user clicks email link
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const rToken = params.get('resetToken');
-    const vToken = params.get('verifyToken');
-    if (rToken) setResetToken(rToken);
-    if (vToken) setVerifyToken(vToken);
-  }, []);
+
 
   // Scroll to top on tab switch
   useEffect(() => {
@@ -235,28 +218,6 @@ export default function App() {
     navigateTab(tab, replace);
   };
 
-  const handleAuthSuccess = (user) => {
-    setCurrentUser(user);
-    try {
-      const safeProfile = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        userType: user.userType,
-        avatar: user.avatar,
-        companyName: user.companyName || null
-      };
-      localStorage.setItem('velora_user', JSON.stringify({ user: safeProfile, timestamp: Date.now() }));
-    } catch (e) {}
-
-    if (user.userType === 'superadmin' || user.userType === 'admin') {
-      handleTabChange('admin');
-    } else if (user.userType === 'client') {
-      handleTabChange('client');
-    } else {
-      handleTabChange('home');
-    }
-  };
 
   const handleLogout = async () => {
     try {
@@ -288,9 +249,7 @@ export default function App() {
           activeTab={activeTab} 
           setActiveTab={handleTabChange}
           onSelectServiceCategory={(cat) => setSelectedServiceCategory(cat)}
-          currentUser={currentUser}
-          onOpenAuth={(mode = 'login') => { setAuthInitialMode(mode); setShowAuthModal(true); }}
-          onLogout={handleLogout}
+          onConsultationClick={handleOneToOneCounseling}
         />
 
         {/* Main Content Area with Code-Splitting Suspense & Transitions */}
@@ -302,7 +261,7 @@ export default function App() {
                   onExploreClick={() => handleTabChange('internships')}
                   onTrainingClick={() => handleTabChange('training')}
                   onServicesClick={() => handleTabChange('services')}
-                  onConsultationClick={() => setShowConsultationModal(true)}
+                  onConsultationClick={handleOneToOneCounseling}
                 />
               )}
 
@@ -311,17 +270,13 @@ export default function App() {
                   selectedCategory={selectedServiceCategory}
                   onSelectCategory={(cat) => setSelectedServiceCategory(cat)}
                   currentUser={currentUser}
-                  onOpenClientAuth={() => {
-                    setAuthInitialMode('login');
-                    setShowAuthModal(true);
-                  }}
                 />
               )}
 
               {activeTab === 'team' && (
                 <TeamPage 
                   onExploreClick={() => handleTabChange('internships')}
-                  onConsultationClick={() => setShowConsultationModal(true)}
+                  onConsultationClick={handleOneToOneCounseling}
                 />
               )}
 
@@ -329,10 +284,6 @@ export default function App() {
                 <InternshipsPage 
                   activeRole={activeRole}
                   currentUser={currentUser}
-                  onOpenAuth={() => {
-                    setAuthInitialMode('login');
-                    setShowAuthModal(true);
-                  }}
                   onApplySuccess={() => {}}
                 />
               )}
@@ -341,10 +292,6 @@ export default function App() {
                 <TrainingPage 
                   activeRole={activeRole}
                   currentUser={currentUser}
-                  onOpenAuth={() => {
-                    setAuthInitialMode('login');
-                    setShowAuthModal(true);
-                  }}
                   onApplySuccess={() => {}}
                 />
               )}
@@ -359,69 +306,17 @@ export default function App() {
               {activeTab === 'admin' && (
                 <AdminDashboardPage 
                   currentUser={currentUser} 
-                  onOpenAdminRegister={() => setShowAdminRegisterModal(true)}
                 />
               )}
             </Suspense>
           </PageTransition>
         </main>
 
-        {/* Password Reset Modal */}
-        {resetToken && (
-          <ResetPasswordModal
-            token={resetToken}
-            onClose={() => {
-              setResetToken(null);
-              window.history.replaceState({}, document.title, window.location.pathname);
-            }}
-          />
-        )}
-
-        {/* Email Verification Modal */}
-        {verifyToken && (
-          <VerifyEmailModal
-            token={verifyToken}
-            onClose={() => {
-              setVerifyToken(null);
-              window.history.replaceState({}, document.title, window.location.pathname);
-            }}
-            onVerifySuccess={(user) => {
-              handleAuthSuccess(user);
-              setVerifyToken(null);
-            }}
-          />
-        )}
-
-        {/* Unified Authentication Modal */}
-        {showAuthModal && (
-          <AuthModal 
-            initialMode={authInitialMode}
-            onClose={() => setShowAuthModal(false)}
-            onAuthSuccess={handleAuthSuccess}
-          />
-        )}
-
-        {/* Secret Super Admin Registration Modal */}
-        {showAdminRegisterModal && (
-          <AdminRegisterModal 
-            onClose={() => setShowAdminRegisterModal(false)}
-            onAdminSuccess={(user) => handleAuthSuccess(user)}
-          />
-        )}
-
         {/* Official Certificate Popup Modal */}
         {activeCertificate && (
           <CertificateModal 
             certificate={activeCertificate} 
             onClose={() => setActiveCertificate(null)}
-          />
-        )}
-
-        {/* 1-on-1 Discovery & Mentorship Consultation Modal */}
-        {showConsultationModal && (
-          <BookConsultationModal 
-            isOpen={showConsultationModal}
-            onClose={() => setShowConsultationModal(false)}
           />
         )}
 

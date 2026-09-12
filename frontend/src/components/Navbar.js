@@ -5,23 +5,14 @@ export default function Navbar({
   activeTab, 
   setActiveTab, 
   onSelectServiceCategory, 
-  currentUser, 
-  onOpenAuth, 
-  onOpenPhoneOtp,
-  onLogout 
+  onConsultationClick 
 }) {
   const [showServicesDropdown, setShowServicesDropdown] = useState(false);
-  const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   const dropdownRef = useRef(null);
-  const userDropdownRef = useRef(null);
   const leaveTimerRef = useRef(null);
-
-  const isSuperAdmin = currentUser && (currentUser.userType === 'superadmin' || currentUser.userType === 'admin');
-  const isStudent = currentUser && (currentUser.userType === 'student' || currentUser.userType === 'Student Candidate');
-  const isClient = currentUser && currentUser.userType === 'client';
 
   // Dynamic scroll listener for transparent navbar effect
   useEffect(() => {
@@ -42,9 +33,6 @@ export default function Navbar({
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowServicesDropdown(false);
-      }
-      if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
-        setShowUserDropdown(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -102,42 +90,8 @@ export default function Navbar({
           <VeloraLogo width={44} height={44} textColor="#0b0f19" />
         </div>
 
-        {/* Clean Executive Navbar Tabs for Super Admin (Desktop Only) */}
-        {isSuperAdmin ? (
-          <div className="desktop-nav">
-            <button 
-              onClick={() => setActiveTab('admin')}
-              style={{
-                padding: '0.5rem 1.25rem',
-                borderRadius: '9999px',
-                fontSize: '0.88rem',
-                fontWeight: '800',
-                background: activeTab === 'admin' ? '#2563eb' : 'transparent',
-                color: activeTab === 'admin' ? '#ffffff' : '#64748b',
-                whiteSpace: 'nowrap'
-              }}
-            >
-              Super Admin Dashboard
-            </button>
-            
-            <button 
-              onClick={() => setActiveTab('home')}
-              style={{
-                padding: '0.5rem 1.1rem',
-                borderRadius: '9999px',
-                fontSize: '0.88rem',
-                fontWeight: '600',
-                background: activeTab !== 'admin' ? '#64748b' : 'transparent',
-                color: activeTab !== 'admin' ? '#ffffff' : '#64748b',
-                whiteSpace: 'nowrap'
-              }}
-            >
-              Preview Public Website ➔
-            </button>
-          </div>
-        ) : (
-          /* Standard Navigation Tabs for Visitors & Candidates (Desktop Only) */
-          <div className="desktop-nav">
+        {/* Standard Navigation Tabs (Desktop Only) */}
+        <div className="desktop-nav">
             <button 
               onClick={() => setActiveTab('home')}
               style={{
@@ -258,198 +212,76 @@ export default function Navbar({
               About Us
             </button>
 
-            {!isClient && (
-              <>
-                <button 
-                  onClick={() => setActiveTab('internships')}
-                  style={{
-                    padding: '0.5rem 1.15rem',
-                    borderRadius: '9999px',
-                    fontSize: '0.88rem',
-                    fontWeight: '700',
-                    background: activeTab === 'internships' ? '#ff6b6b' : 'transparent',
-                    color: activeTab === 'internships' ? '#ffffff' : '#0b0f19',
-                    whiteSpace: 'nowrap',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease'
-                  }}
-                >
-                  Explore Internships
-                </button>
-
-                <button 
-                  onClick={() => setActiveTab('training')}
-                  style={{
-                    padding: '0.5rem 1.15rem',
-                    borderRadius: '9999px',
-                    fontSize: '0.88rem',
-                    fontWeight: '700',
-                    background: activeTab === 'training' ? '#2563eb' : 'transparent',
-                    color: activeTab === 'training' ? '#ffffff' : '#0b0f19',
-                    whiteSpace: 'nowrap',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease'
-                  }}
-                >
-                  Training Programs
-                </button>
-              </>
-            )}
-
-            {isClient && (
-              <button 
-                onClick={() => setActiveTab('client')}
-                style={{
-                  padding: '0.5rem 1.15rem',
-                  borderRadius: '9999px',
-                  fontSize: '0.88rem',
-                  fontWeight: '800',
-                  background: activeTab === 'client' ? '#f94d4d' : 'transparent',
-                  color: activeTab === 'client' ? '#ffffff' : '#f94d4d',
-                  border: '1.5px solid #f94d4d',
-                  whiteSpace: 'nowrap'
-                }}
-              >
-                Corporate Profile
-              </button>
-            )}
-          </div>
-        )}
-
-        {/* User Profile / Auth Dropdown Menu */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          {currentUser ? (
-            <div ref={userDropdownRef} style={{ position: 'relative' }}>
-              <button 
-                onClick={() => setShowUserDropdown(prev => !prev)}
-                style={{
-                  padding: '0.45rem 1rem',
-                  borderRadius: '9999px',
-                  fontSize: '0.85rem',
-                  fontWeight: '700',
-                  background: '#ffffff',
-                  border: '1px solid #cbd5e1',
-                  color: '#0b0f19',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.4rem',
-                  cursor: 'pointer',
-                  boxShadow: 'var(--shadow-sm)',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <span>{currentUser.name}</span>
-                <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '600' }}>({currentUser.userType})</span>
-                <span style={{ fontSize: '0.75rem', color: '#64748b' }}>▾</span>
-              </button>
-
-              {/* User Dropdown Menu Card */}
-              <div style={{
-                position: 'absolute',
-                top: '100%',
-                right: 0,
-                paddingTop: '0.4rem',
-                zIndex: 600,
-                opacity: showUserDropdown ? 1 : 0,
-                visibility: showUserDropdown ? 'visible' : 'hidden',
-                transform: showUserDropdown ? 'translateY(0) scale(1)' : 'translateY(-8px) scale(0.96)',
-                transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-                pointerEvents: showUserDropdown ? 'auto' : 'none'
-              }}>
-                <div style={{
-                  background: '#ffffff',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '16px',
-                  padding: '0.85rem 1rem',
-                  boxShadow: 'var(--shadow-lg)',
-                  minWidth: '220px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '0.65rem'
-                }}>
-                  {/* User Profile Header */}
-                  <div style={{ paddingBottom: '0.5rem', borderBottom: '1px solid #f1f5f9' }}>
-                    <span style={{ display: 'block', fontSize: '0.9rem', fontWeight: '800', color: '#0b0f19' }}>
-                      {currentUser.name}
-                    </span>
-                    <span style={{ display: 'block', fontSize: '0.78rem', color: '#64748b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {currentUser.email}
-                    </span>
-                  </div>
-
-                  {/* Workspace / Dashboard Shortcut for Admin and Corporate Clients */}
-                  {(currentUser.userType === 'superadmin' || currentUser.userType === 'admin' || currentUser.userType === 'client') && (
-                    <button
-                      onClick={() => {
-                        setShowUserDropdown(false);
-                        if (currentUser.userType === 'superadmin' || currentUser.userType === 'admin') {
-                          setActiveTab('admin');
-                        } else if (currentUser.userType === 'client') {
-                          setActiveTab('client');
-                        }
-                      }}
-                      style={{
-                        padding: '0.55rem 0.75rem',
-                        borderRadius: '8px',
-                        border: '1px solid #e2e8f0',
-                        background: '#f8fafc',
-                        color: '#2563eb',
-                        fontSize: '0.82rem',
-                        fontWeight: '700',
-                        cursor: 'pointer',
-                        textAlign: 'left'
-                      }}
-                    >
-                      {currentUser.userType === 'superadmin' || currentUser.userType === 'admin' 
-                        ? 'Executive Dashboard ➔' 
-                        : 'My Corporate Workspace ➔'}
-                    </button>
-                  )}
-
-                  {/* Logout Button */}
-                  <button
-                    onClick={() => {
-                      setShowUserDropdown(false);
-                      onLogout();
-                    }}
-                    style={{
-                      padding: '0.55rem 0.75rem',
-                      borderRadius: '8px',
-                      border: 'none',
-                      background: '#fff5f5',
-                      color: '#dc2626',
-                      fontSize: '0.82rem',
-                      fontWeight: '700',
-                      cursor: 'pointer',
-                      textAlign: 'left'
-                    }}
-                  >
-                    Logout Account ➔
-                  </button>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <button
-              onClick={onOpenAuth}
+            <button 
+              onClick={() => setActiveTab('internships')}
               style={{
-                background: '#f94d4d',
-                color: '#ffffff',
-                border: 'none',
+                padding: '0.5rem 1.15rem',
                 borderRadius: '9999px',
-                padding: '0.5rem 1.25rem',
                 fontSize: '0.88rem',
                 fontWeight: '700',
+                background: activeTab === 'internships' ? '#ff6b6b' : 'transparent',
+                color: activeTab === 'internships' ? '#ffffff' : '#0b0f19',
+                whiteSpace: 'nowrap',
+                border: 'none',
                 cursor: 'pointer',
-                boxShadow: '0 4px 12px rgba(249, 77, 77, 0.3)',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.15s ease'
               }}
             >
-              Sign In / Register
+              Explore Internships
             </button>
-          )}
+
+            <button 
+              onClick={() => setActiveTab('training')}
+              style={{
+                padding: '0.5rem 1.15rem',
+                borderRadius: '9999px',
+                fontSize: '0.88rem',
+                fontWeight: '700',
+                background: activeTab === 'training' ? '#2563eb' : 'transparent',
+                color: activeTab === 'training' ? '#ffffff' : '#0b0f19',
+                whiteSpace: 'nowrap',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              Training Programs
+            </button>
+          </div>
+
+        {/* Right Header Actions */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+          {/* Direct Consultation / Discovery CTA Button */}
+          <button
+            onClick={onConsultationClick}
+            style={{
+              background: 'linear-gradient(135deg, #ff5454 0%, #ff3b3b 100%)',
+              color: '#ffffff',
+              border: 'none',
+              borderRadius: '9999px',
+              padding: '0.52rem 1.35rem',
+              fontSize: '0.88rem',
+              fontWeight: '800',
+              cursor: 'pointer',
+              boxShadow: '0 4px 14px rgba(255, 84, 84, 0.35)',
+              transition: 'all 0.18s ease',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              whiteSpace: 'nowrap'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-1px)';
+              e.currentTarget.style.boxShadow = '0 6px 18px rgba(255, 84, 84, 0.5)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 14px rgba(255, 84, 84, 0.35)';
+            }}
+          >
+            <span>1-on-1 Counseling</span>
+            <span style={{ fontSize: '0.92rem' }}>➔</span>
+          </button>
           {/* Mobile & Tablet Hamburger Toggle Button (Shown on screens < 1024px) */}
           <button
             className="mobile-nav-toggle"
@@ -547,89 +379,64 @@ export default function Navbar({
               About Us
             </button>
 
-            {!isClient && (
-              <>
-                <button
-                  onClick={() => {
-                    setActiveTab('internships');
-                    setIsMobileMenuOpen(false);
-                  }}
-                  style={{
-                    padding: '0.75rem 1rem',
-                    borderRadius: '10px',
-                    textAlign: 'left',
-                    fontWeight: '700',
-                    background: activeTab === 'internships' ? '#fff5f5' : '#f8fafc',
-                    color: activeTab === 'internships' ? '#ff6b6b' : '#0b0f19',
-                    border: 'none',
-                    cursor: 'pointer'
-                  }}
-                >
-                  Explore Internships
-                </button>
+            <button
+              onClick={() => {
+                setActiveTab('internships');
+                setIsMobileMenuOpen(false);
+              }}
+              style={{
+                padding: '0.75rem 1rem',
+                borderRadius: '10px',
+                textAlign: 'left',
+                fontWeight: '700',
+                background: activeTab === 'internships' ? '#fff5f5' : '#f8fafc',
+                color: activeTab === 'internships' ? '#ff6b6b' : '#0b0f19',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              Explore Internships
+            </button>
 
-                <button
-                  onClick={() => {
-                    setActiveTab('training');
-                    setIsMobileMenuOpen(false);
-                  }}
-                  style={{
-                    padding: '0.75rem 1rem',
-                    borderRadius: '10px',
-                    textAlign: 'left',
-                    fontWeight: '700',
-                    background: activeTab === 'training' ? '#eff6ff' : '#f8fafc',
-                    color: activeTab === 'training' ? '#2563eb' : '#0b0f19',
-                    border: 'none',
-                    cursor: 'pointer'
-                  }}
-                >
-                  Guided Training Programs
-                </button>
-              </>
-            )}
+            <button
+              onClick={() => {
+                setActiveTab('training');
+                setIsMobileMenuOpen(false);
+              }}
+              style={{
+                padding: '0.75rem 1rem',
+                borderRadius: '10px',
+                textAlign: 'left',
+                fontWeight: '700',
+                background: activeTab === 'training' ? '#eff6ff' : '#f8fafc',
+                color: activeTab === 'training' ? '#2563eb' : '#0b0f19',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              Guided Training Programs
+            </button>
 
-            {isClient && (
-              <button
-                onClick={() => {
-                  setActiveTab('client');
-                  setIsMobileMenuOpen(false);
-                }}
-                style={{
-                  padding: '0.75rem 1rem',
-                  borderRadius: '10px',
-                  textAlign: 'left',
-                  fontWeight: '700',
-                  background: activeTab === 'client' ? '#fff5f5' : '#f8fafc',
-                  color: '#f94d4d',
-                  border: '1px solid #f94d4d',
-                  cursor: 'pointer'
-                }}
-              >
-                Corporate Profile
-              </button>
-            )}
-
-            {isSuperAdmin && (
-              <button
-                onClick={() => {
-                  setActiveTab('admin');
-                  setIsMobileMenuOpen(false);
-                }}
-                style={{
-                  padding: '0.75rem 1rem',
-                  borderRadius: '10px',
-                  textAlign: 'left',
-                  fontWeight: '800',
-                  background: '#2563eb',
-                  color: '#ffffff',
-                  border: 'none',
-                  cursor: 'pointer'
-                }}
-              >
-                Super Admin Dashboard
-              </button>
-            )}
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                if (onConsultationClick) onConsultationClick();
+              }}
+              style={{
+                padding: '0.85rem 1rem',
+                borderRadius: '10px',
+                textAlign: 'center',
+                fontWeight: '800',
+                background: 'linear-gradient(135deg, #ff5454 0%, #ff3b3b 100%)',
+                color: '#ffffff',
+                border: 'none',
+                cursor: 'pointer',
+                marginTop: '0.5rem',
+                boxShadow: '0 4px 14px rgba(255, 84, 84, 0.35)'
+              }}
+            >
+              Book 1-on-1 Counseling ➔
+            </button>
           </div>
         )}
 

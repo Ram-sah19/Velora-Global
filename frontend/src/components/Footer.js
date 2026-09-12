@@ -78,6 +78,16 @@ export default function Footer({ setActiveTab }) {
                   Training Programs
                 </button>
               </li>
+              <li>
+                <a 
+                  href="https://forms.gle/WQtcGspuwXZtbUu5A" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  style={{ color: '#ff6b6b', fontWeight: '700', textDecoration: 'none' }}
+                >
+                  1-on-1 Counseling Form ➔
+                </a>
+              </li>
             </ul>
           </div>
 

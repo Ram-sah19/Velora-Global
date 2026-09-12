@@ -128,7 +128,7 @@ function getTrainingDeliverables(domainTitle = '', domainCategory = '') {
   ];
 }
 
-export default function TrainingDetailsModal({ program, currentUser, onOpenAuth, onApplySuccess, onClose }) {
+export default function TrainingDetailsModal({ program, currentUser, onApplySuccess, onClose }) {
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';

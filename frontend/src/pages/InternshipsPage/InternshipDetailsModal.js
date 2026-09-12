@@ -271,7 +271,7 @@ function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
   ];
 }
 
-export default function InternshipDetailsModal({ program, currentUser, onOpenAuth, onApplySuccess, onClose }) {
+export default function InternshipDetailsModal({ program, currentUser, onApplySuccess, onClose }) {
   const [selectedTier, setSelectedTier] = useState('2w');
 
   useEffect(() => {

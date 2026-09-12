@@ -36,3 +36,4 @@ backend/db.json
 # OS System files
 .DS_Store
 Thumbs.db
+powershell.cmd

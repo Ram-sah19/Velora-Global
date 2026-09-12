@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ClientInquiryModal from '../../components/ClientInquiryModal';
 
-export default function ServicesPage({ selectedCategory = 'all', currentUser, onOpenClientAuth }) {
+export default function ServicesPage({ selectedCategory = 'all', currentUser }) {
   const [activeCategory, setActiveCategory] = useState(selectedCategory);
   const [showClientModal, setShowClientModal] = useState(false);
   const [targetServiceTitle, setTargetServiceTitle] = useState('Web Application Development');
@@ -49,14 +49,14 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser, on
       id: 'ai-chatbot',
       category: 'ai',
       badge: 'AI & Automation',
-      title: 'AI Chatbot Integration in Web Apps',
-      tagline: 'Intelligent Conversational Agents, Custom LLM Bots & Customer Support Automation for Web Platforms',
+      title: 'AI Chatbots & Intelligent Agents',
+      tagline: 'Autonomous Support Agents, Conversational LLM Bots & Smart Workflow Automation',
       icon: '',
       deliverables: [
-        'Custom Conversational AI & Customer Support Bots',
-        'LLM & OpenAI / Gemini API Custom Tuning',
-        'Automated Lead Qualification & CRM Sync',
-        'Predictive Analytics & Natural Language Processing'
+        'Custom 24/7 AI Customer Support Chatbots',
+        'Gemini & OpenAI LLM RAG System Integrations',
+        'Natural Language FAQ & Smart Lead Capture Systems',
+        'Automated Business Workflow Pipeline Automations'
       ],
       techStack: ['Python', 'PyTorch / TensorFlow', 'LangChain', 'OpenAI & Gemini APIs', 'Node.js'],
       description: 'Empower your business with cutting-edge artificial intelligence. We build custom conversational AI chatbots, smart customer support agents, and automated workflow pipelines that run 24/7 to boost productivity and conversion rates.'
@@ -68,14 +68,6 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser, on
     : servicesList.filter(s => s.category === activeCategory);
 
   const openInquiryModal = (serviceTitle) => {
-    // If client is not logged in, prompt client signup / login modal first
-    if (!currentUser) {
-      if (onOpenClientAuth) {
-        onOpenClientAuth();
-      }
-      return;
-    }
-
     setTargetServiceTitle(serviceTitle || 'Web Application Development');
     setShowClientModal(true);
   };

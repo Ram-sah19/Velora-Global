@@ -144,7 +144,7 @@ const defaultTrainingPrograms = [
   }
 ];
 
-export default function TrainingPage({ activeRole, onApplySuccess, currentUser, onOpenAuth }) {
+export default function TrainingPage({ activeRole, onApplySuccess, currentUser }) {
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedDomain, setSelectedDomain] = useState('All');
@@ -456,7 +456,6 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser, 
         <TrainingDetailsModal 
           program={selectedProgramForDetails}
           currentUser={currentUser}
-          onOpenAuth={onOpenAuth}
           onApplySuccess={onApplySuccess}
           onClose={() => setSelectedProgramForDetails(null)}
         />
