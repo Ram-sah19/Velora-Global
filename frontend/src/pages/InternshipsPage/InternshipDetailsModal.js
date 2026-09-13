@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { api } from '../../services/api';
+import { INTERNSHIP_APPLICATION_FORM_URL } from '../../constants';
 
-const GOOGLE_FORM_URL = "https://forms.gle/MEfqFcLcFaybJ2Dq5";
+const GOOGLE_FORM_URL = INTERNSHIP_APPLICATION_FORM_URL;
 
 // Helper function to get domain-tailored duration tiers
 function getDomainDurationTiers(domainTitle = '', domainCategory = '') {

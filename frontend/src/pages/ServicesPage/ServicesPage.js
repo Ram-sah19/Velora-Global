@@ -216,7 +216,7 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
                 padding: '1.75rem'
               }}>
                 <h4 style={{ fontSize: '1.05rem', color: '#0b0f19', marginBottom: '1rem', fontWeight: '800' }}>
-                  ⚡ Key Deliverables Included:
+                  Key Deliverables Included:
                 </h4>
 
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.75rem', fontSize: '0.92rem', color: '#334155' }}>

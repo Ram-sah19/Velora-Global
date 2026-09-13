@@ -1,4 +1,5 @@
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const mongoose = require('mongoose');
 const dns = require('dns');
 
@@ -10,12 +11,12 @@ try {
   dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
 } catch (e) {}
 
-const User = require('./models/User');
-const Program = require('./models/Program');
-const Application = require('./models/Application');
-const Task = require('./models/Task');
-const Evaluation = require('./models/Evaluation');
-const Certificate = require('./models/Certificate');
+const User = require('../models/User');
+const Program = require('../models/Program');
+const Application = require('../models/Application');
+const Task = require('../models/Task');
+const Evaluation = require('../models/Evaluation');
+const Certificate = require('../models/Certificate');
 
 const initialData = {
   users: [

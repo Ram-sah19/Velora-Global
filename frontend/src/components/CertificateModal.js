@@ -184,9 +184,21 @@ export default function CertificateModal({ certificate, onClose }) {
           <button 
             onClick={handlePrint}
             className="btn-coral"
-            style={{ padding: '0.85rem 2rem', fontSize: '1rem' }}
+            style={{ 
+              padding: '0.85rem 2rem', 
+              fontSize: '0.95rem',
+              fontWeight: '700',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}
           >
-            🖨️ Print / Save Official Certificate PDF
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="6 9 6 2 18 2 18 9"></polyline>
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+              <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            <span>Print / Save Official Certificate PDF</span>
           </button>
         </div>
 

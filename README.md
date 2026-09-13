@@ -46,32 +46,42 @@ Founding Leadership:
 
 ```text
 src/
-├── components/                  # Global shared UI components
-│   ├── Navbar.js                # Top Navigation Header with separate Internships & Training links
-│   ├── Footer.js                # Global Midnight Footer
+├── components/                  # Centralized shared UI components (barrel exported)
+│   ├── Navbar.js                # Top Navigation Header with 1-on-1 Counseling CTA
+│   ├── Footer.js                # Global Midnight Footer with Legal Modals
+│   ├── WhatsAppFloatingButton.js# Floating Direct WhatsApp Contact
 │   ├── VeloraLogo.js            # Monogram SVG Logo
-│   └── CertificateModal.js      # Printable Certificate Modal
-├── pages/                       # Organized Feature Page Modules
-│   ├── HomePage/                # Home / Landing Page Module
-│   │   ├── LandingPage.js       # Home Page Main Entry Component
-│   │   ├── HeroSection.js       # Split Hero & Interactive Domain Spotlight
+│   ├── CertificateModal.js      # Public Verified Credential Modal
+│   ├── UIStates.js              # ErrorBoundary, OfflineBanner, PageLoader
+│   ├── Motion.js                # VeloraIntro Splash & PageTransition
+│   └── index.js                 # Unified components barrel export
+├── constants/                   # Centralized Application Constants
+│   ├── links.js                 # Forms, WhatsApp, Social, Support Links
+│   ├── navigation.js            # Tab maps, per-page SEO titles & descriptions
+│   └── index.js                 # Constants barrel export
+├── pages/                       # Modular Feature Pages (index.js barrel per page)
+│   ├── HomePage/                # Home Page Module
+│   │   ├── HomePage.js          # Main Entry Component
+│   │   ├── HeroSection.js       # Enterprise Positioning & Metrics
+│   │   ├── ProjectCarousel3D.js # 3D Delivered Projects Showcase
+│   │   ├── GlobalFootprintSection.js # Interactive Hub Explorer
+│   │   ├── FeaturesSection.js   # Engineering Standards & Production Rigor
 │   │   ├── StudentJourneySection.js # 4-Step Student Path
-│   │   ├── FeaturesSection.js   # Credential Trust & Platform Features
-│   │   └── FaqSection.js        # Frequently Asked Questions Accordion
-│   ├── TeamPage/                # Dedicated Executive Team Module
-│   │   └── TeamPage.js          # Ram Sah, Krishna Sah, Rohit Sah & Shivshankar Sah Profiles
-│   ├── InternshipsPage/         # Dedicated Practical Internships Module
-│   │   └── InternshipsPage.js   # NPR 199 to NPR 7,000 Duration Calculator
-│   ├── TrainingPage/            # Dedicated Guided Training Module
-│   │   └── TrainingPage.js      # NPR 500 to NPR 5,000 Training Calculator
-│   ├── StudentPortalPage/       # Student Workspace Module
-│   │   └── StudentPortalPage.js
-│   └── AdminDashboardPage/      # Founder Panel Module
-│       └── AdminDashboardPage.js
+│   │   ├── TestimonialsSection.js # Client & Intern Reviews
+│   │   ├── FaqSection.js        # Frequently Asked Questions Accordion
+│   │   ├── ContactSection.js    # Direct Consultation Inquiries
+│   │   └── index.js
+│   ├── ServicesPage/            # Enterprise IT Services Module
+│   ├── TeamPage/                # Executive Leadership & Mentorship Module
+│   ├── InternshipsPage/         # 10 Specialized Technology Tracks
+│   ├── TrainingPage/            # Guided Skill Bootcamps & Live Capstones
+│   ├── ClientWorkspacePage/     # Corporate Client Deliverables Portal
+│   ├── AdminDashboardPage/      # Executive Administration Dashboard
+│   └── index.js                 # Master pages barrel export
 ├── services/
-│   └── api.js                   # API Client Service
-├── App.js                       # Root Application Router
-└── index.css                    # Pro Corporate Design Tokens
+│   └── api.js                   # Axios/Fetch API Client Service
+├── App.js                       # Root Application Router & Session State
+└── index.css                    # Design Tokens & Global Responsive Styles
 ```
 
 ---

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function GlobalFootprintSection({ onConsultationClick, onExploreClick }) {
+export default function GlobalFootprintSection({ onConsultationClick }) {
   const [activeHubId, setActiveHubId] = useState('nepal');
 
   const hubs = [
@@ -656,7 +656,7 @@ export default function GlobalFootprintSection({ onConsultationClick, onExploreC
               onClick={onConsultationClick}
               className="btn-coral"
               style={{
-                padding: '0.9rem 2rem',
+                padding: '0.9rem 2.2rem',
                 fontSize: '0.95rem',
                 fontWeight: '800',
                 borderRadius: '9999px',
@@ -665,34 +665,6 @@ export default function GlobalFootprintSection({ onConsultationClick, onExploreC
               }}
             >
               Book 1-on-1 Counseling with Abhishek Sah
-            </button>
-          )}
-
-          {onExploreClick && (
-            <button
-              onClick={onExploreClick}
-              style={{
-                padding: '0.9rem 2rem',
-                fontSize: '0.95rem',
-                fontWeight: '800',
-                color: '#0b0f19',
-                background: '#ffffff',
-                border: '1.5px solid #cbd5e1',
-                borderRadius: '9999px',
-                cursor: 'pointer',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
-                transition: 'all 0.15s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#94a3b8';
-                e.currentTarget.style.background = '#f8fafc';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = '#cbd5e1';
-                e.currentTarget.style.background = '#ffffff';
-              }}
-            >
-              Explore 10 Domain Internships ➔
             </button>
           )}
         </div>

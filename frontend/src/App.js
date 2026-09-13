@@ -1,71 +1,38 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { api } from './services/api';
+import { 
+  COUNSELING_FORM_URL, 
+  WHATSAPP_CONTACT_NUMBER,
+  tabToPathMap,
+  pathToTabMap,
+  pageTitles,
+  pageDescriptions
+} from './constants';
 
-// Premium Motion System
-import { VeloraIntro, PageTransition } from './components/Motion';
+// Centralized Components & Motion System
+import {
+  Navbar,
+  Footer,
+  CertificateModal,
+  NotificationToast,
+  CookieBanner,
+  WhatsAppFloatingButton,
+  ErrorBoundary,
+  OfflineBanner,
+  PageLoader,
+  VeloraIntro,
+  PageTransition
+} from './components';
 
-// Global Layout Components
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import CertificateModal from './components/CertificateModal';
-import NotificationToast from './components/NotificationToast';
-import CookieBanner from './components/CookieBanner';
-import WhatsAppFloatingButton from './components/WhatsAppFloatingButton';
-import { ErrorBoundary, OfflineBanner, PageLoader } from './components/UIStates';
+// Code-Split Lazy Loaded Feature Pages (Industry-Standard Barrel Imports)
+const HomePage = lazy(() => import('./pages/HomePage'));
+const ServicesPage = lazy(() => import('./pages/ServicesPage'));
+const TeamPage = lazy(() => import('./pages/TeamPage'));
+const InternshipsPage = lazy(() => import('./pages/InternshipsPage'));
+const TrainingPage = lazy(() => import('./pages/TrainingPage'));
+const ClientWorkspacePage = lazy(() => import('./pages/ClientWorkspacePage'));
+const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage'));
 
-// Code-Split Lazy Loaded Feature Pages
-const LandingPage = lazy(() => import('./pages/HomePage/LandingPage'));
-const ServicesPage = lazy(() => import('./pages/ServicesPage/ServicesPage'));
-const TeamPage = lazy(() => import('./pages/TeamPage/TeamPage'));
-const InternshipsPage = lazy(() => import('./pages/InternshipsPage/InternshipsPage'));
-const TrainingPage = lazy(() => import('./pages/TrainingPage/TrainingPage'));
-const ClientWorkspacePage = lazy(() => import('./pages/ClientWorkspacePage/ClientWorkspacePage'));
-const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage/AdminDashboardPage'));
-
-const tabToPathMap = {
-  home: '/',
-  services: '/services',
-  team: '/team',
-  internships: '/internships',
-  training: '/training',
-  client: '/client',
-  admin: '/admin'
-};
-
-const pathToTabMap = {
-  '/': 'home',
-  '/home': 'home',
-  '/services': 'services',
-  '/contact': 'services',
-  '/team': 'team',
-  '/about': 'team',
-  '/internships': 'internships',
-  '/training': 'training',
-  '/student': 'internships',
-  '/workspace': 'home',
-  '/client': 'client',
-  '/admin': 'admin'
-};
-
-const pageTitles = {
-  home: 'Velora Global | Technology Training, Internships & Enterprise Solutions',
-  services: 'Enterprise IT Solutions & Services | Velora Global',
-  team: 'About Us & Executive Leadership | Velora Global',
-  internships: 'Practical Technology Internships | Velora Global',
-  training: 'Guided Skills Training & Bootcamps | Velora Global',
-  client: 'Corporate Client Workspace | Velora Global',
-  admin: 'Executive Admin Dashboard | Velora Global'
-};
-
-const pageDescriptions = {
-  home: 'Practical technology training, project-driven internships, and scalable enterprise IT solutions (Web, Mobile & AI) in Kathmandu, Nepal. Founded in 2024 by Abhishek Sah.',
-  services: 'Custom web development (MERN Stack), cross-platform iOS & Android mobile apps, and 24/7 AI chatbot integrations for modern businesses.',
-  team: 'Learn about Velora Global (Founded in 2024) and our executive leadership: Abhishek Sah (Founder & CEO, Full Stack & AI/ML Engineer), Krishna Sah (CTO), Rohit Sah (COO), and Shivshankar Sah.',
-  internships: 'Explore 10 specialized technology internship tracks with production code reviews, verified certificates, and industry mentorship.',
-  training: 'Practical technology bootcamps from 1 week to 2 months covering Full Stack MERN, Python AI/ML, and cloud engineering with live capstones.',
-  client: 'Corporate client portal for software project tracking, milestone reviews, and technical specifications.',
-  admin: 'Executive administration dashboard for Velora Global.'
-};
 
 const getInitialTabFromUrl = () => {
   const path = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/';
@@ -95,7 +62,7 @@ export default function App() {
   });
 
   const handleOneToOneCounseling = () => {
-    window.open("https://forms.gle/WQtcGspuwXZtbUu5A", "_blank");
+    window.open(COUNSELING_FORM_URL, "_blank");
   };
 
   // Dynamic active role derived from authenticated user
@@ -172,9 +139,10 @@ export default function App() {
 
 
 
-  // Scroll to top on tab switch
+  // Scroll to top and ensure scrollbar is free on tab switch
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.body.style.overflow = 'unset';
   }, [activeTab]);
 
   // Automatic 30-Day Backend Session Sync on page load / browser restart
@@ -257,7 +225,7 @@ export default function App() {
           <PageTransition tabKey={activeTab}>
             <Suspense fallback={<PageLoader />}>
               {activeTab === 'home' && (
-                <LandingPage 
+                <HomePage 
                   onExploreClick={() => handleTabChange('internships')}
                   onTrainingClick={() => handleTabChange('training')}
                   onServicesClick={() => handleTabChange('services')}
@@ -306,6 +274,7 @@ export default function App() {
               {activeTab === 'admin' && (
                 <AdminDashboardPage 
                   currentUser={currentUser} 
+                  onLogout={handleLogout}
                 />
               )}
             </Suspense>
@@ -321,7 +290,7 @@ export default function App() {
         )}
 
         {/* Global Floating WhatsApp Contact Widget */}
-        <WhatsAppFloatingButton phoneNumber="9826031419" />
+        <WhatsAppFloatingButton phoneNumber={WHATSAPP_CONTACT_NUMBER} />
 
         {/* Global Footer */}
         <Footer setActiveTab={handleTabChange} />

@@ -58,9 +58,43 @@ export default function ClientWorkspacePage({ currentUser, onLogout }) {
             </div>
           </div>
 
-          <div style={{ padding: '1.25rem', background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '12px', color: '#1e40af', fontSize: '0.9rem', lineHeight: '1.5' }}>
-            ℹ️ <strong>Partnership Status: Active</strong>. Welcome to Velora Global! Your corporate client account is active. Our executive leadership team will get in touch with you directly regarding software development requirements and tech talent allocation.
+          <div style={{ padding: '1.25rem', background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '12px', color: '#1e40af', fontSize: '0.9rem', lineHeight: '1.5', marginBottom: '2rem' }}>
+            <strong>Partnership Status: Active</strong>. Welcome to Velora Global! Your corporate client account is active. Our executive leadership team will get in touch with you directly regarding software development requirements and tech talent allocation.
           </div>
+
+          {/* Logout Action Button */}
+          {onLogout && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '1rem', borderTop: '1px solid #e2e8f0' }}>
+              <button
+                onClick={onLogout}
+                style={{
+                  padding: '0.65rem 1.4rem',
+                  fontSize: '0.9rem',
+                  fontWeight: '700',
+                  color: '#dc2626',
+                  background: '#fef2f2',
+                  border: '1px solid #fecaca',
+                  borderRadius: '10px',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  transition: 'all 0.18s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#fee2e2';
+                  e.currentTarget.style.borderColor = '#fca5a5';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#fef2f2';
+                  e.currentTarget.style.borderColor = '#fecaca';
+                }}
+              >
+                <span>Sign Out of Workspace</span>
+                <span>➔</span>
+              </button>
+            </div>
+          )}
 
         </div>
 

@@ -20,31 +20,12 @@ const inquiryRoutes = require('./routes/inquiryRoutes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Ensure media and public asset directories exist and sync founder photo
-try {
-  const dirs = [
-    path.join(__dirname, '..', 'frontend', 'public', 'media'),
-    path.join(__dirname, '..', 'frontend', 'public', 'images')
-  ];
-  for (const d of dirs) {
-    if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
-  }
-
-  const founderUploads = [
-    'C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\e5b26319-5da9-48a7-9a68-6a08c9f02003\\.user_uploaded\\media_1789143037639.jpg'
-  ];
-
-  for (const src of founderUploads) {
-    if (fs.existsSync(src)) {
-      for (const d of dirs) {
-        fs.copyFileSync(src, path.join(d, 'abhishek_sah.jpg'));
-        fs.copyFileSync(src, path.join(d, 'ram_sah.jpg'));
-      }
-    }
-  }
-} catch (e) {
-  console.warn('Asset directory check:', e.message);
+// Ensure static public asset directories exist
+const publicMediaDir = path.join(__dirname, '..', 'frontend', 'public', 'media');
+if (!fs.existsSync(publicMediaDir)) {
+  fs.mkdirSync(publicMediaDir, { recursive: true });
 }
+
 
 
 
@@ -218,34 +199,13 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', app: 'Velora Global Enterprise Server', timestamp: new Date() });
 });
 
-// ─── 7.1 HERO BACKGROUND ASSET SYNC & SERVE ──────────────────────────────────
-const HERO_BG_SRC = 'C:\\Users\\Rambilas\\.gemini\\antigravity\\brain\\e5b26319-5da9-48a7-9a68-6a08c9f02003\\hero_golden_valley_1789032128090.jpg';
-try {
-  if (fs.existsSync(HERO_BG_SRC)) {
-    const targets = [
-      path.join(__dirname, '../frontend/public/media/hero_mountain.png'),
-      path.join(__dirname, '../frontend/public/images/hero_mountain.png'),
-      path.join(__dirname, '../frontend/public/media/hero_mountain.jpg')
-    ];
-    targets.forEach(tgt => {
-      const p = path.dirname(tgt);
-      if (!fs.existsSync(p)) fs.mkdirSync(p, { recursive: true });
-      fs.copyFileSync(HERO_BG_SRC, tgt);
-    });
-  }
-} catch (e) {
-  console.warn('Hero background sync notice:', e.message);
-}
-
+// ─── 7.1 HERO BACKGROUND ASSET SERVE ────────────────────────────────────────
 app.get('/api/media/hero-bg', (req, res) => {
-  if (fs.existsSync(HERO_BG_SRC)) {
-    return res.sendFile(HERO_BG_SRC);
+  const assetPath = path.join(__dirname, '../frontend/public/media/hero_mountain.png');
+  if (fs.existsSync(assetPath)) {
+    return res.sendFile(assetPath);
   }
-  const fallback = path.join(__dirname, '../frontend/public/media/hero_mountain.png');
-  if (fs.existsSync(fallback)) {
-    return res.sendFile(fallback);
-  }
-  res.status(404).send('Hero background not found');
+  res.status(404).json({ error: 'Hero background asset not found' });
 });
 
 // ─── 8. ROUTES ────────────────────────────────────────────────────────────────
