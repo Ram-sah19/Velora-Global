@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
 import InternshipDetailsModal from './InternshipDetailsModal';
 import { SkeletonCard } from '../../components/UIStates';
+import { INTERNSHIP_APPLICATION_FORM_URL } from '../../constants';
 
-const GOOGLE_FORM_URL = "https://forms.gle/MEfqFcLcFaybJ2Dq5";
+const GOOGLE_FORM_URL = INTERNSHIP_APPLICATION_FORM_URL;
 
 const softwareDevSubDomains = [
   'Frontend Development',
@@ -331,6 +332,32 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
             Array.from({ length: 6 }).map((_, i) => (
               <SkeletonCard key={i} />
             ))
+          ) : programs.length === 0 ? (
+            <div style={{
+              gridColumn: '1 / -1',
+              textAlign: 'center',
+              padding: '3.5rem 1.5rem',
+              background: '#ffffff',
+              borderRadius: '20px',
+              border: '1px solid #e2e8f0'
+            }}>
+              <h3 style={{ fontSize: '1.25rem', color: '#0b0f19', marginBottom: '0.5rem', fontWeight: '800' }}>
+                No Internship Programs Found
+              </h3>
+              <p style={{ color: '#64748b', fontSize: '0.92rem', maxWidth: '460px', margin: '0 auto 1.5rem auto' }}>
+                No active internship tracks match your current filter or search criteria. Reset your search to browse all available tracks.
+              </p>
+              <button
+                onClick={() => {
+                  setSelectedDomain('All');
+                  setSearchQuery('');
+                }}
+                className="btn-coral"
+                style={{ padding: '0.65rem 1.6rem', fontSize: '0.9rem', borderRadius: '9999px', cursor: 'pointer' }}
+              >
+                Reset Filters & View All ➔
+              </button>
+            </div>
           ) : (
             programs.map((prog) => (
             <div 

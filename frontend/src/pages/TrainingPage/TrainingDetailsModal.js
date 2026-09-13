@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { api } from '../../services/api';
+import { TRAINING_APPLICATION_FORM_URL } from '../../constants';
 
-const GOOGLE_FORM_URL = "https://forms.gle/kZMHj7jF3s8NL5wb6";
+const GOOGLE_FORM_URL = TRAINING_APPLICATION_FORM_URL;
 
 // Helper function to get domain-tailored training deliverables
 function getTrainingDeliverables(domainTitle = '', domainCategory = '') {

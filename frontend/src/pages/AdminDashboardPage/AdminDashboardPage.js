@@ -12,7 +12,7 @@ function getCleanDomainTitle(title = '', domain = '') {
   return clean || domain || title;
 }
 
-export default function AdminDashboardPage({ currentUser, onCertificateGenerated, onOpenAdminRegister }) {
+export default function AdminDashboardPage({ currentUser, onCertificateGenerated, onOpenAdminRegister, onLogout }) {
   const [stats, setStats] = useState(null);
   const [applications, setApplications] = useState([]);
   const [users, setUsers] = useState([]);
@@ -569,7 +569,7 @@ export default function AdminDashboardPage({ currentUser, onCertificateGenerated
             </nav>
 
             <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid #f1f5f9' }}>
-              <div style={{ background: '#f8fafc', padding: '0.85rem', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+              <div style={{ background: '#f8fafc', padding: '0.85rem', borderRadius: '10px', border: '1px solid #e2e8f0', marginBottom: '0.75rem' }}>
                 <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '700', display: 'block', marginBottom: '0.25rem' }}>
                   Quick Action
                 </span>
@@ -584,6 +584,43 @@ export default function AdminDashboardPage({ currentUser, onCertificateGenerated
                   + Enroll New Candidate
                 </button>
               </div>
+
+              <button
+                onClick={() => {
+                  if (onLogout) {
+                    onLogout();
+                  } else {
+                    window.location.href = '/';
+                  }
+                }}
+                style={{
+                  width: '100%',
+                  padding: '0.6rem 0.85rem',
+                  fontSize: '0.82rem',
+                  fontWeight: '700',
+                  color: '#dc2626',
+                  background: '#fef2f2',
+                  border: '1px solid #fecaca',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.4rem',
+                  transition: 'all 0.15s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#fee2e2';
+                  e.currentTarget.style.borderColor = '#fca5a5';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#fef2f2';
+                  e.currentTarget.style.borderColor = '#fecaca';
+                }}
+              >
+                <span>Exit Admin Console</span>
+                <span>➔</span>
+              </button>
             </div>
           </aside>
 

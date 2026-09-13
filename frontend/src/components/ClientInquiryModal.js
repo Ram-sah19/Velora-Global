@@ -19,6 +19,12 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
   const [successMsg, setSuccessMsg] = useState('');
 
   useEffect(() => {
+    if (defaultService) {
+      setFormData(prev => ({ ...prev, serviceRequired: defaultService }));
+    }
+  }, [defaultService]);
+
+  useEffect(() => {
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => {
@@ -197,9 +203,12 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
                   style={{ width: '100%', fontWeight: '600' }}
                 >
                   <option value="Web Application Development">Web Application Development</option>
+                  <option value="Cross-Platform Mobile Application Development">Cross-Platform Mobile Application Development</option>
                   <option value="Mobile Application Development">Mobile Application Development</option>
+                  <option value="AI Chatbots & Intelligent Agents">AI Chatbots & Intelligent Agents</option>
                   <option value="AI Chatbot Integration in Web Apps">AI Chatbot Integration in Web Apps</option>
                   <option value="Full Enterprise Custom Software">Full Enterprise Custom Software</option>
+                  <option value="Direct Face-to-Face Project Discussion">Direct Face-to-Face Project Discussion</option>
                 </select>
               </div>
 

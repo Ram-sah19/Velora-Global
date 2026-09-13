@@ -137,6 +137,12 @@ export default function Navbar({
                   cursor: 'pointer',
                   transition: 'all 0.15s ease'
                 }}
+                onMouseEnter={(e) => {
+                  if (activeTab !== 'services') e.currentTarget.style.background = '#f1f5f9';
+                }}
+                onMouseLeave={(e) => {
+                  if (activeTab !== 'services') e.currentTarget.style.background = 'transparent';
+                }}
               >
                 Services ▾
               </button>
@@ -208,6 +214,12 @@ export default function Navbar({
                 cursor: 'pointer',
                 transition: 'all 0.15s ease'
               }}
+              onMouseEnter={(e) => {
+                if (activeTab !== 'team') e.currentTarget.style.background = '#f1f5f9';
+              }}
+              onMouseLeave={(e) => {
+                if (activeTab !== 'team') e.currentTarget.style.background = 'transparent';
+              }}
             >
               About Us
             </button>
@@ -226,6 +238,12 @@ export default function Navbar({
                 cursor: 'pointer',
                 transition: 'all 0.15s ease'
               }}
+              onMouseEnter={(e) => {
+                if (activeTab !== 'internships') e.currentTarget.style.background = '#f1f5f9';
+              }}
+              onMouseLeave={(e) => {
+                if (activeTab !== 'internships') e.currentTarget.style.background = 'transparent';
+              }}
             >
               Explore Internships
             </button>
@@ -243,6 +261,12 @@ export default function Navbar({
                 border: 'none',
                 cursor: 'pointer',
                 transition: 'all 0.15s ease'
+              }}
+              onMouseEnter={(e) => {
+                if (activeTab !== 'training') e.currentTarget.style.background = '#f1f5f9';
+              }}
+              onMouseLeave={(e) => {
+                if (activeTab !== 'training') e.currentTarget.style.background = 'transparent';
               }}
             >
               Training Programs

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import VeloraLogo from './VeloraLogo';
+import { COUNSELING_FORM_URL } from '../constants';
 
 import StudentTermsModal from './StudentTermsModal';
 import StudentPrivacyModal from './StudentPrivacyModal';
@@ -80,7 +81,7 @@ export default function Footer({ setActiveTab }) {
               </li>
               <li>
                 <a 
-                  href="https://forms.gle/WQtcGspuwXZtbUu5A" 
+                  href={COUNSELING_FORM_URL} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   style={{ color: '#ff6b6b', fontWeight: '700', textDecoration: 'none' }}

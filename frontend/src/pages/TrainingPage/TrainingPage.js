@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
 import TrainingDetailsModal from './TrainingDetailsModal';
 import { SkeletonCard } from '../../components/UIStates';
+import { TRAINING_APPLICATION_FORM_URL } from '../../constants';
 
-const GOOGLE_FORM_URL = "https://forms.gle/kZMHj7jF3s8NL5wb6";
+const GOOGLE_FORM_URL = TRAINING_APPLICATION_FORM_URL;
 
 const softwareDevSubDomains = [
   'Frontend Development',
@@ -306,6 +307,32 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser }
             Array.from({ length: 6 }).map((_, i) => (
               <SkeletonCard key={i} />
             ))
+          ) : programs.length === 0 ? (
+            <div style={{
+              gridColumn: '1 / -1',
+              textAlign: 'center',
+              padding: '3.5rem 1.5rem',
+              background: '#ffffff',
+              borderRadius: '20px',
+              border: '1px solid #e2e8f0'
+            }}>
+              <h3 style={{ fontSize: '1.25rem', color: '#0b0f19', marginBottom: '0.5rem', fontWeight: '800' }}>
+                No Training Programs Found
+              </h3>
+              <p style={{ color: '#64748b', fontSize: '0.92rem', maxWidth: '460px', margin: '0 auto 1.5rem auto' }}>
+                No active training bootcamps match your current filter or search criteria. Reset your search to view all guided programs.
+              </p>
+              <button
+                onClick={() => {
+                  setSelectedDomain('All');
+                  setSearchQuery('');
+                }}
+                className="btn-primary"
+                style={{ padding: '0.65rem 1.6rem', fontSize: '0.9rem', borderRadius: '9999px', cursor: 'pointer' }}
+              >
+                Reset Filters & View All ➔
+              </button>
+            </div>
           ) : (
             programs.map((prog) => (
             <div 
