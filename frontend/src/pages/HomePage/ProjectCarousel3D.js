@@ -564,7 +564,7 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
                   padding: '0.85rem 1.9rem',
                   fontSize: '0.9rem',
                   fontWeight: '700',
-                  background: 'var(--premium-grad-brand)',
+                  background: '#2563eb',
                   color: '#ffffff',
                   border: 'none',
                   borderRadius: '9999px',

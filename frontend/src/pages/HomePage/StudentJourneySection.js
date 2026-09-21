@@ -100,7 +100,7 @@ export default function StudentJourneySection({ onApplyClick }) {
         </div>
 
         <div style={{ marginTop: '3.5rem', textAlign: 'center' }}>
-          <button onClick={onApplyClick} className="btn-premium">
+          <button onClick={onApplyClick} className="btn-premium btn-premium--green">
             Start Your Journey Today ➔
           </button>
         </div>

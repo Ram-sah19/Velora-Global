@@ -6,9 +6,9 @@ export default function DomainSpecializationsSection({ onExploreClick, onTrainin
 
   const categories = [
     { id: 'eng', label: 'Software Development', color: '#2563eb', bg: '#eff6ff' },
-    { id: 'ai', label: 'AI & Data Science', color: '#059669', bg: '#ecfdf5' },
-    { id: 'ops', label: 'Cloud, Security & QA', color: '#7c3aed', bg: '#f5f3ff' },
-    { id: 'design', label: 'Product & Design', color: '#e11d48', bg: '#fff1f2' }
+    { id: 'ai', label: 'AI & Data Science', color: '#2563eb', bg: '#ecfdf5' },
+    { id: 'ops', label: 'Cloud, Security & QA', color: '#2563eb', bg: '#f5f3ff' },
+    { id: 'design', label: 'Product & Design', color: '#2563eb', bg: '#fff1f2' }
   ];
 
   const domains = [
@@ -206,7 +206,7 @@ export default function DomainSpecializationsSection({ onExploreClick, onTrainin
                   borderRadius: '9999px',
                   fontSize: '0.92rem',
                   fontWeight: isActive ? '700' : '600',
-                  background: isActive ? 'var(--premium-grad-brand)' : 'rgba(255, 255, 255, 0.8)',
+                  background: isActive ? '#2563eb' : 'rgba(255, 255, 255, 0.8)',
                   color: isActive ? '#ffffff' : '#475569',
                   border: isActive ? '1px solid transparent' : '1px solid rgba(226, 232, 240, 0.9)',
                   boxShadow: isActive ? '0 8px 22px -8px rgba(37, 99, 235, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.25)' : '0 2px 8px rgba(11, 18, 32, 0.04)',
@@ -399,7 +399,7 @@ export default function DomainSpecializationsSection({ onExploreClick, onTrainin
                   padding: '0.85rem 1.25rem',
                   fontSize: '0.92rem',
                   fontWeight: '700',
-                  background: 'var(--premium-grad-brand)',
+                  background: '#2563eb',
                   color: '#ffffff',
                   border: 'none',
                   borderRadius: '9999px',
