@@ -252,12 +252,20 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
         </p>
       </div>
 
-      {/* ── CLEAN ENTERPRISE TAB SWITCHER ── */}
+      {/* ── SEGMENTED PILL SWITCHER ── */}
       <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-        gap: '0.75rem',
-        marginBottom: '1.5rem'
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        gap: '0.4rem',
+        padding: '0.45rem',
+        margin: '0 auto 2.25rem auto',
+        maxWidth: '820px',
+        background: 'rgba(241, 245, 249, 0.75)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        border: '1px solid #e2e8f0',
+        borderRadius: '9999px'
       }}>
         {PROJECTS.map((proj, idx) => {
           const isSelected = activeIndex === idx;
@@ -265,72 +273,46 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
             <button
               key={proj.id}
               onClick={() => setActiveIndex(idx)}
-              className="premium-card"
+              aria-pressed={isSelected}
               style={{
-                background: '#ffffff',
-                border: isSelected ? '1.5px solid #2563eb' : '1px solid #e2e8f0',
-                borderRadius: '12px',
-                padding: '0.85rem 1rem',
-                textAlign: 'left',
+                flex: '1 1 auto',
+                minWidth: '150px',
+                padding: '0.65rem 1.35rem',
+                borderRadius: '9999px',
+                border: 'none',
                 cursor: 'pointer',
-                boxShadow: isSelected 
-                  ? '0 8px 24px -4px rgba(37, 99, 235, 0.16), 0 2px 6px rgba(0, 0, 0, 0.04)' 
-                  : '0 2px 8px rgba(0, 0, 0, 0.03)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.25rem'
-              }}
-              onMouseEnter={(e) => {
-                if (!isSelected) {
-                  e.currentTarget.style.borderColor = '#cbd5e1';
-                  e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.06)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!isSelected) {
-                  e.currentTarget.style.borderColor = '#e2e8f0';
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.03)';
-                }
-              }}
-            >
-              <span style={{
-                fontSize: '0.68rem',
-                fontWeight: '800',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-                color: isSelected ? '#2563eb' : '#64748b'
-              }}>
-                {proj.sector}
-              </span>
-              <span style={{
-                fontSize: '0.86rem',
-                fontWeight: '800',
-                color: isSelected ? '#0f172a' : '#475569',
-                lineHeight: '1.3',
+                fontSize: '0.84rem',
+                fontWeight: '700',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
-                textOverflow: 'ellipsis'
-              }}>
-                {proj.title.split('—')[0].trim()}
-              </span>
+                textOverflow: 'ellipsis',
+                background: isSelected ? '#2563eb' : 'transparent',
+                color: isSelected ? '#ffffff' : '#475569',
+                boxShadow: isSelected ? '0 6px 18px -6px rgba(37, 99, 235, 0.55)' : 'none',
+                transition: 'background 0.22s ease, color 0.22s ease, box-shadow 0.22s ease'
+              }}
+              onMouseEnter={(e) => { if (!isSelected) e.currentTarget.style.background = 'rgba(255, 255, 255, 0.85)'; }}
+              onMouseLeave={(e) => { if (!isSelected) e.currentTarget.style.background = 'transparent'; }}
+            >
+              {proj.title.split('—')[0].trim()}
             </button>
           );
         })}
       </div>
 
-      {/* ── MAIN SHOWCASE STAGE (CLEAN ENTERPRISE CARD) ── */}
+      {/* ── MAIN SHOWCASE STAGE ── */}
       <div style={{
-        background: 'rgba(255, 255, 255, 0.92)',
-        borderRadius: '24px',
-        border: '1px solid rgba(226, 232, 240, 0.9)',
-        boxShadow: 'var(--premium-shadow-card)',
+        background: 'linear-gradient(180deg, rgba(255,255,255,0.97) 0%, rgba(248,250,252,0.97) 100%)',
+        borderRadius: '28px',
+        border: '1px solid rgba(226, 232, 240, 0.95)',
+        boxShadow: '0 32px 70px -28px rgba(11, 18, 32, 0.16), 0 4px 14px rgba(11, 18, 32, 0.04)',
         overflow: 'hidden'
       }}>
         {/* Top Browser Title Bar */}
         <div style={{
-          background: '#f8fafc',
+          background: 'rgba(255, 255, 255, 0.85)',
           borderBottom: '1px solid #e2e8f0',
-          padding: '0.75rem 1.5rem',
+          padding: '0.8rem 1.5rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -377,7 +359,7 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
                 color: '#334155',
                 width: '30px',
                 height: '30px',
-                borderRadius: '6px',
+                borderRadius: '9999px',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
@@ -400,7 +382,7 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
                 color: '#334155',
                 width: '30px',
                 height: '30px',
-                borderRadius: '6px',
+                borderRadius: '9999px',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
@@ -417,22 +399,26 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
           </div>
         </div>
 
-        {/* Stage Content (Left Simulated UI Preview + Right Specifications) */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '2.5rem',
-          padding: '2.25rem',
-          alignItems: 'center'
-        }}>
-          {/* Left Column: UI Console (Clean White with Soft Elevation) */}
+        {/* Stage Content — re-mounts per slide for the entrance animation */}
+        <div
+          key={activeIndex}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '2.5rem',
+            padding: '2.5rem',
+            alignItems: 'center',
+            animation: 'projectSlideIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both'
+          }}
+        >
+          {/* Left Column: UI Console */}
           <div>
             <div style={{
               background: '#ffffff',
-              borderRadius: '16px',
+              borderRadius: '18px',
               padding: '1.35rem',
-              boxShadow: '0 16px 36px -8px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.02)',
-              border: '1px solid #e2e8f0'
+              boxShadow: '0 24px 50px -18px rgba(11, 18, 32, 0.14), 0 2px 8px rgba(11, 18, 32, 0.03)',
+              border: '1px solid #e8edf3'
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                 <span style={{
@@ -457,18 +443,18 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
 
               <div style={{
                 marginTop: '1rem',
-                background: '#eff6ff',
-                border: '1px solid #dbeafe',
-                padding: '0.7rem 1rem',
-                borderRadius: '10px',
+                background: '#f8fafc',
+                border: '1px solid #e2e8f0',
+                padding: '0.8rem 1rem',
+                borderRadius: '12px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between'
               }}>
-                <span style={{ fontSize: '0.76rem', color: '#1e40af', fontWeight: '700' }}>Verified Metric Outcome</span>
-                <span style={{ fontSize: '0.84rem', color: '#1d4ed8', fontWeight: '800', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                <span style={{ fontSize: '0.7rem', color: '#64748b', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Verified Outcome</span>
+                <span style={{ fontSize: '0.88rem', color: '#1d4ed8', fontWeight: '800', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
                   <svg width="11" height="13" viewBox="0 0 12 14" fill="none" aria-hidden="true">
-                    <path d="M7.5 0.5L1.5 8H5.5L4.5 13.5L10.5 6H6.5L7.5 0.5Z" fill="#f59e0b" stroke="#f59e0b" strokeWidth="0.8" strokeLinejoin="round" />
+                    <path d="M7.5 0.5L1.5 8H5.5L4.5 13.5L10.5 6H6.5L7.5 0.5Z" fill="#2563eb" stroke="#2563eb" strokeWidth="0.8" strokeLinejoin="round" />
                   </svg>
                   {activeProject.metric}
                 </span>
@@ -510,7 +496,7 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
               {activeProject.tagline}
             </p>
 
-            {/* Architectural Deliverables with Crisp SVG Checkmarks */}
+            {/* Deliverables */}
             <div style={{ marginBottom: '1.35rem' }}>
               <span style={{
                 display: 'block',
@@ -545,10 +531,11 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
                     fontSize: '0.74rem',
                     fontWeight: '700',
                     color: '#334155',
-                    background: '#f1f5f9',
+                    background: '#ffffff',
                     border: '1px solid #e2e8f0',
-                    padding: '0.25rem 0.65rem',
-                    borderRadius: '6px'
+                    padding: '0.25rem 0.7rem',
+                    borderRadius: '9999px',
+                    boxShadow: '0 1px 2px rgba(11, 18, 32, 0.03)'
                   }}
                 >
                   {tech}
@@ -585,6 +572,32 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
               </button>
             )}
           </div>
+        </div>
+
+        {/* Slide position dots */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '0.45rem',
+          padding: '0 0 1.4rem 0'
+        }}>
+          {PROJECTS.map((proj, idx) => (
+            <button
+              key={proj.id}
+              onClick={() => setActiveIndex(idx)}
+              aria-label={`Show ${proj.title.split('—')[0].trim()}`}
+              style={{
+                width: activeIndex === idx ? '22px' : '8px',
+                height: '8px',
+                borderRadius: '9999px',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+                background: activeIndex === idx ? '#2563eb' : '#cbd5e1',
+                transition: 'all 0.28s cubic-bezier(0.22, 1, 0.36, 1)'
+              }}
+            />
+          ))}
         </div>
       </div>
     </section>

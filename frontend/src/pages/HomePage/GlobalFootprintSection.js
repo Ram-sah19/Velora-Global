@@ -19,8 +19,7 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
         'Live mentorship facility, physical code walkthroughs & capstone reviews',
         'Production MERN Stack, AI/ML agent pipelines, and mobile apps',
         'Official tamper-proof QR-code verified credential issuance'
-      ],
-      accentColor: '#2563eb'
+      ]
     },
     {
       id: 'usa',
@@ -37,8 +36,7 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
         'Custom enterprise web systems & 24/7 conversational AI agents',
         'Asynchronous GitHub pull requests, daily standups & sprint boards',
         'Cross-timezone project handoffs and architectural consultations'
-      ],
-      accentColor: '#ff5454'
+      ]
     },
     {
       id: 'india',
@@ -55,8 +53,7 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
         'Scalable REST & GraphQL microservices with Node.js & MongoDB Atlas',
         'Rigorous 5-criteria objective code evaluation & code quality grading',
         'Full-stack architecture reviews and technical interview preparation'
-      ],
-      accentColor: '#d97706'
+      ]
     },
     {
       id: 'australia',
@@ -73,8 +70,7 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
         'Lighthouse 95+ performance optimization and responsive mobile design',
         'End-to-end integration testing, cloud hosting & domain security',
         'Timezone-synchronized communications and milestone updates'
-      ],
-      accentColor: '#0891b2'
+      ]
     },
     {
       id: 'bangladesh',
@@ -91,8 +87,7 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
         'Full Stack MVC application development with modern React and Node.js',
         'Hands-on Git version control, branch management, and CI/CD pipelines',
         'Direct portfolio guidance for competitive international remote roles'
-      ],
-      accentColor: '#059669'
+      ]
     },
     {
       id: 'nigeria',
@@ -109,8 +104,7 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
         'Real-world software features from design mockups to live deployment',
         'Direct constructive feedback and 1-on-1 code reviews from senior staff',
         'Global engineering network with verifiable credentials on LinkedIn'
-      ],
-      accentColor: '#7c3aed'
+      ]
     }
   ];
 
@@ -187,7 +181,7 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
             padding: '1.4rem 1.25rem',
             textAlign: 'center'
           }}>
-            <span style={{ display: 'block', fontSize: '2.1rem', fontWeight: '900', color: '#2563eb', lineHeight: '1.1', marginBottom: '0.35rem' }}>
+            <span style={{ display: 'block', fontSize: '2.1rem', fontWeight: '900', color: '#0b0f19', lineHeight: '1.1', marginBottom: '0.35rem' }}>
               6+
             </span>
             <span style={{ fontSize: '0.86rem', color: '#64748b', fontWeight: '600' }}>
@@ -202,7 +196,7 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
             padding: '1.4rem 1.25rem',
             textAlign: 'center'
           }}>
-            <span style={{ display: 'block', fontSize: '2.1rem', fontWeight: '900', color: '#ff5454', lineHeight: '1.1', marginBottom: '0.35rem' }}>
+            <span style={{ display: 'block', fontSize: '2.1rem', fontWeight: '900', color: '#0b0f19', lineHeight: '1.1', marginBottom: '0.35rem' }}>
               50+
             </span>
             <span style={{ fontSize: '0.86rem', color: '#64748b', fontWeight: '600' }}>
@@ -217,7 +211,7 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
             padding: '1.4rem 1.25rem',
             textAlign: 'center'
           }}>
-            <span style={{ display: 'block', fontSize: '2.1rem', fontWeight: '900', color: '#059669', lineHeight: '1.1', marginBottom: '0.35rem' }}>
+            <span style={{ display: 'block', fontSize: '2.1rem', fontWeight: '900', color: '#0b0f19', lineHeight: '1.1', marginBottom: '0.35rem' }}>
               5
             </span>
             <span style={{ fontSize: '0.86rem', color: '#64748b', fontWeight: '600' }}>
@@ -256,111 +250,92 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
                 <button
                   key={hub.id}
                   onClick={() => setActiveHubId(hub.id)}
+                  aria-pressed={isActive}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: '0.85rem 1.15rem',
-                    background: isActive ? '#ffffff' : '#f8fafc',
-                    border: isActive ? `2px solid ${hub.accentColor}` : '1px solid #e2e8f0',
-                    borderRadius: '14px',
+                    padding: '0.8rem 1.1rem',
+                    background: isActive ? '#2563eb' : '#ffffff',
+                    border: isActive ? '1px solid #2563eb' : '1px solid #e2e8f0',
+                    borderRadius: '16px',
                     cursor: 'pointer',
                     textAlign: 'left',
-                    transition: 'all 0.2s ease',
-                    boxShadow: isActive ? `0 6px 20px -4px ${hub.accentColor}25` : 'none',
-                    transform: isActive ? 'translateX(4px)' : 'none'
+                    transition: 'background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, color 0.22s ease',
+                    boxShadow: isActive
+                      ? '0 10px 26px -8px rgba(37, 99, 235, 0.55)'
+                      : '0 1px 3px rgba(11, 18, 32, 0.03)'
                   }}
-                  onMouseEnter={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.background = '#ffffff';
-                      e.currentTarget.style.borderColor = '#cbd5e1';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.background = '#f8fafc';
-                      e.currentTarget.style.borderColor = '#e2e8f0';
-                    }
-                  }}
+                  onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.borderColor = '#cbd5e1'; }}
+                  onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.borderColor = '#e2e8f0'; }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
                     <span style={{
                       width: '38px',
                       height: '38px',
                       borderRadius: '10px',
-                      background: `${hub.accentColor}14`,
-                      color: hub.accentColor,
+                      background: isActive ? 'rgba(255, 255, 255, 0.16)' : '#f1f5f9',
+                      color: isActive ? '#ffffff' : '#475569',
                       fontWeight: '800',
                       fontSize: '0.82rem',
                       display: 'inline-flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      border: `1px solid ${hub.accentColor}28`,
+                      border: isActive ? '1px solid rgba(255, 255, 255, 0.28)' : '1px solid #e2e8f0',
                       flexShrink: 0
                     }}>
                       {hub.code}
                     </span>
                     <div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                        <span style={{ fontSize: '0.95rem', fontWeight: '800', color: '#0b0f19' }}>
+                        <span style={{ fontSize: '0.95rem', fontWeight: '800', color: isActive ? '#ffffff' : '#0b0f19' }}>
                           {hub.country}
                         </span>
                         {hub.id === 'nepal' && (
                           <span style={{
                             fontSize: '0.66rem',
                             fontWeight: '800',
-                            background: '#eff6ff',
-                            color: '#2563eb',
-                            padding: '0.15rem 0.45rem',
-                            borderRadius: '4px',
-                            border: '1px solid #bfdbfe'
+                            background: isActive ? 'rgba(255, 255, 255, 0.18)' : '#eff6ff',
+                            color: isActive ? '#ffffff' : '#2563eb',
+                            padding: '0.15rem 0.5rem',
+                            borderRadius: '9999px',
+                            border: isActive ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid #bfdbfe'
                           }}>
                             HQ
                           </span>
                         )}
                       </div>
-                      <span style={{ fontSize: '0.78rem', color: '#64748b', display: 'block', fontWeight: '500' }}>
+                      <span style={{ fontSize: '0.78rem', color: isActive ? 'rgba(255, 255, 255, 0.82)' : '#64748b', display: 'block', fontWeight: '500' }}>
                         {hub.city}
                       </span>
                     </div>
                   </div>
 
-                  <span style={{
-                    fontSize: '0.92rem',
-                    color: isActive ? hub.accentColor : '#94a3b8',
-                    fontWeight: '800',
-                    transition: 'all 0.2s ease'
-                  }}>
-                    ➔
-                  </span>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={isActive ? '#ffffff' : '#94a3b8'} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, transition: 'stroke 0.22s ease' }} aria-hidden="true">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
                 </button>
               );
             })}
           </div>
 
           {/* Right Column: Detailed Hub Focus Card */}
-          <div className="premium-glass" style={{
-            background: 'rgba(255, 255, 255, 0.92)',
-            border: `1.5px solid ${currentHub.accentColor}40`,
+          <div
+            key={activeHubId}
+            className="premium-glass"
+            style={{
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(248, 250, 252, 0.97) 100%)',
+            border: '1px solid rgba(226, 232, 240, 0.95)',
             borderRadius: '24px',
             padding: '2.25rem',
-            boxShadow: `0 18px 48px -12px ${currentHub.accentColor}30`,
+            boxShadow: '0 32px 70px -28px rgba(11, 18, 32, 0.16), 0 4px 14px rgba(11, 18, 32, 0.04)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
             position: 'relative',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            animation: 'projectSlideIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both'
           }}>
-            {/* Top accent line */}
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: '4px',
-              background: `linear-gradient(90deg, ${currentHub.accentColor}, ${currentHub.accentColor}55)`
-            }} />
-
             <div>
               {/* Card Header */}
               <div style={{
@@ -375,15 +350,15 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
                   <span style={{
                     width: '48px',
                     height: '48px',
-                    borderRadius: '12px',
-                    background: `${currentHub.accentColor}15`,
-                    color: currentHub.accentColor,
+                    borderRadius: '14px',
+                    background: '#eff6ff',
+                    color: '#2563eb',
                     fontWeight: '900',
                     fontSize: '1.05rem',
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    border: `1.5px solid ${currentHub.accentColor}35`,
+                    border: '1px solid #dbeafe',
                     flexShrink: 0
                   }}>
                     {currentHub.code}
@@ -392,7 +367,7 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
                     <h3 style={{ fontSize: '1.45rem', fontWeight: '900', color: '#0b0f19', margin: 0, lineHeight: '1.2' }}>
                       {currentHub.country} Hub
                     </h3>
-                    <span style={{ fontSize: '0.85rem', color: currentHub.accentColor, fontWeight: '700' }}>
+                    <span style={{ fontSize: '0.85rem', color: '#2563eb', fontWeight: '700' }}>
                       {currentHub.city}
                     </span>
                   </div>
@@ -441,11 +416,11 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
                 <span style={{
                   fontSize: '0.78rem',
                   fontWeight: '800',
-                  color: currentHub.accentColor,
-                  background: `${currentHub.accentColor}12`,
-                  border: `1px solid ${currentHub.accentColor}25`,
-                  padding: '0.25rem 0.85rem',
-                  borderRadius: '6px',
+                  color: '#1d4ed8',
+                  background: '#eff6ff',
+                  border: '1px solid #dbeafe',
+                  padding: '0.28rem 0.9rem',
+                  borderRadius: '9999px',
                   display: 'inline-block'
                 }}>
                   {currentHub.role}
@@ -483,8 +458,11 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
                 </span>
                 <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
                   {currentHub.highlights.map((item, idx) => (
-                    <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', fontSize: '0.88rem', color: '#334155' }}>
-                      <span style={{ color: currentHub.accentColor, fontWeight: '900', fontSize: '1rem', lineHeight: '1.2' }}>✓</span>
+                    <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', fontSize: '0.88rem', color: '#334155' }}>
+                      <svg width="15" height="15" viewBox="0 0 20 20" fill="none" style={{ flexShrink: 0, marginTop: '3px' }} aria-hidden="true">
+                        <circle cx="10" cy="10" r="10" fill="#eff6ff" />
+                        <path d="M6 10L8.5 12.5L14 7" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
                       <span>{item}</span>
                     </li>
                   ))}
