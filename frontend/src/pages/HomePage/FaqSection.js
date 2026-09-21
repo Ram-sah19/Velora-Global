@@ -27,29 +27,22 @@ export default function FaqSection() {
   ];
 
   return (
-    <section style={{ padding: '5rem 0', background: '#ffffff', borderTop: '1px solid #e2e8f0' }}>
+    <section style={{ padding: '6rem 0', background: 'var(--premium-grad-tinted)' }}>
       <div className="container" style={{ maxWidth: '850px' }}>
         
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-          <span style={{
+          <span className="premium-eyebrow" style={{
             fontSize: '0.82rem',
-            color: '#2563eb',
+            color: '#1d4ed8',
             fontWeight: '700',
-            textTransform: 'uppercase',
-            letterSpacing: '0.12em',
-            background: '#eff6ff',
-            padding: '0.35rem 1rem',
-            borderRadius: '9999px',
-            border: '1px solid #dbeafe',
-            display: 'inline-block',
-            marginBottom: '0.75rem'
+            marginBottom: '0.9rem'
           }}>
             Transparent Answers
           </span>
-          <h2 style={{ fontSize: '2.5rem', color: '#0a2540', marginTop: '0.3rem', fontWeight: '800' }}>
+          <h2 className="premium-headline" style={{ fontSize: '2.7rem', marginTop: '0.3rem', fontWeight: '800', lineHeight: '1.15' }}>
             Frequently Asked Questions
           </h2>
-          <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.5rem' }}>
+          <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.65rem' }}>
             Everything you need to know about Velora Global internships, training, and credential verification.
           </p>
         </div>
@@ -59,12 +52,14 @@ export default function FaqSection() {
           {faqs.map((faq, idx) => (
             <div 
               key={idx}
+              className="premium-glass"
               style={{
-                border: openIndex === idx ? '2px solid #2563eb' : '1px solid #e2e8f0',
-                borderRadius: '14px',
-                background: openIndex === idx ? '#ffffff' : '#f8fafc',
+                border: openIndex === idx ? '1px solid rgba(37, 99, 235, 0.45)' : '1px solid rgba(226, 232, 240, 0.9)',
+                borderRadius: '16px',
+                background: openIndex === idx ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.75)',
                 overflow: 'hidden',
-                transition: 'all 0.2s ease'
+                boxShadow: openIndex === idx ? 'var(--premium-shadow-card)' : '0 1px 4px rgba(11, 18, 32, 0.04)',
+                transition: 'all 0.25s ease'
               }}
             >
               <button
@@ -77,21 +72,38 @@ export default function FaqSection() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
+                  gap: '1rem',
                   fontSize: '1.05rem',
                   fontWeight: '700',
-                  color: '#0b0f19',
+                  color: '#0b1220',
                   border: 'none',
                   cursor: 'pointer'
                 }}
               >
                 <span>{faq.question}</span>
-                <span style={{ fontSize: '1.2rem', color: openIndex === idx ? '#2563eb' : '#64748b' }}>
+                <span aria-hidden="true" style={{
+                  width: '30px',
+                  height: '30px',
+                  flexShrink: 0,
+                  borderRadius: '50%',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '1.05rem',
+                  fontWeight: '800',
+                  lineHeight: '1',
+                  background: openIndex === idx ? 'var(--premium-grad-brand)' : '#f1f5f9',
+                  color: openIndex === idx ? '#ffffff' : '#64748b',
+                  border: openIndex === idx ? '1px solid transparent' : '1px solid #e2e8f0',
+                  boxShadow: openIndex === idx ? '0 4px 12px -4px rgba(37, 99, 235, 0.5)' : 'none',
+                  transition: 'all 0.25s ease'
+                }}>
                   {openIndex === idx ? '−' : '+'}
                 </span>
               </button>
 
               {openIndex === idx && (
-                <div style={{ padding: '0 1.5rem 1.5rem 1.5rem', color: '#475569', fontSize: '0.95rem', lineHeight: '1.6' }}>
+                <div style={{ padding: '0 1.5rem 1.5rem 1.5rem', color: '#475569', fontSize: '0.95rem', lineHeight: '1.65' }}>
                   {faq.answer}
                 </div>
               )}

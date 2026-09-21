@@ -223,30 +223,21 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
     >
       {/* Section Header */}
       <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 2.5rem auto' }}>
-        <div style={{ marginBottom: '0.75rem' }}>
-          <span style={{
+        <div style={{ marginBottom: '0.9rem' }}>
+          <span className="premium-eyebrow" style={{
             fontSize: '0.78rem',
             fontWeight: '700',
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            color: '#2563eb',
-            background: '#eff6ff',
-            border: '1px solid #dbeafe',
-            padding: '0.35rem 1rem',
-            borderRadius: '9999px',
-            display: 'inline-block'
+            color: '#1d4ed8'
           }}>
             DELIVERED CLIENT PLATFORMS
           </span>
         </div>
 
-        <h2 style={{
-          fontSize: 'clamp(1.85rem, 3.4vw, 2.5rem)',
-          color: '#0b0f19',
+        <h2 className="premium-headline" style={{
+          fontSize: 'clamp(1.85rem, 3.4vw, 2.6rem)',
           fontWeight: '800',
-          lineHeight: '1.2',
-          margin: '0 0 0.75rem 0',
-          letterSpacing: '-0.025em'
+          lineHeight: '1.15',
+          margin: '0 0 0.85rem 0'
         }}>
           Production Systems & Enterprise Engineering
         </h2>
@@ -274,6 +265,7 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
             <button
               key={proj.id}
               onClick={() => setActiveIndex(idx)}
+              className="premium-card"
               style={{
                 background: '#ffffff',
                 border: isSelected ? '1.5px solid #2563eb' : '1px solid #e2e8f0',
@@ -284,7 +276,6 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
                 boxShadow: isSelected 
                   ? '0 8px 24px -4px rgba(37, 99, 235, 0.16), 0 2px 6px rgba(0, 0, 0, 0.04)' 
                   : '0 2px 8px rgba(0, 0, 0, 0.03)',
-                transition: 'all 0.2s ease',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '0.25rem'
@@ -329,10 +320,10 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
 
       {/* ── MAIN SHOWCASE STAGE (CLEAN ENTERPRISE CARD) ── */}
       <div style={{
-        background: '#ffffff',
-        borderRadius: '20px',
-        border: '1px solid #e2e8f0',
-        boxShadow: '0 16px 40px -12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.02)',
+        background: 'rgba(255, 255, 255, 0.92)',
+        borderRadius: '24px',
+        border: '1px solid rgba(226, 232, 240, 0.9)',
+        boxShadow: 'var(--premium-shadow-card)',
         overflow: 'hidden'
       }}>
         {/* Top Browser Title Bar */}
@@ -358,7 +349,7 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
           <div style={{
             background: '#ffffff',
             padding: '0.25rem 0.85rem',
-            borderRadius: '6px',
+            borderRadius: '9999px',
             fontSize: '0.72rem',
             color: '#64748b',
             fontWeight: '600',
@@ -368,7 +359,10 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
             gap: '0.4rem',
             boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
           }}>
-            <span style={{ color: '#16a34a' }}>🔒</span>
+            <svg width="10" height="12" viewBox="0 0 12 16" fill="none" aria-hidden="true">
+              <path d="M2 7V4.5C2 2.29 3.34 0.5 6 0.5C8.66 0.5 10 2.29 10 4.5V7" stroke="#16a34a" strokeWidth="1.5" strokeLinecap="round" />
+              <rect x="1" y="6.5" width="10" height="8.5" rx="1.8" fill="#16a34a" />
+            </svg>
             <span>{activeProject.mockupUrl}</span>
           </div>
 
@@ -472,7 +466,12 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
                 justifyContent: 'space-between'
               }}>
                 <span style={{ fontSize: '0.76rem', color: '#1e40af', fontWeight: '700' }}>Verified Metric Outcome</span>
-                <span style={{ fontSize: '0.84rem', color: '#1d4ed8', fontWeight: '800' }}>⚡ {activeProject.metric}</span>
+                <span style={{ fontSize: '0.84rem', color: '#1d4ed8', fontWeight: '800', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                  <svg width="11" height="13" viewBox="0 0 12 14" fill="none" aria-hidden="true">
+                    <path d="M7.5 0.5L1.5 8H5.5L4.5 13.5L10.5 6H6.5L7.5 0.5Z" fill="#f59e0b" stroke="#f59e0b" strokeWidth="0.8" strokeLinejoin="round" />
+                  </svg>
+                  {activeProject.metric}
+                </span>
               </div>
             </div>
           </div>
@@ -562,24 +561,24 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
               <button
                 onClick={onConsultationClick}
                 style={{
-                  padding: '0.82rem 1.85rem',
+                  padding: '0.85rem 1.9rem',
                   fontSize: '0.9rem',
                   fontWeight: '700',
-                  background: '#2563eb',
+                  background: 'var(--premium-grad-brand)',
                   color: '#ffffff',
                   border: 'none',
-                  borderRadius: '10px',
+                  borderRadius: '9999px',
                   cursor: 'pointer',
-                  boxShadow: '0 4px 14px rgba(37, 99, 235, 0.3)',
-                  transition: 'all 0.18s ease'
+                  boxShadow: '0 6px 20px -6px rgba(37, 99, 235, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.25)',
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#1d4ed8';
-                  e.currentTarget.style.transform = 'translateY(-1px)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 10px 28px -8px rgba(37, 99, 235, 0.65)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '#2563eb';
                   e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 6px 20px -6px rgba(37, 99, 235, 0.55)';
                 }}
               >
                 Inquire for Similar Architecture ➔

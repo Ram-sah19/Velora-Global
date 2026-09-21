@@ -118,43 +118,39 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
 
   return (
     <section style={{
-      padding: '5rem 0',
-      background: '#ffffff',
+      padding: '6rem 0',
+      background: 'var(--premium-grad-light)',
       color: '#0b0f19',
       position: 'relative',
-      borderTop: '1px solid #e2e8f0',
-      borderBottom: '1px solid #e2e8f0'
+      overflow: 'hidden'
     }}>
-      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+      <div aria-hidden="true" style={{
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        background: 'radial-gradient(1000px 420px at 50% -5%, rgba(37, 99, 235, 0.07), transparent 60%)'
+      }} />
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', position: 'relative' }}>
         
         {/* ── Section Header ── */}
         <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 3rem auto' }}>
-          <span style={{
+          <span className="premium-eyebrow" style={{
             fontSize: '0.82rem',
-            color: '#2563eb',
+            color: '#1d4ed8',
             fontWeight: '800',
-            textTransform: 'uppercase',
-            letterSpacing: '0.12em',
-            background: '#eff6ff',
-            padding: '0.35rem 1.15rem',
-            borderRadius: '9999px',
-            border: '1px solid #dbeafe',
-            display: 'inline-block',
-            marginBottom: '0.85rem'
+            marginBottom: '1rem'
           }}>
             GLOBAL IMPACT & REACH
           </span>
 
-          <h2 style={{
-            fontSize: 'clamp(2rem, 3.4vw, 2.75rem)',
-            color: '#0b0f19',
+          <h2 className="premium-headline" style={{
+            fontSize: 'clamp(2rem, 3.4vw, 2.85rem)',
             fontWeight: '800',
-            lineHeight: '1.25',
-            letterSpacing: '-0.025em',
-            margin: '0 0 0.85rem 0'
+            lineHeight: '1.18',
+            margin: '0 0 0.95rem 0'
           }}>
             Connecting Talent & Enterprise <br />
-            <span style={{ color: '#2563eb' }}>From Kathmandu to the World</span>
+            From Kathmandu to the World
           </h2>
 
           <p style={{ color: '#64748b', fontSize: '1.02rem', lineHeight: '1.65', margin: 0 }}>
@@ -169,13 +165,12 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
           gap: '1.25rem',
           marginBottom: '3rem'
         }}>
-          <div style={{
-            background: '#f8fafc',
-            border: '1px solid #e2e8f0',
-            borderRadius: '16px',
+          <div className="premium-card premium-glass" style={{
+            background: 'rgba(255, 255, 255, 0.85)',
+            border: '1px solid rgba(226, 232, 240, 0.9)',
+            borderRadius: '18px',
             padding: '1.4rem 1.25rem',
-            textAlign: 'center',
-            transition: 'all 0.2s ease'
+            textAlign: 'center'
           }}>
             <span style={{ display: 'block', fontSize: '2.1rem', fontWeight: '900', color: '#0b0f19', lineHeight: '1.1', marginBottom: '0.35rem' }}>
               100+
@@ -185,13 +180,12 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
             </span>
           </div>
 
-          <div style={{
-            background: '#f8fafc',
-            border: '1px solid #e2e8f0',
-            borderRadius: '16px',
+          <div className="premium-card premium-glass" style={{
+            background: 'rgba(255, 255, 255, 0.85)',
+            border: '1px solid rgba(226, 232, 240, 0.9)',
+            borderRadius: '18px',
             padding: '1.4rem 1.25rem',
-            textAlign: 'center',
-            transition: 'all 0.2s ease'
+            textAlign: 'center'
           }}>
             <span style={{ display: 'block', fontSize: '2.1rem', fontWeight: '900', color: '#2563eb', lineHeight: '1.1', marginBottom: '0.35rem' }}>
               6+
@@ -201,13 +195,12 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
             </span>
           </div>
 
-          <div style={{
-            background: '#f8fafc',
-            border: '1px solid #e2e8f0',
-            borderRadius: '16px',
+          <div className="premium-card premium-glass" style={{
+            background: 'rgba(255, 255, 255, 0.85)',
+            border: '1px solid rgba(226, 232, 240, 0.9)',
+            borderRadius: '18px',
             padding: '1.4rem 1.25rem',
-            textAlign: 'center',
-            transition: 'all 0.2s ease'
+            textAlign: 'center'
           }}>
             <span style={{ display: 'block', fontSize: '2.1rem', fontWeight: '900', color: '#ff5454', lineHeight: '1.1', marginBottom: '0.35rem' }}>
               50+
@@ -217,13 +210,12 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
             </span>
           </div>
 
-          <div style={{
-            background: '#f8fafc',
-            border: '1px solid #e2e8f0',
-            borderRadius: '16px',
+          <div className="premium-card premium-glass" style={{
+            background: 'rgba(255, 255, 255, 0.85)',
+            border: '1px solid rgba(226, 232, 240, 0.9)',
+            borderRadius: '18px',
             padding: '1.4rem 1.25rem',
-            textAlign: 'center',
-            transition: 'all 0.2s ease'
+            textAlign: 'center'
           }}>
             <span style={{ display: 'block', fontSize: '2.1rem', fontWeight: '900', color: '#059669', lineHeight: '1.1', marginBottom: '0.35rem' }}>
               5
@@ -347,12 +339,12 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
           </div>
 
           {/* Right Column: Detailed Hub Focus Card */}
-          <div style={{
-            background: '#ffffff',
+          <div className="premium-glass" style={{
+            background: 'rgba(255, 255, 255, 0.92)',
             border: `1.5px solid ${currentHub.accentColor}40`,
-            borderRadius: '20px',
+            borderRadius: '24px',
             padding: '2.25rem',
-            boxShadow: `0 12px 36px -8px ${currentHub.accentColor}18`,
+            boxShadow: `0 18px 48px -12px ${currentHub.accentColor}30`,
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
@@ -366,7 +358,7 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
               left: 0,
               right: 0,
               height: '4px',
-              background: currentHub.accentColor
+              background: `linear-gradient(90deg, ${currentHub.accentColor}, ${currentHub.accentColor}55)`
             }} />
 
             <div>
@@ -547,12 +539,11 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
           gap: '1.5rem',
           marginBottom: '3rem'
         }}>
-          <div style={{
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
-            borderRadius: '16px',
-            padding: '1.5rem',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
+          <div className="premium-card premium-glass" style={{
+            background: 'rgba(255, 255, 255, 0.88)',
+            border: '1px solid rgba(226, 232, 240, 0.9)',
+            borderRadius: '18px',
+            padding: '1.5rem'
           }}>
             <div style={{
               width: '42px',
@@ -578,12 +569,11 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
             </p>
           </div>
 
-          <div style={{
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
-            borderRadius: '16px',
-            padding: '1.5rem',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
+          <div className="premium-card premium-glass" style={{
+            background: 'rgba(255, 255, 255, 0.88)',
+            border: '1px solid rgba(226, 232, 240, 0.9)',
+            borderRadius: '18px',
+            padding: '1.5rem'
           }}>
             <div style={{
               width: '42px',
@@ -609,12 +599,11 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
             </p>
           </div>
 
-          <div style={{
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
-            borderRadius: '16px',
-            padding: '1.5rem',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
+          <div className="premium-card premium-glass" style={{
+            background: 'rgba(255, 255, 255, 0.88)',
+            border: '1px solid rgba(226, 232, 240, 0.9)',
+            borderRadius: '18px',
+            padding: '1.5rem'
           }}>
             <div style={{
               width: '42px',
