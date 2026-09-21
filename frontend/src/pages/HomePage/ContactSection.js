@@ -37,32 +37,36 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact-section" style={{ padding: '5rem 0', background: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
-      <div className="container">
+    <section id="contact-section" style={{
+      padding: '6rem 0',
+      background: 'var(--premium-grad-light)',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      <div aria-hidden="true" style={{
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        background: 'radial-gradient(900px 400px at 50% -10%, rgba(37, 99, 235, 0.07), transparent 60%)'
+      }} />
+      <div className="container" style={{ position: 'relative' }}>
         
         {/* Section Header */}
         <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 3.5rem auto' }}>
-          <span style={{
+          <span className="premium-eyebrow" style={{
             fontSize: '0.82rem',
-            color: '#2563eb',
+            color: '#1d4ed8',
             fontWeight: '700',
-            textTransform: 'uppercase',
-            letterSpacing: '0.12em',
-            background: '#eff6ff',
-            padding: '0.35rem 1.1rem',
-            borderRadius: '9999px',
-            border: '1px solid #dbeafe',
-            display: 'inline-block',
-            marginBottom: '0.85rem'
+            marginBottom: '0.95rem'
           }}>
             Get In Touch
           </span>
           
-          <h2 style={{ fontSize: '2.5rem', color: '#0b0f19', fontWeight: '800', lineHeight: '1.2' }}>
+          <h2 className="premium-headline" style={{ fontSize: '2.7rem', fontWeight: '800', lineHeight: '1.15' }}>
             Contact & Inquiries
           </h2>
           
-          <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.75rem', lineHeight: '1.6' }}>
+          <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.85rem', lineHeight: '1.6' }}>
             Have questions about internship enrollment, guided training tracks, or enterprise software development? Reach out directly.
           </p>
         </div>
@@ -77,15 +81,15 @@ export default function ContactSection() {
           
           {/* Left Info Column */}
           <div>
-            <div style={{
-              background: '#ffffff',
-              border: '1px solid #e2e8f0',
-              borderRadius: '20px',
+            <div className="premium-glass" style={{
+              background: 'rgba(255, 255, 255, 0.9)',
+              border: '1px solid rgba(226, 232, 240, 0.9)',
+              borderRadius: '24px',
               padding: '2.5rem',
-              boxShadow: 'var(--shadow-sm)',
+              boxShadow: 'var(--premium-shadow-card)',
               marginBottom: '2rem'
             }}>
-              <h3 style={{ fontSize: '1.35rem', color: '#0b0f19', fontWeight: '800', marginBottom: '1.5rem' }}>
+              <h3 style={{ fontSize: '1.35rem', color: '#0b1220', fontWeight: '800', marginBottom: '1.5rem', letterSpacing: '-0.015em' }}>
                 Corporate Contact Details
               </h3>
 
@@ -193,7 +197,7 @@ export default function ContactSection() {
                       padding: '0.45rem 0.85rem',
                       background: '#eff6ff',
                       border: '1px solid #dbeafe',
-                      borderRadius: '8px',
+                      borderRadius: '12px',
                       color: '#0a66c2',
                       fontWeight: '700',
                       fontSize: '0.85rem',
@@ -220,7 +224,7 @@ export default function ContactSection() {
                       padding: '0.45rem 0.85rem',
                       background: '#fff1f2',
                       border: '1px solid #ffe4e6',
-                      borderRadius: '8px',
+                      borderRadius: '12px',
                       color: '#e1306c',
                       fontWeight: '700',
                       fontSize: '0.85rem',
@@ -247,7 +251,7 @@ export default function ContactSection() {
                       padding: '0.45rem 0.85rem',
                       background: '#f0f9ff',
                       border: '1px solid #e0f2fe',
-                      borderRadius: '8px',
+                      borderRadius: '12px',
                       color: '#1877f2',
                       fontWeight: '700',
                       fontSize: '0.85rem',
@@ -268,14 +272,14 @@ export default function ContactSection() {
           </div>
 
           {/* Right Inquiry Form */}
-          <div style={{
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
-            borderRadius: '20px',
+          <div className="premium-glass" style={{
+            background: 'rgba(255, 255, 255, 0.9)',
+            border: '1px solid rgba(226, 232, 240, 0.9)',
+            borderRadius: '24px',
             padding: '2.5rem',
-            boxShadow: 'var(--shadow-sm)'
+            boxShadow: 'var(--premium-shadow-card)'
           }}>
-            <h3 style={{ fontSize: '1.35rem', color: '#0b0f19', fontWeight: '800', marginBottom: '1.25rem' }}>
+            <h3 style={{ fontSize: '1.35rem', color: '#0b1220', fontWeight: '800', marginBottom: '1.25rem', letterSpacing: '-0.015em' }}>
               Send an Official Message
             </h3>
 
@@ -314,7 +318,7 @@ export default function ContactSection() {
                     style={{
                       width: '100%',
                       padding: '0.75rem 1rem',
-                      borderRadius: '8px',
+                      borderRadius: '12px',
                       border: '1px solid #cbd5e1',
                       fontSize: '0.92rem'
                     }}
@@ -334,7 +338,7 @@ export default function ContactSection() {
                     style={{
                       width: '100%',
                       padding: '0.75rem 1rem',
-                      borderRadius: '8px',
+                      borderRadius: '12px',
                       border: '1px solid #cbd5e1',
                       fontSize: '0.92rem'
                     }}
@@ -351,7 +355,7 @@ export default function ContactSection() {
                     style={{
                       width: '100%',
                       padding: '0.75rem 1rem',
-                      borderRadius: '8px',
+                      borderRadius: '12px',
                       border: '1px solid #cbd5e1',
                       fontSize: '0.92rem',
                       background: '#ffffff'
@@ -377,7 +381,7 @@ export default function ContactSection() {
                     style={{
                       width: '100%',
                       padding: '0.75rem 1rem',
-                      borderRadius: '8px',
+                      borderRadius: '12px',
                       border: '1px solid #cbd5e1',
                       fontSize: '0.92rem',
                       resize: 'vertical'
@@ -388,13 +392,12 @@ export default function ContactSection() {
                 <button
                   type="submit"
                   disabled={status.loading}
-                  className="btn-primary"
+                  className="btn-premium"
                   style={{
-                    padding: '0.85rem',
+                    padding: '0.9rem',
                     fontSize: '0.95rem',
                     fontWeight: '700',
-                    width: '100%',
-                    borderRadius: '8px'
+                    width: '100%'
                   }}
                 >
                   {status.loading ? 'Sending Message...' : 'Submit Inquiry'}

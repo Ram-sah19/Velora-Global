@@ -148,32 +148,37 @@ export default function DomainSpecializationsSection({ onExploreClick, onTrainin
   const activeSpotlight = filteredDomains[selectedDomainIndex] || filteredDomains[0] || domains[0];
 
   return (
-    <section className="domain-specializations-section" style={{ position: 'relative', zIndex: 5, paddingTop: '4rem', paddingBottom: '5rem' }}>
-      <div className="container">
+    <section className="domain-specializations-section" style={{
+      position: 'relative',
+      zIndex: 5,
+      paddingTop: '5.5rem',
+      paddingBottom: '6.5rem',
+      background: 'var(--premium-grad-tinted)'
+    }}>
+      <div aria-hidden="true" style={{
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        background: 'radial-gradient(900px 380px at 90% 0%, rgba(37, 99, 235, 0.08), transparent 60%), radial-gradient(700px 320px at 0% 100%, rgba(124, 58, 237, 0.06), transparent 55%)'
+      }} />
+      <div className="container" style={{ position: 'relative' }}>
         
         {/* Section Header */}
         <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 3rem auto' }}>
-          <span style={{
+          <span className="premium-eyebrow" style={{
             fontSize: '0.8rem',
-            color: '#2563eb',
+            color: '#1d4ed8',
             fontWeight: '700',
-            textTransform: 'uppercase',
-            letterSpacing: '0.12em',
-            background: '#eff6ff',
-            padding: '0.4rem 1.1rem',
-            borderRadius: '9999px',
-            border: '1px solid #dbeafe',
-            display: 'inline-block',
-            marginBottom: '0.85rem'
+            marginBottom: '1rem'
           }}>
             DOMAIN SPECIALIZATIONS
           </span>
 
-          <h2 style={{ fontSize: '2.6rem', color: '#0b0f19', fontWeight: '800', margin: '0 0 0.65rem 0', letterSpacing: '-0.02em', lineHeight: '1.2' }}>
+          <h2 className="premium-headline" style={{ fontSize: '2.9rem', fontWeight: '800', margin: '0 0 0.85rem 0', lineHeight: '1.15' }}>
             What We Do
           </h2>
 
-          <p style={{ color: '#64748b', fontSize: '1.05rem', margin: '0 auto', maxWidth: '640px', lineHeight: '1.6' }}>
+          <p style={{ color: '#64748b', fontSize: '1.08rem', margin: '0 auto', maxWidth: '640px', lineHeight: '1.65' }}>
             Select a domain category below to explore curriculum deliverables, tech stacks, and career outcomes.
           </p>
         </div>
@@ -201,24 +206,26 @@ export default function DomainSpecializationsSection({ onExploreClick, onTrainin
                   borderRadius: '9999px',
                   fontSize: '0.92rem',
                   fontWeight: isActive ? '700' : '600',
-                  background: isActive ? '#0b0f19' : '#ffffff',
+                  background: isActive ? 'var(--premium-grad-brand)' : 'rgba(255, 255, 255, 0.8)',
                   color: isActive ? '#ffffff' : '#475569',
-                  border: isActive ? '1px solid #0b0f19' : '1px solid #e2e8f0',
-                  boxShadow: isActive ? '0 4px 14px rgba(11, 15, 25, 0.15)' : 'none',
+                  border: isActive ? '1px solid transparent' : '1px solid rgba(226, 232, 240, 0.9)',
+                  boxShadow: isActive ? '0 8px 22px -8px rgba(37, 99, 235, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.25)' : '0 2px 8px rgba(11, 18, 32, 0.04)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
                   whiteSpace: 'nowrap',
                   cursor: 'pointer',
-                  transition: 'all 0.15s ease'
+                  transition: 'all 0.18s ease'
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
-                    e.target.style.background = '#f8fafc';
-                    e.target.style.borderColor = '#cbd5e1';
+                    e.target.style.background = 'rgba(239, 246, 255, 0.95)';
+                    e.target.style.borderColor = 'rgba(37, 99, 235, 0.35)';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!isActive) {
-                    e.target.style.background = '#ffffff';
-                    e.target.style.borderColor = '#e2e8f0';
+                    e.target.style.background = 'rgba(255, 255, 255, 0.8)';
+                    e.target.style.borderColor = 'rgba(226, 232, 240, 0.9)';
                   }
                 }}
               >
@@ -244,16 +251,15 @@ export default function DomainSpecializationsSection({ onExploreClick, onTrainin
                 <div
                   key={idx}
                   onClick={() => setSelectedDomainIndex(idx)}
+                  className="premium-card"
                   style={{
                     padding: '1.25rem 1.5rem',
-                    background: isSelected ? 'rgba(239, 246, 255, 0.92)' : 'rgba(255, 255, 255, 0.78)',
+                    background: isSelected ? 'rgba(239, 246, 255, 0.92)' : 'rgba(255, 255, 255, 0.85)',
                     backdropFilter: 'blur(12px)',
                     WebkitBackdropFilter: 'blur(12px)',
                     border: isSelected ? '2px solid #2563eb' : '1px solid rgba(226, 232, 240, 0.8)',
                     borderRadius: '16px',
                     cursor: 'pointer',
-                    boxShadow: isSelected ? '0 4px 16px rgba(37, 99, 235, 0.12)' : '0 2px 8px rgba(0, 0, 0, 0.02)',
-                    transition: 'all 0.18s ease',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between'
@@ -295,14 +301,11 @@ export default function DomainSpecializationsSection({ onExploreClick, onTrainin
           </div>
 
           {/* Right Interactive Detailed Spotlight Card */}
-          <div className="corporate-card" style={{
-            background: 'rgba(255, 255, 255, 0.82)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-            border: '1px solid rgba(255, 255, 255, 0.85)',
+          <div className="corporate-card premium-card premium-glass" style={{
+            background: 'rgba(255, 255, 255, 0.86)',
+            border: '1px solid rgba(255, 255, 255, 0.9)',
             borderRadius: '24px',
             padding: '2.5rem',
-            boxShadow: '0 12px 35px rgba(10, 37, 64, 0.06)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between'
@@ -393,19 +396,20 @@ export default function DomainSpecializationsSection({ onExploreClick, onTrainin
                 }}
                 style={{
                   flex: 1,
-                  padding: '0.8rem 1.25rem',
+                  padding: '0.85rem 1.25rem',
                   fontSize: '0.92rem',
                   fontWeight: '700',
-                  background: '#2563eb',
+                  background: 'var(--premium-grad-brand)',
                   color: '#ffffff',
                   border: 'none',
                   borderRadius: '9999px',
                   cursor: 'pointer',
                   textAlign: 'center',
-                  transition: 'background 0.15s ease'
+                  boxShadow: '0 6px 20px -6px rgba(37, 99, 235, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.25)',
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                 }}
-                onMouseEnter={(e) => e.target.style.background = '#1d4ed8'}
-                onMouseLeave={(e) => e.target.style.background = '#2563eb'}
+                onMouseEnter={(e) => { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 10px 28px -8px rgba(37, 99, 235, 0.65)'; }}
+                onMouseLeave={(e) => { e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 6px 20px -6px rgba(37, 99, 235, 0.55)'; }}
               >
                 Apply for Internship
               </button>
@@ -418,19 +422,21 @@ export default function DomainSpecializationsSection({ onExploreClick, onTrainin
                 }}
                 style={{
                   flex: 1,
-                  padding: '0.8rem 1.25rem',
+                  padding: '0.85rem 1.25rem',
                   fontSize: '0.92rem',
                   fontWeight: '700',
-                  background: '#ffffff',
-                  color: '#0b0f19',
-                  border: '1px solid #cbd5e1',
+                  background: 'rgba(255, 255, 255, 0.7)',
+                  color: '#0b1220',
+                  border: '1px solid rgba(11, 18, 32, 0.12)',
                   borderRadius: '9999px',
                   cursor: 'pointer',
                   textAlign: 'center',
-                  transition: 'all 0.15s ease'
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  transition: 'transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease'
                 }}
-                onMouseEnter={(e) => { e.target.style.background = '#f8fafc'; e.target.style.borderColor = '#94a3b8'; }}
-                onMouseLeave={(e) => { e.target.style.background = '#ffffff'; e.target.style.borderColor = '#cbd5e1'; }}
+                onMouseEnter={(e) => { e.target.style.transform = 'translateY(-2px)'; e.target.style.borderColor = 'rgba(37, 99, 235, 0.45)'; e.target.style.boxShadow = '0 8px 24px -10px rgba(11, 18, 32, 0.25)'; }}
+                onMouseLeave={(e) => { e.target.style.transform = 'translateY(0)'; e.target.style.borderColor = 'rgba(11, 18, 32, 0.12)'; e.target.style.boxShadow = 'none'; }}
               >
                 View Training Specs
               </button>

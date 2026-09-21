@@ -9,10 +9,12 @@ export default function Navbar({
 }) {
   const [showServicesDropdown, setShowServicesDropdown] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDrawerClosing, setIsDrawerClosing] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   const dropdownRef = useRef(null);
   const leaveTimerRef = useRef(null);
+  const drawerCloseTimerRef = useRef(null);
 
   // Dynamic scroll listener for transparent navbar effect
   useEffect(() => {
@@ -65,10 +67,24 @@ export default function Navbar({
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   };
 
+  // Animated drawer close: play out-transition before unmounting
+  const closeMobileMenu = () => {
+    if (!isMobileMenuOpen) return;
+    setIsDrawerClosing(true);
+    drawerCloseTimerRef.current = setTimeout(() => {
+      setIsMobileMenuOpen(false);
+      setIsDrawerClosing(false);
+    }, 200);
+  };
+
+  useEffect(() => () => {
+    if (drawerCloseTimerRef.current) clearTimeout(drawerCloseTimerRef.current);
+  }, []);
+
   const isTransparent = activeTab === 'home' && !isScrolled;
 
   return (
-    <nav style={{
+    <nav className={isTransparent ? 'navbar-transparent' : undefined} style={{
       position: 'fixed',
       top: 0,
       left: 0,
@@ -83,7 +99,7 @@ export default function Navbar({
       padding: '0.9rem 0',
       transition: 'background 0.3s ease, backdrop-filter 0.3s ease, border 0.3s ease, box-shadow 0.3s ease'
     }}>
-      <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'nowrap', width: '100%' }}>
+      <div className="container navbar-shell" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'nowrap', width: '100%', position: 'relative' }}>
         
         {/* Brand Logo Component — clicking returns to homepage & scrolls to Hero top */}
         <div onClick={handleLogoClick} style={{ cursor: 'pointer' }} title="Return to Homepage">
@@ -275,9 +291,10 @@ export default function Navbar({
 
         {/* Right Header Actions */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-          {/* Direct Consultation / Discovery CTA Button */}
+          {/* Direct Consultation / Discovery CTA Button (hidden on small phones) */}
           <button
             onClick={onConsultationClick}
+            className="nav-cta"
             style={{
               background: 'linear-gradient(135deg, #ff5454 0%, #ff3b3b 100%)',
               color: '#ffffff',
@@ -309,7 +326,16 @@ export default function Navbar({
           {/* Mobile & Tablet Hamburger Toggle Button (Shown on screens < 1024px) */}
           <button
             className="mobile-nav-toggle"
-            onClick={() => setIsMobileMenuOpen(prev => !prev)}
+            onClick={() => {
+              if (isMobileMenuOpen) {
+                closeMobileMenu();
+              } else {
+                if (drawerCloseTimerRef.current) clearTimeout(drawerCloseTimerRef.current);
+                setIsDrawerClosing(false);
+                setIsMobileMenuOpen(true);
+              }
+            }}
+            aria-expanded={isMobileMenuOpen}
             style={{
               padding: '0.45rem 0.9rem',
               borderRadius: '9999px',
@@ -331,25 +357,30 @@ export default function Navbar({
           </button>
         </div>
 
-        {/* Mobile & Tablet Slide-Down Navigation Menu Drawer */}
-        {isMobileMenuOpen && (
+        {/* Mobile & Tablet Drop-Down Navigation Menu Drawer (anchored below the bar) */}
+        {(isMobileMenuOpen || isDrawerClosing) && (
           <div className="mobile-menu-drawer" style={{
-            width: '100%',
+            position: 'absolute',
+            top: 'calc(100% + 1.7rem)',
+            left: 0,
+            right: 0,
+            zIndex: 700,
             background: '#ffffff',
             border: '1px solid #e2e8f0',
             borderRadius: '16px',
             padding: '1rem',
-            marginTop: '0.75rem',
             boxShadow: 'var(--shadow-lg)',
             display: 'flex',
             flexDirection: 'column',
             gap: '0.5rem',
-            animation: 'modalSlideUp 0.22s ease-out'
+            maxHeight: 'calc(100vh - 110px)',
+            overflowY: 'auto',
+            animation: isDrawerClosing ? 'navbarDrawerOut 0.2s ease-in forwards' : 'navbarDrawerIn 0.24s cubic-bezier(0.22, 1, 0.36, 1)'
           }}>
             <button
               onClick={() => {
                 setActiveTab('home');
-                setIsMobileMenuOpen(false);
+                closeMobileMenu();
               }}
               style={{
                 padding: '0.75rem 1rem',
@@ -368,7 +399,7 @@ export default function Navbar({
             <button
               onClick={() => {
                 setActiveTab('services');
-                setIsMobileMenuOpen(false);
+                closeMobileMenu();
               }}
               style={{
                 padding: '0.75rem 1rem',
@@ -387,7 +418,7 @@ export default function Navbar({
             <button
               onClick={() => {
                 setActiveTab('team');
-                setIsMobileMenuOpen(false);
+                closeMobileMenu();
               }}
               style={{
                 padding: '0.75rem 1rem',
@@ -406,7 +437,7 @@ export default function Navbar({
             <button
               onClick={() => {
                 setActiveTab('internships');
-                setIsMobileMenuOpen(false);
+                closeMobileMenu();
               }}
               style={{
                 padding: '0.75rem 1rem',
@@ -425,7 +456,7 @@ export default function Navbar({
             <button
               onClick={() => {
                 setActiveTab('training');
-                setIsMobileMenuOpen(false);
+                closeMobileMenu();
               }}
               style={{
                 padding: '0.75rem 1rem',
@@ -443,7 +474,7 @@ export default function Navbar({
 
             <button
               onClick={() => {
-                setIsMobileMenuOpen(false);
+                closeMobileMenu();
                 if (onConsultationClick) onConsultationClick();
               }}
               style={{

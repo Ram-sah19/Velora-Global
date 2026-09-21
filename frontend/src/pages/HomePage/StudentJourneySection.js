@@ -25,29 +25,21 @@ export default function StudentJourneySection({ onApplyClick }) {
   ];
 
   return (
-    <section style={{ padding: '5rem 0', background: '#ffffff', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
-      <div className="container">
+    <section className="premium-band-dark" style={{ padding: '6rem 0', position: 'relative', overflow: 'hidden' }}>
+      <div className="container" style={{ position: 'relative' }}>
         
         <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 4rem auto' }}>
-          <span style={{
+          <span className="premium-eyebrow premium-eyebrow--on-dark" style={{
             fontSize: '0.82rem',
-            color: '#2563eb',
             fontWeight: '800',
-            textTransform: 'uppercase',
-            letterSpacing: '0.12em',
-            background: '#eff6ff',
-            padding: '0.35rem 1.1rem',
-            borderRadius: '9999px',
-            border: '1px solid #dbeafe',
-            display: 'inline-block',
-            marginBottom: '0.75rem'
+            marginBottom: '0.9rem'
           }}>
             OUR TALENT & ACADEMY ENGINE
           </span>
-          <h2 style={{ fontSize: '2.5rem', color: '#0b0f19', marginTop: '0.3rem', fontWeight: '800' }}>
-            How We Cultivate & Mentor Top Engineering Talent
+          <h2 className="premium-headline--on-dark" style={{ fontSize: '2.7rem', color: '#ffffff', marginTop: '0.3rem', fontWeight: '800', lineHeight: '1.15' }}>
+            How We Cultivate &amp; Mentor Top Engineering Talent
           </h2>
-          <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.5rem' }}>
+          <p style={{ color: '#94a3b8', fontSize: '1.05rem', marginTop: '0.65rem' }}>
             A transparent 4-step framework taking candidates through real code reviews, practical software projects, and verified credentials.
           </p>
         </div>
@@ -62,22 +54,31 @@ export default function StudentJourneySection({ onApplyClick }) {
           {steps.map((item, index) => (
             <div 
               key={item.step}
+              className="premium-glass"
               style={{
-                background: '#f8fafc',
-                border: '1px solid #e2e8f0',
-                borderRadius: '16px',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                borderRadius: '20px',
                 padding: '2.25rem 1.75rem',
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-between'
+                justifyContent: 'space-between',
+                boxShadow: '0 8px 32px -16px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08)',
+                transition: 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease'
               }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.borderColor = 'rgba(96, 165, 250, 0.5)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)'; }}
             >
               <div>
                 <span style={{
                   fontSize: '2.2rem',
                   fontWeight: '800',
-                  color: '#2563eb',
+                  background: 'linear-gradient(135deg, #60a5fa, #a78bfa)',
+                  WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  color: '#60a5fa',
                   fontFamily: 'monospace',
                   display: 'block',
                   marginBottom: '1rem',
@@ -86,11 +87,11 @@ export default function StudentJourneySection({ onApplyClick }) {
                   {item.step}
                 </span>
 
-                <h3 style={{ fontSize: '1.2rem', color: '#0b0f19', fontWeight: '700', marginBottom: '0.65rem' }}>
+                <h3 style={{ fontSize: '1.2rem', color: '#f1f5f9', fontWeight: '700', marginBottom: '0.65rem' }}>
                   {item.title}
                 </h3>
 
-                <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                <p style={{ color: '#94a3b8', fontSize: '0.9rem', lineHeight: '1.65' }}>
                   {item.description}
                 </p>
               </div>
@@ -99,7 +100,7 @@ export default function StudentJourneySection({ onApplyClick }) {
         </div>
 
         <div style={{ marginTop: '3.5rem', textAlign: 'center' }}>
-          <button onClick={onApplyClick} className="btn-primary" style={{ padding: '0.9rem 2.2rem', fontSize: '1rem' }}>
+          <button onClick={onApplyClick} className="btn-premium">
             Start Your Journey Today ➔
           </button>
         </div>

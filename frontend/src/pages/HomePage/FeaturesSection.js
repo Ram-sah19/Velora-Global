@@ -25,29 +25,33 @@ export default function FeaturesSection() {
   ];
 
   return (
-    <section style={{ padding: '5rem 0', background: '#f1f5f9' }}>
-      <div className="container">
+    <section style={{
+      padding: '6rem 0',
+      background: 'var(--premium-grad-tinted)',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      <div aria-hidden="true" style={{
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        background: 'radial-gradient(800px 360px at 10% 0%, rgba(124, 58, 237, 0.05), transparent 55%)'
+      }} />
+      <div className="container" style={{ position: 'relative' }}>
         
         <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 4rem auto' }}>
-          <span style={{
+          <span className="premium-eyebrow" style={{
             fontSize: '0.82rem',
-            color: '#2563eb',
+            color: '#1d4ed8',
             fontWeight: '700',
-            textTransform: 'uppercase',
-            letterSpacing: '0.12em',
-            background: '#eff6ff',
-            padding: '0.35rem 1rem',
-            borderRadius: '9999px',
-            border: '1px solid #dbeafe',
-            display: 'inline-block',
-            marginBottom: '0.75rem'
+            marginBottom: '0.9rem'
           }}>
             Why Velora Global
           </span>
-          <h2 style={{ fontSize: '2.5rem', color: '#0b0f19', marginTop: '0.3rem', fontWeight: '800' }}>
+          <h2 className="premium-headline" style={{ fontSize: '2.7rem', marginTop: '0.3rem', fontWeight: '800', lineHeight: '1.15' }}>
             Built for Excellence & Career Trust
           </h2>
-          <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.5rem' }}>
+          <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.65rem' }}>
             Our platform combines rigorous project standards, verified credentials, and founding leadership support.
           </p>
         </div>
@@ -61,34 +65,38 @@ export default function FeaturesSection() {
           {features.map((f, i) => (
             <div 
               key={i}
-              className="corporate-card"
+              className="premium-card premium-glass"
               style={{
                 padding: '2.25rem',
-                background: '#ffffff',
-                border: '1px solid #e2e8f0',
-                borderRadius: '16px',
+                background: 'rgba(255, 255, 255, 0.86)',
+                border: '1px solid rgba(226, 232, 240, 0.9)',
+                borderRadius: '20px',
                 textAlign: 'left'
               }}
             >
               <span style={{
                 fontSize: '0.72rem',
                 fontWeight: '800',
-                color: '#2563eb',
+                color: '#475569',
                 letterSpacing: '0.08em',
-                background: '#eff6ff',
-                padding: '0.25rem 0.65rem',
-                borderRadius: '6px',
-                display: 'inline-block',
-                marginBottom: '1rem'
+                background: '#f1f5f9',
+                padding: '0.3rem 0.75rem',
+                borderRadius: '9999px',
+                border: '1px solid #e2e8f0',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                marginBottom: '1.1rem'
               }}>
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#94a3b8', display: 'inline-block' }} />
                 {f.badge}
               </span>
 
-              <h3 style={{ fontSize: '1.25rem', color: '#0b0f19', fontWeight: '700', marginBottom: '0.65rem', lineHeight: '1.3' }}>
+              <h3 style={{ fontSize: '1.25rem', color: '#0b1220', fontWeight: '800', marginBottom: '0.65rem', lineHeight: '1.3', letterSpacing: '-0.015em' }}>
                 {f.title}
               </h3>
 
-              <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.6' }}>
+              <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.65' }}>
                 {f.description}
               </p>
             </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import HeroSection from './HeroSection';
 import DomainSpecializationsSection from './DomainSpecializationsSection';
 import StudentJourneySection from './StudentJourneySection';
@@ -9,7 +9,40 @@ import TestimonialsSection from './TestimonialsSection';
 import FaqSection from './FaqSection';
 import ContactSection from './ContactSection';
 
+// The hero freeze only locks <body>; touch/tablet viewports scroll on <html>, so mirror the lock there.
+function useHeroFreezeLock() {
+  useEffect(() => {
+    // Latch on transitions: the hero only freezes while at the top, which distinguishes it
+    // from modals that also set body overflow hidden while the page is scrolled down.
+    let frozen = false;
+
+    const sync = () => {
+      const bodyHidden = document.body.style.overflow === 'hidden';
+      if (bodyHidden && !frozen && window.scrollY <= 10) frozen = true;
+      if (!bodyHidden) frozen = false;
+      document.documentElement.style.overflow = frozen ? 'hidden' : '';
+    };
+    sync();
+
+    const observer = new MutationObserver(sync);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['style'] });
+
+    const handleScroll = () => {
+      if (frozen && window.scrollY > 0) window.scrollTo(0, 0);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+      document.documentElement.style.overflow = '';
+    };
+  }, []);
+}
+
 export default function HomePage({ onExploreClick, onTrainingClick, onServicesClick, onConsultationClick }) {
+  useHeroFreezeLock();
+
   return (
     <div className="home-page landing-page">
       {/* 1. Hero Section with Service-First Enterprise Positioning & Metrics */}
