@@ -5,7 +5,10 @@
  * 2. Dedicated Auth.md handling
  * 3. RFC 8288 / RFC 9727 Link Header Injection
  * 4. CORS & Accurate MIME types for Agent Discovery Specs
+ * 5. Route-specific SEO metadata rewriting in served HTML
  */
+
+import { getRouteSeo, applyRouteSeoToHtml } from "./_shared/routeSeo.js";
 
 const AUTH_MD = `# Auth.md — Velora Global Agent Registration & Authentication Specification
 
@@ -200,6 +203,23 @@ export async function onRequest(context) {
   // Ensure CORS for .well-known and JSON specs
   if (url.pathname.includes(".well-known") || url.pathname.endsWith(".json") || url.pathname.endsWith(".md")) {
     newHeaders.set("Access-Control-Allow-Origin", "*");
+  }
+
+  // 4. Route-specific SEO: rewrite the shared SPA index.html <head> so the
+  // served HTML (crawlers, social scrapers) matches the requested route.
+  if (contentType.includes("text/html") && response.status === 200) {
+    const seo = getRouteSeo(url.pathname);
+    if (seo) {
+      const html = await response.text();
+      const rewritten = applyRouteSeoToHtml(html, seo);
+      newHeaders.set("Content-Type", "text/html; charset=utf-8");
+      newHeaders.delete("Content-Length");
+      return new Response(rewritten, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: newHeaders
+      });
+    }
   }
 
   return new Response(response.body, {

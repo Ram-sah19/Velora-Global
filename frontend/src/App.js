@@ -97,11 +97,18 @@ export default function App() {
     const twDesc = document.querySelector('meta[name="twitter:description"]');
     if (twDesc) twDesc.setAttribute('content', description);
 
-    // Update canonical link
+    // Update canonical link (rewritten in place so exactly one canonical exists)
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) {
       canonical.setAttribute('href', url);
     }
+
+    // Update remaining route-specific tags
+    const metaTitle = document.querySelector('meta[name="title"]');
+    if (metaTitle) metaTitle.setAttribute('content', title);
+
+    const twUrl = document.querySelector('meta[name="twitter:url"]');
+    if (twUrl) twUrl.setAttribute('content', url);
   }, [activeTab]);
 
   // Helper to sync browser URL bar with selected tab
