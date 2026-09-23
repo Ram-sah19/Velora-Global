@@ -55,29 +55,29 @@ export default function Footer({ setActiveTab }) {
             <h4 style={{ color: '#ffffff', fontSize: '1.05rem', marginBottom: '1rem' }}>Platform Portals</h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.55rem', fontSize: '0.88rem' }}>
               <li>
-                <button onClick={() => setActiveTab('home')} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0 }}>
+                <a href="/" onClick={(e) => { e.preventDefault(); setActiveTab('home'); }} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'none', fontSize: 'inherit' }}>
                   Home Overview
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => setActiveTab('services')} style={{ background: 'none', color: '#60a5fa', border: 'none', cursor: 'pointer', padding: 0, fontWeight: '700' }}>
+                <a href="/services" onClick={(e) => { e.preventDefault(); setActiveTab('services'); }} style={{ background: 'none', color: '#60a5fa', border: 'none', cursor: 'pointer', padding: 0, fontWeight: '700', textDecoration: 'none', fontSize: 'inherit' }}>
                   Client Software Services
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => setActiveTab('team')} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0 }}>
+                <a href="/team" onClick={(e) => { e.preventDefault(); setActiveTab('team'); }} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'none', fontSize: 'inherit' }}>
                   About Us
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => setActiveTab('internships')} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0 }}>
+                <a href="/internships" onClick={(e) => { e.preventDefault(); setActiveTab('internships'); }} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'none', fontSize: 'inherit' }}>
                   Practical Internships
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => setActiveTab('training')} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0 }}>
+                <a href="/training" onClick={(e) => { e.preventDefault(); setActiveTab('training'); }} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'none', fontSize: 'inherit' }}>
                   Training Programs
-                </button>
+                </a>
               </li>
               <li>
                 <a 
