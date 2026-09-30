@@ -1,4 +1,4 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { api } from './services/api';
 import { 
   COUNSELING_FORM_URL, 
@@ -27,9 +27,11 @@ import {
 // Code-Split Lazy Loaded Feature Pages (Industry-Standard Barrel Imports)
 const HomePage = lazy(() => import('./pages/HomePage'));
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
 const TeamPage = lazy(() => import('./pages/TeamPage'));
 const InternshipsPage = lazy(() => import('./pages/InternshipsPage'));
 const TrainingPage = lazy(() => import('./pages/TrainingPage'));
+const LegalPage = lazy(() => import('./pages/LegalPage'));
 const ClientWorkspacePage = lazy(() => import('./pages/ClientWorkspacePage'));
 const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage'));
 
@@ -41,6 +43,7 @@ const getInitialTabFromUrl = () => {
 
 export default function App() {
   const [activeTab, setActiveTab] = useState(getInitialTabFromUrl);
+  const mainRef = useRef(null);
   const [selectedServiceCategory, setSelectedServiceCategory] = useState('all');
   const [activeCertificate, setActiveCertificate] = useState(null);
   const [introReady, setIntroReady] = useState(!!sessionStorage.getItem('vg_intro_done'));
@@ -147,9 +150,18 @@ export default function App() {
 
 
   // Scroll to top and ensure scrollbar is free on tab switch
+  const isFirstTabRender = useRef(true);
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     document.body.style.overflow = 'unset';
+
+    // A route change in a SPA is invisible to screen readers unless focus follows it.
+    // Skipped on mount so the first paint doesn't steal focus from the address bar.
+    if (isFirstTabRender.current) {
+      isFirstTabRender.current = false;
+      return;
+    }
+    mainRef.current?.focus({ preventScroll: true });
   }, [activeTab]);
 
   // Automatic 30-Day Backend Session Sync on page load / browser restart
@@ -213,8 +225,10 @@ export default function App() {
 
       <div className="app-container" style={{
         opacity: introReady ? 1 : 0,
+        visibility: introReady ? 'visible' : 'hidden',
         transition: 'opacity 0.4s ease',
       }}>
+        <a className="skip-link" href="#main-content">Skip to content</a>
         <OfflineBanner />
         <NotificationToast />
         <CookieBanner />
@@ -228,7 +242,13 @@ export default function App() {
         />
 
         {/* Main Content Area with Code-Splitting Suspense & Transitions */}
-        <main className="main-content" style={{ paddingTop: activeTab === 'home' ? 0 : '72px' }}>
+        <main
+          id="main-content"
+          ref={mainRef}
+          tabIndex={-1}
+          className="main-content"
+          style={{ paddingTop: activeTab === 'home' ? 0 : '72px' }}
+        >
           <PageTransition tabKey={activeTab}>
             <Suspense fallback={<PageLoader />}>
               {activeTab === 'home' && (
@@ -245,6 +265,15 @@ export default function App() {
                   selectedCategory={selectedServiceCategory}
                   onSelectCategory={(cat) => setSelectedServiceCategory(cat)}
                   currentUser={currentUser}
+                />
+              )}
+
+              {activeTab === 'about' && (
+                <AboutPage
+                  onServicesClick={() => handleTabChange('services')}
+                  onExploreClick={() => handleTabChange('internships')}
+                  onTrainingClick={() => handleTabChange('training')}
+                  onTeamClick={() => handleTabChange('team')}
                 />
               )}
 
@@ -268,6 +297,14 @@ export default function App() {
                   activeRole={activeRole}
                   currentUser={currentUser}
                   onApplySuccess={() => {}}
+                />
+              )}
+
+              {(activeTab === 'privacy' || activeTab === 'terms') && (
+                <LegalPage
+                  kind={activeTab}
+                  onNavigateKind={(kind) => handleTabChange(kind)}
+                  onHomeClick={() => handleTabChange('home')}
                 />
               )}
 

@@ -1,30 +1,10 @@
 import React, { useState } from 'react';
+import { FAQS } from '../../content/siteFacts';
 
 export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState(0);
 
-  const faqs = [
-    {
-      question: "Are the Velora Global internship completion certificates verifiable?",
-      answer: "Yes. Every certificate issued by Velora Global includes a unique certificate verification ID (e.g., VG-2026-88491) and a public verification endpoint. Anyone, including prospective employers and universities, can verify its authenticity on our public Verification Portal."
-    },
-    {
-      question: "Who evaluates student project submissions?",
-      answer: "Project deliverables and code repositories are reviewed directly by our founding team led by Abhishek Sah (Founder & CEO), Krishna Sah (Co-Founder & CTO), and Rohit Sah (Co-Founder & COO) using our 5-criteria structured evaluation framework."
-    },
-    {
-      question: "What is the difference between the Internship and Training programs?",
-      answer: "The Internship program is project-driven and task-oriented, where candidates work independently on deliverables with mentor feedback and milestone reviews. The Guided Training program includes structured live lectures, hands-on step-by-step development, full codebase walkthroughs, and guaranteed internship placement."
-    },
-    {
-      question: "What are the 5 criteria used for project grading?",
-      answer: "Evaluations assess Quality of Code, Technical Mastery, Creative Problem Solving, Completion of Requirements, and Professional Documentation. Candidates receive detailed written feedback along with their final certificate record."
-    },
-    {
-      question: "Can I participate in the internship remotely?",
-      answer: "Yes. All Velora Global internship and training tracks support remote participation with flexible schedules designed for university students and working professionals."
-    }
-  ];
+  const faqs = FAQS.home;
 
   return (
     <section style={{ padding: '6rem 0', background: 'var(--premium-grad-tinted)' }}>
@@ -63,7 +43,10 @@ export default function FaqSection() {
               }}
             >
               <button
+                type="button"
                 onClick={() => setOpenIndex(openIndex === idx ? -1 : idx)}
+                aria-expanded={openIndex === idx}
+                aria-controls={`faq-panel-${idx}`}
                 style={{
                   width: '100%',
                   padding: '1.25rem 1.5rem',
@@ -103,7 +86,7 @@ export default function FaqSection() {
               </button>
 
               {openIndex === idx && (
-                <div style={{ padding: '0 1.5rem 1.5rem 1.5rem', color: '#475569', fontSize: '0.95rem', lineHeight: '1.65' }}>
+                <div id={`faq-panel-${idx}`} style={{ padding: '0 1.5rem 1.5rem 1.5rem', color: '#475569', fontSize: '0.95rem', lineHeight: '1.65' }}>
                   {faq.answer}
                 </div>
               )}

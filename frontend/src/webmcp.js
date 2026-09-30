@@ -2,6 +2,9 @@
  * WebMCP (Web Model Context Protocol) Integration
  * Exposes Velora Global platform tools to in-browser AI agents and LLM extensions.
  * Reference: https://webmachinelearning.github.io/webmcp/
+ *
+ * Tool results come from the same public API the pages use. Nothing here returns
+ * a hard-coded business fact, so an agent cannot be shown a number the site does not.
  */
 
 export function registerWebMCP() {
@@ -10,7 +13,7 @@ export function registerWebMCP() {
   const veloraTools = [
     {
       name: "verifyCertificate",
-      description: "Verify the authenticity, student name, domain, grade, and cryptographic issuance date of a Velora Global internship or training certificate.",
+      description: "Check a Velora Global internship or training certificate ID against the public verification endpoint and return the record held against it.",
       inputSchema: {
         type: "object",
         properties: {
@@ -23,7 +26,7 @@ export function registerWebMCP() {
       },
       execute: async ({ certificateId }) => {
         try {
-          const res = await fetch(`/api/certificates/${encodeURIComponent(certificateId)}`);
+          const res = await fetch(`/api/certificates/verify/${encodeURIComponent(certificateId)}`);
           if (!res.ok) {
             return { valid: false, message: `Certificate ${certificateId} could not be found or verified.` };
           }
@@ -35,45 +38,47 @@ export function registerWebMCP() {
     },
     {
       name: "getInternshipPrograms",
-      description: "Retrieve all 10 specialized technology internship tracks (MERN, Cloud, AI/ML, Mobile, DevOps, Cybersecurity, etc.) with durations and pricing in NPR.",
+      description: "Retrieve internship and training tracks published by Velora Global, with domain, duration and level for each. Fees are shown on each track on https://velora-global.online/internships and /training.",
       inputSchema: {
         type: "object",
         properties: {
           domain: {
             type: "string",
-            description: "Optional domain filter (e.g. 'fullstack', 'ai_ml', 'devops')"
+            description: "Optional domain filter, e.g. 'Full Stack Development' or 'Cybersecurity'"
           }
         }
       },
       execute: async ({ domain } = {}) => {
-        return {
-          totalDomains: 10,
-          pricingNPR: {
-            twoWeeks: 199,
-            oneMonth: 499,
-            twoMonths: 999,
-            threeMonths: 1999,
-            sixMonths: 4999
-          },
-          features: [
-            "Production-grade microservices codebase",
-            "Executive founder code review",
-            "Tamper-proof cryptographic QR certificate"
-          ]
-        };
+        const query = `domain=${encodeURIComponent(domain || '')}&search=`;
+        try {
+          const res = await fetch(`/api/programs?${query}`);
+          if (!res.ok) {
+            return { error: `Program list unavailable (HTTP ${res.status}).` };
+          }
+          const programs = await res.json();
+          return {
+            source: 'https://velora-global.online/api/programs',
+            count: Array.isArray(programs) ? programs.length : undefined,
+            programs
+          };
+        } catch (e) {
+          return { error: e.message };
+        }
       }
     },
     {
       name: "getLeadershipTeam",
-      description: "Get executive leadership team profiles and contacts for Velora Global.",
+      description: "Get the Velora Global leadership team names and titles shown on https://velora-global.online/team.",
       inputSchema: { type: "object", properties: {} },
       execute: async () => {
         return {
-          founderCEO: "Abhishek Sah",
-          coFounderCTO: "Krishna Sah",
-          coFounderCOO: "Rohit Sah",
-          contractsDirector: "Shivshankar Sah",
-          organization: "Velora Global"
+          organization: "Velora Global",
+          members: [
+            { name: "Abhishek Sah", jobTitle: "Founder & CEO" },
+            { name: "Krishna Sah", jobTitle: "Co-Founder & CTO" },
+            { name: "Rohit Sah", jobTitle: "Co-Founder & COO" },
+            { name: "Shivshankar Sah", jobTitle: "Contracts & Operations Director" }
+          ]
         };
       }
     }
@@ -85,7 +90,6 @@ export function registerWebMCP() {
       window.navigator.modelContext.provideContext({
         tools: veloraTools
       });
-      console.log("🤖 WebMCP tools successfully registered with navigator.modelContext");
     } catch (err) {
       console.warn("WebMCP registration notice:", err);
     }
@@ -101,6 +105,5 @@ export function registerWebMCP() {
       },
       getTools: () => registeredTools
     };
-    console.log("🤖 WebMCP context provider initialized with", registeredTools.length, "tools.");
   }
 }

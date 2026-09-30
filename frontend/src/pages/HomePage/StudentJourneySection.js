@@ -1,11 +1,13 @@
 import React from 'react';
+import { GRADING_CRITERIA } from '../../content/siteFacts';
+import { INTERNSHIP_PROGRAMS } from '../../content/programs';
 
 export default function StudentJourneySection({ onApplyClick }) {
   const steps = [
     {
       step: "01",
       title: "Select Domain & Apply",
-      description: "Browse 10 specialized technology & design tracks. Submit your statement of purpose and portfolio link."
+      description: `Browse the ${INTERNSHIP_PROGRAMS.length} technology & design tracks listed on the internship page. Submit your statement of purpose and portfolio link.`
     },
     {
       step: "02",
@@ -15,12 +17,12 @@ export default function StudentJourneySection({ onApplyClick }) {
     {
       step: "03",
       title: "5-Criteria Executive Grading",
-      description: "Projects are graded on Quality of Work, Technical Mastery, Creativity, Requirements & Professionalism."
+      description: `Projects are graded on ${GRADING_CRITERIA.join(', ')}.`
     },
     {
       step: "04",
       title: "Earn Verified Certificate",
-      description: "Receive an official Velora Global Certificate signed by Founder Abhishek Sah with a public QR code."
+      description: "Receive an official Velora Global Certificate signed by Founder Abhishek Sah, carrying a unique verification ID."
     }
   ];
 
@@ -101,7 +103,7 @@ export default function StudentJourneySection({ onApplyClick }) {
 
         <div style={{ marginTop: '3.5rem', textAlign: 'center' }}>
           <button onClick={onApplyClick} className="btn-premium btn-premium--green">
-            Start Your Journey Today ➔
+            Start Your Journey Today
           </button>
         </div>
 

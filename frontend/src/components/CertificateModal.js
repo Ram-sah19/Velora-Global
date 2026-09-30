@@ -1,16 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import VeloraLogo from './VeloraLogo';
+import { useDialog } from './DialogShell';
 
 export default function CertificateModal({ certificate, onClose }) {
-  useEffect(() => {
-    if (!certificate) return;
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = originalOverflow;
-    };
-  }, [certificate]);
+  const panelRef = useDialog(!!certificate, onClose);
 
   if (!certificate) return null;
 
@@ -42,6 +36,11 @@ export default function CertificateModal({ certificate, onClose }) {
       }}
     >
       <div 
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="certificate-title"
+        tabIndex={-1}
         className="modal-content" 
         onClick={(e) => e.stopPropagation()}
         style={{
@@ -64,6 +63,7 @@ export default function CertificateModal({ certificate, onClose }) {
         {/* Close Button */}
         <button 
           onClick={onClose}
+          aria-label="Close certificate"
           style={{
             position: 'absolute',
             top: '1rem',
@@ -79,7 +79,7 @@ export default function CertificateModal({ certificate, onClose }) {
             justifyContent: 'center'
           }}
         >
-          ✕
+          <span aria-hidden="true">&#215;</span>
         </button>
 
         {/* Certificate Outer Border Frame */}
@@ -95,7 +95,7 @@ export default function CertificateModal({ certificate, onClose }) {
             <VeloraLogo width={52} height={52} showText={true} textColor="#0b0f19" />
           </div>
 
-          <h1 style={{ fontSize: '2.5rem', fontWeight: '400', fontFamily: 'Georgia, serif', color: '#0b0f19', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          <h1 id="certificate-title" style={{ fontSize: '2.5rem', fontWeight: '400', fontFamily: 'Georgia, serif', color: '#0b0f19', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
             Certificate of Completion
           </h1>
           <p style={{ fontSize: '1rem', fontStyle: 'italic', color: '#64748b', marginBottom: '1.75rem' }}>

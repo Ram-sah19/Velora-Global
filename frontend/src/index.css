@@ -54,6 +54,14 @@ button:focus-visible {
   outline-offset: 2px !important;
 }
 
+/* Links keep the design system's underline-free treatment, so focus is the only
+   non-color cue that a link is the active target. */
+a:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
 @media (max-width: 768px) {
   body {
     overflow-x: hidden !important;
@@ -103,6 +111,48 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-dark);
 }
 
+/* Accent classes applied in four headings but never defined, so those phrases were
+   rendering in the default ink. --accent-coral-hover is used rather than --accent-coral
+   because white-background text needs 3:1 even at headline size and #ff6b6b is 2.79:1. */
+.text-coral {
+  color: var(--accent-coral-hover);
+}
+
+.text-blue {
+  color: var(--primary-blue);
+}
+
+/* Screen-reader-only content: live regions, the skip link target text. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 1000;
+  padding: 0.7rem 1.2rem;
+  border-radius: var(--radius-full);
+  background: var(--primary-blue);
+  color: #ffffff;
+  font-weight: 700;
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -130,6 +180,18 @@ input, textarea, select {
 input:focus, textarea:focus, select:focus {
   border-color: var(--primary-blue);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* The box-shadow ring above is 15% alpha and disappears against tinted backgrounds,
+   so keyboard focus also gets a solid outline. */
+input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 1px;
+}
+
+[data-focus-scroll]:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: -2px;
 }
 
 /* Badges */
@@ -326,26 +388,11 @@ input:focus, textarea:focus, select:focus {
   width: 100%;
 }
 
-@keyframes modalSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
 /* Comprehensive Responsive Utilities for Mobile & Tablet Devices */
 
 @media (max-width: 1024px) {
   .container {
     padding: 0 1.25rem;
-  }
-
-  .grid-responsive {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
   }
 }
 
@@ -542,21 +589,6 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
-/* Shimmer Skeleton Keyframes */
-@keyframes shimmerAnimation {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-.skeleton-shimmer {
-  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
-  background-size: 200% 100%;
-  animation: shimmerAnimation 1.5s infinite linear;
-}
 
 /* Button Loading State Styles */
 button:disabled {
@@ -655,6 +687,12 @@ button:disabled {
   background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.35), transparent);
 }
 
+/* Tinted section band. Needs !important because the mobile system rule
+   `section { padding: 2.5rem 0 !important }` would strip its side padding. */
+.premium-band {
+  padding: clamp(1.75rem, 3.5vw, 3rem) !important;
+}
+
 /* Premium pill button (rounded-full per design system) */
 .btn-premium {
   background: #2563eb;
@@ -728,6 +766,18 @@ button:disabled {
   }
 }
 
+/* Referenced by NotificationToast but never defined, so toasts appeared with no motion. */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .premium-card, .premium-card:hover, .btn-premium, .btn-premium:hover, .btn-premium-ghost, .btn-premium-ghost:hover {
     transition: none;
@@ -736,6 +786,16 @@ button:disabled {
 
   [style*="projectSlideIn"] {
     animation: none !important;
+  }
+
+  /* Blanket stop for the rest: the hero orbs, the pre-React and skeleton shimmers,
+     the drawer slide and the spinners are all infinite or decorative, and none of them
+     are individually guarded. */
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

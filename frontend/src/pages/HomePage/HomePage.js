@@ -5,7 +5,6 @@ import StudentJourneySection from './StudentJourneySection';
 import FeaturesSection from './FeaturesSection';
 import GlobalFootprintSection from './GlobalFootprintSection';
 import ProjectCarousel3D from './ProjectCarousel3D';
-import TestimonialsSection from './TestimonialsSection';
 import FaqSection from './FaqSection';
 import ContactSection from './ContactSection';
 
@@ -76,13 +75,10 @@ export default function HomePage({ onExploreClick, onTrainingClick, onServicesCl
         onApplyClick={onExploreClick}
       />
 
-      {/* 6. Verified Client & Student Testimonials */}
-      <TestimonialsSection />
-
-      {/* 7. Frequently Asked Questions */}
+      {/* 6. Frequently Asked Questions */}
       <FaqSection />
 
-      {/* 8. Direct Consultation & Enterprise Inquiries */}
+      {/* 7. Direct Consultation & Enterprise Inquiries */}
       <ContactSection />
     </div>
   );

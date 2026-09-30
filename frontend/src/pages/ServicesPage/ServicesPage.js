@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import ClientInquiryModal from '../../components/ClientInquiryModal';
+import { AnswerSection, PageFaq } from '../../components';
+import { ANSWER_BLOCKS, FAQS } from '../../content/siteFacts';
 
 export default function ServicesPage({ selectedCategory = 'all', currentUser }) {
   const [activeCategory, setActiveCategory] = useState(selectedCategory);
@@ -19,7 +21,6 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
       badge: 'Web Solutions',
       title: 'Web Application Development',
       tagline: 'Custom SaaS, Enterprise Web Portals & High-Performance Full Stack Systems',
-      icon: '',
       deliverables: [
         'MERN Full Stack MVC Architecture (MongoDB, Express, React, Node.js)',
         'Custom Enterprise Web Portals & High-Performance SaaS Systems',
@@ -35,7 +36,6 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
       badge: 'Mobile Solutions',
       title: 'Mobile Application Development',
       tagline: 'Cross-Platform iOS & Android Apps with Native Performance & Fluid UX',
-      icon: '',
       deliverables: [
         'iOS & Android Cross-Platform Mobile Apps',
         'Real-Time Offline Data Sync & Push Notifications',
@@ -51,7 +51,6 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
       badge: 'AI & Automation',
       title: 'AI Chatbots & Intelligent Agents',
       tagline: 'Autonomous Support Agents, Conversational LLM Bots & Smart Workflow Automation',
-      icon: '',
       deliverables: [
         'Custom 24/7 AI Customer Support Chatbots',
         'Gemini & OpenAI LLM RAG System Integrations',
@@ -59,7 +58,7 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
         'Automated Business Workflow Pipeline Automations'
       ],
       techStack: ['Python', 'PyTorch / TensorFlow', 'LangChain', 'OpenAI & Gemini APIs', 'Node.js'],
-      description: 'Empower your business with cutting-edge artificial intelligence. We build custom conversational AI chatbots, smart customer support agents, and automated workflow pipelines that run 24/7 to boost productivity and conversion rates.'
+      description: 'We build conversational AI assistants, support agents, and workflow automations that answer from your own documents using retrieval-augmented generation.'
     }
   ];
 
@@ -77,19 +76,21 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
       <div className="container">
         
         {/* Section Header */}
-        <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 3.5rem auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 2.5rem auto' }}>
           <span className="badge badge-coral" style={{ marginBottom: '0.75rem' }}>Enterprise Tech Solutions</span>
-          <h2 style={{ fontSize: '2.6rem', color: '#0b0f19', marginBottom: '1rem', lineHeight: '1.2' }}>
-            Transforming Ideas into Digital <span className="text-coral">Excellence</span>
-          </h2>
+          <h1 style={{ fontSize: '2.5rem', color: '#0b0f19', marginBottom: '1rem', lineHeight: '1.2' }}>
+            Custom Web, Mobile &amp; AI <span className="text-coral">Software Development</span>
+          </h1>
           <p style={{ color: '#64748b', fontSize: '1.1rem', lineHeight: '1.6' }}>
-            Velora Global delivers end-to-end software development services — from scalable web portals and native cross-platform mobile apps to intelligent AI chatbots.
+            Velora Global builds and ships the full stack of a product — web portals and SaaS systems, cross-platform iOS and Android apps, and AI assistants trained on your own documents.
           </p>
         </div>
 
         {/* Category Filter Pills */}
-        <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '3rem' }}>
+        <div role="group" aria-label="Filter services by category" style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '3rem' }}>
           <button
+            type="button"
+            aria-pressed={activeCategory === 'all'}
             onClick={() => setActiveCategory('all')}
             style={{
               padding: '0.6rem 1.3rem',
@@ -106,6 +107,8 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
             All Services
           </button>
           <button
+            type="button"
+            aria-pressed={activeCategory === 'web'}
             onClick={() => setActiveCategory('web')}
             style={{
               padding: '0.6rem 1.3rem',
@@ -122,6 +125,8 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
             Web App Development
           </button>
           <button
+            type="button"
+            aria-pressed={activeCategory === 'mobile'}
             onClick={() => setActiveCategory('mobile')}
             style={{
               padding: '0.6rem 1.3rem',
@@ -138,6 +143,8 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
             Mobile App Development
           </button>
           <button
+            type="button"
+            aria-pressed={activeCategory === 'ai'}
             onClick={() => setActiveCategory('ai')}
             style={{
               padding: '0.6rem 1.3rem',
@@ -171,7 +178,6 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
             >
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-                  <span style={{ fontSize: '2rem' }}>{service.icon}</span>
                   <span className="badge badge-blue" style={{ fontSize: '0.8rem' }}>{service.badge}</span>
                 </div>
 
@@ -259,9 +265,9 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
         }}>
           <div style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 3rem auto' }}>
             <span className="badge badge-blue" style={{ marginBottom: '0.65rem' }}>How We Deliver Excellence</span>
-            <h3 style={{ fontSize: '2.2rem', color: '#0b0f19', fontWeight: '800', lineHeight: '1.25' }}>
+            <h2 style={{ fontSize: '2.2rem', color: '#0b0f19', fontWeight: '800', lineHeight: '1.25' }}>
               Our 4-Step Client Engagement Process
-            </h3>
+            </h2>
             <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.5rem', lineHeight: '1.6' }}>
               Every serious project is unique. We believe in direct, face-to-face consultation to understand your exact business workflow before writing a single line of code.
             </p>
@@ -287,7 +293,7 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
                 1-on-1 Discovery Meeting
               </h4>
               <p style={{ fontSize: '0.88rem', color: '#64748b', lineHeight: '1.55', margin: 0 }}>
-                We meet in-person at our Balkumari headquarters or via Google Meet / Zoom to understand your exact business model, target audience, and feature goals.
+                We start with a call over Google Meet or Zoom, or an in-person meeting in Kathmandu, to understand your business model, target audience, and feature goals.
               </p>
             </div>
 
@@ -415,6 +421,14 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
             </div>
           </div>
         </div>
+
+        <PageFaq items={FAQS.services} />
+
+        <AnswerSection
+          heading={ANSWER_BLOCKS.services.heading}
+          answer={ANSWER_BLOCKS.services.answer}
+          specs={ANSWER_BLOCKS.services.specs}
+        />
 
       </div>
 

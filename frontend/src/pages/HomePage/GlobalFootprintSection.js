@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { INTERNSHIP_PROGRAMS, TRAINING_PROGRAMS } from '../../content/programs';
+import { GRADING_CRITERIA } from '../../content/siteFacts';
 
 export default function GlobalFootprintSection({ onConsultationClick }) {
   const [activeHubId, setActiveHubId] = useState('nepal');
@@ -8,34 +10,34 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
       id: 'nepal',
       code: 'NP',
       country: 'Nepal',
-      city: 'Kathmandu Valley',
-      role: 'Global Headquarters & Core Engineering Lab',
+      city: 'Kathmandu',
+      role: 'Where Velora Global Is Based',
       timezone: 'NPT (UTC +5:45)',
-      status: 'HQ Operations Active',
-      statLabel: 'Students & Interns Mentored',
-      statValue: '100+ Trained & Certified',
-      overview: 'The founding headquarters and operational heart of Velora Global at Balkumari, Ring Road. Direct mentorship and code reviews are led on-site by Founder & CEO Abhishek Sah, CTO Krishna Sah, and COO Rohit Sah.',
+      status: 'Primary Operations',
+      statLabel: 'How We Work',
+      statValue: 'Remote-first, reviewed against 5 published criteria',
+      overview: 'Velora Global is run from Kathmandu. Founder & CEO Abhishek Sah, CTO Krishna Sah and COO Rohit Sah handle architecture, mentorship and project reviews from here, in person or over video depending on where you are.',
       highlights: [
-        'Live mentorship facility, physical code walkthroughs & capstone reviews',
-        'Production MERN Stack, AI/ML agent pipelines, and mobile apps',
-        'Official tamper-proof QR-code verified credential issuance'
+        'Code walkthroughs, milestone reviews and capstone grading by the founding team',
+        'MERN stack, AI/ML agent pipelines, and mobile app builds',
+        'Certificates issued with a unique ID anyone can check at our public verification endpoint'
       ]
     },
     {
       id: 'usa',
       code: 'US',
       country: 'United States',
-      city: 'New York & San Francisco',
-      role: 'Enterprise Clients & International Interns',
+      city: 'Eastern & Pacific time',
+      role: 'Remote Work Across Timezones',
       timezone: 'EST / PST (UTC -5 / -8)',
-      status: 'Active Remote Cohort & Client Sync',
-      statLabel: 'International Engineering',
-      statValue: 'Enterprise Cloud & Web Delivery',
-      overview: 'Delivering production enterprise software, cloud microservices, and 24/7 AI workflow automation for American businesses, while hosting remote engineering interns from top universities.',
+      status: 'Remote Scheduling Window',
+      statLabel: 'How We Coordinate',
+      statValue: 'Async pull requests and scheduled sync calls',
+      overview: 'US-based applicants and clients work with us asynchronously. Handovers are written up so a review that ends in Kathmandu continues the same day in US hours.',
       highlights: [
-        'Custom enterprise web systems & 24/7 conversational AI agents',
-        'Asynchronous GitHub pull requests, daily standups & sprint boards',
-        'Cross-timezone project handoffs and architectural consultations'
+        'Custom web systems and conversational AI agents',
+        'Asynchronous GitHub pull requests, standup notes & sprint boards',
+        'Cross-timezone project handoffs and architecture consultations'
       ]
     },
     {
@@ -43,16 +45,16 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
       code: 'IN',
       country: 'India',
       city: 'Bengaluru & Delhi NCR',
-      role: 'Subcontinent Tech Talent & Engineering',
+      role: 'Remote Applicants & Collaborators',
       timezone: 'IST (UTC +5:30)',
-      status: 'Distributed Developer Sprints',
-      statLabel: 'Developer Collaboration',
-      statValue: 'Cross-Border Engineering Sprints',
-      overview: 'Fostering collaborative engineering cohorts across South Asia. Focusing on high-scale backend APIs, database optimization, and high-performance React frontends.',
+      status: 'Remote Scheduling Window',
+      statLabel: 'How We Coordinate',
+      statValue: 'Same-day reviews in overlapping hours',
+      overview: 'India is close to our own working hours, so interns and collaborators there usually get same-day turnaround on reviews. Focus areas are backend APIs, database work and React frontends.',
       highlights: [
-        'Scalable REST & GraphQL microservices with Node.js & MongoDB Atlas',
-        'Rigorous 5-criteria objective code evaluation & code quality grading',
-        'Full-stack architecture reviews and technical interview preparation'
+        'REST & GraphQL services with Node.js and MongoDB',
+        'The same 5-criteria evaluation used for every submission',
+        'Architecture reviews and technical interview preparation'
       ]
     },
     {
@@ -60,16 +62,16 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
       code: 'AU',
       country: 'Australia',
       city: 'Sydney & Melbourne',
-      role: 'APAC Enterprise Systems & Mentorship',
+      role: 'Remote Work Across Timezones',
       timezone: 'AEST (UTC +10:00)',
-      status: 'APAC Timezone Operations',
-      statLabel: 'Asia-Pacific Footprint',
-      statValue: 'Systems Engineering & Deliveries',
-      overview: 'Connecting Asia-Pacific clients and students with practical engineering methodologies, high-speed web apps, and automated business workflows.',
+      status: 'Remote Scheduling Window',
+      statLabel: 'How We Coordinate',
+      statValue: 'Four to four-and-a-half hours ahead of Kathmandu',
+      overview: 'AEST sits ahead of us, so AU work tends to land at the start of our day. Reviews come back the same calendar day for anything submitted before our evening.',
       highlights: [
-        'Lighthouse 95+ performance optimization and responsive mobile design',
-        'End-to-end integration testing, cloud hosting & domain security',
-        'Timezone-synchronized communications and milestone updates'
+        'Core Web Vitals and Lighthouse performance work, plus responsive mobile design',
+        'Integration testing, cloud hosting & domain configuration',
+        'Timezone-aligned status updates and milestone reviews'
       ]
     },
     {
@@ -77,16 +79,16 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
       code: 'BD',
       country: 'Bangladesh',
       city: 'Dhaka',
-      role: 'Regional Talent Acceleration Hub',
+      role: 'Remote Applicants & Collaborators',
       timezone: 'BST (UTC +6:00)',
-      status: 'Active Training Sync',
-      statLabel: 'Regional Developers',
-      statValue: 'Hands-on Production Training',
-      overview: 'Empowering ambitious regional software developers with real production codebases, industry architectural patterns, and verified engineering credentials.',
+      status: 'Remote Scheduling Window',
+      statLabel: 'How We Coordinate',
+      statValue: 'One-and-a-quarter hours ahead of Kathmandu',
+      overview: 'Dhaka overlaps almost fully with our working day, which makes live mentorship sessions easy to schedule. Training and internship tracks are the same as everywhere else on this site.',
       highlights: [
-        'Full Stack MVC application development with modern React and Node.js',
-        'Hands-on Git version control, branch management, and CI/CD pipelines',
-        'Direct portfolio guidance for competitive international remote roles'
+        'Full stack application development with React and Node.js',
+        'Git version control, branch management, and CI/CD pipelines',
+        'Portfolio guidance for remote engineering roles'
       ]
     },
     {
@@ -94,16 +96,16 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
       code: 'NG',
       country: 'Nigeria',
       city: 'Lagos',
-      role: 'African Tech Innovation Cohort',
+      role: 'Remote Applicants & Collaborators',
       timezone: 'WAT (UTC +1:00)',
-      status: 'Global Remote Interns',
-      statLabel: 'Global Talent Program',
-      statValue: 'Remote Engineering Cohort',
-      overview: 'Welcoming top-tier African engineering candidates into our remote internship tracks to build production-grade web systems and AI automations.',
+      status: 'Remote Scheduling Window',
+      statLabel: 'How We Coordinate',
+      statValue: 'Four-and-a-half hours behind Kathmandu',
+      overview: 'West Africa is behind us, so submissions there are typically reviewed during our evening and answered before their next morning. Remote internship tracks are open to applicants in any country.',
       highlights: [
-        'Real-world software features from design mockups to live deployment',
-        'Direct constructive feedback and 1-on-1 code reviews from senior staff',
-        'Global engineering network with verifiable credentials on LinkedIn'
+        'Building real features from design brief to deployment',
+        'Written feedback and code reviews from the founding team',
+        'A completion certificate with a public verification ID'
       ]
     }
   ];
@@ -134,7 +136,7 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
             fontWeight: '800',
             marginBottom: '1rem'
           }}>
-            GLOBAL IMPACT & REACH
+            How We Work Remotely
           </span>
 
           <h2 className="premium-headline" style={{
@@ -143,12 +145,12 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
             lineHeight: '1.18',
             margin: '0 0 0.95rem 0'
           }}>
-            Connecting Talent & Enterprise <br />
-            From Kathmandu to the World
+            Based in Kathmandu, <br />
+            Working Across Time Zones
           </h2>
 
           <p style={{ color: '#64748b', fontSize: '1.02rem', lineHeight: '1.65', margin: 0 }}>
-            Headquartered in Nepal, Velora Global bridges talented software engineers and businesses across 6+ countries through structured mentorship, production code reviews, and timezone-aligned deliveries.
+            Velora Global runs from Kathmandu, Nepal. We have no other offices. What changes by region is simply the overlap between your working hours and ours, and that is what these panels describe.
           </p>
         </div>
 
@@ -167,10 +169,10 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
             textAlign: 'center'
           }}>
             <span style={{ display: 'block', fontSize: '2.1rem', fontWeight: '900', color: '#0b0f19', lineHeight: '1.1', marginBottom: '0.35rem' }}>
-              100+
+              {INTERNSHIP_PROGRAMS.length}
             </span>
             <span style={{ fontSize: '0.86rem', color: '#64748b', fontWeight: '600' }}>
-              Students & Interns Mentored
+              Internship Domains Listed
             </span>
           </div>
 
@@ -182,10 +184,10 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
             textAlign: 'center'
           }}>
             <span style={{ display: 'block', fontSize: '2.1rem', fontWeight: '900', color: '#0b0f19', lineHeight: '1.1', marginBottom: '0.35rem' }}>
-              6+
+              {TRAINING_PROGRAMS.length}
             </span>
             <span style={{ fontSize: '0.86rem', color: '#64748b', fontWeight: '600' }}>
-              Countries in Network
+              Guided Training Programs
             </span>
           </div>
 
@@ -197,10 +199,10 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
             textAlign: 'center'
           }}>
             <span style={{ display: 'block', fontSize: '2.1rem', fontWeight: '900', color: '#0b0f19', lineHeight: '1.1', marginBottom: '0.35rem' }}>
-              50+
+              {GRADING_CRITERIA.length}
             </span>
             <span style={{ fontSize: '0.86rem', color: '#64748b', fontWeight: '600' }}>
-              Active Capstone Projects
+              Published Grading Criteria
             </span>
           </div>
 
@@ -212,10 +214,10 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
             textAlign: 'center'
           }}>
             <span style={{ display: 'block', fontSize: '2.1rem', fontWeight: '900', color: '#0b0f19', lineHeight: '1.1', marginBottom: '0.35rem' }}>
-              5
+              UTC+5:45
             </span>
             <span style={{ fontSize: '0.86rem', color: '#64748b', fontWeight: '600' }}>
-              Synchronized Timezones
+              Home Base in Kathmandu
             </span>
           </div>
         </div>
@@ -241,7 +243,7 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
               marginBottom: '0.25rem',
               display: 'block'
             }}>
-              Select Regional Hub:
+              Select a region:
             </span>
 
             {hubs.map((hub) => {
@@ -301,7 +303,7 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
                             borderRadius: '9999px',
                             border: isActive ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid #bfdbfe'
                           }}>
-                            HQ
+                            Head office
                           </span>
                         )}
                       </div>
@@ -365,7 +367,7 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
                   </span>
                   <div>
                     <h3 style={{ fontSize: '1.45rem', fontWeight: '900', color: '#0b0f19', margin: 0, lineHeight: '1.2' }}>
-                      {currentHub.country} Hub
+                      {currentHub.country} Working Window
                     </h3>
                     <span style={{ fontSize: '0.85rem', color: '#2563eb', fontWeight: '700' }}>
                       {currentHub.city}
@@ -502,7 +504,7 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
                       cursor: 'pointer'
                     }}
                   >
-                    Connect With Hub ➔
+                    Talk to Us
                   </button>
                 )}
               </div>
@@ -604,7 +606,7 @@ export default function GlobalFootprintSection({ onConsultationClick }) {
               Globally Verified Credentials
             </h4>
             <p style={{ fontSize: '0.88rem', color: '#64748b', lineHeight: '1.55', margin: 0 }}>
-              Graduates receive tamper-proof certificates with public QR verification endpoints verifiable by employers and recruiters anywhere in the world.
+              Graduates receive a certificate with a unique ID that anyone — an employer, a university, a recruiter — can check against our public verification endpoint.
             </p>
           </div>
         </div>

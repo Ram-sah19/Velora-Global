@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { api } from '../../services/api';
+import { useDialog } from '../../components/DialogShell';
 import { TRAINING_APPLICATION_FORM_URL } from '../../constants';
 
 const GOOGLE_FORM_URL = TRAINING_APPLICATION_FORM_URL;
@@ -130,13 +131,7 @@ function getTrainingDeliverables(domainTitle = '', domainCategory = '') {
 }
 
 export default function TrainingDetailsModal({ program, currentUser, onApplySuccess, onClose }) {
-  useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = originalOverflow;
-    };
-  }, []);
+  const panelRef = useDialog(!!program, onClose);
 
   if (!program) return null;
 
@@ -157,8 +152,8 @@ export default function TrainingDetailsModal({ program, currentUser, onApplySucc
 
     api.submitApplication({
       studentId: currentUser ? currentUser.id : `guest-${Date.now()}`,
-      studentName: currentUser ? currentUser.name : 'Candidate Applicant',
-      studentEmail: currentUser ? currentUser.email : 'applicant@veloraglobal.com',
+      studentName: currentUser ? currentUser.name : '',
+      studentEmail: currentUser ? currentUser.email : '',
       programId: program.id || `prog-${Date.now()}`,
       programTitle: program.title,
       domain: program.domain,
@@ -195,6 +190,11 @@ export default function TrainingDetailsModal({ program, currentUser, onApplySucc
       }}
     >
       <div 
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="training-details-title"
+        tabIndex={-1}
         className="modal-content" 
         onClick={(e) => e.stopPropagation()} 
         style={{
@@ -236,7 +236,7 @@ export default function TrainingDetailsModal({ program, currentUser, onApplySucc
           onMouseEnter={(e) => { e.currentTarget.style.background = '#e2e8f0'; e.currentTarget.style.color = '#0b0f19'; }}
           onMouseLeave={(e) => { e.currentTarget.style.background = '#f1f5f9'; e.currentTarget.style.color = '#64748b'; }}
         >
-          ✕
+          <span aria-hidden="true">&#215;</span>
         </button>
 
         {/* Modal Header */}
@@ -246,7 +246,7 @@ export default function TrainingDetailsModal({ program, currentUser, onApplySucc
             <span className="badge badge-coral">Guided Skill Training</span>
           </div>
 
-          <h2 style={{ fontSize: 'clamp(1.4rem, 2.5vw, 1.8rem)', color: '#0b0f19', marginBottom: '0.5rem', fontWeight: '800', lineHeight: 1.25 }}>
+          <h2 id="training-details-title" style={{ fontSize: 'clamp(1.4rem, 2.5vw, 1.8rem)', color: '#0b0f19', marginBottom: '0.5rem', fontWeight: '800', lineHeight: 1.25 }}>
             {program.title}
           </h2>
 

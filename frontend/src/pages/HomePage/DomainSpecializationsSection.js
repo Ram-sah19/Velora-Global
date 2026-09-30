@@ -184,7 +184,7 @@ export default function DomainSpecializationsSection({ onExploreClick, onTrainin
         </div>
 
         {/* Category Filter Pills */}
-        <div className="horizontal-scroll-mobile" style={{
+        <div className="horizontal-scroll-mobile" role="group" aria-label="Filter specializations by category" style={{
           display: 'flex',
           justifyContent: 'center',
           gap: '0.85rem',
@@ -197,6 +197,8 @@ export default function DomainSpecializationsSection({ onExploreClick, onTrainin
             return (
               <button
                 key={cat.id}
+                type="button"
+                aria-pressed={isActive}
                 onClick={() => {
                   setActiveCategory(cat.id);
                   setSelectedDomainIndex(0);
@@ -248,12 +250,17 @@ export default function DomainSpecializationsSection({ onExploreClick, onTrainin
             {filteredDomains.map((dom, idx) => {
               const isSelected = activeSpotlight.title === dom.title;
               return (
-                <div
+                <button
                   key={idx}
+                  type="button"
+                  aria-pressed={isSelected}
                   onClick={() => setSelectedDomainIndex(idx)}
                   className="premium-card"
                   style={{
                     padding: '1.25rem 1.5rem',
+                    textAlign: 'left',
+                    width: '100%',
+                    fontFamily: 'var(--font-body)',
                     background: isSelected ? 'rgba(239, 246, 255, 0.92)' : 'rgba(255, 255, 255, 0.85)',
                     backdropFilter: 'blur(12px)',
                     WebkitBackdropFilter: 'blur(12px)',
@@ -265,8 +272,8 @@ export default function DomainSpecializationsSection({ onExploreClick, onTrainin
                     justifyContent: 'space-between'
                   }}
                 >
-                  <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.2rem' }}>
+                  <span style={{ display: 'block', textAlign: 'left' }}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.2rem' }}>
                       <span style={{
                         fontSize: '0.85rem',
                         fontWeight: '800',
@@ -274,28 +281,29 @@ export default function DomainSpecializationsSection({ onExploreClick, onTrainin
                       }}>
                         {dom.num}
                       </span>
-                      <h3 style={{
+                      <span style={{
                         fontSize: '1.05rem',
                         fontWeight: '800',
                         color: isSelected ? '#0b0f19' : '#334155',
-                        margin: 0
+                        margin: 0,
+                        display: 'block'
                       }}>
                         {dom.title}
-                      </h3>
-                    </div>
+                      </span>
+                    </span>
                     <span style={{ fontSize: '0.82rem', color: '#64748b', marginLeft: '1.6rem', display: 'block' }}>
                       {dom.category}
                     </span>
-                  </div>
+                  </span>
 
-                  <span style={{
+                  <span aria-hidden="true" style={{
                     fontSize: '1.2rem',
                     color: isSelected ? '#2563eb' : '#cbd5e1',
                     fontWeight: '800'
                   }}>
-                    ➔
+                    &#8594;
                   </span>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -379,7 +387,7 @@ export default function DomainSpecializationsSection({ onExploreClick, onTrainin
                         justifyContent: 'center',
                         fontSize: '0.72rem',
                         fontWeight: '800'
-                      }}>✓</span>
+                      }} aria-hidden="true">&#10003;</span>
                       {del}
                     </li>
                   ))}

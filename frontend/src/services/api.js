@@ -1,31 +1,24 @@
 const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 async function request(endpoint, options = {}) {
-  try {
-    const res = await fetch(`${API_BASE}${endpoint}`, {
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-      },
-      ...options
-    });
+  const res = await fetch(`${API_BASE}${endpoint}`, {
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers
+    },
+    ...options
+  });
 
-    if (!res.ok) {
-      if (options.method === 'DELETE') {
-        return { message: 'Operation completed' };
-      }
-      const errorData = await res.json().catch(() => ({}));
-      throw new Error(errorData.error || errorData.message || `HTTP error! status: ${res.status}`);
-    }
-
-    return await res.json();
-  } catch (err) {
-    if (options.method === 'DELETE') {
-      return { message: 'Operation completed' };
-    }
-    throw err;
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.error || errorData.message || `HTTP error! status: ${res.status}`);
   }
+
+  // Several endpoints answer DELETE with an empty 200/204 body.
+  const text = await res.text();
+  if (!text) return { message: 'Operation completed' };
+  return JSON.parse(text);
 }
 
 export const api = {

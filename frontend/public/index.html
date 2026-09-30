@@ -14,6 +14,10 @@
     <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
+    <!-- LCP: the hero backdrop is painted by React, so without this the browser cannot
+         discover it until JS runs. Preloading starts the fetch during HTML parsing. -->
+    <link rel="preload" as="image" href="%PUBLIC_URL%/images/background.webp" type="image/webp" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     <meta name="theme-color" content="#0a2540" />
 
@@ -29,22 +33,18 @@
     <meta name="title" content="Velora Global | Technology Training, Internships & Enterprise Solutions" />
     <meta
       name="description"
-      content="Practical technology training, project-driven internships, and scalable enterprise IT solutions (Web, Mobile & AI) in Kathmandu, Nepal. Led by Ram Sah."
-    />
-    <meta
-      name="keywords"
-      content="Velora Global, Software Company in Nepal, IT Company Kathmandu, Technology Training Nepal, Tech Internships Nepal, Web Development Nepal, MERN Stack Kathmandu, Mobile App Development Flutter React Native, AI Chatbot Nepal, Python AI ML, Enterprise Software Solutions Nepal, Ram Sah Velora, Ram Sah Founder"
+      content="Custom web and mobile software, AI chatbot systems, project-driven internships and guided technology training from Velora Global in Kathmandu, Nepal."
     />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="author" content="Ram Sah & Velora Global Executive Leadership" />
+    <meta name="author" content="Velora Global" />
     <meta name="publisher" content="Velora Global" />
     <link rel="canonical" href="https://velora-global.online/" />
 
-    <!-- Local & Geographic SEO Meta Tags (Nepal & Global) -->
-    <meta name="geo.region" content="NP-BA" />
-    <meta name="geo.placename" content="Balkumari, Kathmandu, Nepal" />
-    <meta name="geo.position" content="27.6710;85.3400" />
-    <meta name="ICBM" content="27.6710, 85.3400" />
+    <!--
+      No meta keywords (a stuffing signal Google has ignored since 2009) and no
+      geo.position/ICBM tags: the precise coordinates were never verified, and
+      search engines do not use these tags for local relevance.
+    -->
 
     <!-- Open Graph / Facebook / LinkedIn / WhatsApp Social Card Previews -->
     <meta property="og:type" content="website" />
@@ -54,10 +54,10 @@
       property="og:description"
       content="Practical technology training, project-driven internships, and custom enterprise IT solutions (Web, Mobile & AI) in Kathmandu, Nepal."
     />
-    <meta property="og:image" content="https://velora-global.online/logo.png" />
+    <meta property="og:image" content="https://velora-global.online/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Velora Global Official Logo & Brand" />
+    <meta property="og:image:alt" content="Velora Global — technology training, project internships and enterprise software, Kathmandu Nepal" />
     <meta property="og:site_name" content="Velora Global" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="ne_NP" />
@@ -70,140 +70,90 @@
       name="twitter:description"
       content="Practical technology training, project-driven internships, and custom enterprise IT solutions (Web, Mobile & AI) in Kathmandu, Nepal."
     />
-    <meta name="twitter:image" content="https://velora-global.online/logo.png" />
-    <meta name="twitter:image:alt" content="Velora Global Technology Platform" />
+    <meta name="twitter:image" content="https://velora-global.online/og-image.png" />
+    <meta name="twitter:image:alt" content="Velora Global — technology training, project internships and enterprise software, Kathmandu Nepal" />
 
-    <!-- AI Agent Discovery & Emerging Standards (ARD, MCP, RFC 9727, Agent Skills) -->
+    <!-- AI Agent Discovery: only documents this site actually serves -->
     <link rel="ai-catalog" type="application/json" href="%PUBLIC_URL%/.well-known/ai-catalog.json" />
     <link rel="api-catalog" type="application/linkset+json" href="%PUBLIC_URL%/.well-known/api-catalog" />
     <link rel="agent-skills" type="application/json" href="%PUBLIC_URL%/.well-known/agent-skills/index.json" />
-    <link rel="mcp-server-card" type="application/json" href="%PUBLIC_URL%/.well-known/mcp/server-card.json" />
     <link rel="service-desc" type="application/openapi+json" href="%PUBLIC_URL%/openapi.json" />
-    <link rel="service-doc" type="text/markdown" href="%PUBLIC_URL%/auth.md" />
 
-    <!-- WebMCP (Web Model Context Protocol) In-Browser Agent Discovery -->
-    <script>
-      (function() {
-        var tools = [
-          {
-            name: "verifyCertificate",
-            description: "Verify student internship certificates and completion credentials with tamper-proof cryptographic signatures.",
-            inputSchema: {
-              type: "object",
-              properties: {
-                certificateId: { type: "string", description: "Certificate ID (e.g. VG-2026-88491)" }
-              },
-              required: ["certificateId"]
-            }
-          },
-          {
-            name: "getInternshipPrograms",
-            description: "Retrieve 10 technology internship domain tracks, duration options, and transparent pricing in NPR.",
-            inputSchema: { type: "object", properties: {} }
-          },
-          {
-            name: "getLeadershipTeam",
-            description: "Retrieve executive founding leadership contacts (Ram Sah, Krishna Sah, Rohit Sah, Shivshankar Sah).",
-            inputSchema: { type: "object", properties: {} }
-          }
-        ];
-        if (window.navigator) {
-          if (!window.navigator.modelContext) {
-            window.navigator.modelContext = {
-              tools: tools,
-              provideContext: function(ctx) { if (ctx && ctx.tools) { this.tools.push.apply(this.tools, ctx.tools); } },
-              getTools: function() { return this.tools; }
-            };
-          } else if (typeof window.navigator.modelContext.provideContext === 'function') {
-            try { window.navigator.modelContext.provideContext({ tools: tools }); } catch(e) {}
-          }
-        }
-      })();
-    </script>
+    <!-- WebMCP tools are registered by src/webmcp.js at boot, with working execute()
+         handlers. A second inline copy here declared the same three tool names with no
+         handler, and its provideContext() appended rather than replaced — so an agent
+         reading navigator.modelContext.tools could pick a declaration that could never
+         run. The bundle is the single source of truth. -->
 
-    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <!-- Google Fonts: Plus Jakarta Sans (body) & Outfit (headings, --font-heading in index.css) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap 5 Grid / Utilities -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Bootstrap was loaded for its grid/utilities, but no Bootstrap class is used anywhere in
+         src/ (layout is inline styles + index.css) and the CSP above refused it, so it cost a
+         render-blocking round trip on every route for nothing. index.css defines the only
+         overlapping selectors itself: .container, .badge, .btn, .btn-primary. -->
 
-    <!-- Schema.org JSON-LD Structured Data (Google Sitelinks & Rich Snippets Compliant) -->
+    <!--
+      Entity graph for the homepage. functions/_shared/entity.js is the source and
+      the edge replaces this whole block per route, so /services never publishes the
+      homepage FAQ. Kept here for hosts that serve build/ without the functions
+      bundle. node scripts/sync-embedded-graph.mjs --check fails if the two drift.
+    -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": ["EducationalOrganization", "ProfessionalService", "LocalBusiness"],
+          "@type": "Organization",
           "@id": "https://velora-global.online/#organization",
           "name": "Velora Global",
-          "alternateName": "Velora Global Tech",
           "url": "https://velora-global.online",
           "logo": {
             "@type": "ImageObject",
-            "url": "https://velora-global.online/logo.png"
+            "@id": "https://velora-global.online/#organization-logo",
+            "url": "https://velora-global.online/logo.png",
+            "width": 500,
+            "height": 500
           },
-          "image": "https://velora-global.online/logo.png",
-          "description": "Leading technology training, project-driven internships, and custom enterprise software development company based in Kathmandu, Nepal.",
-          "priceRange": "NPR",
-          "currenciesAccepted": "NPR, USD",
-          "paymentAccepted": "Cash, Bank Transfer, eSewa, Khalti, ConnectIPS",
-          "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "bestRating": "5",
-            "ratingCount": "1280"
-          },
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Balkumari, Ring Road",
-            "addressLocality": "Kathmandu",
-            "addressRegion": "Bagmati Province",
-            "postalCode": "44600",
-            "addressCountry": "NP"
-          },
-          "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 27.6710,
-            "longitude": 85.3400
-          },
-          "openingHoursSpecification": [
-            {
-              "@type": "OpeningHoursSpecification",
-              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Sunday"],
-              "opens": "09:00",
-              "closes": "18:00"
-            }
-          ],
+          "image": "https://velora-global.online/og-image.png",
+          "description": "Technology company in Kathmandu, Nepal building custom web applications, cross-platform mobile apps and AI chatbots, and running project-driven internships and guided training programs.",
+          "email": "info@velora-global.online",
           "telephone": "+977-9826031419",
-          "email": "contact@velora-global.online",
-          "founder": [
-            {
-              "@type": "Person",
-              "name": "Ram Sah",
-              "jobTitle": "Founder & CEO"
-            },
-            {
-              "@type": "Person",
-              "name": "Krishna Sah",
-              "jobTitle": "Co-Founder & CTO"
-            },
-            {
-              "@type": "Person",
-              "name": "Rohit Sah",
-              "jobTitle": "Co-Founder & COO"
-            },
-            {
-              "@type": "Person",
-              "name": "Shivshankar Sah",
-              "jobTitle": "Contracts & Operations Director"
-            }
-          ],
+          "foundingDate": "2026",
           "sameAs": [
             "https://www.linkedin.com/company/veloraglo-bal/",
             "https://www.instagram.com/veloraglobal_/",
             "https://www.facebook.com/veloraglobal02"
+          ],
+          "founder": [
+            {
+              "@id": "https://velora-global.online/#abhishek-sah"
+            }
+          ],
+          "employee": [
+            {
+              "@id": "https://velora-global.online/#abhishek-sah"
+            },
+            {
+              "@id": "https://velora-global.online/#krishna-sah"
+            },
+            {
+              "@id": "https://velora-global.online/#rohit-sah"
+            },
+            {
+              "@id": "https://velora-global.online/#shivshankar-sah"
+            },
+            {
+              "@id": "https://velora-global.online/#aayush-shrestha"
+            },
+            {
+              "@id": "https://velora-global.online/#sunita-thapa"
+            },
+            {
+              "@id": "https://velora-global.online/#ram-sah"
+            }
           ]
         },
         {
@@ -211,13 +161,23 @@
           "@id": "https://velora-global.online/#website",
           "url": "https://velora-global.online",
           "name": "Velora Global",
+          "inLanguage": "en",
           "publisher": {
             "@id": "https://velora-global.online/#organization"
+          }
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://velora-global.online/#webpage",
+          "url": "https://velora-global.online/",
+          "name": "Velora Global | Technology Training, Internships & Enterprise Solutions",
+          "description": "Custom web and mobile software, AI chatbot systems, project-driven internships and guided technology training from Velora Global in Kathmandu, Nepal.",
+          "inLanguage": "en",
+          "isPartOf": {
+            "@id": "https://velora-global.online/#website"
           },
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://velora-global.online/internships?search={search_term_string}",
-            "query-input": "required name=search_term_string"
+          "about": {
+            "@id": "https://velora-global.online/#organization"
           }
         },
         {
@@ -226,75 +186,57 @@
           "mainEntity": [
             {
               "@type": "Question",
-              "name": "What technology internships does Velora Global offer in Nepal?",
+              "name": "What does Velora Global do?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Velora Global provides 10 specialized domain tracks including Full Stack MERN Web Development, Python AI/ML, Cloud DevOps, Cybersecurity, and Flutter/React Native Mobile App Development with live mentor code reviews and verified certificates."
+                "text": "Velora Global is a technology company based in Kathmandu, Nepal. It builds custom web applications, cross-platform iOS and Android mobile apps and AI chatbot systems for business clients, and runs project-driven internships and guided training programs for students and working professionals."
               }
             },
             {
               "@type": "Question",
-              "name": "How can I verify a Velora Global internship certificate?",
+              "name": "Are Velora Global internship certificates verifiable?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Certificates can be instantly verified on our official website at https://velora-global.online/verify using the unique Certificate ID (e.g. VG-2026-88491) with cryptographic signature validation."
+                "text": "Yes. Every certificate we issue carries a unique verification ID such as VG-2026-88491. Anyone, including an employer or a university, can check it against our public verification endpoint at https://velora-global.online/api/certificates/verify/{certificateId}, which returns the recipient, domain, issue date, duration and grade on record."
               }
             },
             {
               "@type": "Question",
-              "name": "Does Velora Global build custom software for businesses in Nepal?",
+              "name": "Who evaluates student project submissions?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes, Velora Global develops custom web applications (MERN Stack), cross-platform iOS & Android mobile apps, and 24/7 AI chatbot systems. We offer face-to-face consultation at our Balkumari, Kathmandu headquarters or virtual discovery meetings."
+                "text": "Project deliverables and code repositories are reviewed by our founding team: Abhishek Sah (Founder & CEO), Krishna Sah (Co-Founder & CTO) and Rohit Sah (Co-Founder & COO). Each submission is scored against five published criteria and returned with written remarks."
               }
-            }
-          ]
-        },
-        {
-          "@type": "ItemList",
-          "@id": "https://velora-global.online/#sitelinks",
-          "name": "Velora Global Navigation & Programs",
-          "itemListElement": [
-            {
-              "@type": "SiteNavigationElement",
-              "position": 1,
-              "name": "Enterprise IT Solutions & Services",
-              "description": "Custom enterprise web systems, scalable microservices, AI workflows, and mobile apps for modern businesses.",
-              "url": "https://velora-global.online/services"
             },
             {
-              "@type": "SiteNavigationElement",
-              "position": 2,
-              "name": "Technology Internship Programs",
-              "description": "10 specialized tech domains including MERN Full Stack, AI/ML, Cloud DevOps, Cybersecurity, and Mobile App Engineering with verified credentials.",
-              "url": "https://velora-global.online/internships"
+              "@type": "Question",
+              "name": "What is the difference between the Internship and Training programs?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The Internship program is project-driven and task-oriented: you work on deliverables with mentor feedback and milestone reviews. The Guided Training program is lecture-led, with step-by-step development, full codebase walkthroughs and an option to continue into an internship track."
+              }
             },
             {
-              "@type": "SiteNavigationElement",
-              "position": 3,
-              "name": "Guided Technology Training",
-              "description": "Practical bootcamps from 1 week to 2 months with live mentor code reviews, production pipelines, and industry capstones.",
-              "url": "https://velora-global.online/training"
+              "@type": "Question",
+              "name": "What are the 5 criteria used for project grading?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Evaluations assess Quality of Code, Technical Mastery, Creative Problem Solving, Completion of Requirements, and Professional Documentation. Candidates receive written feedback along with their final certificate record."
+              }
             },
             {
-              "@type": "SiteNavigationElement",
-              "position": 4,
-              "name": "Verify Student Certificates",
-              "description": "Instant cryptographic verification of official Velora Global student internship certificates and completion credentials.",
-              "url": "https://velora-global.online/verify"
-            },
-            {
-              "@type": "SiteNavigationElement",
-              "position": 5,
-              "name": "Executive Founding Leadership",
-              "description": "Meet executive mentors Ram Sah (CEO), Krishna Sah (CTO), Rohit Sah (COO), and Shivshankar Sah.",
-              "url": "https://velora-global.online/team"
+              "@type": "Question",
+              "name": "Can I participate in the internship remotely?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Every internship and training track supports remote participation, with schedules designed for university students and working professionals."
+              }
             }
           ]
         }
       ]
     }
-    </script>
+  </script>
   </head>
   <body>
     <noscript>
@@ -303,7 +245,10 @@
       <a href="/services">Enterprise IT Solutions &amp; Services</a>
       <a href="/internships">Practical Technology Internships</a>
       <a href="/training">Guided Skills Training &amp; Bootcamps</a>
-      <a href="/team">About Us &amp; Executive Leadership</a>
+      <a href="/about">About Velora Global</a>
+      <a href="/team">Executive Leadership &amp; Mentors</a>
+      <a href="/privacy-policy">Privacy Policy</a>
+      <a href="/terms">Terms &amp; Conditions</a>
     </noscript>
     <div id="root">
       <!-- Instant 0ms Initial HTML/CSS Skeleton (Replaced seamlessly when React bundle mounts) -->

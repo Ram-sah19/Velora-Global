@@ -1,2 +1,8 @@
-/api/* https://velora-global.onrender.com/api/:splat 200
+# /api/* is proxied by functions/_middleware.js, NOT here.
+# A "200" rewrite to another origin is not a supported _redirects form on Cloudflare
+# Pages (external destinations require 30x), so the previous line was ignored and every
+# /api request fell through to the SPA and answered homepage HTML with status 200 —
+# while openapi.json and the agent skills advertised those paths.
+
+# SPA fallback. Unknown paths are turned into real 404s by the middleware.
 /* /index.html 200

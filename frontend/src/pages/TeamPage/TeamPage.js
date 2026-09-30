@@ -1,4 +1,5 @@
 import React from 'react';
+import { INTERNSHIP_PROGRAMS, TRAINING_PROGRAMS } from '../../content/programs';
 
 export default function TeamPage({ onExploreClick, onConsultationClick }) {
   const founders = [
@@ -87,7 +88,7 @@ export default function TeamPage({ onExploreClick, onConsultationClick }) {
           </h1>
 
           <p style={{ color: '#64748b', fontSize: '1.15rem', marginTop: '1rem', lineHeight: '1.6' }}>
-            Founded in 2024 by engineering leaders and industry mentors dedicated to bridging the gap between academic theory, enterprise software delivery, and high-impact career execution.
+            Velora Global was founded in 2026 by engineers who wanted to close the gap between academic theory and production software work.
           </p>
         </div>
 
@@ -132,6 +133,10 @@ export default function TeamPage({ onExploreClick, onConsultationClick }) {
                   <img 
                     src={member.image} 
                     alt={`${member.name} - ${member.role} at Velora Global Nepal`}
+                    width="160"
+                    height="160"
+                    loading="lazy"
+                    decoding="async"
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = member.image.replace('/media/', '/images/');
@@ -208,7 +213,7 @@ export default function TeamPage({ onExploreClick, onConsultationClick }) {
                     textDecoration: 'none'
                   }}
                 >
-                  Connect on LinkedIn ➔
+                  Connect on LinkedIn
                 </a>
               </div>
 
@@ -294,10 +299,10 @@ export default function TeamPage({ onExploreClick, onConsultationClick }) {
                 </p>
 
                 <p style={{ color: '#94a3b8', fontSize: '0.98rem', lineHeight: '1.75', marginBottom: '1.75rem' }}>
-                  His technical leadership is backed by hands-on industry experience—actively architecting enterprise systems, leading production <strong>Full Stack & AI development</strong>, and championing talent empowerment across global software cohorts.
+                  At Velora Global, Abhishek architects the systems we build, leads <strong>Full Stack &amp; AI development</strong> on live deliverables, and reviews student project submissions.
                 </p>
 
-                {/* Founder Quote Card */}
+                {/* Mission card */}
                 <div style={{
                   background: 'rgba(255, 255, 255, 0.05)',
                   backdropFilter: 'blur(12px)',
@@ -309,11 +314,11 @@ export default function TeamPage({ onExploreClick, onConsultationClick }) {
                   padding: '1.25rem 1.5rem',
                   marginTop: '1.5rem'
                 }}>
-                  <p style={{ fontStyle: 'italic', color: '#e2e8f0', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>
-                    "Talent is universal, but high-impact industry exposure must be built. I founded Velora Global to give passionate developers and global clients a proven ecosystem of world-class software engineering and real-world tech leadership."
+                  <p style={{ color: '#e2e8f0', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>
+                    Velora Global was founded to give developers structured, mentored project work and to give clients software built to the same standard.
                   </p>
                   <span style={{ display: 'block', marginTop: '0.75rem', fontSize: '0.85rem', color: '#60a5fa', fontWeight: '700' }}>
-                    — Abhishek Sah, Founder & CEO
+                    Our mandate
                   </span>
                 </div>
               </div>
@@ -422,10 +427,10 @@ export default function TeamPage({ onExploreClick, onConsultationClick }) {
                   </div>
                   <div>
                     <h3 style={{ fontSize: '1.05rem', color: '#ffffff', fontWeight: '800', margin: '0 0 0.35rem 0' }}>
-                      100+ Trained & Placed / Hired • 50+ Active Interns (USA & Global)
+                      {INTERNSHIP_PROGRAMS.length} Internship Tracks & {TRAINING_PROGRAMS.length} Training Programs
                     </h3>
                     <p style={{ color: '#94a3b8', fontSize: '0.88rem', lineHeight: '1.5', margin: 0 }}>
-                      Leading cohorts of 100+ students in active training and 50+ interns across 10 tracks, including international interns from the USA, India, Bangladesh, Nigeria, and Australia delivering production software for global enterprise clients.
+                      Reviews and mentorship run across the {INTERNSHIP_PROGRAMS.length} internship domains and {TRAINING_PROGRAMS.length} guided training programs listed on this site. Interns work on deliverables in the domain they choose, remote or in person, and every submission is scored against the same five published criteria.
                     </p>
                   </div>
                 </div>
@@ -581,7 +586,7 @@ export default function TeamPage({ onExploreClick, onConsultationClick }) {
             <div style={{ padding: '1.5rem', background: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
               <h4 style={{ fontSize: '1.2rem', color: '#0b0f19', fontWeight: '700', marginBottom: '0.5rem' }}>Credential Trust</h4>
               <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.6' }}>
-                Every completion certificate is backed by public QR endpoints and tamper-proof verification IDs.
+                Every completion certificate carries a unique verification ID that anyone can check at our public verification endpoint.
               </p>
             </div>
 
@@ -604,14 +609,14 @@ export default function TeamPage({ onExploreClick, onConsultationClick }) {
           boxShadow: 'var(--shadow-lg)'
         }}>
           <h3 style={{ fontSize: '2.2rem', color: '#ffffff', marginBottom: '0.75rem', fontWeight: '800' }}>
-            Ready to Be Mentored by Founding Industry Leaders?
+            Ready to Work With the Founding Team?
           </h3>
           <p style={{ color: '#94a3b8', fontSize: '1.05rem', maxWidth: '640px', margin: '0 auto 2rem auto' }}>
-            Join 100+ students in active training and 50+ interns across 10 specialized domain tracks, collaborating with teams across Nepal, the USA, and multinational clients.
+            Apply for one of {INTERNSHIP_PROGRAMS.length} internship tracks or {TRAINING_PROGRAMS.length} guided training programs, and work alongside the founding team on live deliverables.
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             <button onClick={onExploreClick} className="btn-coral" style={{ padding: '0.9rem 2.4rem', fontSize: '1rem' }}>
-              Explore Internship Opportunities ➔
+              Explore Internship Opportunities
             </button>
             {onConsultationClick && (
               <button 

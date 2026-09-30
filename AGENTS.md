@@ -18,3 +18,9 @@
 - Adhere strictly to the corporate design system: clean typography, refined contrast, rounded pill buttons, and subtle backdrop blurs.
 - **Zero emojis in interactive UI**: Do not use emojis in buttons, badges, headers, or critical UI elements unless specifically asked. Use professional SVGs or clean icons instead.
 - All code changes must compile cleanly (`npm run build`) with zero lint or runtime errors.
+
+## 5. Minimal, Reliable Code (NON-NEGOTIABLE)
+- Write the smallest change that fully solves the task. **If 5 lines do the job, do not write 50.**
+- No unnecessary abstractions, helper wrappers, config switches, or comments: a new file, component, or function must be justified by code that actually calls it.
+- Prefer editing an existing file, component, or constant over creating a new one; delete dead code instead of leaving shims, aliases, or backwards-compatibility layers.
+- No speculative features or handling for scenarios that cannot happen — reliability comes from simple, readable code that compiles cleanly, not from defensive bulk.

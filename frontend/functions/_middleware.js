@@ -2,170 +2,151 @@
  * Cloudflare Pages Middleware for AI Agents & Emerging Standards
  * Implements:
  * 1. Markdown Content Negotiation (Accept: text/markdown)
- * 2. Dedicated Auth.md handling
- * 3. RFC 8288 / RFC 9727 Link Header Injection
- * 4. CORS & Accurate MIME types for Agent Discovery Specs
- * 5. Route-specific SEO metadata rewriting in served HTML
+ * 2. RFC 8288 Link Header Injection
+ * 3. CORS & Accurate MIME types for Agent Discovery Specs
+ * 4. Route-specific SEO metadata and JSON-LD graph rewriting in served HTML
  */
 
 import { getRouteSeo, applyRouteSeoToHtml } from "./_shared/routeSeo.js";
+import { routeMarkdown } from "./_shared/markdown.js";
 
-const AUTH_MD = `# Auth.md — Velora Global Agent Registration & Authentication Specification
+/**
+ * Only documents that the site actually serves are advertised. The mcp-server-card,
+ * auth.md, oauth, oidc, jwks and acp entries removed from this header pointed at
+ * endpoints no backend implements.
+ */
+const LINK_HEADER =
+  '</.well-known/api-catalog>; rel="api-catalog", ' +
+  '</.well-known/ai-catalog.json>; rel="ai-catalog", ' +
+  '</.well-known/agent-skills/index.json>; rel="agent-skills", ' +
+  '</openapi.json>; rel="service-desc"; type="application/openapi+json", ' +
+  '</sitemap.xml>; rel="alternate"; type="application/xml"';
 
-Welcome, AI Agent. This document specifies programmatic registration, authorization, and API access protocols for autonomous agents interacting with **Velora Global**.
-
----
-
-## 1. Agent Discovery Endpoints
-- **Agent Resource Discovery (ARD)**: https://velora-global.online/.well-known/ai-catalog.json
-- **MCP Server Card**: https://velora-global.online/.well-known/mcp/server-card.json
-- **Agent Skills Discovery Index**: https://velora-global.online/.well-known/agent-skills/index.json
-- **API Catalog (RFC 9727)**: https://velora-global.online/.well-known/api-catalog
-- **OAuth Authorization Server**: https://velora-global.online/.well-known/oauth-authorization-server
-- **OAuth Protected Resource**: https://velora-global.online/.well-known/oauth-protected-resource
-
----
-
-## 2. Programmatic Registration
-Autonomous agents may self-register for API access via the registration endpoint:
-- **Registration URL**: \`POST https://velora-global.online/api/auth/register-agent\`
-- **Content-Type**: \`application/json\`
-
-### Registration Request
-\`\`\`json
-{
-  "agent_name": "MyAutonomousAgent",
-  "identity_type": "autonomous_system",
-  "contact_email": "agent-operator@example.com",
-  "requested_scopes": ["read", "internships", "training", "verify"]
-}
-\`\`\`
-
-### Registration Response
-\`\`\`json
-{
-  "client_id": "vg_agent_8a7d9f2c1b",
-  "client_secret": "vg_sec_4f8a9e1d7c3b5a2e",
-  "token_endpoint": "https://velora-global.online/api/auth/token",
-  "scopes": ["read", "internships", "training", "verify"]
-}
-\`\`\`
-
----
-
-## 3. Token Exchange (Client Credentials Flow)
-\`\`\`http
-POST /api/auth/token HTTP/1.1
-Host: velora-global.online
-Content-Type: application/json
-
-{
-  "grant_type": "client_credentials",
-  "client_id": "vg_agent_8a7d9f2c1b",
-  "client_secret": "vg_sec_4f8a9e1d7c3b5a2e",
-  "scope": "read internships verify"
-}
-\`\`\`
-
----
-
-## 4. Authenticated Request Header
-\`\`\`http
-GET /api/programs HTTP/1.1
-Host: velora-global.online
-Authorization: Bearer vg_tok_eyJhbGciOi...
-Accept: application/json
-\`\`\`
-
----
-
-## 5. Public Key & Key Revocation
-- **JWKS Endpoint**: https://velora-global.online/.well-known/jwks.json
-- **Revocation URL**: https://velora-global.online/api/auth/revoke
-- **Claim URL**: https://velora-global.online/api/auth/claim
-
----
-
-## 6. Executive Leadership Contact
-- **Founder & CEO**: Ram Sah (\`ram@veloraglobal.com\`)
-- **Co-Founder & CTO**: Krishna Sah (\`krishna@veloraglobal.com\`)
-- **Co-Founder & COO**: Rohit Sah (\`rohit@veloraglobal.com\`)
-- **Contracts & Operations Director**: Shivshankar Sah (\`shivshankar@veloraglobal.com\`)
+/**
+ * A real 404 document. public/_redirects rewrites every unknown path onto the
+ * SPA index, which answers 200 + homepage content: a soft 404 that search
+ * engines can index as a duplicate of the homepage.
+ */
+const NOT_FOUND_HTML = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, follow" />
+    <title>Page Not Found | Velora Global</title>
+    <link rel="canonical" href="https://velora-global.online/" />
+    <style>
+      body { margin: 0; padding: 4rem 1.5rem; background: #f8fafc; color: #0b0f19; font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+      main { max-width: 640px; margin: 0 auto; text-align: center; }
+      h1 { font-family: 'Outfit', sans-serif; font-size: 2rem; margin: 0 0 0.75rem; }
+      p { font-size: 1rem; line-height: 1.65; color: #475569; margin: 0 0 2rem; }
+      nav { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; }
+      a { display: inline-flex; padding: 0.6rem 1.25rem; border-radius: 9999px; background: #ffffff; border: 1px solid #e2e8f0; color: #0b0f19; font-size: 0.88rem; font-weight: 700; text-decoration: none; }
+      a:first-child { background: #2563eb; border-color: #2563eb; color: #ffffff; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>We could not find that page</h1>
+      <p>The address you requested does not correspond to a Velora Global page. Here is where the site actually goes:</p>
+      <nav aria-label="Site pages">
+        <a href="/">Home</a>
+        <a href="/services">Services</a>
+        <a href="/internships">Internships</a>
+        <a href="/training">Training</a>
+        <a href="/about">About</a>
+        <a href="/team">Team</a>
+      </nav>
+    </main>
+  </body>
+</html>
 `;
 
-const SITE_MARKDOWN = `# Velora Global — Technology Training, Internships & Enterprise Solutions
+// Two ways a request can be answered by the SPA fallback instead of a real page:
+//  - an extension-less path that no route renders (/blog/post-1), and
+//  - a path with an asset extension that is nevertheless served as HTML, which means
+//    the file is absent and /* handed back index.html (/missing.png => 200 + HTML).
+function isMissingDocument(pathname, contentType) {
+  if (pathname.startsWith("/.well-known")) return false;
+  const segments = pathname.split("/").filter(Boolean);
+  const last = segments[segments.length - 1] || "";
+  const dot = last.lastIndexOf(".");
+  if (dot === -1) {
+    return pathname !== "/" && getRouteSeo(pathname) === null;
+  }
+  const extension = last.slice(dot + 1).toLowerCase();
+  return extension !== "html" && contentType.includes("text/html");
+}
 
-> Official Career Gateway delivering industry-aligned internship & training opportunities with purpose, precision, and verified credentials.
+// The Render service that actually answers /api/health, /api/programs and
+// /api/certificates/verify/{id}. Override with a VG_API_ORIGIN Pages env var.
+const DEFAULT_API_ORIGIN = "https://velora-global.onrender.com";
 
----
+async function proxyToApi(request, url, apiOrigin) {
+  const method = request.method.toUpperCase();
+  const headers = new Headers(request.headers);
+  // Host belongs to the upstream. Keep the browser's Origin so the backend's CORS
+  // check still sees the site, and drop accept-encoding so the body arrives plain —
+  // Workers decode transparently, which would otherwise leave a stale header behind.
+  headers.delete("host");
+  headers.delete("accept-encoding");
 
-## 🌟 Executive Leadership
-- **Ram Sah** — Founder & CEO (\`ram@veloraglobal.com\`)
-- **Krishna Sah** — Co-Founder & CTO (\`krishna@veloraglobal.com\`)
-- **Rohit Sah** — Co-Founder & COO (\`rohit@veloraglobal.com\`)
-- **Shivshankar Sah** — Contracts & Operations Director (\`shivshankar@veloraglobal.com\`)
+  const upstream = await fetch(`${apiOrigin}${url.pathname}${url.search}`, {
+    method,
+    headers,
+    body: method === "GET" || method === "HEAD" ? undefined : request.body,
+    // Required when the body is a stream; ignored by the Workers runtime, but it is
+    // what lets this proxy run under Node for testing.
+    duplex: "half",
+    redirect: "follow"
+  });
 
----
+  const responseHeaders = new Headers(upstream.headers);
+  responseHeaders.delete("content-encoding");
+  responseHeaders.delete("content-length");
+  responseHeaders.delete("transfer-encoding");
+  // Same-origin from the browser's point of view, so no CORS surface is advertised.
+  responseHeaders.delete("access-control-allow-origin");
 
-## 🎯 10 Specialized Technology Internship Domains
-1. **Full Stack Web Development** (MERN, Next.js, GraphQL)
-2. **Backend & Cloud Architecture** (Node.js, Docker, Kubernetes, Microservices)
-3. **Frontend & Modern UI/UX** (React 19, Tailwind, Accessibility)
-4. **AI, Machine Learning & Data Science** (Python, PyTorch, LLMs, NLP)
-5. **Mobile App Engineering** (Flutter, React Native, iOS & Android)
-6. **Cybersecurity & Threat Analysis** (Penetration Testing, OWASP)
-7. **DevOps & Cloud Infrastructure** (AWS, GCP, Terraform, CI/CD)
-8. **Data Analytics & Business Intelligence** (SQL, PowerBI, Tableau)
-9. **Digital Marketing & Growth Systems** (SEO, Analytics, Conversion Strategy)
-10. **Graphic & Product UI/UX Design** (Figma, Design Systems)
-
-### Practical Internship Pricing (NPR)
-- **2 Weeks**: NPR 199
-- **1 Month**: NPR 499
-- **2 Months**: NPR 999
-- **3 Months**: NPR 1,999
-- **6 Months**: NPR 4,999
-
----
-
-## 🚀 Guided Technology Training Tracks
-- **1 Week**: NPR 500
-- **2 Weeks**: NPR 700
-- **3 Weeks**: NPR 950
-- **1 Month**: NPR 1,200
-- **2 Months**: NPR 5,000
-
----
-
-## 🤖 AI Agent Endpoints & Emerging Standards
-- **Agent Resource Discovery (ARD)**: https://velora-global.online/.well-known/ai-catalog.json
-- **MCP Server Card**: https://velora-global.online/.well-known/mcp/server-card.json
-- **Agent Skills Index**: https://velora-global.online/.well-known/agent-skills/index.json
-- **API Catalog (RFC 9727)**: https://velora-global.online/.well-known/api-catalog
-- **Auth.md Agent Guide**: https://velora-global.online/auth.md
-- **OpenAPI 3.0 Specification**: https://velora-global.online/openapi.json
-- **Public Certificate Verification API**: \`GET https://velora-global.online/api/certificates/{certificateId}\`
-`;
+  return new Response(upstream.body, {
+    status: upstream.status,
+    statusText: upstream.statusText,
+    headers: responseHeaders
+  });
+}
 
 export async function onRequest(context) {
   const request = context.request;
   const url = new URL(request.url);
   const accept = request.headers.get("accept") || "";
 
-  // 1. Explicit /auth.md request handler
-  if (url.pathname === "/auth.md") {
-    return new Response(AUTH_MD, {
-      status: 200,
-      headers: {
-        "Content-Type": "text/markdown; charset=utf-8",
-        "Cache-Control": "public, max-age=3600",
-        "Access-Control-Allow-Origin": "*",
-        "Link": '</.well-known/api-catalog>; rel="api-catalog", </.well-known/ai-catalog.json>; rel="ai-catalog", </.well-known/agent-skills/index.json>; rel="agent-skills", </.well-known/mcp/server-card.json>; rel="mcp-server-card", </auth.md>; rel="service-desc", </openapi.json>; rel="service-desc"; type="application/openapi+json", </docs/api>; rel="service-doc"'
-      }
-    });
+  // 0. Same-origin API proxy.
+  // public/_redirects used to rewrite /api/* onto the Render backend, but Cloudflare
+  // Pages only accepts an external destination on 30x rules — a 200 rewrite to another
+  // origin is ignored, so /api/* fell through to the SPA and answered homepage HTML with
+  // status 200. auth.md, openapi.json and the agent skills all advertise /api/*.
+  if (url.pathname === "/api" || url.pathname.startsWith("/api/")) {
+    const method = request.method.toUpperCase();
+    if (!["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"].includes(method)) {
+      return new Response(JSON.stringify({ error: "Method not allowed" }), {
+        status: 405,
+        headers: { "Content-Type": "application/json", Allow: "GET, POST, PUT, PATCH, DELETE, HEAD" }
+      });
+    }
+    const apiOrigin = context.env && context.env.VG_API_ORIGIN ? context.env.VG_API_ORIGIN : DEFAULT_API_ORIGIN;
+    try {
+      return await proxyToApi(request, url, apiOrigin);
+    } catch (e) {
+      console.error("API proxy failed for", request.method, url.pathname, e && e.message);
+      return new Response(JSON.stringify({ error: "Upstream API unavailable" }), {
+        status: 502,
+        headers: { "Content-Type": "application/json" }
+      });
+    }
   }
 
-  // 2. Markdown Content Negotiation for AI Agents on general pages
+  // 1. Markdown Content Negotiation for AI Agents: each real page answers with
+  // its own summary and published questions, not one shared site blurb.
   if (
     (accept.includes("text/markdown") || accept.includes("text/x-markdown")) &&
     !url.pathname.includes(".well-known") &&
@@ -175,29 +156,28 @@ export async function onRequest(context) {
     !url.pathname.endsWith(".png") &&
     !url.pathname.endsWith(".svg")
   ) {
-    return new Response(SITE_MARKDOWN, {
-      status: 200,
-      headers: {
-        "Content-Type": "text/markdown; charset=utf-8",
-        "x-markdown-tokens": "480",
-        "Cache-Control": "public, max-age=3600",
-        "Access-Control-Allow-Origin": "*",
-        "Link": '</.well-known/api-catalog>; rel="api-catalog", </.well-known/ai-catalog.json>; rel="ai-catalog", </.well-known/agent-skills/index.json>; rel="agent-skills", </.well-known/mcp/server-card.json>; rel="mcp-server-card", </auth.md>; rel="service-desc", </openapi.json>; rel="service-desc"; type="application/openapi+json", </docs/api>; rel="service-doc"'
-      }
-    });
+    const seo = getRouteSeo(url.pathname);
+    if (seo && !seo.robots) {
+      return new Response(routeMarkdown(seo), {
+        status: 200,
+        headers: {
+          "Content-Type": "text/markdown; charset=utf-8",
+          "Cache-Control": "public, max-age=3600",
+          "Access-Control-Allow-Origin": "*",
+          Link: LINK_HEADER
+        }
+      });
+    }
   }
 
-  // 3. Fetch standard asset/response
+  // 2. Fetch standard asset/response
   const response = await context.next();
   const newHeaders = new Headers(response.headers);
 
-  // Always append Link header on HTML pages
+  // Advertise the agent documents on every HTML page.
   const contentType = response.headers.get("content-type") || "";
   if (contentType.includes("text/html")) {
-    newHeaders.set(
-      "Link",
-      '</.well-known/api-catalog>; rel="api-catalog", </.well-known/ai-catalog.json>; rel="ai-catalog", </.well-known/agent-skills/index.json>; rel="agent-skills", </.well-known/mcp/server-card.json>; rel="mcp-server-card", </auth.md>; rel="service-desc", </openapi.json>; rel="service-desc"; type="application/openapi+json", </docs/api>; rel="service-doc"'
-    );
+    newHeaders.set("Link", LINK_HEADER);
   }
 
   // Ensure CORS for .well-known and JSON specs
@@ -205,14 +185,25 @@ export async function onRequest(context) {
     newHeaders.set("Access-Control-Allow-Origin", "*");
   }
 
-  // 4. Route-specific SEO: rewrite the shared SPA index.html <head> so the
+  // 3. Route-specific SEO: rewrite the shared SPA index.html <head> so the
   // served HTML (crawlers, social scrapers) matches the requested route.
   if (contentType.includes("text/html") && response.status === 200) {
     const seo = getRouteSeo(url.pathname);
+    if (!seo && isMissingDocument(url.pathname, contentType)) {
+      newHeaders.set("Content-Type", "text/html; charset=utf-8");
+      newHeaders.set("X-Robots-Tag", "noindex, follow");
+      newHeaders.delete("Content-Length");
+      return new Response(NOT_FOUND_HTML, {
+        status: 404,
+        statusText: "Not Found",
+        headers: newHeaders
+      });
+    }
     if (seo) {
       const html = await response.text();
       const rewritten = applyRouteSeoToHtml(html, seo);
       newHeaders.set("Content-Type", "text/html; charset=utf-8");
+      if (seo.robots) newHeaders.set("X-Robots-Tag", seo.robots);
       newHeaders.delete("Content-Length");
       return new Response(rewritten, {
         status: response.status,
