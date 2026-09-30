@@ -91,7 +91,6 @@ export default function ClientWorkspacePage({ currentUser, onLogout }) {
                 }}
               >
                 <span>Sign Out of Workspace</span>
-                <span>➔</span>
               </button>
             </div>
           )}

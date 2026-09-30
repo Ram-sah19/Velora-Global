@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const PROJECTS = [
   {
     id: 1,
     sector: 'Enterprise Security & Cryptography',
     title: 'Velora Circle — End-to-End Encrypted Collaboration Suite',
-    tagline: 'Military-grade end-to-end encrypted messaging, HD video conferencing, confidential file transmission vault, and isolated enterprise workspaces engineered for zero data leaks.',
-    metric: '256-Bit E2E Zero-Leak Protocol',
-    region: 'Global Enterprise & High-Security Nodes',
-    status: 'Live in Production',
+    tagline: 'End-to-end encrypted messaging, HD video conferencing, an encrypted file vault, and isolated enterprise workspaces, designed so content is unreadable in transit and at rest.',
+    metric: 'End-to-end encryption, signaling and key management',
+    region: 'Enterprise & high-security deployments',
+    status: 'Concept build',
     mockupUrl: 'https://circle.veloraglobal.com/vault',
     previewUi: (
       <div style={{ background: '#f8fafc', padding: '1.15rem', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
@@ -42,9 +42,9 @@ const PROJECTS = [
     deliverables: [
       'End-to-end cryptographic messaging with ephemeral chat destruction',
       'Encrypted multi-party HD video & audio conferencing with screen share',
-      'Zero-knowledge encrypted file transmission and credential vault',
+      'Encrypted file transmission and credential vault',
       'Isolated enterprise team workspaces & role-partitioned channels',
-      'Client-side key derivation with zero server-side metadata retention'
+      'Client-side key derivation with message content unreadable on the server'
     ],
     stack: ['WebRTC', 'AES-256 / RSA-4096', 'Node.js', 'React.js', 'Socket.io', 'PostgreSQL']
   },
@@ -52,10 +52,10 @@ const PROJECTS = [
     id: 2,
     sector: 'Education & Global Consultancy',
     title: 'Overseas Education & Visa Advisory Platform',
-    tagline: 'High-conversion multi-country consultancy portal connecting prospective students directly to university admissions across Australia, USA, Canada & UK.',
-    metric: '+380% Qualified Lead Growth',
+    tagline: 'Multi-country consultancy portal connecting prospective students to university admissions across Australia, the USA, Canada and the UK, with a lead pipeline wired to the enquiry form.',
+    metric: 'Eligibility screening, course directory and CRM hand-off',
     region: 'Australia, USA & Nepal',
-    status: 'Live in Production',
+    status: 'Concept build',
     mockupUrl: 'https://visasolutions.edu.global',
     previewUi: (
       <div style={{ background: '#f8fafc', padding: '1.15rem', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
@@ -94,8 +94,8 @@ const PROJECTS = [
       'Interactive multi-country visa eligibility assessment form',
       'Global university course directory with entry requirements filter',
       'Direct WhatsApp lead capture & instant CRM pipeline dispatch',
-      'Mobile-first performance architecture with sub-second page loads',
-      'Lighthouse 98+ PageSpeed index & enterprise SEO optimization'
+      'Mobile-first architecture with Core Web Vitals and SEO work',
+      'Search engine optimisation and structured data for admissions pages'
     ],
     stack: ['React.js', 'Node.js', 'REST API', 'WhatsApp CRM', 'Cloudflare']
   },
@@ -104,9 +104,9 @@ const PROJECTS = [
     sector: 'Hospitality & Food Tech',
     title: 'Restaurant Digital QR Menu & Table Ordering System',
     tagline: 'Contactless zero-install digital menu allowing restaurant guests to scan table QR codes, browse live food & drink catalogs, and order in real-time.',
-    metric: 'Zero-App Instant Load Speed',
+    metric: 'Table-scoped QR menus and live catalogue sync',
     region: 'Kathmandu Valley & Pokhara',
-    status: 'Live in Production',
+    status: 'Concept build',
     mockupUrl: 'https://menu.dinefresh.app/table-08',
     previewUi: (
       <div style={{ background: '#f8fafc', padding: '1.15rem', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
@@ -144,7 +144,7 @@ const PROJECTS = [
       </div>
     ),
     deliverables: [
-      'Zero-app installation QR scan for instantaneous menu loading',
+      'QR code per table that opens the menu in the browser, no app install',
       'Dynamic food & drink catalog with instant full-text search',
       'Dietary identification tags: Veg / Non-Veg / Vegan / Spiciness',
       'Merchant admin portal for real-time menu and pricing adjustments',
@@ -157,9 +157,9 @@ const PROJECTS = [
     sector: 'Retail & E-Commerce',
     title: 'E-Commerce Brand Store & Direct Order System',
     tagline: 'High-speed modern online storefront replacing manual social media direct messages with an automated catalog, digital checkout, and live inventory sync.',
-    metric: '100% Automated Checkout Flow',
-    region: 'Nepal Nationwide Delivery',
-    status: 'Live in Production',
+    metric: 'Catalogue, checkout and inventory sync',
+    region: 'Nepal nationwide delivery',
+    status: 'Concept build',
     mockupUrl: 'https://store.velorabrand.com',
     previewUi: (
       <div style={{ background: '#f8fafc', padding: '1.15rem', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
@@ -203,24 +203,58 @@ const PROJECTS = [
 
 export default function ProjectCarousel3D({ onConsultationClick }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isHovering, setIsHovering] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isPageVisible, setIsPageVisible] = useState(true);
+  const sectionRef = useRef(null);
 
   const activeProject = PROJECTS[activeIndex] || PROJECTS[0];
+  const autoAdvance = !userPaused && !isHovering && !isFocused && isVisible && isPageVisible;
+
+  // The section sits far below the fold; without this it re-rendered on a timer all visit.
+  useEffect(() => {
+    const node = sectionRef.current;
+    if (!node || typeof IntersectionObserver === 'undefined') return undefined;
+    const observer = new IntersectionObserver(([entry]) => setIsVisible(entry.isIntersecting), { threshold: 0.15 });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    const sync = () => setIsPageVisible(document.visibilityState !== 'hidden');
+    sync();
+    document.addEventListener('visibilitychange', sync);
+    return () => document.removeEventListener('visibilitychange', sync);
+  }, []);
+
+  useEffect(() => {
+    if (!autoAdvance) return undefined;
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % PROJECTS.length);
     }, 6500);
     return () => clearInterval(timer);
-  }, [isAutoPlaying]);
+  }, [autoAdvance]);
 
   return (
-    <section 
-      style={{ marginTop: '4.5rem', marginBottom: '5.5rem' }}
-      onMouseEnter={() => setIsAutoPlaying(false)}
-      onMouseLeave={() => setIsAutoPlaying(true)}
+    <section
+      ref={sectionRef}
+      className="premium-band"
+      style={{
+        marginTop: '4.5rem',
+        marginBottom: '5.5rem',
+        background: 'var(--premium-grad-tinted)',
+        borderRadius: '32px'
+      }}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      onFocusCapture={() => setIsFocused(true)}
+      onBlurCapture={() => setIsFocused(false)}
     >
+      <div aria-live="polite" aria-atomic="true" className="visually-hidden">
+        {`Project ${activeIndex + 1} of ${PROJECTS.length}: ${activeProject.title}`}
+      </div>
       {/* Section Header */}
       <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 2.5rem auto' }}>
         <div style={{ marginBottom: '0.9rem' }}>
@@ -229,7 +263,7 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
             fontWeight: '700',
             color: '#1d4ed8'
           }}>
-            DELIVERED CLIENT PLATFORMS
+            PRODUCT CONCEPTS
           </span>
         </div>
 
@@ -239,7 +273,7 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
           lineHeight: '1.15',
           margin: '0 0 0.85rem 0'
         }}>
-          Production Systems & Enterprise Engineering
+          Product Concepts & Engineering Notes
         </h2>
 
         <p style={{
@@ -248,7 +282,7 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
           lineHeight: '1.6',
           margin: 0
         }}>
-          Explore production-grade enterprise software, mobile platforms, and AI-automated systems engineered by Velora Global.
+          Interfaces and architectures we design when a brief calls for them. These are concept builds, not live client platforms: we do not publish client names, URLs or results without permission.
         </p>
       </div>
 
@@ -345,11 +379,32 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
               <path d="M2 7V4.5C2 2.29 3.34 0.5 6 0.5C8.66 0.5 10 2.29 10 4.5V7" stroke="#16a34a" strokeWidth="1.5" strokeLinecap="round" />
               <rect x="1" y="6.5" width="10" height="8.5" rx="1.8" fill="#16a34a" />
             </svg>
-            <span>{activeProject.mockupUrl}</span>
+            <span>Concept interface — {activeProject.mockupUrl}</span>
           </div>
 
           {/* Navigation Arrows */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <button
+              type="button"
+              onClick={() => setUserPaused((p) => !p)}
+              aria-pressed={userPaused}
+              style={{
+                background: '#ffffff',
+                border: '1px solid #cbd5e1',
+                color: '#475569',
+                height: '30px',
+                borderRadius: '9999px',
+                cursor: 'pointer',
+                fontSize: '0.7rem',
+                fontWeight: '700',
+                letterSpacing: '0.03em',
+                padding: '0 0.75rem',
+                marginRight: '0.25rem',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
+              }}
+            >
+              {userPaused ? 'AUTO: OFF' : 'AUTO: ON'}
+            </button>
             <button
               onClick={() => setActiveIndex((prev) => (prev === 0 ? PROJECTS.length - 1 : prev - 1))}
               aria-label="Previous system"
@@ -433,8 +488,8 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
                   {activeProject.sector}
                 </span>
 
-                <span style={{ fontSize: '0.72rem', color: '#059669', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '0.35rem', background: '#ecfdf5', padding: '0.25rem 0.65rem', borderRadius: '9999px', border: '1px solid #a7f3d0' }}>
-                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#059669' }} />
+                <span style={{ fontSize: '0.72rem', color: '#475569', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '0.35rem', background: '#f1f5f9', padding: '0.25rem 0.65rem', borderRadius: '9999px', border: '1px solid #e2e8f0' }}>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#94a3b8' }} />
                   {activeProject.status}
                 </span>
               </div>
@@ -451,7 +506,7 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
                 alignItems: 'center',
                 justifyContent: 'space-between'
               }}>
-                <span style={{ fontSize: '0.7rem', color: '#64748b', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Verified Outcome</span>
+                <span style={{ fontSize: '0.7rem', color: '#64748b', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Capability Covered</span>
                 <span style={{ fontSize: '0.88rem', color: '#1d4ed8', fontWeight: '800', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
                   <svg width="11" height="13" viewBox="0 0 12 14" fill="none" aria-hidden="true">
                     <path d="M7.5 0.5L1.5 8H5.5L4.5 13.5L10.5 6H6.5L7.5 0.5Z" fill="#2563eb" stroke="#2563eb" strokeWidth="0.8" strokeLinejoin="round" />
@@ -568,7 +623,7 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
                   e.currentTarget.style.boxShadow = '0 6px 20px -6px rgba(37, 99, 235, 0.55)';
                 }}
               >
-                Inquire for Similar Architecture ➔
+                Inquire for Similar Architecture
               </button>
             )}
           </div>

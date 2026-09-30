@@ -1,20 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import VeloraLogo from './VeloraLogo';
 import { COUNSELING_FORM_URL } from '../constants';
 
-import StudentTermsModal from './StudentTermsModal';
-import StudentPrivacyModal from './StudentPrivacyModal';
-import ClientTermsModal from './ClientTermsModal';
-import ClientPrivacyModal from './ClientPrivacyModal';
-
 export default function Footer({ setActiveTab }) {
-  const [activeModal, setActiveModal] = useState(null); // 'student-terms', 'student-privacy', 'client-terms', 'client-privacy'
 
   return (
     <footer className="global-footer" style={{
       background: '#0b0f19',
       borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-      padding: '4rem 0 2rem 0',
+      /* The WhatsApp widget is fixed to the viewport's bottom-right corner and
+         covers the last ~80px of the page, so the bottom bar needs to clear it. */
+      padding: '4rem 0 6rem 0',
       color: '#94a3b8',
       marginTop: 'auto',
       width: '100%'
@@ -46,7 +42,7 @@ export default function Footer({ setActiveTab }) {
             </p>
 
             <span style={{ fontSize: '0.8rem', color: 'rgb(96, 165, 250)', display: 'block', fontWeight: '600' }}>
-              Founded in 2024 by Abhishek Sah (Founder & CEO) • Co-Founded by Krishna Sah (CTO) & Rohit Sah (COO)
+              Founded in 2026 by Abhishek Sah (Founder &amp; CEO) • Co-Founded by Krishna Sah (CTO) &amp; Rohit Sah (COO)
             </span>
           </div>
 
@@ -65,8 +61,13 @@ export default function Footer({ setActiveTab }) {
                 </a>
               </li>
               <li>
+                <a href="/about" onClick={(e) => { e.preventDefault(); setActiveTab('about'); }} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'none', fontSize: 'inherit' }}>
+                  About Velora Global
+                </a>
+              </li>
+              <li>
                 <a href="/team" onClick={(e) => { e.preventDefault(); setActiveTab('team'); }} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'none', fontSize: 'inherit' }}>
-                  About Us
+                  Leadership &amp; Mentors
                 </a>
               </li>
               <li>
@@ -86,7 +87,7 @@ export default function Footer({ setActiveTab }) {
                   rel="noopener noreferrer"
                   style={{ color: '#ff6b6b', fontWeight: '700', textDecoration: 'none' }}
                 >
-                  1-on-1 Counseling Form ➔
+                  1-on-1 Counseling Form
                 </a>
               </li>
             </ul>
@@ -94,48 +95,38 @@ export default function Footer({ setActiveTab }) {
 
           {/* Legal & Governance Column */}
           <div>
-            <h4 style={{ color: '#ffffff', fontSize: '1.05rem', marginBottom: '1rem' }}>Legal & Governance</h4>
+            <h4 style={{ color: '#ffffff', fontSize: '1.05rem', marginBottom: '1rem' }}>Legal &amp; Governance</h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.55rem', fontSize: '0.88rem' }}>
               <li>
-                <button onClick={() => setActiveModal('student-terms')} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left' }}>
-                  Student Terms of Service
-                </button>
+                <a href="/privacy-policy" onClick={(e) => { e.preventDefault(); setActiveTab('privacy'); }} style={{ color: '#94a3b8', textDecoration: 'none', fontSize: 'inherit' }}>
+                  Privacy Policy
+                </a>
               </li>
               <li>
-                <button onClick={() => setActiveModal('student-privacy')} style={{ background: 'none', color: '#94a3b8', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left' }}>
-                  Student Privacy Policy
-                </button>
-              </li>
-              <li>
-                <button onClick={() => setActiveModal('client-terms')} style={{ background: 'none', color: '#ff6b6b', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left', fontWeight: '600' }}>
-                  Client Engineering Terms
-                </button>
-              </li>
-              <li>
-                <button onClick={() => setActiveModal('client-privacy')} style={{ background: 'none', color: '#ff6b6b', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left', fontWeight: '600' }}>
-                  Client Data Privacy Policy
-                </button>
+                <a href="/terms" onClick={(e) => { e.preventDefault(); setActiveTab('terms'); }} style={{ color: '#94a3b8', textDecoration: 'none', fontSize: 'inherit' }}>
+                  Terms &amp; Conditions
+                </a>
               </li>
             </ul>
+            <p style={{ fontSize: '0.8rem', color: '#64748b', lineHeight: '1.55', marginTop: '0.75rem', marginBottom: 0 }}>
+              One policy and one set of terms, covering students, interns and client engagements.
+            </p>
           </div>
 
           {/* Contact & Social Channels */}
           <div>
-            <h4 style={{ color: '#ffffff', fontSize: '1.05rem', marginBottom: '1rem' }}>Contact & Headquarters</h4>
+            <h4 style={{ color: '#ffffff', fontSize: '1.05rem', marginBottom: '1rem' }}>Contact</h4>
             <p style={{ fontSize: '0.84rem', marginBottom: '0.45rem', color: '#cbd5e1', lineHeight: '1.45' }}>
-              <strong>Headquarters:</strong> Balkumari, Ring Road, Kathmandu Valley, Nepal
+              <strong>Based in:</strong> Balkumari, Kathmandu, Nepal
             </p>
             <p style={{ fontSize: '0.84rem', marginBottom: '0.45rem', color: '#94a3b8' }}>
-              <strong>Direct Helpline:</strong> <a href="tel:+9779826031419" style={{ color: '#60a5fa' }}>+977 9826031419</a>
+              <strong>Phone:</strong> <a href="tel:+9779826031419" style={{ color: '#60a5fa' }}>+977 9826031419</a>
             </p>
             <p style={{ fontSize: '0.84rem', marginBottom: '0.35rem', color: '#94a3b8' }}>
-              <strong>Technical Support:</strong> <a href="mailto:support@velora-global.online" style={{ color: '#60a5fa' }}>support@velora-global.online</a>
+              <strong>Email:</strong> <a href="mailto:info@velora-global.online" style={{ color: '#60a5fa' }}>info@velora-global.online</a>
             </p>
             <p style={{ fontSize: '0.84rem', marginBottom: '0.35rem', color: '#94a3b8' }}>
-              <strong>Corporate Desk:</strong> <a href="mailto:contact@velora-global.online" style={{ color: '#60a5fa' }}>contact@velora-global.online</a>
-            </p>
-            <p style={{ fontSize: '0.84rem', marginBottom: '0.35rem', color: '#94a3b8' }}>
-              <strong>Admissions & HR:</strong> <a href="mailto:hr@velora-global.online" style={{ color: '#60a5fa' }}>hr@velora-global.online</a>
+              One inbox for internships, training and client enquiries.
             </p>
 
             {/* Official Social Media Channels */}
@@ -283,7 +274,7 @@ export default function Footer({ setActiveTab }) {
           borderTop: '1px solid rgba(255, 255, 255, 0.08)',
           paddingTop: '1.5rem',
           display: 'flex',
-          justify: 'space-between',
+          justifyContent: 'space-between',
           alignItems: 'center',
           flexWrap: 'wrap',
           gap: '1rem',
@@ -294,20 +285,12 @@ export default function Footer({ setActiveTab }) {
             © {new Date().getFullYear()} Velora Global. All rights reserved. Built with Pro Corporate MERN architecture.
           </div>
           <div style={{ display: 'flex', gap: '1.25rem' }}>
-            <button onClick={() => setActiveModal('student-terms')} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '0.82rem' }}>Student Terms</button>
-            <button onClick={() => setActiveModal('student-privacy')} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '0.82rem' }}>Student Privacy</button>
-            <button onClick={() => setActiveModal('client-terms')} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '0.82rem' }}>Client Terms</button>
-            <button onClick={() => setActiveModal('client-privacy')} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '0.82rem' }}>Client Privacy</button>
+            <a href="/privacy-policy" onClick={(e) => { e.preventDefault(); setActiveTab('privacy'); }} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '0.82rem', textDecoration: 'none' }}>Privacy Policy</a>
+            <a href="/terms" onClick={(e) => { e.preventDefault(); setActiveTab('terms'); }} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '0.82rem', textDecoration: 'none' }}>Terms &amp; Conditions</a>
           </div>
         </div>
 
       </div>
-
-      {/* Modal Governance Renderers */}
-      {activeModal === 'student-terms' && <StudentTermsModal onClose={() => setActiveModal(null)} />}
-      {activeModal === 'student-privacy' && <StudentPrivacyModal onClose={() => setActiveModal(null)} />}
-      {activeModal === 'client-terms' && <ClientTermsModal onClose={() => setActiveModal(null)} />}
-      {activeModal === 'client-privacy' && <ClientPrivacyModal onClose={() => setActiveModal(null)} />}
     </footer>
   );
 }

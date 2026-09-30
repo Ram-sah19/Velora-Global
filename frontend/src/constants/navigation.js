@@ -5,9 +5,12 @@
 export const tabToPathMap = {
   home: '/',
   services: '/services',
+  about: '/about',
   team: '/team',
   internships: '/internships',
   training: '/training',
+  privacy: '/privacy-policy',
+  terms: '/terms',
   client: '/client',
   admin: '/admin'
 };
@@ -18,10 +21,12 @@ export const pathToTabMap = {
   '/services': 'services',
   '/contact': 'services',
   '/team': 'team',
-  '/about': 'team',
+  '/about': 'about',
   '/internships': 'internships',
   '/training': 'training',
   '/student': 'internships',
+  '/privacy-policy': 'privacy',
+  '/terms': 'terms',
   '/workspace': 'home',
   '/client': 'client',
   '/admin': 'admin'
@@ -30,19 +35,25 @@ export const pathToTabMap = {
 export const pageTitles = {
   home: 'Velora Global | Technology Training, Internships & Enterprise Solutions',
   services: 'Enterprise IT Solutions & Services | Velora Global',
-  team: 'About Us & Executive Leadership | Velora Global',
+  about: 'About Velora Global | Company, Leadership & How We Work',
+  team: 'Executive Leadership & Mentors | Velora Global',
   internships: 'Practical Technology Internships | Velora Global',
   training: 'Guided Skills Training & Bootcamps | Velora Global',
+  privacy: 'Privacy Policy | Velora Global',
+  terms: 'Terms & Conditions | Velora Global',
   client: 'Corporate Client Workspace | Velora Global',
   admin: 'Executive Admin Dashboard | Velora Global'
 };
 
 export const pageDescriptions = {
-  home: 'Practical technology training, project-driven internships, and scalable enterprise IT solutions (Web, Mobile & AI) in Kathmandu, Nepal. Founded in 2024 by Abhishek Sah.',
-  services: 'Custom web development (MERN Stack), cross-platform iOS & Android mobile apps, and 24/7 AI chatbot integrations for modern businesses.',
-  team: 'Learn about Velora Global (Founded in 2024) and our executive leadership: Abhishek Sah (Founder & CEO, Full Stack & AI/ML Engineer), Krishna Sah (CTO), Rohit Sah (COO), and Shivshankar Sah.',
-  internships: 'Explore 10 specialized technology internship tracks with production code reviews, verified certificates, and industry mentorship.',
-  training: 'Practical technology bootcamps from 1 week to 2 months covering Full Stack MERN, Python AI/ML, and cloud engineering with live capstones.',
+  home: 'Custom web and mobile software, AI chatbot systems, project-driven internships and guided technology training from Velora Global in Kathmandu, Nepal.',
+  services: 'Custom MERN web applications, cross-platform iOS and Android apps and AI chatbot systems, delivered in four steps with 30 days of post-launch support.',
+  about: 'Velora Global is a Kathmandu-based technology company building web, mobile and AI software for clients and running internships and training programs.',
+  team: 'Meet the Velora Global leadership team: Abhishek Sah (Founder & CEO), Krishna Sah (Co-Founder & CTO), Rohit Sah (Co-Founder & COO) and Shivshankar Sah.',
+  internships: 'Project-driven technology internships with 1-to-1 mentorship, published grading criteria and a verifiable completion certificate, from NPR 199 for two weeks.',
+  training: 'Guided technology training in frontend, backend, full stack with AI, machine learning, Python, Java, MERN, PERN, UI/UX and testing, from NPR 3,000 per program.',
+  privacy: 'How Velora Global collects, stores, shares and deletes personal data for students, interns and corporate clients, and how to request access or removal.',
+  terms: 'The terms that govern Velora Global internship and training enrolment, client project delivery, certificates, fees and refunds.',
   client: 'Private client workspace for reviewing ongoing software deliverables, milestones, source code repositories, and project timelines.',
   admin: 'Executive management portal for Velora Global administrators to oversee applications, internships, task reviews, and student certifications.'
 };

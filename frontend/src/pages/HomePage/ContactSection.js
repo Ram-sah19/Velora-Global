@@ -17,7 +17,6 @@ const INPUT_STYLE = {
   background: '#f8fafc',
   fontSize: '0.92rem',
   color: '#0b0f19',
-  outline: 'none',
   transition: 'border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease'
 };
 
@@ -72,7 +71,6 @@ export default function ContactSection() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
     inquiryType: 'internship', // 'internship', 'training', 'enterprise', 'general'
     message: ''
   });
@@ -87,19 +85,22 @@ export default function ContactSection() {
 
     setStatus({ loading: true, success: false, error: '' });
     try {
-      if (api.submitClientInquiry) {
-        await api.submitClientInquiry({
-          clientName: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          projectType: formData.inquiryType,
-          description: formData.message
-        });
-      }
+      await api.submitClientInquiry({
+        clientName: formData.name,
+        email: formData.email,
+        projectType: formData.inquiryType,
+        description: formData.message
+      });
       setStatus({ loading: false, success: true, error: '' });
-      setFormData({ name: '', email: '', phone: '', inquiryType: 'internship', message: '' });
+      setFormData({ name: '', email: '', inquiryType: 'internship', message: '' });
     } catch (err) {
-      setStatus({ loading: false, success: true, error: '' }); // graceful feedback
+      // The old handler set success:true here, so a dropped inquiry looked delivered
+      // and the typed message was cleared.
+      setStatus({
+        loading: false,
+        success: false,
+        error: 'We could not send your message. Please email info@velora-global.online or try again in a moment.'
+      });
     }
   };
 
@@ -209,7 +210,7 @@ export default function ContactSection() {
 
               {/* Email Support */}
               <InfoRow
-                label="Official Email Inboxes"
+                label="Email"
                 icon={
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
@@ -218,21 +219,18 @@ export default function ContactSection() {
                 }
               >
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                  <a href="mailto:support@velora-global.online" style={{ fontSize: '0.95rem', color: '#2563eb', fontWeight: '700', textDecoration: 'none' }}>
-                    support@velora-global.online
+                  <a href="mailto:info@velora-global.online" style={{ fontSize: '0.95rem', color: '#2563eb', fontWeight: '700', textDecoration: 'none' }}>
+                    info@velora-global.online
                   </a>
-                  <a href="mailto:contact@velora-global.online" style={{ fontSize: '0.9rem', color: '#475569', fontWeight: '600', textDecoration: 'none' }}>
-                    contact@velora-global.online
-                  </a>
-                  <a href="mailto:admissions@velora-global.online" style={{ fontSize: '0.9rem', color: '#475569', fontWeight: '600', textDecoration: 'none' }}>
-                    admissions@velora-global.online
-                  </a>
+                  <span style={{ fontSize: '0.85rem', color: '#64748b' }}>
+                    One inbox for internships, training and client enquiries.
+                  </span>
                 </div>
               </InfoRow>
 
-              {/* Operating Hours */}
+              {/* Response window */}
               <InfoRow
-                label="Working Hours"
+                label="Response Time"
                 icon={
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <circle cx="12" cy="12" r="10" />
@@ -241,10 +239,10 @@ export default function ContactSection() {
                 }
               >
                 <p style={{ margin: 0, color: '#334155', fontSize: '0.92rem', fontWeight: '600' }}>
-                  Monday – Saturday: 9:00 AM – 6:00 PM (NPT / IST)
+                  We reply from Kathmandu, Nepal (UTC+5:45).
                 </p>
                 <span style={{ color: '#64748b', fontSize: '0.82rem' }}>
-                  Sunday: Executive Emergency & Virtual Help Desk
+                  Applications and inquiries are read by the founding team, so replies can take a few days.
                 </span>
               </InfoRow>
             </div>
@@ -353,7 +351,7 @@ export default function ContactSection() {
             </p>
 
             {status.success ? (
-              <div style={{
+              <div role="status" aria-live="polite" style={{
                 background: '#ecfdf5',
                 border: '1px solid #a7f3d0',
                 borderRadius: '14px',
@@ -365,22 +363,32 @@ export default function ContactSection() {
                 <p style={{ margin: 0, fontSize: '0.9rem' }}>
                   Thank you for reaching out. The Velora Global team will review your message and reply via email within 24 hours.
                 </p>
+                <button
+                  type="button"
+                  onClick={() => setStatus({ loading: false, success: false, error: '' })}
+                  className="btn-premium-ghost"
+                  style={{ marginTop: '1.1rem' }}
+                >
+                  Send another message
+                </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
                 {status.error && (
-                  <div style={{ background: '#fef2f2', color: '#991b1b', padding: '0.75rem 1rem', borderRadius: '10px', fontSize: '0.85rem' }}>
+                  <div role="alert" style={{ background: '#fef2f2', color: '#991b1b', padding: '0.75rem 1rem', borderRadius: '10px', fontSize: '0.85rem' }}>
                     {status.error}
                   </div>
                 )}
 
                 <div>
-                  <label style={LABEL_STYLE}>
+                  <label htmlFor="contact-name" style={LABEL_STYLE}>
                     Full Name *
                   </label>
                   <input
+                    id="contact-name"
                     type="text"
                     required
+                    aria-required="true"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     onFocus={handleFieldFocus}
@@ -391,12 +399,14 @@ export default function ContactSection() {
                 </div>
 
                 <div>
-                  <label style={LABEL_STYLE}>
+                  <label htmlFor="contact-email" style={LABEL_STYLE}>
                     Email Address *
                   </label>
                   <input
+                    id="contact-email"
                     type="email"
                     required
+                    aria-required="true"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     onFocus={handleFieldFocus}
@@ -407,10 +417,11 @@ export default function ContactSection() {
                 </div>
 
                 <div>
-                  <label style={LABEL_STYLE}>
+                  <label htmlFor="contact-topic" style={LABEL_STYLE}>
                     Topic of Inquiry
                   </label>
                   <select
+                    id="contact-topic"
                     value={formData.inquiryType}
                     onChange={(e) => setFormData({ ...formData, inquiryType: e.target.value })}
                     onFocus={handleFieldFocus}
@@ -425,12 +436,14 @@ export default function ContactSection() {
                 </div>
 
                 <div>
-                  <label style={LABEL_STYLE}>
+                  <label htmlFor="contact-message" style={LABEL_STYLE}>
                     Your Message *
                   </label>
                   <textarea
+                    id="contact-message"
                     rows={4}
                     required
+                    aria-required="true"
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     onFocus={handleFieldFocus}

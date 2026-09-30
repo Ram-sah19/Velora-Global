@@ -43,7 +43,7 @@ export default function CookieBanner() {
       }} />
 
       {/* Cookie Banner */}
-      <div style={{
+      <div role="region" aria-label="Cookie consent" style={{
         position: 'fixed',
         bottom: '1.25rem',
         left: '50%',
@@ -67,13 +67,16 @@ export default function CookieBanner() {
               Velora Global uses cookies
             </h3>
             <p style={{ fontSize: '0.85rem', color: '#64748b', lineHeight: '1.55', margin: 0 }}>
-              We use an essential session cookie to keep you securely logged in. No tracking, no ads, no third-party analytics.
+              We use an essential session cookie to keep you securely logged in. No tracking, no ads, no third-party analytics.{' '}
+              <a href="/privacy-policy" style={{ color: '#2563eb', fontWeight: 600 }}>Read the privacy policy</a>.
             </p>
           </div>
 
           {/* Expandable Details */}
           {showDetails && (
-            <div style={{
+            <div
+              id="cookie-details"
+              style={{
               background: '#f8fafc',
               border: '1px solid #e2e8f0',
               borderRadius: '12px',
@@ -86,10 +89,10 @@ export default function CookieBanner() {
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                 <thead>
                   <tr style={{ borderBottom: '1px solid #e2e8f0', color: '#64748b', fontSize: '0.78rem' }}>
-                    <th style={{ padding: '0.4rem 0.5rem' }}>Cookie Name</th>
-                    <th style={{ padding: '0.4rem 0.5rem' }}>Purpose</th>
-                    <th style={{ padding: '0.4rem 0.5rem' }}>Duration</th>
-                    <th style={{ padding: '0.4rem 0.5rem' }}>Type</th>
+                    <th scope="col" style={{ padding: '0.4rem 0.5rem' }}>Cookie Name</th>
+                    <th scope="col" style={{ padding: '0.4rem 0.5rem' }}>Purpose</th>
+                    <th scope="col" style={{ padding: '0.4rem 0.5rem' }}>Duration</th>
+                    <th scope="col" style={{ padding: '0.4rem 0.5rem' }}>Type</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -164,6 +167,9 @@ export default function CookieBanner() {
             </button>
 
             <button
+              type="button"
+              aria-expanded={showDetails}
+              aria-controls={showDetails ? 'cookie-details' : undefined}
               onClick={() => setShowDetails(v => !v)}
               style={{
                 padding: '0.65rem 1rem',

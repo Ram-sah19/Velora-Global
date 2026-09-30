@@ -1,11 +1,12 @@
 import React from 'react';
+import { GRADING_CRITERIA } from '../../content/siteFacts';
 
 export default function FeaturesSection() {
   const features = [
     {
       badge: "VERIFIED CREDENTIALS",
-      title: "QR Code Tamper-Proof Certificates",
-      description: "Every completion certificate is issued with a unique verification code and public QR endpoint for instant employer validation."
+      title: "Certificates With a Public Verification Endpoint",
+      description: "Every completion certificate is issued with a unique verification ID that resolves against our public endpoint for employer and university checks."
     },
     {
       badge: "DIRECT MENTORSHIP",
@@ -18,9 +19,9 @@ export default function FeaturesSection() {
       description: "Build real-world MERN, AI model pipelines, and DevOps workflows ready to feature on your GitHub and resume."
     },
     {
-      badge: "5-CRITERIA EVALUATION",
+      badge: `${GRADING_CRITERIA.length}-CRITERIA EVALUATION`,
       title: "Objective Performance Grading",
-      description: "Evaluated across Quality of Work, Technical Mastery, Creativity, Requirements Completion, and Professional Approach."
+      description: `Evaluated across ${GRADING_CRITERIA.join(', ')} — the same five fields the evaluation endpoint records.`
     }
   ];
 

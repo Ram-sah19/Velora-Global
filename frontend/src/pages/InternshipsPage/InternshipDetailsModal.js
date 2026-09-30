@@ -1,287 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { api } from '../../services/api';
+import { useDialog } from '../../components/DialogShell';
 import { INTERNSHIP_APPLICATION_FORM_URL } from '../../constants';
+import { INTERNSHIP_TIERS } from '../../content/siteFacts';
+import { getTierContent } from '../../content/domainTiers';
 
 const GOOGLE_FORM_URL = INTERNSHIP_APPLICATION_FORM_URL;
 
-// Helper function to get domain-tailored duration tiers
+const TIER_IDS = ['2w', '1m', '2m', '3m', '6m'];
+
+// The durations and fees are the ones published on the page and in the schema;
+// only the track description differs per domain.
 function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
-  const dName = (domainTitle + " " + domainCategory).toLowerCase();
-
-  // 1. JAVASCRIPT SPECIFIC INTERNSHIP TRACK
-  if (dName.includes('javascript') || dName.includes('js')) {
-    return [
-      {
-        id: '2w',
-        duration: '2 Weeks',
-        fee: 'NPR 199',
-        bestFor: 'Fast-Track JavaScript ES6+ Certificate',
-        deliverables: [
-          'JavaScript ES6+ Syntax & Asynchronous Code Review',
-          '1 Guided DOM Manipulation & Fetch API Project',
-          'JavaScript Developer Resume Formatting & Review',
-          'QR-Verified Internship Certificate'
-        ]
-      },
-      {
-        id: '1m',
-        duration: '1 Month',
-        fee: 'NPR 499',
-        bestFor: 'Node.js & Full-Stack Core Track',
-        deliverables: [
-          'Node.js REST API Architecture & Express.js Routes',
-          'MongoDB Atlas Database Schemas & Middleware',
-          'Work on 1 Live Production JavaScript Application',
-          '1-on-1 Resume Building & QR Certificate'
-        ]
-      },
-      {
-        id: '2m',
-        duration: '2 Months',
-        fee: 'NPR 999',
-        bestFor: 'MERN Stack + 2 Live Projects',
-        deliverables: [
-          'MERN Full Stack MVC Architecture (React, Node, Express, MongoDB)',
-          'JWT Authentication, Password Hashing & Vercel Deployment',
-          'Work on 2+ Production Full-Stack JavaScript Repositories',
-          'Executive Recommendation & QR Certificate'
-        ]
-      },
-      {
-        id: '3m',
-        duration: '3 Months',
-        fee: 'NPR 1,999',
-        bestFor: 'Advanced JavaScript Engineering Track',
-        deliverables: [
-          'WebSockets Real-Time Sync, Microservices & Performance Optimization',
-          'Work on 3+ Enterprise JavaScript Applications',
-          'Complete Portfolio & Resume Optimization',
-          'Priority Placement Assistance & Career Referral'
-        ]
-      },
-      {
-        id: '6m',
-        duration: '6 Months',
-        fee: 'NPR 4,999',
-        bestFor: 'Complete Full-Stack JavaScript Career Track',
-        deliverables: [
-          'Full End-to-End Principal JavaScript Engineer Track',
-          'Work on 5+ Production Enterprise Client Systems',
-          'Technical & System Architecture Interview Prep',
-          'Direct Senior JavaScript Career Placement'
-        ]
-      }
-    ];
-  }
-
-  // 2. JAVA SPECIFIC INTERNSHIP TRACK
-  if (dName.includes('java')) {
-    return [
-      {
-        id: '2w',
-        duration: '2 Weeks',
-        fee: 'NPR 199',
-        bestFor: 'Fast-Track Java OOP Certificate',
-        deliverables: [
-          'Java Core Syntax & OOP Architecture Review',
-          'Java Collections Framework (List, Map, Set) Labs',
-          'Java Developer Resume Formatting & Review',
-          'QR-Verified Internship Certificate'
-        ]
-      },
-      {
-        id: '1m',
-        duration: '1 Month',
-        fee: 'NPR 499',
-        bestFor: 'Spring Boot REST Microservices Track',
-        deliverables: [
-          'Spring Boot REST Controller & JSON Endpoint Design',
-          'Spring Data JPA ORM & PostgreSQL Database Setup',
-          'Work on 1 Live Enterprise Spring Boot REST API',
-          '1-on-1 Resume Building & QR Certificate'
-        ]
-      },
-      {
-        id: '2m',
-        duration: '2 Months',
-        fee: 'NPR 999',
-        bestFor: 'Enterprise Java + 2 Live Repositories',
-        deliverables: [
-          'Spring Security Integration & JWT Token Authentication',
-          'Dockerizing Spring Boot Services & Maven Build Pipelines',
-          'Work on 2+ Production Enterprise Java Repositories',
-          'Executive Recommendation & QR Certificate'
-        ]
-      },
-      {
-        id: '3m',
-        duration: '3 Months',
-        fee: 'NPR 1,999',
-        bestFor: 'Advanced Java Microservices Track',
-        deliverables: [
-          'Spring Cloud Config, Eureka Service Discovery & Kafka Queues',
-          'Work on 3+ Enterprise Microservice Projects',
-          'Complete Portfolio & Resume Optimization',
-          'Priority Placement Referral'
-        ]
-      },
-      {
-        id: '6m',
-        duration: '6 Months',
-        fee: 'NPR 4,999',
-        bestFor: 'Complete Enterprise Java Engineer Career Track',
-        deliverables: [
-          'Full End-to-End Senior Java Enterprise Track',
-          'Work on 5+ Production Enterprise Java Systems',
-          'Technical Assessment & System Design Prep',
-          'Direct Senior Java Career Placement'
-        ]
-      }
-    ];
-  }
-
-  // 3. PYTHON SPECIFIC INTERNSHIP TRACK
-  if (dName.includes('python') || dName.includes('py')) {
-    return [
-      {
-        id: '2w',
-        duration: '2 Weeks',
-        fee: 'NPR 199',
-        bestFor: 'Fast-Track Python Scripting Certificate',
-        deliverables: [
-          'Python 3 Core Syntax & Data Structure Labs',
-          'Automated Web Scraping Script (BeautifulSoup/Requests)',
-          'Python Developer Resume Review',
-          'QR-Verified Internship Certificate'
-        ]
-      },
-      {
-        id: '1m',
-        duration: '1 Month',
-        fee: 'NPR 499',
-        bestFor: 'FastAPI / Django Web API Track',
-        deliverables: [
-          'Asynchronous Web API Endpoint Design with FastAPI / Django',
-          'PostgreSQL ORM Integration & Pydantic Data Models',
-          'Work on 1 Live Python Web API & Automation Script',
-          '1-on-1 Resume Building & QR Certificate'
-        ]
-      },
-      {
-        id: '2m',
-        duration: '2 Months',
-        fee: 'NPR 999',
-        bestFor: 'Python Backend + 2 Live Projects',
-        deliverables: [
-          'Celery Background Worker Tasks, Redis Caching & Docker',
-          'Deploying Python Backend Services to Render / AWS Cloud',
-          'Work on 2+ Production Python Automation Repositories',
-          'Executive Recommendation & QR Certificate'
-        ]
-      },
-      {
-        id: '3m',
-        duration: '3 Months',
-        fee: 'NPR 1,999',
-        bestFor: 'Advanced Python Systems Track',
-        deliverables: [
-          'AsyncIO Event Loops, PyTest Automated Testing & API Hardening',
-          'Work on 3+ Enterprise Python Backend Pipelines',
-          'Complete Portfolio & Resume Optimization',
-          'Priority Placement Referral'
-        ]
-      },
-      {
-        id: '6m',
-        duration: '6 Months',
-        fee: 'NPR 4,999',
-        bestFor: 'Complete Python Systems & Automation Career Track',
-        deliverables: [
-          'Full End-to-End Senior Python Engineer Track',
-          'Work on 5+ Production Enterprise Python Systems',
-          'Technical & Algorithmic Code Assessment Prep',
-          'Direct Senior Python Career Placement'
-        ]
-      }
-    ];
-  }
-
-  // DEFAULT / SOFTWARE DEVELOPMENT TRACK
-  return [
-    {
-      id: '2w',
-      duration: '2 Weeks',
-      fee: 'NPR 199',
-      bestFor: 'Fast-Track Project Certificate',
-      deliverables: [
-        'Domain Mentorship Guidance Intro',
-        '1 Guided Practical Domain Project',
-        'Basic Resume Review & Formatting',
-        'QR-Verified Internship Certificate'
-      ]
-    },
-    {
-      id: '1m',
-      duration: '1 Month',
-      fee: 'NPR 499',
-      bestFor: 'Core Skill Building + 1 Live Project',
-      deliverables: [
-        'Domain Mentorship from Industry Experts',
-        'Work on 1 Live Production Project',
-        '1-on-1 Professional Resume Building',
-        'QR-Verified Certificate of Completion'
-      ]
-    },
-    {
-      id: '2m',
-      duration: '2 Months',
-      fee: 'NPR 999',
-      bestFor: 'Full Stack Track + 2 Live Projects',
-      deliverables: [
-        'Advanced Domain Guidance',
-        'Work on 2+ Live Client Projects',
-        '1-on-1 Professional Resume Building',
-        'Executive Recommendation & QR Certificate'
-      ]
-    },
-    {
-      id: '3m',
-      duration: '3 Months',
-      fee: 'NPR 1,999',
-      bestFor: 'Advanced Industry Track',
-      deliverables: [
-        'Weekly 1-on-1 Code Architecture Reviews',
-        'Work on 3+ Complex Enterprise Repositories',
-        'Complete Portfolio & Resume Optimization',
-        'Priority Career & Placement Assistance'
-      ]
-    },
-    {
-      id: '6m',
-      duration: '6 Months',
-      fee: 'NPR 4,999',
-      bestFor: 'Complete Full-Stack & Software Engineering Career Track',
-      deliverables: [
-        'Full End-to-End Domain Track',
-        'Work on 5+ Production Client Projects',
-        'Complete Technical & Behavioral Interview Prep',
-        'Direct Industry Career Placement Referral'
-      ]
-    }
-  ];
+  const content = getTierContent(domainTitle, domainCategory);
+  return INTERNSHIP_TIERS.map((tier, i) => ({
+    id: TIER_IDS[i],
+    duration: tier.duration,
+    fee: tier.fee,
+    bestFor: content[i].bestFor,
+    deliverables: content[i].deliverables
+  }));
 }
 
 export default function InternshipDetailsModal({ program, currentUser, onApplySuccess, onClose }) {
   const [selectedTier, setSelectedTier] = useState('2w');
-
-  useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = originalOverflow;
-    };
-  }, []);
+  const panelRef = useDialog(!!program, onClose);
 
   if (!program) return null;
 
@@ -302,8 +46,8 @@ export default function InternshipDetailsModal({ program, currentUser, onApplySu
 
     api.submitApplication({
       studentId: currentUser ? currentUser.id : `guest-${Date.now()}`,
-      studentName: currentUser ? currentUser.name : 'Candidate Applicant',
-      studentEmail: currentUser ? currentUser.email : 'applicant@veloraglobal.com',
+      studentName: currentUser ? currentUser.name : '',
+      studentEmail: currentUser ? currentUser.email : '',
       programId: program.id || `prog-${Date.now()}`,
       programTitle: program.title,
       domain: program.domain,
@@ -340,6 +84,11 @@ export default function InternshipDetailsModal({ program, currentUser, onApplySu
       }}
     >
       <div 
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="internship-details-title"
+        tabIndex={-1}
         className="modal-content" 
         onClick={(e) => e.stopPropagation()} 
         style={{
@@ -359,6 +108,7 @@ export default function InternshipDetailsModal({ program, currentUser, onApplySu
         {/* Close Button */}
         <button 
           onClick={onClose}
+          aria-label="Close dialog"
           style={{
             position: 'absolute',
             top: '1.25rem',
@@ -377,7 +127,7 @@ export default function InternshipDetailsModal({ program, currentUser, onApplySu
             transition: 'all 0.2s ease'
           }}
         >
-          ✕
+          <span aria-hidden="true">&#215;</span>
         </button>
 
         {/* Modal Header */}
@@ -387,7 +137,7 @@ export default function InternshipDetailsModal({ program, currentUser, onApplySu
             <span className="badge badge-blue">Practical Internship</span>
           </div>
 
-          <h2 style={{ fontSize: '2rem', color: '#0b0f19', marginBottom: '0.5rem', fontWeight: '800' }}>
+          <h2 id="internship-details-title" style={{ fontSize: '2rem', color: '#0b0f19', marginBottom: '0.5rem', fontWeight: '800' }}>
             {program.title}
           </h2>
 

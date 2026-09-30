@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
 import TrainingDetailsModal from './TrainingDetailsModal';
 import { SkeletonCard } from '../../components/UIStates';
+import { AnswerSection, PageFaq } from '../../components';
 import { TRAINING_APPLICATION_FORM_URL } from '../../constants';
+import { TRAINING_PROGRAMS as defaultTrainingPrograms } from '../../content/programs';
+import { ANSWER_BLOCKS, FAQS } from '../../content/siteFacts';
 
 const GOOGLE_FORM_URL = TRAINING_APPLICATION_FORM_URL;
 
@@ -25,125 +28,6 @@ const isExcludedProgram = (p) => {
   );
 };
 
-const defaultTrainingPrograms = [
-  {
-    id: "prog-fe-training",
-    title: "Frontend Development & Modern React.js Training",
-    domain: "Frontend Development",
-    fee: "NPR 3,000",
-    feeAmount: 3000,
-    description: "Build high-performance, responsive web interfaces using modern React, HTML5, CSS3, JavaScript ES6+, and state management.",
-    skillsRequired: ["React.js", "JavaScript ES6+", "HTML5 & CSS3", "TailwindCSS", "Git"]
-  },
-  {
-    id: "prog-be-training",
-    title: "Backend Development & Node.js API Training",
-    domain: "Backend Development",
-    fee: "NPR 4,000",
-    feeAmount: 4000,
-    description: "Design RESTful APIs, manage MongoDB databases, write serverless functions, and implement secure authentication with Node.js and Express.",
-    skillsRequired: ["Node.js", "Express.js", "MongoDB", "REST APIs", "JWT Auth"]
-  },
-  {
-    id: "prog-fs-ai-training",
-    title: "Full Stack Development with AI Integration Training",
-    domain: "Full Stack with AI",
-    fee: "NPR 10,000",
-    feeAmount: 10000,
-    description: "End-to-end full stack web engineering (React + Node.js + MongoDB) integrated with LLMs, OpenAI/Gemini APIs, and intelligent AI agents.",
-    skillsRequired: ["React.js", "Node.js", "Express.js", "MongoDB", "AI/LLM APIs", "LangChain"]
-  },
-  {
-    id: "prog-aiml-training",
-    title: "AI & Machine Learning Engineering Training",
-    domain: "Artificial Intelligence & Machine Learning",
-    fee: "NPR 12,000",
-    feeAmount: 12000,
-    description: "Train machine learning models, implement computer vision and NLP algorithms, and deploy production-ready AI models with Python.",
-    skillsRequired: ["Python", "TensorFlow / PyTorch", "Scikit-Learn", "Computer Vision", "Model Deployment"]
-  },
-  {
-    id: "prog-dl-training",
-    title: "Deep Learning & Neural Networks Training",
-    domain: "Deep Learning",
-    fee: "NPR 3,000",
-    feeAmount: 3000,
-    description: "Master Artificial Neural Networks (ANN), Convolutional Neural Networks (CNN), Recurrent Neural Networks (RNN), and PyTorch frameworks.",
-    skillsRequired: ["PyTorch", "Neural Networks", "CNN / RNN", "Python", "GPU Acceleration"]
-  },
-  {
-    id: "prog-js-training",
-    title: "JavaScript & Modern ES6+ Training",
-    domain: "JavaScript",
-    fee: "NPR 3,000",
-    feeAmount: 3000,
-    description: "Master JavaScript fundamentals, asynchronous ES6+, DOM manipulation, Node.js runtime, and modern full stack web development.",
-    skillsRequired: ["JavaScript ES6+", "Node.js", "Async/Await", "DOM Manipulation", "Express.js"]
-  },
-  {
-    id: "prog-java-training",
-    title: "Java Core, Spring Boot & Microservices Training",
-    domain: "Java",
-    fee: "NPR 3,000",
-    feeAmount: 3000,
-    description: "Master Object-Oriented Programming (OOP), Data Structures, Java Core, Spring Boot REST APIs, and enterprise microservices.",
-    skillsRequired: ["Java Core", "Spring Boot", "OOP Concepts", "Hibernate / JPA", "REST Microservices"]
-  },
-  {
-    id: "prog-py-training",
-    title: "Python Programming, Automation & Scripting Training",
-    domain: "Python",
-    fee: "NPR 3,000",
-    feeAmount: 3000,
-    description: "Master Python syntax, object-oriented design, automated web scraping, data structures, and backend API development.",
-    skillsRequired: ["Python 3", "OOP", "Django / FastAPI", "Web Scraping", "Data Structures"]
-  },
-  {
-    id: "prog-mern-training",
-    title: "MERN Stack Development Training",
-    domain: "MERN Stack",
-    fee: "NPR 10,000",
-    feeAmount: 10000,
-    description: "Complete hands-on mastery of MongoDB, Express.js, React.js, and Node.js to build scalable, full-stack web applications.",
-    skillsRequired: ["MongoDB", "Express.js", "React.js", "Node.js", "Redux", "JWT Auth"]
-  },
-  {
-    id: "prog-pern-training",
-    title: "PERN Stack Development Training",
-    domain: "PERN Stack",
-    fee: "NPR 10,000",
-    feeAmount: 10000,
-    description: "Master PostgreSQL relational databases, Express.js, React.js, and Node.js for high-performance enterprise web systems.",
-    skillsRequired: ["PostgreSQL", "Express.js", "React.js", "Node.js", "SQL / Sequelize", "REST APIs"]
-  },
-  {
-    id: "prog-uiux-training",
-    title: "UI/UX Product Design & Figma Training",
-    domain: "UI/UX Design",
-    fee: "NPR 3,000",
-    feeAmount: 3000,
-    description: "Master user research, wireframing, high-fidelity Figma UI design systems, and interactive prototyping.",
-    skillsRequired: ["Figma", "User Research", "Wireframing", "Design Systems", "Prototyping"]
-  },
-  {
-    id: "prog-qa-training",
-    title: "Software Testing & QA Automation Training",
-    domain: "Software Testing",
-    fee: "NPR 3,000",
-    feeAmount: 3000,
-    description: "Learn manual and automated software testing, unit testing frameworks, end-to-end integration tests, and QA bug reporting.",
-    skillsRequired: ["Jest", "Cypress / Selenium", "Manual Testing", "Bug Tracking", "QA Test Plans"]
-  },
-  {
-    id: "prog-mobile-training",
-    title: "Mobile App Engineering Training",
-    domain: "Mobile App Development",
-    fee: "NPR 4,000",
-    feeAmount: 4000,
-    description: "Create cross-platform mobile apps for iOS and Android using React Native / Flutter with seamless API integration.",
-    skillsRequired: ["React Native", "Flutter", "Mobile UI", "REST APIs"]
-  }
-];
 
 export default function TrainingPage({ activeRole, onApplySuccess, currentUser }) {
   const [programs, setPrograms] = useState([]);
@@ -229,14 +113,60 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser }
       <div className="container">
         
         {/* Section Header */}
-        <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 3rem auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 2.5rem auto' }}>
           <span className="badge badge-blue" style={{ marginBottom: '0.75rem' }}>Guided Skill Accelerator</span>
-          <h2 style={{ fontSize: '2.5rem', color: '#0b0f19', marginBottom: '0.75rem' }}>
+          <h1 style={{ fontSize: '2.5rem', color: '#0b0f19', marginBottom: '0.75rem' }}>
             Structured Skill <span className="text-blue">Training Programs</span>
-          </h2>
+          </h1>
           <p style={{ color: '#64748b', fontSize: '1.05rem', lineHeight: '1.6' }}>
-            Master in-demand tech stacks and programming languages under guided mentor instruction with verified QR credentials.
+            Instructor-led programs in high-demand stacks and languages, with live sessions, step-by-step builds and a full codebase walkthrough. Every program ends with a certificate carrying a verifiable ID.
           </p>
+        </div>
+
+        {/* Dashain & Tihar festival offer */}
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '1.5rem',
+          maxWidth: '980px',
+          margin: '0 auto 2.5rem auto',
+          padding: '2rem 2.25rem',
+          background: 'linear-gradient(135deg, #0a1628 0%, #0f2038 55%, #16294a 100%)',
+          border: '1px solid rgba(201, 162, 39, 0.32)',
+          borderRadius: '24px',
+          boxShadow: 'var(--premium-shadow-card)'
+        }}>
+          <div style={{ flex: '1 1 340px' }}>
+            <span className="premium-eyebrow premium-eyebrow--on-dark" style={{ marginBottom: '0.7rem' }}>
+              Dashain &amp; Tihar Offer
+            </span>
+            <h2 style={{
+              fontFamily: 'var(--font-heading)',
+              fontSize: 'clamp(1.4rem, 2.6vw, 1.85rem)',
+              fontWeight: 800,
+              lineHeight: 1.25,
+              color: '#ffffff',
+              margin: '0 0 0.5rem'
+            }}>
+              Up to 60% off program fees
+            </h2>
+            <p style={{ color: '#cbd5e1', fontSize: '0.95rem', lineHeight: '1.65', margin: 0 }}>
+              Enrol in any guided training program during the Dashain–Tihar season and the festival
+              discount is applied to the published fee, which runs from NPR 3,000 to NPR 12,000
+              depending on the stack. Mention the festival offer in your application form and the
+              final fee is confirmed with you before any payment.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => { window.open(GOOGLE_FORM_URL, '_blank'); }}
+            className="btn-premium"
+            style={{ flex: '0 0 auto', background: '#c9a227', color: '#0a1628', whiteSpace: 'nowrap' }}
+          >
+            Apply with festival discount
+          </button>
         </div>
 
         {/* Filter Bar & Search */}
@@ -250,7 +180,9 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser }
           {/* Search Bar Top */}
           <form onSubmit={handleSearchSubmit} style={{ display: 'flex', gap: '0.5rem', width: '100%', maxWidth: '520px', margin: '0 auto', flexWrap: 'wrap' }}>
             <input 
-              type="text" 
+              type="search" 
+              id="training-search"
+              aria-label="Search training tracks by domain, language, or tech stack"
               placeholder="Search training track by domain, language, or tech stack..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -262,7 +194,7 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser }
           </form>
 
         {/* Domain Filter Pills — Clean flex wrap layout without scrollbars */}
-          <div style={{
+          <div role="group" aria-label="Filter training tracks by domain" style={{
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'center',
@@ -274,6 +206,8 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser }
             {domains.map((dom) => (
               <button
                 key={dom}
+                type="button"
+                aria-pressed={selectedDomain === dom}
                 onClick={() => setSelectedDomain(dom)}
                 style={{
                   padding: '0.5rem 1.25rem',
@@ -330,7 +264,7 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser }
                 className="btn-primary"
                 style={{ padding: '0.65rem 1.6rem', fontSize: '0.9rem', borderRadius: '9999px', cursor: 'pointer' }}
               >
-                Reset Filters & View All ➔
+                Reset Filters & View All
               </button>
             </div>
           ) : (
@@ -342,7 +276,7 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser }
                 padding: '1.75rem', 
                 display: 'flex', 
                 flexDirection: 'column', 
-                justify: 'space-between',
+                justifyContent: 'space-between',
                 borderRadius: '20px',
                 background: '#ffffff',
                 border: '1px solid #e2e8f0',
@@ -430,7 +364,7 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser }
                     <span>•</span>
                     <span>Mentor Code Review</span>
                     <span>•</span>
-                    <span>QR Credentials</span>
+                    <span>Verifiable Certificate</span>
                   </div>
                 </div>
               </div>
@@ -446,6 +380,8 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser }
 
                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                   <button 
+                    type="button"
+                    aria-label={`View details for ${prog.title}`}
                     onClick={() => setSelectedProgramForDetails(prog)}
                     style={{ 
                       padding: '0.55rem 0.85rem', 
@@ -462,19 +398,31 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser }
                   </button>
 
                   <button 
+                    type="button"
+                    aria-label={`Enroll in ${prog.title}`}
                     onClick={() => {
                       window.open(GOOGLE_FORM_URL, '_blank');
                     }}
                     className="btn-primary"
                     style={{ padding: '0.55rem 0.95rem', fontSize: '0.82rem', fontWeight: '800', borderRadius: '8px', cursor: 'pointer' }}
                   >
-                    Enroll ➔
+                    Enroll
                   </button>
                 </div>
               </div>
             </div>
           )))}
         </div>
+
+        <PageFaq items={FAQS.training} />
+
+        <AnswerSection
+          heading={ANSWER_BLOCKS.training.heading}
+          answer={ANSWER_BLOCKS.training.answer}
+          specs={ANSWER_BLOCKS.training.specs}
+          steps={ANSWER_BLOCKS.training.steps}
+          table={ANSWER_BLOCKS.training.table}
+        />
 
       </div>
 

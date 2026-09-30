@@ -9,6 +9,27 @@ export const showToast = (message, type = 'success') => {
   }
 };
 
+const TOAST_ICONS = {
+  error: (
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" focusable="false">
+      <path d="M10 2.5 18 17H2L10 2.5Z" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+      <path d="M10 8v3.5M10 14h.01" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  ),
+  info: (
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" focusable="false">
+      <circle cx="10" cy="10" r="7.75" fill="none" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M10 9v4.5M10 6.2h.01" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  ),
+  success: (
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" focusable="false">
+      <circle cx="10" cy="10" r="7.75" fill="none" stroke="currentColor" strokeWidth="1.6" />
+      <path d="m6.4 10.3 2.4 2.4 4.8-5.2" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+};
+
 export default function NotificationToast() {
   const [toasts, setToasts] = useState([]);
 
@@ -24,10 +45,13 @@ export default function NotificationToast() {
     };
   }, []);
 
-  if (toasts.length === 0) return null;
-
+  // The live region must exist before content is injected into it, otherwise assistive
+  // tech never announces the toast.
   return (
     <div
+      role="status"
+      aria-live="polite"
+      aria-atomic="false"
       style={{
         position: 'fixed',
         top: '1.5rem',
@@ -44,11 +68,11 @@ export default function NotificationToast() {
       {toasts.map((t) => {
         const isError = t.type === 'error';
         const isInfo = t.type === 'info';
-        
+
         const bgColor = isError ? '#fff5f5' : isInfo ? '#eff6ff' : '#ecfdf5';
         const borderColor = isError ? '#ff6b6b' : isInfo ? '#3b82f6' : '#10b981';
         const textColor = isError ? '#991b1b' : isInfo ? '#1e40af' : '#065f46';
-        const icon = isError ? '⚠️' : isInfo ? 'ℹ️' : '✓';
+        const icon = TOAST_ICONS[isError ? 'error' : isInfo ? 'info' : 'success'];
 
         return (
           <div
@@ -74,18 +98,21 @@ export default function NotificationToast() {
             </div>
             <button
               onClick={() => setToasts((prev) => prev.filter((item) => item.id !== t.id))}
+              aria-label="Dismiss notification"
               style={{
                 background: 'transparent',
                 border: 'none',
                 color: textColor,
-                fontSize: '1.1rem',
                 cursor: 'pointer',
                 opacity: 0.7,
-                padding: 0,
-                lineHeight: 1
+                padding: '0.25rem',
+                lineHeight: 1,
+                display: 'inline-flex'
               }}
             >
-              ✕
+              <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">
+                <path d="M3.5 3.5l9 9M12.5 3.5l-9 9" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              </svg>
             </button>
           </div>
         );

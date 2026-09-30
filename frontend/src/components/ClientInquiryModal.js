@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useEffect, useState } from 'react';
 import { api } from '../services/api';
+import DialogShell from './DialogShell';
 
-const TARGET_EMAIL = "contact@velora-global.online";
+import { SUPPORT_EMAIL } from '../constants';
+
+const TARGET_EMAIL = SUPPORT_EMAIL;
 
 export default function ClientInquiryModal({ defaultService = 'Web Application Development', currentUser, onClose }) {
   const [formData, setFormData] = useState({
@@ -16,7 +18,8 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
   });
 
   const [submitting, setSubmitting] = useState(false);
-  const [successMsg, setSuccessMsg] = useState('');
+  const [result, setResult] = useState(null);
+  const [mailtoUrl, setMailtoUrl] = useState('');
 
   useEffect(() => {
     if (defaultService) {
@@ -24,19 +27,7 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
     }
   }, [defaultService]);
 
-  useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = originalOverflow;
-    };
-  }, []);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-
-    // Construct mailto URL
+  const buildMailtoUrl = () => {
     const subject = encodeURIComponent(`[Client Project Inquiry] - ${formData.serviceRequired} - ${formData.companyName || formData.clientName}`);
     const body = encodeURIComponent(
       `Velora Global - Client Project Consultation Request\n` +
@@ -50,31 +41,39 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
       `Project Scope / Requirements Summary:\n` +
       `${formData.projectScope}\n`
     );
+    return `mailto:${TARGET_EMAIL}?subject=${subject}&body=${body}`;
+  };
 
-    const mailtoUrl = `mailto:${TARGET_EMAIL}?subject=${subject}&body=${body}`;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    const url = buildMailtoUrl();
+    setMailtoUrl(url);
 
+    let recorded = true;
     try {
-      if (api.submitClientInquiry) {
-        await api.submitClientInquiry(formData).catch(() => {});
-      }
+      await api.submitClientInquiry(formData);
     } catch (err) {
-      console.warn("Backend save logged");
-    } finally {
-      window.location.href = mailtoUrl;
-      setSuccessMsg(`Opening email client to send project scope directly to ${TARGET_EMAIL}...`);
-      setSubmitting(false);
-      setTimeout(() => {
-        setSuccessMsg('');
-        onClose();
-      }, 3500);
+      recorded = false;
     }
+
+    // The email client is the delivery path that actually reaches the founder, so it opens
+    // either way; `recorded` only decides whether we claim the inquiry was also stored.
+    window.location.href = url;
+    setSubmitting(false);
+    setResult({
+      recorded,
+      message: recorded
+        ? `Your inquiry was recorded and your email app is opening so you can send it to ${TARGET_EMAIL}.`
+        : `We could not record this inquiry on our server, so your email app is opening instead — please send it to ${TARGET_EMAIL}.`
+    });
   };
 
   const modalJSX = (
-    <div 
-      className="modal-overlay" 
-      onClick={onClose}
-      style={{
+    <DialogShell
+      labelId="client-inquiry-title"
+      onClose={onClose}
+      overlayStyle={{
         position: 'fixed',
         top: 0,
         left: 0,
@@ -92,26 +91,25 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
         overflowY: 'auto',
         boxSizing: 'border-box'
       }}
+      panelClassName="modal-content"
+      panelStyle={{
+        maxWidth: '640px',
+        width: '100%',
+        maxHeight: 'min(90vh, 760px)',
+        overflowY: 'auto',
+        borderRadius: '24px',
+        padding: '2.25rem 2rem',
+        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.35)',
+        background: '#ffffff',
+        position: 'relative',
+        margin: 'auto',
+        boxSizing: 'border-box'
+      }}
+      onPanelClick={(e) => e.stopPropagation()}
     >
-      <div 
-        className="modal-content" 
-        onClick={(e) => e.stopPropagation()} 
-        style={{ 
-          maxWidth: '640px',
-          width: '100%',
-          maxHeight: 'min(90vh, 760px)',
-          overflowY: 'auto',
-          borderRadius: '24px',
-          padding: '2.25rem 2rem',
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.35)',
-          background: '#ffffff',
-          position: 'relative',
-          margin: 'auto',
-          boxSizing: 'border-box'
-        }}
-      >
-        <button 
+        <button
           onClick={onClose}
+          aria-label="Close dialog"
           style={{
             position: 'absolute',
             top: '1.25rem',
@@ -126,29 +124,38 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
             cursor: 'pointer'
           }}
         >
-          ✕
+          <span aria-hidden="true">&#215;</span>
         </button>
 
         <span className="badge badge-coral" style={{ marginBottom: '0.5rem' }}>Enterprise Project Consultation</span>
-        <h2 style={{ fontSize: '1.8rem', color: '#0b0f19', marginBottom: '0.35rem', fontWeight: '800' }}>
+        <h2 id="client-inquiry-title" style={{ fontSize: '1.8rem', color: '#0b0f19', marginBottom: '0.35rem', fontWeight: '800' }}>
           Schedule Client Consultation
         </h2>
         <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
           Submit your project requirements. Details will be redirected directly to <strong>{TARGET_EMAIL}</strong>.
         </p>
 
-        {successMsg ? (
-          <div style={{ padding: '2rem', textAlign: 'center', background: '#ecfdf5', border: '1px solid #10b981', borderRadius: '12px', color: '#059669' }}>
-            <p style={{ fontSize: '1.05rem', fontWeight: '700', lineHeight: '1.6' }}>{successMsg}</p>
+        {result ? (
+          <div role="status" aria-live="polite" style={{ padding: '2rem', textAlign: 'center', background: result.recorded ? '#ecfdf5' : '#fffbeb', border: `1px solid ${result.recorded ? '#10b981' : '#f59e0b'}`, borderRadius: '12px', color: result.recorded ? '#059669' : '#92400e' }}>
+            <p style={{ fontSize: '1.05rem', fontWeight: '700', lineHeight: '1.6', margin: 0 }}>{result.message}</p>
+            <p style={{ fontSize: '0.88rem', marginTop: '0.9rem' }}>
+              If your email app did not open,{' '}
+              <a href={mailtoUrl} style={{ fontWeight: '700', textDecoration: 'underline' }}>open a prepared draft here</a>.
+            </p>
+            <button type="button" onClick={onClose} className="btn-secondary" style={{ marginTop: '1.25rem' }}>
+              Close
+            </button>
           </div>
         ) : (
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.3rem', fontWeight: '600' }}>Your Name *</label>
+                <label htmlFor="inquiry-client-name" style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.3rem', fontWeight: '600' }}>Your Name *</label>
                 <input 
+                  id="inquiry-client-name"
                   type="text"
                   required
+                  aria-required="true"
                   placeholder="e.g. Rajesh Shrestha"
                   value={formData.clientName}
                   onChange={(e) => setFormData({...formData, clientName: e.target.value})}
@@ -157,8 +164,9 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.3rem', fontWeight: '600' }}>Company / Organization</label>
+                <label htmlFor="inquiry-company-name" style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.3rem', fontWeight: '600' }}>Company / Organization</label>
                 <input 
+                  id="inquiry-company-name"
                   type="text"
                   placeholder="e.g. Acme Tech Pvt. Ltd."
                   value={formData.companyName}
@@ -170,10 +178,12 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.3rem', fontWeight: '600' }}>Business Email Address *</label>
+                <label htmlFor="inquiry-business-email" style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.3rem', fontWeight: '600' }}>Business Email Address *</label>
                 <input 
+                  id="inquiry-business-email"
                   type="email"
                   required
+                  aria-required="true"
                   placeholder="client@company.com"
                   value={formData.businessEmail}
                   onChange={(e) => setFormData({...formData, businessEmail: e.target.value})}
@@ -182,10 +192,12 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.3rem', fontWeight: '600' }}>Phone / WhatsApp Number *</label>
+                <label htmlFor="inquiry-phone" style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.3rem', fontWeight: '600' }}>Phone / WhatsApp Number *</label>
                 <input 
+                  id="inquiry-phone"
                   type="tel"
                   required
+                  aria-required="true"
                   placeholder="+977 9800000000"
                   value={formData.phone}
                   onChange={(e) => setFormData({...formData, phone: e.target.value})}
@@ -196,8 +208,9 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.3rem', fontWeight: '600' }}>Service Required *</label>
+                <label htmlFor="inquiry-service" style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.3rem', fontWeight: '600' }}>Service Required *</label>
                 <select
+                  id="inquiry-service"
                   value={formData.serviceRequired}
                   onChange={(e) => setFormData({...formData, serviceRequired: e.target.value})}
                   style={{ width: '100%', fontWeight: '600' }}
@@ -213,8 +226,9 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.3rem', fontWeight: '600' }}>Estimated Project Budget</label>
+                <label htmlFor="inquiry-budget" style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.3rem', fontWeight: '600' }}>Estimated Project Budget</label>
                 <select
+                  id="inquiry-budget"
                   value={formData.budgetRange}
                   onChange={(e) => setFormData({...formData, budgetRange: e.target.value})}
                   style={{ width: '100%', fontWeight: '600' }}
@@ -227,10 +241,12 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
             </div>
 
             <div>
-              <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.3rem', fontWeight: '600' }}>Project Scope / Requirements Summary *</label>
+              <label htmlFor="inquiry-scope" style={{ display: 'block', fontSize: '0.82rem', color: '#64748b', marginBottom: '0.3rem', fontWeight: '600' }}>Project Scope / Requirements Summary *</label>
               <textarea 
+                id="inquiry-scope"
                 rows={3}
                 required
+                aria-required="true"
                 placeholder="Describe your project goals, required features, or tech stack expectations..."
                 value={formData.projectScope}
                 onChange={(e) => setFormData({...formData, projectScope: e.target.value})}
@@ -242,15 +258,14 @@ export default function ClientInquiryModal({ defaultService = 'Web Application D
               <button type="button" onClick={onClose} className="btn-secondary">
                 Cancel
               </button>
-              <button type="submit" disabled={submitting} className="btn-coral" style={{ padding: '0.65rem 1.6rem' }}>
-                {submitting ? 'Opening Email...' : 'Send Inquiry to Founder Email ➔'}
+              <button type="submit" disabled={submitting} aria-busy={submitting} className="btn-coral" style={{ padding: '0.65rem 1.6rem' }}>
+                {submitting ? 'Opening Email...' : 'Send Inquiry to Founder Email'}
               </button>
             </div>
           </form>
         )}
-      </div>
-    </div>
+    </DialogShell>
   );
 
-  return typeof document !== 'undefined' ? ReactDOM.createPortal(modalJSX, document.body) : modalJSX;
+  return modalJSX;
 }

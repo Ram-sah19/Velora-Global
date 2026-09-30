@@ -236,10 +236,7 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
             zIndex: 0,
             backgroundImage: `
               linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 40%, transparent 100%),
-              url('/api/media/hero-bg'),
-              url('/media/hero_mountain.png'),
-              url('/images/hero_mountain.png'),
-              url('/media/hero_mountain.jpg')
+              url('/images/background.webp')
             `,
             backgroundSize: 'cover',
             backgroundPosition: 'center 22%',

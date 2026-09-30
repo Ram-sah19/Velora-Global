@@ -7,52 +7,39 @@
   },
   "entries": [
     {
-      "identifier": "urn:air:velora-global.online:mcp:server",
-      "displayName": "Velora Global MCP Server",
-      "description": "Model Context Protocol (MCP) server providing real-time certificate verification, domain internship discovery, and training program details.",
-      "type": "application/json",
-      "url": "https://velora-global.online/.well-known/mcp/server-card.json",
-      "representativeQueries": [
-        "How do I verify a Velora Global certificate?",
-        "What tech internship domains does Velora Global offer?",
-        "Find Python and React training programs at Velora Global",
-        "Verify student credential VG-2026-88491"
-      ]
-    },
-    {
       "identifier": "urn:air:velora-global.online:skills:catalog",
       "displayName": "Velora Global Agent Skills",
-      "description": "Agent Skills for autonomous AI workflows to explore internships, search syllabi, and check completion status.",
+      "description": "Agent Skills for AI workflows to explore internships, browse training programs, and verify an issued certificate against the public verification endpoint.",
       "type": "application/json",
       "url": "https://velora-global.online/.well-known/agent-skills/index.json",
       "representativeQueries": [
         "Velora Global agent skills index",
-        "Automated certificate verification skill",
+        "Certificate verification skill",
         "Internship program search skill"
       ]
     },
     {
       "identifier": "urn:air:velora-global.online:api:openapi",
       "displayName": "Velora Global OpenAPI Specification",
-      "description": "OpenAPI 3.0 specification for Velora Global REST API endpoints including public verification and catalog services.",
+      "description": "OpenAPI 3.0 specification for the public Velora Global REST endpoints: health, program listings and certificate verification.",
       "type": "application/openapi+json",
       "url": "https://velora-global.online/openapi.json",
       "representativeQueries": [
         "Velora Global OpenAPI schema",
-        "REST API endpoints for certificate check",
-        "Fetch internship tracks API"
+        "REST API endpoint for certificate check",
+        "Fetch internship and training programs"
       ]
     },
     {
-      "identifier": "urn:air:velora-global.online:auth:guide",
-      "displayName": "Velora Global Agent Auth Specification",
-      "description": "Auth.md instructions for autonomous AI agents registering and authenticating with Velora Global platform APIs.",
+      "identifier": "urn:air:velora-global.online:markdown:pages",
+      "displayName": "Velora Global Pages as Markdown",
+      "description": "Every published page responds with a markdown summary when the request sends Accept: text/markdown, including the answer-first sections and FAQs shown on the page.",
       "type": "text/markdown",
-      "url": "https://velora-global.online/auth.md",
+      "url": "https://velora-global.online/services",
       "representativeQueries": [
-        "How can an AI agent authenticate with Velora Global?",
-        "Agent registration guidelines for Velora Global",
-        "API authentication for automated agents"
+        "Velora Global services in markdown",
+        "Internship durations and fees",
+        "Training program syllabus summary"
       ]
     }
   ]

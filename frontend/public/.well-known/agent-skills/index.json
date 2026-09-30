@@ -5,25 +5,25 @@
       "name": "verify-certificate",
       "type": "skill",
       "version": "1.0.0",
-      "description": "Verify student internship certificates and completion credentials with tamper-proof cryptographic signatures.",
+      "description": "Verify a Velora Global certificate ID against the public verification endpoint and read the record held against it.",
       "url": "https://velora-global.online/.well-known/agent-skills/verify-certificate/SKILL.md",
-      "digest": "sha256:b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
+      "digest": "sha256:a118075256d7ea0f815d8423ff1ec0fb45889dc4d72aabc23656410049f48028"
     },
     {
       "name": "explore-internships",
       "type": "skill",
       "version": "1.0.0",
-      "description": "Discover available 10 domain technology internship tracks, pricing in NPR, curriculum, and mentorship details.",
+      "description": "Discover Velora Global internship domains, the fee tiers by duration, and how applications work.",
       "url": "https://velora-global.online/.well-known/agent-skills/explore-internships/SKILL.md",
-      "digest": "sha256:7d1b58f338d4cf865f509aa029b32b85d3837f1531e70a19e596e834413e1f56"
+      "digest": "sha256:2be2f54b21e15aec1988137498eb37a7d08e2a0b0cbb20aa81b81e5d6d2be762"
     },
     {
       "name": "explore-training",
       "type": "skill",
       "version": "1.0.0",
-      "description": "Discover guided technology training programs, syllabi, duration options, and career placement.",
+      "description": "Discover Velora Global guided training programs, published fees per program, and how enrollment works.",
       "url": "https://velora-global.online/.well-known/agent-skills/explore-training/SKILL.md",
-      "digest": "sha256:9f83c605d4c82b3e925b42d763d05212e32cb9f83b2f93a639a730e0a01661aa"
+      "digest": "sha256:00c528510c9f66a0ec26bb5269cc6702ae2b4d056dd62091c674276fce54340a"
     }
   ]
 }

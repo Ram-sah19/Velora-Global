@@ -100,9 +100,16 @@ export default function AdminDashboardPage({ currentUser, onCertificateGenerated
 
   useEffect(() => {
     loadAdminData();
-    const interval = setInterval(loadAdminData, 2000);
+    const interval = setInterval(() => {
+      // Polling a hidden tab renders data nobody is looking at, and every tick is several requests.
+      if (document.visibilityState === 'hidden') return;
+      loadAdminData();
+    }, 2000);
 
-    const handleFocus = () => loadAdminData();
+    const handleFocus = () => {
+      if (document.visibilityState === 'hidden') return;
+      loadAdminData();
+    };
     window.addEventListener('focus', handleFocus);
     document.addEventListener('visibilitychange', handleFocus);
 
@@ -119,13 +126,13 @@ export default function AdminDashboardPage({ currentUser, onCertificateGenerated
     setUserToDelete(null);
 
     setUsers(prev => prev.filter(u => u.id !== user.id && u.email !== user.email));
-    showToast(`User ${user.name} removed from database`, 'info');
 
     try {
-      if (typeof api.deleteUser === 'function') {
-        await api.deleteUser(user.id || user.email);
-      }
-    } catch (e) {}
+      await api.deleteUser(user.id || user.email);
+      showToast(`User ${user.name} removed from database`, 'success');
+    } catch (e) {
+      showToast(`Could not remove ${user.name}: ${e.message}`, 'error');
+    }
     loadAdminData();
   };
 
@@ -136,18 +143,22 @@ export default function AdminDashboardPage({ currentUser, onCertificateGenerated
     const idToDelete = app.id || app._id;
     setAppToDelete(null);
 
+    if (!idToDelete) {
+      showToast('Could not remove that enrollment: the record has no id.', 'error');
+      await loadAdminData();
+      return;
+    }
+
     // Instant optimistic state purge
     setApplications(prev => prev.filter(a => a !== app && (idToDelete ? (a.id !== idToDelete && a._id !== idToDelete) : true)));
-    showToast(`Enrollment for ${app.studentName || 'student'} permanently removed from database`, 'info');
 
     try {
-      if (typeof api.deleteApplication === 'function' && idToDelete) {
-        await api.deleteApplication(idToDelete);
-      }
+      await api.deleteApplication(idToDelete);
+      showToast(`Enrollment for ${app.studentName || 'student'} permanently removed from database`, 'success');
     } catch (e) {
-      console.error('Unenroll error:', e);
+      showToast(`Could not remove that enrollment: ${e.message}`, 'error');
     }
-    
+
     await loadAdminData();
   };
 
@@ -619,13 +630,12 @@ export default function AdminDashboardPage({ currentUser, onCertificateGenerated
                 }}
               >
                 <span>Exit Admin Console</span>
-                <span>➔</span>
               </button>
             </div>
           </aside>
 
           {/* MAIN CONTENT AREA */}
-          <main style={{ minHeight: '600px' }}>
+          <div style={{ minHeight: '600px' }}>
             
             {/* ======================================================== */}
             {/* TAB 1: ENROLLED STUDENTS & PROGRAMS DIRECTORY (NEW!) */}
@@ -1217,7 +1227,9 @@ export default function AdminDashboardPage({ currentUser, onCertificateGenerated
               </div>
             )}
 
-          </main>
+          </div>
+
+          {/* END MAIN CONTENT AREA */}
         </div>
 
       </div>
@@ -1436,42 +1448,42 @@ export default function AdminDashboardPage({ currentUser, onCertificateGenerated
               
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', marginBottom: '0.25rem' }}>
-                  <span>1. Quality of Work</span>
+                  <label htmlFor="eval-qualityOfWork">1. Quality of Work</label>
                   <strong style={{ color: '#2563eb' }}>{evalScores.qualityOfWork} / 10</strong>
                 </div>
-                <input type="range" min="1" max="10" step="0.5" value={evalScores.qualityOfWork} onChange={(e) => setEvalScores({...evalScores, qualityOfWork: parseFloat(e.target.value)})} style={{ width: '100%' }} />
+                <input type="range" id="eval-qualityOfWork" aria-valuetext={`${evalScores.qualityOfWork} out of 10`} min="1" max="10" step="0.5" value={evalScores.qualityOfWork} onChange={(e) => setEvalScores({...evalScores, qualityOfWork: parseFloat(e.target.value)})} style={{ width: '100%' }} />
               </div>
 
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', marginBottom: '0.25rem' }}>
-                  <span>2. Technical Skills</span>
+                  <label htmlFor="eval-technicalSkills">2. Technical Skills</label>
                   <strong style={{ color: '#2563eb' }}>{evalScores.technicalSkills} / 10</strong>
                 </div>
-                <input type="range" min="1" max="10" step="0.5" value={evalScores.technicalSkills} onChange={(e) => setEvalScores({...evalScores, technicalSkills: parseFloat(e.target.value)})} style={{ width: '100%' }} />
+                <input type="range" id="eval-technicalSkills" aria-valuetext={`${evalScores.technicalSkills} out of 10`} min="1" max="10" step="0.5" value={evalScores.technicalSkills} onChange={(e) => setEvalScores({...evalScores, technicalSkills: parseFloat(e.target.value)})} style={{ width: '100%' }} />
               </div>
 
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', marginBottom: '0.25rem' }}>
-                  <span>3. Creativity</span>
+                  <label htmlFor="eval-creativity">3. Creativity</label>
                   <strong style={{ color: '#ff6b6b' }}>{evalScores.creativity} / 10</strong>
                 </div>
-                <input type="range" min="1" max="10" step="0.5" value={evalScores.creativity} onChange={(e) => setEvalScores({...evalScores, creativity: parseFloat(e.target.value)})} style={{ width: '100%' }} />
+                <input type="range" id="eval-creativity" aria-valuetext={`${evalScores.creativity} out of 10`} min="1" max="10" step="0.5" value={evalScores.creativity} onChange={(e) => setEvalScores({...evalScores, creativity: parseFloat(e.target.value)})} style={{ width: '100%' }} />
               </div>
 
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', marginBottom: '0.25rem' }}>
-                  <span>4. Completion of Requirements</span>
+                  <label htmlFor="eval-completionOfRequirements">4. Completion of Requirements</label>
                   <strong style={{ color: '#10b981' }}>{evalScores.completionOfRequirements} / 10</strong>
                 </div>
-                <input type="range" min="1" max="10" step="0.5" value={evalScores.completionOfRequirements} onChange={(e) => setEvalScores({...evalScores, completionOfRequirements: parseFloat(e.target.value)})} style={{ width: '100%' }} />
+                <input type="range" id="eval-completionOfRequirements" aria-valuetext={`${evalScores.completionOfRequirements} out of 10`} min="1" max="10" step="0.5" value={evalScores.completionOfRequirements} onChange={(e) => setEvalScores({...evalScores, completionOfRequirements: parseFloat(e.target.value)})} style={{ width: '100%' }} />
               </div>
 
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', marginBottom: '0.25rem' }}>
-                  <span>5. Professional Approach</span>
+                  <label htmlFor="eval-professionalApproach">5. Professional Approach</label>
                   <strong style={{ color: '#2563eb' }}>{evalScores.professionalApproach} / 10</strong>
                 </div>
-                <input type="range" min="1" max="10" step="0.5" value={evalScores.professionalApproach} onChange={(e) => setEvalScores({...evalScores, professionalApproach: parseFloat(e.target.value)})} style={{ width: '100%' }} />
+                <input type="range" id="eval-professionalApproach" aria-valuetext={`${evalScores.professionalApproach} out of 10`} min="1" max="10" step="0.5" value={evalScores.professionalApproach} onChange={(e) => setEvalScores({...evalScores, professionalApproach: parseFloat(e.target.value)})} style={{ width: '100%' }} />
               </div>
 
               <div>

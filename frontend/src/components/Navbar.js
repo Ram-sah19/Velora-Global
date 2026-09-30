@@ -1,5 +1,120 @@
 import React, { useState, useEffect, useRef } from 'react';
 import VeloraLogo from './VeloraLogo';
+import { tabToPathMap } from '../constants';
+
+// Modifier clicks must keep the browser's native behaviour (new tab / new window / copy link).
+const isPlainLeftClick = (event) =>
+  event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
+
+function NavTab({ href, isActive, onActivate, activeBg = '#2563eb', hasPopup, expanded, children, style }) {
+  return (
+    <a
+      href={href}
+      aria-current={isActive ? 'page' : undefined}
+      aria-haspopup={hasPopup ? 'true' : undefined}
+      aria-expanded={hasPopup ? expanded : undefined}
+      onClick={(event) => {
+        if (isPlainLeftClick(event)) {
+          event.preventDefault();
+          onActivate();
+        }
+      }}
+      onMouseEnter={(event) => {
+        if (!isActive) event.currentTarget.style.background = '#f1f5f9';
+      }}
+      onMouseLeave={(event) => {
+        if (!isActive) event.currentTarget.style.background = 'transparent';
+      }}
+      style={{
+        padding: '0.5rem 1.15rem',
+        borderRadius: '9999px',
+        fontSize: '0.88rem',
+        fontWeight: '700',
+        fontFamily: 'var(--font-body)',
+        background: isActive ? activeBg : 'transparent',
+        color: isActive ? '#ffffff' : '#0b0f19',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '0.3rem',
+        whiteSpace: 'nowrap',
+        textDecoration: 'none',
+        cursor: 'pointer',
+        transition: 'all 0.15s ease',
+        ...style
+      }}
+    >
+      {children}
+    </a>
+  );
+}
+
+const ArrowIcon = ({ size = 15 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+    <line x1="4" y1="12" x2="19" y2="12" />
+    <polyline points="13 6 19 12 13 18" />
+  </svg>
+);
+
+const ChevronIcon = ({ open }) => (
+  <svg
+    width="12"
+    height="12"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="3"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    focusable="false"
+    style={{ transition: 'transform 0.2s ease', transform: open ? 'rotate(180deg)' : 'none' }}
+  >
+    <polyline points="6 9 12 15 18 9" />
+  </svg>
+);
+
+const MenuIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true" focusable="false">
+    <line x1="3" y1="7" x2="21" y2="7" />
+    <line x1="3" y1="12" x2="21" y2="12" />
+    <line x1="3" y1="17" x2="21" y2="17" />
+  </svg>
+);
+
+const CloseIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true" focusable="false">
+    <line x1="5" y1="5" x2="19" y2="19" />
+    <line x1="19" y1="5" x2="5" y2="19" />
+  </svg>
+);
+
+function DrawerLink({ href, isActive, onActivate, activeBg = '#2563eb', activeSoft = '#eff6ff', children }) {
+  return (
+    <a
+      href={href}
+      aria-current={isActive ? 'page' : undefined}
+      onClick={(event) => {
+        if (isPlainLeftClick(event)) {
+          event.preventDefault();
+          onActivate();
+        }
+      }}
+      style={{
+        padding: '0.75rem 1rem',
+        borderRadius: '10px',
+        textAlign: 'left',
+        fontWeight: '700',
+        fontFamily: 'var(--font-body)',
+        background: isActive ? activeSoft : '#f8fafc',
+        color: isActive ? activeBg : '#0b0f19',
+        textDecoration: 'none',
+        cursor: 'pointer'
+      }}
+    >
+      {children}
+    </a>
+  );
+}
 
 export default function Navbar({ 
   activeTab, 
@@ -81,10 +196,26 @@ export default function Navbar({
     if (drawerCloseTimerRef.current) clearTimeout(drawerCloseTimerRef.current);
   }, []);
 
+  // An overlay that only dismisses on a pointer click traps keyboard users.
+  useEffect(() => {
+    if (!isMobileMenuOpen && !showServicesDropdown) return undefined;
+    const handleKeyDown = (event) => {
+      if (event.key !== 'Escape') return;
+      if (isMobileMenuOpen) {
+        closeMobileMenu();
+      } else {
+        setShowServicesDropdown(false);
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMobileMenuOpen, showServicesDropdown]);
+
   const isTransparent = activeTab === 'home' && !isScrolled;
 
   return (
-    <nav className={isTransparent ? 'navbar-transparent' : undefined} style={{
+    <nav aria-label="Primary" className={isTransparent ? 'navbar-transparent' : undefined} style={{
       position: 'fixed',
       top: 0,
       left: 0,
@@ -102,29 +233,25 @@ export default function Navbar({
       <div className="container navbar-shell" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'nowrap', width: '100%', position: 'relative' }}>
         
         {/* Brand Logo Component — clicking returns to homepage & scrolls to Hero top */}
-        <div onClick={handleLogoClick} style={{ cursor: 'pointer' }} title="Return to Homepage">
+        <a
+          href="/"
+          aria-label="Velora Global — return to homepage"
+          onClick={(event) => {
+            if (isPlainLeftClick(event)) {
+              event.preventDefault();
+              handleLogoClick();
+            }
+          }}
+          style={{ cursor: 'pointer', display: 'inline-flex' }}
+        >
           <VeloraLogo width={44} height={44} textColor="#0b0f19" />
-        </div>
+        </a>
 
         {/* Standard Navigation Tabs (Desktop Only) */}
         <div className="desktop-nav">
-            <button 
-              onClick={() => setActiveTab('home')}
-              style={{
-                padding: '0.5rem 1.15rem',
-                borderRadius: '9999px',
-                fontSize: '0.88rem',
-                fontWeight: '700',
-                background: activeTab === 'home' ? '#2563eb' : 'transparent',
-                color: activeTab === 'home' ? '#ffffff' : '#0b0f19',
-                whiteSpace: 'nowrap',
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease'
-              }}
-            >
+            <NavTab href="/" isActive={activeTab === 'home'} onActivate={() => setActiveTab('home')}>
               Home
-            </button>
+            </NavTab>
 
             {/* Services Tab - Global Enterprise Solutions */}
             <div 
@@ -133,35 +260,19 @@ export default function Navbar({
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
-              <button 
-                onClick={() => {
+              <NavTab
+                href={tabToPathMap.services}
+                isActive={activeTab === 'services'}
+                hasPopup
+                expanded={showServicesDropdown}
+                onActivate={() => {
                   setActiveTab('services');
                   setShowServicesDropdown(prev => !prev);
                 }}
-                style={{
-                  padding: '0.5rem 1.15rem',
-                  borderRadius: '9999px',
-                  fontSize: '0.88rem',
-                  fontWeight: '700',
-                  background: activeTab === 'services' ? '#2563eb' : 'transparent',
-                  color: activeTab === 'services' ? '#ffffff' : '#0b0f19',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.3rem',
-                  whiteSpace: 'nowrap',
-                  border: 'none',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease'
-                }}
-                onMouseEnter={(e) => {
-                  if (activeTab !== 'services') e.currentTarget.style.background = '#f1f5f9';
-                }}
-                onMouseLeave={(e) => {
-                  if (activeTab !== 'services') e.currentTarget.style.background = 'transparent';
-                }}
               >
-                Services ▾
-              </button>
+                Services
+                <ChevronIcon open={showServicesDropdown} />
+              </NavTab>
 
               {/* Dropdown Menu */}
               <div style={{
@@ -187,106 +298,75 @@ export default function Navbar({
                   flexDirection: 'column',
                   gap: '0.2rem'
                 }}>
-                  <button
-                    onClick={() => handleServiceSelect('all')}
+                  <a
+                    href={tabToPathMap.services}
+                    onClick={(event) => {
+                      if (isPlainLeftClick(event)) {
+                        event.preventDefault();
+                        handleServiceSelect('all');
+                      }
+                    }}
                     className="dropdown-menu-item"
                     style={{ fontWeight: '700', color: '#0b0f19' }}
                   >
                     All Services Overview
-                  </button>
-                  <button
-                    onClick={() => handleServiceSelect('web')}
+                  </a>
+                  <a
+                    href={tabToPathMap.services}
+                    onClick={(event) => {
+                      if (isPlainLeftClick(event)) {
+                        event.preventDefault();
+                        handleServiceSelect('web');
+                      }
+                    }}
                     className="dropdown-menu-item"
                   >
                     Web App Development
-                  </button>
-                  <button
-                    onClick={() => handleServiceSelect('mobile')}
+                  </a>
+                  <a
+                    href={tabToPathMap.services}
+                    onClick={(event) => {
+                      if (isPlainLeftClick(event)) {
+                        event.preventDefault();
+                        handleServiceSelect('mobile');
+                      }
+                    }}
                     className="dropdown-menu-item"
                   >
                     Mobile App Development
-                  </button>
-                  <button
-                    onClick={() => handleServiceSelect('ai')}
+                  </a>
+                  <a
+                    href={tabToPathMap.services}
+                    onClick={(event) => {
+                      if (isPlainLeftClick(event)) {
+                        event.preventDefault();
+                        handleServiceSelect('ai');
+                      }
+                    }}
                     className="dropdown-menu-item"
                   >
                     AI Chatbot Integration in Web Apps
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
 
-            <button 
-              onClick={() => setActiveTab('team')}
-              style={{
-                padding: '0.5rem 1.15rem',
-                borderRadius: '9999px',
-                fontSize: '0.88rem',
-                fontWeight: '700',
-                background: activeTab === 'team' ? '#2563eb' : 'transparent',
-                color: activeTab === 'team' ? '#ffffff' : '#0b0f19',
-                whiteSpace: 'nowrap',
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease'
-              }}
-              onMouseEnter={(e) => {
-                if (activeTab !== 'team') e.currentTarget.style.background = '#f1f5f9';
-              }}
-              onMouseLeave={(e) => {
-                if (activeTab !== 'team') e.currentTarget.style.background = 'transparent';
-              }}
-            >
+            <NavTab href={tabToPathMap.about} isActive={activeTab === 'about'} onActivate={() => setActiveTab('about')}>
               About Us
-            </button>
+            </NavTab>
 
-            <button 
-              onClick={() => setActiveTab('internships')}
-              style={{
-                padding: '0.5rem 1.15rem',
-                borderRadius: '9999px',
-                fontSize: '0.88rem',
-                fontWeight: '700',
-                background: activeTab === 'internships' ? '#ff6b6b' : 'transparent',
-                color: activeTab === 'internships' ? '#ffffff' : '#0b0f19',
-                whiteSpace: 'nowrap',
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease'
-              }}
-              onMouseEnter={(e) => {
-                if (activeTab !== 'internships') e.currentTarget.style.background = '#f1f5f9';
-              }}
-              onMouseLeave={(e) => {
-                if (activeTab !== 'internships') e.currentTarget.style.background = 'transparent';
-              }}
+            <NavTab
+              href={tabToPathMap.internships}
+              isActive={activeTab === 'internships'}
+              activeBg="#ff6b6b"
+              onActivate={() => setActiveTab('internships')}
             >
               Explore Internships
-            </button>
+            </NavTab>
 
-            <button 
-              onClick={() => setActiveTab('training')}
-              style={{
-                padding: '0.5rem 1.15rem',
-                borderRadius: '9999px',
-                fontSize: '0.88rem',
-                fontWeight: '700',
-                background: activeTab === 'training' ? '#2563eb' : 'transparent',
-                color: activeTab === 'training' ? '#ffffff' : '#0b0f19',
-                whiteSpace: 'nowrap',
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease'
-              }}
-              onMouseEnter={(e) => {
-                if (activeTab !== 'training') e.currentTarget.style.background = '#f1f5f9';
-              }}
-              onMouseLeave={(e) => {
-                if (activeTab !== 'training') e.currentTarget.style.background = 'transparent';
-              }}
-            >
+            <NavTab href={tabToPathMap.training} isActive={activeTab === 'training'} onActivate={() => setActiveTab('training')}>
               Training Programs
-            </button>
+            </NavTab>
           </div>
 
         {/* Right Header Actions */}
@@ -321,7 +401,7 @@ export default function Navbar({
             }}
           >
             <span>1-on-1 Counseling</span>
-            <span style={{ fontSize: '0.92rem' }}>➔</span>
+            <ArrowIcon />
           </button>
           {/* Mobile & Tablet Hamburger Toggle Button (Shown on screens < 1024px) */}
           <button
@@ -336,6 +416,7 @@ export default function Navbar({
               }
             }}
             aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-nav-drawer"
             style={{
               padding: '0.45rem 0.9rem',
               borderRadius: '9999px',
@@ -352,125 +433,60 @@ export default function Navbar({
             }}
             title="Toggle Navigation Menu"
           >
-            <span>{isMobileMenuOpen ? '✕' : '☰'}</span>
+            {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
             <span style={{ fontSize: '0.82rem' }}>Menu</span>
           </button>
         </div>
 
         {/* Mobile & Tablet Drop-Down Navigation Menu Drawer (anchored below the bar) */}
         {(isMobileMenuOpen || isDrawerClosing) && (
-          <div className="mobile-menu-drawer" style={{
-            position: 'absolute',
-            top: 'calc(100% + 1.7rem)',
-            left: 0,
-            right: 0,
-            zIndex: 700,
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
-            borderRadius: '16px',
-            padding: '1rem',
-            boxShadow: 'var(--shadow-lg)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.5rem',
-            maxHeight: 'calc(100vh - 110px)',
-            overflowY: 'auto',
-            animation: isDrawerClosing ? 'navbarDrawerOut 0.2s ease-in forwards' : 'navbarDrawerIn 0.24s cubic-bezier(0.22, 1, 0.36, 1)'
-          }}>
-            <button
-              onClick={() => {
-                setActiveTab('home');
-                closeMobileMenu();
-              }}
-              style={{
-                padding: '0.75rem 1rem',
-                borderRadius: '10px',
-                textAlign: 'left',
-                fontWeight: '700',
-                background: activeTab === 'home' ? '#eff6ff' : '#f8fafc',
-                color: activeTab === 'home' ? '#2563eb' : '#0b0f19',
-                border: 'none',
-                cursor: 'pointer'
-              }}
-            >
+          <div
+            id="mobile-nav-drawer"
+            className="mobile-menu-drawer"
+            style={{
+              position: 'absolute',
+              top: 'calc(100% + 1.7rem)',
+              left: 0,
+              right: 0,
+              zIndex: 700,
+              background: '#ffffff',
+              border: '1px solid #e2e8f0',
+              borderRadius: '16px',
+              padding: '1rem',
+              boxShadow: 'var(--shadow-lg)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.5rem',
+              maxHeight: 'calc(100vh - 110px)',
+              overflowY: 'auto',
+              animation: isDrawerClosing ? 'navbarDrawerOut 0.2s ease-in forwards' : 'navbarDrawerIn 0.24s cubic-bezier(0.22, 1, 0.36, 1)'
+            }}
+          >
+            <DrawerLink href="/" isActive={activeTab === 'home'} onActivate={() => { setActiveTab('home'); closeMobileMenu(); }}>
               Home Overview
-            </button>
+            </DrawerLink>
 
-            <button
-              onClick={() => {
-                setActiveTab('services');
-                closeMobileMenu();
-              }}
-              style={{
-                padding: '0.75rem 1rem',
-                borderRadius: '10px',
-                textAlign: 'left',
-                fontWeight: '700',
-                background: activeTab === 'services' ? '#eff6ff' : '#f8fafc',
-                color: activeTab === 'services' ? '#2563eb' : '#0b0f19',
-                border: 'none',
-                cursor: 'pointer'
-              }}
-            >
+            <DrawerLink href={tabToPathMap.services} isActive={activeTab === 'services'} onActivate={() => { setActiveTab('services'); closeMobileMenu(); }}>
               Enterprise Services
-            </button>
+            </DrawerLink>
 
-            <button
-              onClick={() => {
-                setActiveTab('team');
-                closeMobileMenu();
-              }}
-              style={{
-                padding: '0.75rem 1rem',
-                borderRadius: '10px',
-                textAlign: 'left',
-                fontWeight: '700',
-                background: activeTab === 'team' ? '#eff6ff' : '#f8fafc',
-                color: activeTab === 'team' ? '#2563eb' : '#0b0f19',
-                border: 'none',
-                cursor: 'pointer'
-              }}
-            >
+            <DrawerLink href={tabToPathMap.about} isActive={activeTab === 'about'} onActivate={() => { setActiveTab('about'); closeMobileMenu(); }}>
               About Us
-            </button>
+            </DrawerLink>
 
-            <button
-              onClick={() => {
-                setActiveTab('internships');
-                closeMobileMenu();
-              }}
-              style={{
-                padding: '0.75rem 1rem',
-                borderRadius: '10px',
-                textAlign: 'left',
-                fontWeight: '700',
-                background: activeTab === 'internships' ? '#fff5f5' : '#f8fafc',
-                color: activeTab === 'internships' ? '#ff6b6b' : '#0b0f19',
-                border: 'none',
-                cursor: 'pointer'
-              }}
+            <DrawerLink
+              href={tabToPathMap.internships}
+              isActive={activeTab === 'internships'}
+              activeBg="#ff6b6b"
+              activeSoft="#fff5f5"
+              onActivate={() => { setActiveTab('internships'); closeMobileMenu(); }}
             >
               Explore Internships
-            </button>
+            </DrawerLink>
 
-            <button
-              onClick={() => {
-                setActiveTab('training');
-                closeMobileMenu();
-              }}
-              style={{
-                padding: '0.75rem 1rem',
-                borderRadius: '10px',
-                textAlign: 'left',
-                fontWeight: '700',
-                background: activeTab === 'training' ? '#eff6ff' : '#f8fafc',
-                color: activeTab === 'training' ? '#2563eb' : '#0b0f19',
-                border: 'none',
-                cursor: 'pointer'
-              }}
-            >
+            <DrawerLink href={tabToPathMap.training} isActive={activeTab === 'training'} onActivate={() => { setActiveTab('training'); closeMobileMenu(); }}>
               Guided Training Programs
-            </button>
+            </DrawerLink>
 
             <button
               onClick={() => {
@@ -487,10 +503,15 @@ export default function Navbar({
                 border: 'none',
                 cursor: 'pointer',
                 marginTop: '0.5rem',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.45rem',
                 boxShadow: '0 4px 14px rgba(255, 84, 84, 0.35)'
               }}
             >
-              Book 1-on-1 Counseling ➔
+              Book 1-on-1 Counseling
+              <ArrowIcon size={14} />
             </button>
           </div>
         )}

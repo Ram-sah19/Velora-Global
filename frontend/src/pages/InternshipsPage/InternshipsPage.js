@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
 import InternshipDetailsModal from './InternshipDetailsModal';
 import { SkeletonCard } from '../../components/UIStates';
+import { AnswerSection, PageFaq } from '../../components';
 import { INTERNSHIP_APPLICATION_FORM_URL } from '../../constants';
+import { INTERNSHIP_PROGRAMS } from '../../content/programs';
+import { ANSWER_BLOCKS, FAQS } from '../../content/siteFacts';
 
 const GOOGLE_FORM_URL = INTERNSHIP_APPLICATION_FORM_URL;
 
@@ -12,170 +15,6 @@ const softwareDevSubDomains = [
   'Full Stack Development',
   'Mobile App Development',
   'Software Development'
-];
-
-const defaultInternshipPrograms = [
-  {
-    id: "prog-fe-1",
-    title: "Frontend Development Internship",
-    domain: "Frontend Development",
-    duration: "6 Weeks",
-    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
-    locationType: "Remote",
-    level: "All Levels",
-    description: "Build high-performance, responsive web interfaces using modern React, HTML5, CSS3, and JavaScript ES6+.",
-    skillsRequired: ["React.js", "JavaScript ES6+", "HTML5 & CSS3", "TailwindCSS", "Git"],
-    perks: ["Official Velora Global Certificate", "Mentorship from Co-Founders"],
-    deliverables: ["Develop interactive responsive UI components", "Optimize lighthouse performance"],
-    status: "Active"
-  },
-  {
-    id: "prog-be-1",
-    title: "Backend Development Internship",
-    domain: "Backend Development",
-    duration: "8 Weeks",
-    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
-    locationType: "Remote",
-    level: "Intermediate",
-    description: "Design RESTful APIs, manage databases, write serverless functions, and implement secure authentication with Node.js and Express.",
-    skillsRequired: ["Node.js", "Express.js", "MongoDB", "REST APIs", "JWT"],
-    perks: ["Verified Certificate", "Backend Architecture Mentorship"],
-    deliverables: ["Build robust RESTful endpoints", "Implement database CRUD & authentication"],
-    status: "Active"
-  },
-  {
-    id: "prog-fs-1",
-    title: "Full Stack Development Internship",
-    domain: "Full Stack Development",
-    duration: "8 Weeks",
-    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
-    locationType: "Remote / Hybrid",
-    level: "Intermediate",
-    description: "End-to-end web application development combining React client frontend with Node.js Express server and MongoDB database.",
-    skillsRequired: ["React.js", "Node.js", "Express.js", "MongoDB", "MVC Architecture"],
-    perks: ["Official Velora Global Certificate", "Executive Feedback"],
-    deliverables: ["Build end-to-end full stack application", "Deploy production web bundle"],
-    status: "Active"
-  },
-  {
-    id: "prog-mobile-1",
-    title: "Mobile App Development Internship",
-    domain: "Mobile App Development",
-    duration: "8 Weeks",
-    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
-    locationType: "Remote",
-    level: "All Levels",
-    description: "Create cross-platform mobile apps for iOS and Android using React Native / Flutter with seamless API integration.",
-    skillsRequired: ["React Native", "Flutter", "Mobile UI", "REST APIs"],
-    perks: ["Certificate of Excellence", "App Store Publishing Experience"],
-    deliverables: ["Develop cross-platform mobile app UI", "Integrate push notifications and storage"],
-    status: "Active"
-  },
-  {
-    id: "prog-aiml-1",
-    title: "Artificial Intelligence & Machine Learning Internship",
-    domain: "Artificial Intelligence & Machine Learning",
-    duration: "8 Weeks",
-    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
-    locationType: "Remote",
-    level: "Intermediate / Advanced",
-    description: "Train machine learning models, implement natural language processing algorithms, and deploy AI solutions.",
-    skillsRequired: ["Python", "TensorFlow / PyTorch", "Scikit-Learn", "Model Deployment"],
-    perks: ["Verified Velora Global Certificate", "AI Research Mentorship"],
-    deliverables: ["Train predictive ML classification model", "Deploy AI model inference API"],
-    status: "Active"
-  },
-  {
-    id: "prog-ds-1",
-    title: "Data Science Internship",
-    domain: "Data Science",
-    duration: "8 Weeks",
-    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
-    locationType: "Remote",
-    level: "Intermediate",
-    description: "Perform data wrangling, exploratory analysis, statistical modeling, and interactive data visualization.",
-    skillsRequired: ["Python", "Pandas & NumPy", "SQL", "Data Visualization", "PowerBI"],
-    perks: ["Verified Certificate", "Real-World Datasets"],
-    deliverables: ["Perform exploratory dataset analysis", "Create executive data visualization report"],
-    status: "Active"
-  },
-  {
-    id: "prog-cyber-1",
-    title: "Cybersecurity Internship",
-    domain: "Cybersecurity",
-    duration: "6 Weeks",
-    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
-    locationType: "Remote",
-    level: "All Levels",
-    description: "Understand network security fundamentals, penetration testing, vulnerability assessment, and security auditing.",
-    skillsRequired: ["Network Security", "Ethical Hacking Basics", "Vulnerability Scanning", "Linux"],
-    perks: ["Official Certificate", "Security Audit Experience"],
-    deliverables: ["Conduct web vulnerability audit", "Formulate security patch documentation"],
-    status: "Active"
-  },
-  {
-    id: "prog-uiux-1",
-    title: "UI/UX Design Internship",
-    domain: "UI/UX Design",
-    duration: "6 Weeks",
-    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
-    locationType: "Remote",
-    level: "All Levels",
-    description: "Master user research, wireframing, high-fidelity Figma UI design systems, and interactive prototyping.",
-    skillsRequired: ["Figma", "User Research", "Wireframing", "Design Systems", "Prototyping"],
-    perks: ["Certificate of Excellence", "Design Review Sessions"],
-    deliverables: ["Create multi-device design system", "Deliver interactive Figma prototype"],
-    status: "Active"
-  },
-  {
-    id: "prog-cloud-1",
-    title: "Cloud & DevOps Internship",
-    domain: "Cloud & DevOps",
-    duration: "8 Weeks",
-    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
-    locationType: "Remote",
-    level: "Intermediate",
-    description: "Implement CI/CD automation pipelines, containerize applications with Docker, and manage cloud infrastructure.",
-    skillsRequired: ["Docker", "Kubernetes Basics", "AWS / GCP", "CI/CD Pipelines", "Linux"],
-    perks: ["Verified Certificate", "Cloud Architecture Mentorship"],
-    deliverables: ["Automate Docker container build", "Deploy CI/CD deployment pipeline"],
-    status: "Active"
-  },
-  {
-    id: "prog-qa-1",
-    title: "Software Testing Internship",
-    domain: "Software Testing",
-    duration: "6 Weeks",
-    stipend: "NPR 499 (1 Mon Internship) / NPR 1,200 (Training + Internship)",
-    locationType: "Remote",
-    level: "All Levels",
-    description: "Learn manual and automated software testing, unit testing frameworks, end-to-end integration tests, and QA bug reporting.",
-    skillsRequired: ["Jest", "Cypress / Selenium", "Manual Testing", "Bug Tracking", "QA Test Plans"],
-    perks: ["Official Certificate", "QA Lead Mentorship"],
-    deliverables: ["Write comprehensive QA test suite", "Conduct automated E2E integration test"],
-    status: "Active"
-  },
-  {
-    id: "prog-js-internship",
-    title: "JavaScript & Modern ES6+ Full Stack Internship",
-    domain: "JavaScript",
-    description: "Build high-performance, asynchronous web applications using JavaScript ES6+, Node.js runtime, REST APIs, and modern frontend frameworks.",
-    skillsRequired: ["JavaScript ES6+", "Node.js", "Async/Await", "DOM Manipulation", "Express.js"]
-  },
-  {
-    id: "prog-java-internship",
-    title: "Java Core, Spring Boot & Microservices Internship",
-    domain: "Java",
-    description: "Design enterprise REST APIs, database entity relationships, and microservice architecture using Java Core and Spring Boot.",
-    skillsRequired: ["Java Core", "Spring Boot", "OOP Concepts", "Hibernate / JPA", "REST Microservices"]
-  },
-  {
-    id: "prog-py-internship",
-    title: "Python Programming, Scripting & Automation Internship",
-    domain: "Python",
-    description: "Develop automated data processing pipelines, web scrapers, object-oriented software scripts, and backend REST APIs with Python.",
-    skillsRequired: ["Python 3", "OOP", "Django / FastAPI", "Web Scraping", "Data Structures"]
-  }
 ];
 
 export default function InternshipsPage({ activeRole, onApplySuccess, currentUser }) {
@@ -212,7 +51,7 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
       }
 
       // Merge backend programs with full default internship programs
-      const combined = [...defaultInternshipPrograms, ...(data || [])];
+      const combined = [...INTERNSHIP_PROGRAMS, ...(data || [])];
       
       // Remove duplicates by id
       const unique = Array.from(new Map(combined.map(item => [item.id || item.title, item])).values());
@@ -254,13 +93,13 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
       <div className="container">
         
         {/* Section Header */}
-        <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 3rem auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 2.5rem auto' }}>
           <span className="badge badge-coral" style={{ marginBottom: '0.75rem' }}>Practical Work Experience</span>
-          <h2 style={{ fontSize: '2.5rem', color: '#0b0f19', marginBottom: '0.75rem' }}>
+          <h1 style={{ fontSize: '2.5rem', color: '#0b0f19', marginBottom: '0.75rem' }}>
             Practical Project <span className="text-coral">Internships</span>
-          </h2>
+          </h1>
           <p style={{ color: '#64748b', fontSize: '1.05rem', lineHeight: '1.6' }}>
-            Gain real industry work experience in key programming languages & domain tracks. Flexible durations from 2 Weeks (NPR 199) to 6 Months (NPR 4,999) with 1-to-1 mentorship and QR credentials.
+            Build real deliverables in the domain you choose, with 1-to-1 mentor reviews. Pick the length when you apply: 2 Weeks (NPR 199) up to 6 Months (NPR 4,999).
           </p>
         </div>
 
@@ -275,7 +114,9 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
           {/* Search Bar Top */}
           <form onSubmit={handleSearchSubmit} style={{ display: 'flex', gap: '0.5rem', width: '100%', maxWidth: '520px', margin: '0 auto', flexWrap: 'wrap' }}>
             <input 
-              type="text" 
+              type="search" 
+              id="internship-search"
+              aria-label="Search internships by domain, language, or tech stack"
               placeholder="Search internship by domain, language, or tech stack..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -287,7 +128,7 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
           </form>
 
           {/* Domain Filter Pills — Clean flex wrap layout without scrollbars */}
-          <div style={{
+          <div role="group" aria-label="Filter internship programs by domain" style={{
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'center',
@@ -299,6 +140,8 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
             {domains.map((dom) => (
               <button
                 key={dom}
+                type="button"
+                aria-pressed={selectedDomain === dom}
                 onClick={() => setSelectedDomain(dom)}
                 style={{
                   padding: '0.5rem 1.25rem',
@@ -355,7 +198,7 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
                 className="btn-coral"
                 style={{ padding: '0.65rem 1.6rem', fontSize: '0.9rem', borderRadius: '9999px', cursor: 'pointer' }}
               >
-                Reset Filters & View All ➔
+                Reset Filters & View All
               </button>
             </div>
           ) : (
@@ -367,7 +210,7 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
                 padding: '1.75rem', 
                 display: 'flex', 
                 flexDirection: 'column', 
-                justify: 'space-between',
+                justifyContent: 'space-between',
                 borderRadius: '20px',
                 background: '#ffffff',
                 border: '1px solid #e2e8f0',
@@ -453,9 +296,9 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.78rem', color: '#475569', fontWeight: '600' }}>
                     <span>1-to-1 Mentorship</span>
                     <span>•</span>
-                    <span>2+ Live Projects</span>
+                    <span>Project Deliverables</span>
                     <span>•</span>
-                    <span>QR Credentials</span>
+                    <span>Verifiable Certificate</span>
                   </div>
                 </div>
               </div>
@@ -471,6 +314,8 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
 
                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                   <button 
+                    type="button"
+                    aria-label={`View details for ${prog.title}`}
                     onClick={() => setSelectedProgramForDetails(prog)}
                     style={{ 
                       padding: '0.55rem 0.85rem', 
@@ -487,19 +332,31 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
                   </button>
 
                   <button 
+                    type="button"
+                    aria-label={`Apply for ${prog.title}`}
                     onClick={() => {
                       window.open(GOOGLE_FORM_URL, '_blank');
                     }}
                     className="btn-coral"
                     style={{ padding: '0.55rem 0.95rem', fontSize: '0.82rem', fontWeight: '800', borderRadius: '8px', cursor: 'pointer' }}
                   >
-                    Apply ➔
+                    Apply
                   </button>
                 </div>
               </div>
             </div>
           )))}
         </div>
+
+        <PageFaq items={FAQS.internships} />
+
+        <AnswerSection
+          heading={ANSWER_BLOCKS.internships.heading}
+          answer={ANSWER_BLOCKS.internships.answer}
+          specs={ANSWER_BLOCKS.internships.specs}
+          steps={ANSWER_BLOCKS.internships.steps}
+          table={ANSWER_BLOCKS.internships.table}
+        />
 
       </div>
 
