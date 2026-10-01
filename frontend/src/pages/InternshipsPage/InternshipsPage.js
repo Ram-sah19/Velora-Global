@@ -96,7 +96,7 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
         <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 2.5rem auto' }}>
           <span className="badge badge-coral" style={{ marginBottom: '0.75rem' }}>Practical Work Experience</span>
           <h1 style={{ fontSize: '2.5rem', color: '#0b0f19', marginBottom: '0.75rem' }}>
-            Practical Project <span className="text-coral">Internships</span>
+            Project-Based <span className="text-coral">Tech Internships in Nepal</span>
           </h1>
           <p style={{ color: '#64748b', fontSize: '1.05rem', lineHeight: '1.6' }}>
             Build real deliverables in the domain you choose, with 1-to-1 mentor reviews. Pick the length when you apply: 2 Weeks (NPR 199) up to 6 Months (NPR 4,999).

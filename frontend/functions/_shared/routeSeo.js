@@ -16,7 +16,7 @@ import { buildRouteGraph, serializeGraph } from "./entity.js";
 const SITE = "https://velora-global.online";
 
 const HOMEPAGE = {
-  title: "Velora Global | Technology Training, Internships & Enterprise Solutions",
+  title: "Velora Global | Tech Training & Software Development in Nepal",
   description:
     "Custom web and mobile software, AI chatbot systems, project-driven internships and guided technology training from Velora Global in Kathmandu, Nepal.",
   canonical: SITE + "/",
@@ -25,7 +25,7 @@ const HOMEPAGE = {
 };
 
 const SERVICES = {
-  title: "Enterprise IT Solutions & Services | Velora Global",
+  title: "Tech Services & Software Development in Nepal | Velora Global",
   description:
     "Custom MERN web applications, cross-platform iOS and Android apps and AI chatbot systems, delivered in four steps with 30 days of post-launch support.",
   canonical: SITE + "/services",
@@ -34,7 +34,7 @@ const SERVICES = {
 };
 
 const INTERNSHIPS = {
-  title: "Practical Technology Internships | Velora Global",
+  title: "Project-Based Tech Internships in Nepal | Velora Global",
   description:
     "Project-driven technology internships with 1-to-1 mentorship, published grading criteria and a verifiable completion certificate, from NPR 199 for two weeks.",
   canonical: SITE + "/internships",
@@ -43,7 +43,7 @@ const INTERNSHIPS = {
 };
 
 const TRAINING = {
-  title: "Guided Skills Training & Bootcamps | Velora Global",
+  title: "Tech Training in Nepal | Guided Programs | Velora Global",
   description:
     "Guided technology training in frontend, backend, full stack with AI, machine learning, Python, Java, MERN, PERN, UI/UX and testing, from NPR 3,000 per program.",
   canonical: SITE + "/training",

@@ -33,12 +33,12 @@ export const pathToTabMap = {
 };
 
 export const pageTitles = {
-  home: 'Velora Global | Technology Training, Internships & Enterprise Solutions',
-  services: 'Enterprise IT Solutions & Services | Velora Global',
+  home: 'Velora Global | Tech Training & Software Development in Nepal',
+  services: 'Tech Services & Software Development in Nepal | Velora Global',
   about: 'About Velora Global | Company, Leadership & How We Work',
   team: 'Executive Leadership & Mentors | Velora Global',
-  internships: 'Practical Technology Internships | Velora Global',
-  training: 'Guided Skills Training & Bootcamps | Velora Global',
+  internships: 'Project-Based Tech Internships in Nepal | Velora Global',
+  training: 'Tech Training in Nepal | Guided Programs | Velora Global',
   privacy: 'Privacy Policy | Velora Global',
   terms: 'Terms & Conditions | Velora Global',
   client: 'Corporate Client Workspace | Velora Global',
