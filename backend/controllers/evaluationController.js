@@ -71,10 +71,9 @@ exports.evaluateTask = async (req, res) => {
       issueDate: new Date().toISOString().split('T')[0],
       duration: '8 Weeks',
       grade,
-      founderSignature: 'Ram Sah',
+      founderSignature: 'Rambilas Sah',
       founderTitle: 'Founder & CEO',
-      coFounders: ['Krishna Sah', 'Rohit Sah'],
-      verificationUrl: `https://veloraglobal.com/verify/${certId}`
+      verificationUrl: `https://velora-global.online/verify/${certId}`
     });
 
     await Application.updateOne({ id: task.applicationId }, { status: 'Completed' });

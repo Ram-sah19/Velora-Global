@@ -70,14 +70,8 @@
                         "certificateId": { "type": "string" },
                         "studentName": { "type": "string" },
                         "programTitle": { "type": "string" },
-                        "domain": { "type": "string" },
-                        "issueDate": { "type": "string", "format": "date-time" },
-                        "duration": { "type": "string" },
-                        "grade": { "type": "string" },
-                        "founderSignature": { "type": "string" },
-                        "founderTitle": { "type": "string" },
-                        "coFounders": { "type": "array", "items": { "type": "string" } },
-                        "verificationUrl": { "type": "string", "format": "uri" }
+                        "issueDate": { "type": "string" },
+                        "duration": { "type": "string" }
                       }
                     },
                     "issuer": { "type": "string", "example": "Velora Global" },

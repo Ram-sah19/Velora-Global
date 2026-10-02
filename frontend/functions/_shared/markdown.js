@@ -68,7 +68,7 @@ const SECTION = {
       "GET https://velora-global.online/api/certificates/verify/{certificateId}",
       "```",
       "",
-      "A known ID returns the recipient, domain, issue date, duration and grade. An unknown ID returns HTTP 404 with `{\"valid\": false}`."
+      "A known ID returns the recipient, program, issue date and duration. An unknown ID returns HTTP 404 with `{\"valid\": false}`."
     ].join("\n"),
 
   services: () =>

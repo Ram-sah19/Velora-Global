@@ -42,7 +42,7 @@ export const pageTitles = {
   privacy: 'Privacy Policy | Velora Global',
   terms: 'Terms & Conditions | Velora Global',
   client: 'Corporate Client Workspace | Velora Global',
-  admin: 'Executive Admin Dashboard | Velora Global'
+  admin: 'Staff Portal | Velora Global'
 };
 
 export const pageDescriptions = {
@@ -55,5 +55,5 @@ export const pageDescriptions = {
   privacy: 'How Velora Global collects, stores, shares and deletes personal data for students, interns and corporate clients, and how to request access or removal.',
   terms: 'The terms that govern Velora Global internship and training enrolment, client project delivery, certificates, fees and refunds.',
   client: 'Private client workspace for reviewing ongoing software deliverables, milestones, source code repositories, and project timelines.',
-  admin: 'Executive management portal for Velora Global administrators to oversee applications, internships, task reviews, and student certifications.'
+  admin: 'Private staff sign-in for the Velora Global administration area.'
 };

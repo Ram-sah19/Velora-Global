@@ -5,7 +5,7 @@ description: Verify a Velora Global internship or training certificate by checki
 
 # Verify Certificate Skill
 
-Use this skill to confirm whether a certificate ID was issued by Velora Global, and to read the record held against it: recipient, program, domain, issue date, duration and grade.
+Use this skill to confirm whether a certificate ID was issued by Velora Global, and to read the record held against it: recipient, program, issue date and duration.
 
 The endpoint is a lookup service. It returns the record on file; it does not return a cryptographic signature or proof of authenticity beyond that record.
 
@@ -30,14 +30,8 @@ Field names and nesting match the live payload; the values below are illustrativ
     "certificateId": "VG-2026-88491",
     "studentName": "Certificate Recipient",
     "programTitle": "Full Stack Development Internship",
-    "domain": "Full Stack Development",
-    "issueDate": "2026-08-05T00:00:00.000Z",
-    "duration": "8 Weeks",
-    "grade": "A+",
-    "founderSignature": "<signatory name>",
-    "founderTitle": "Founder & CEO",
-    "coFounders": ["<co-founder name>", "<co-founder name>"],
-    "verificationUrl": "https://velora-global.online/api/certificates/verify/VG-2026-88491"
+    "issueDate": "2026-08-05",
+    "duration": "8 Weeks"
   },
   "issuer": "Velora Global",
   "verifiedAt": "2026-09-28T09:49:02.921Z"

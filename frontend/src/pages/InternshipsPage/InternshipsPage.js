@@ -3,6 +3,7 @@ import { api } from '../../services/api';
 import InternshipDetailsModal from './InternshipDetailsModal';
 import { SkeletonCard } from '../../components/UIStates';
 import { AnswerSection, PageFaq } from '../../components';
+import CertificateVerifySection from '../../components/CertificateVerifySection';
 import { INTERNSHIP_APPLICATION_FORM_URL } from '../../constants';
 import { INTERNSHIP_PROGRAMS } from '../../content/programs';
 import { ANSWER_BLOCKS, FAQS } from '../../content/siteFacts';
@@ -99,7 +100,66 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
             Project-Based <span className="text-coral">Tech Internships in Nepal</span>
           </h1>
           <p style={{ color: '#64748b', fontSize: '1.05rem', lineHeight: '1.6' }}>
-            Build real deliverables in the domain you choose, with 1-to-1 mentor reviews. Pick the length when you apply: 2 Weeks (NPR 199) up to 6 Months (NPR 4,999).
+            Build real deliverables in the domain you choose, with 1-to-1 mentor reviews. You pick the
+            length when you apply, from two weeks to six months.
+          </p>
+        </div>
+
+        {/* What the fee pays for, and what the intern does */}
+        <div style={{
+          maxWidth: '900px',
+          margin: '0 auto 2.5rem auto',
+          padding: '1.75rem 1.9rem',
+          background: 'rgba(241, 245, 249, 0.75)',
+          border: '1px solid #e2e8f0',
+          borderRadius: '20px'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.9rem' }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ flexShrink: 0 }}>
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 16v-4" />
+              <path d="M12 8h.01" />
+            </svg>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.15rem', fontWeight: 800, color: '#0b0f19', margin: 0 }}>
+              The fee is for mentorship. The work is real client projects.
+            </h2>
+          </div>
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem 2.25rem' }}>
+            <div style={{ flex: '1 1 300px' }}>
+              <h3 className="notice-label" style={{ fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#475569', margin: '0 0 0.6rem' }}>
+                What your fee pays for
+              </h3>
+              <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#475569', fontSize: '0.93rem', lineHeight: '1.75' }}>
+                <li>1-to-1 mentor reviews of your code and architecture</li>
+                <li>Grading against the five published criteria</li>
+                <li>Workspace access, evaluation time and infrastructure</li>
+                <li>A completion certificate carrying a verification ID</li>
+              </ul>
+              <p style={{ margin: '0.7rem 0 0', color: '#64748b', fontSize: '0.9rem', lineHeight: '1.65' }}>
+                It is a mentorship fee, not payment for a job, and it buys nothing on its own: the
+                certificate is issued only after a graded deliverable.
+              </p>
+            </div>
+
+            <div style={{ flex: '1 1 300px' }}>
+              <h3 className="notice-label" style={{ fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#475569', margin: '0 0 0.6rem' }}>
+                What you actually work on
+              </h3>
+              <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#475569', fontSize: '0.93rem', lineHeight: '1.75' }}>
+                <li>A real-world project brief assigned to you in client work, in your track, not a simulation or a practice dataset</li>
+                <li>Reviewed the way production code is reviewed: your mentor reads the code and sends written remarks back</li>
+                <li>The stacks our client teams ship in: React, Node, React Native or Flutter, Python and AI tooling</li>
+                <li>Milestones that go out: you build, deploy, then submit for grading against the five published criteria</li>
+              </ul>
+            </div>
+          </div>
+
+          <p style={{ margin: '1.35rem 0 0', paddingTop: '1.1rem', borderTop: '1px solid #e2e8f0', color: '#334155', fontSize: '0.95rem', lineHeight: '1.7' }}>
+            You finish with a deployed project, a grade recorded against five
+            published criteria, and a certificate any employer or university can check on our{' '}
+            <a href="#verify-certificate" style={{ color: '#1d4ed8', fontWeight: 700 }}>public verification
+            form</a>.
           </p>
         </div>
 
@@ -163,6 +223,12 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
           </div>
 
         </div>
+
+        <p style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 2rem auto', fontSize: '0.85rem', color: '#64748b', lineHeight: '1.6' }}>
+          Applications go through a Google Form, so your answers are collected and stored by Google on
+          our account before we move them into your student workspace. What we keep and why is set out
+          in the <a href="/privacy-policy" style={{ color: '#2563eb', fontWeight: 600 }}>Privacy Policy</a>.
+        </p>
 
         {/* Programs Grid — Perfectly Aligned Equal Height Cards */}
         <div style={{
@@ -347,6 +413,8 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
             </div>
           )))}
         </div>
+
+        <CertificateVerifySection />
 
         <PageFaq items={FAQS.internships} />
 

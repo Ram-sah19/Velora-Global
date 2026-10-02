@@ -230,6 +230,12 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser }
 
         </div>
 
+        <p style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 2rem auto', fontSize: '0.85rem', color: '#64748b', lineHeight: '1.6' }}>
+          Applications go through a Google Form, so your answers are collected and stored by Google on
+          our account before we set up your sessions. What we keep and why is set out in the{' '}
+          <a href="/privacy-policy" style={{ color: '#2563eb', fontWeight: 600 }}>Privacy Policy</a>.
+        </p>
+
         {/* Programs Grid — Perfectly Aligned Equal Height Cards */}
         <div style={{
           display: 'grid',

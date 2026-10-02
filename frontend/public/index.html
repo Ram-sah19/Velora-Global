@@ -85,10 +85,12 @@
          reading navigator.modelContext.tools could pick a declaration that could never
          run. The bundle is the single source of truth. -->
 
-    <!-- Google Fonts: Plus Jakarta Sans (body) & Outfit (headings, --font-heading in index.css) -->
+    <!-- Google Fonts: Plus Jakarta Sans (body) & Outfit (headings, --font-heading in index.css).
+         Playfair Display + Great Vibes are used only by the issued certificate sheet; they ride on
+         this same request so the certificate never costs a second render-blocking stylesheet. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Outfit:wght@600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,400;1,500&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Bootstrap was loaded for its grid/utilities, but no Bootstrap class is used anywhere in
          src/ (layout is inline styles + index.css) and the CSP above refused it, so it cost a
@@ -197,7 +199,7 @@
               "name": "Are Velora Global internship certificates verifiable?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes. Every certificate we issue carries a unique verification ID such as VG-2026-88491. Anyone, including an employer or a university, can check it against our public verification endpoint at https://velora-global.online/api/certificates/verify/{certificateId}, which returns the recipient, domain, issue date, duration and grade on record."
+                "text": "Yes. Every certificate we issue carries a unique verification ID such as VG-2026-88491. Anyone, including an employer or a university, can check it against our public verification endpoint at https://velora-global.online/api/certificates/verify/{certificateId}, which returns the recipient, program, issue date and duration on record."
               }
             },
             {

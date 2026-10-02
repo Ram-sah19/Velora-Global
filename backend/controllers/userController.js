@@ -17,6 +17,11 @@ function safeUser(user) {
   const u = user.toObject ? user.toObject() : { ...user };
   delete u.password;
   delete u.__v;
+  // Callers that load a user with .select('+verificationOtp') must still not have
+  // the hash handed back to the browser — it is crackable offline.
+  ['resetToken', 'resetTokenExpiry', 'verificationToken', 'verificationTokenExpiry',
+    'verificationOtp', 'verificationOtpExpiry', 'phoneOtp', 'phoneOtpExpiry']
+    .forEach(field => delete u[field]);
   return u;
 }
 
@@ -452,7 +457,9 @@ exports.loginUser = async (req, res) => {
     }
 
     if (!user) {
-      return res.status(404).json({ error: 'Account not found with this email. Please sign up.' });
+      // One message for unknown account and wrong password, so the endpoint cannot
+      // be used to list registered email addresses.
+      return res.status(401).json({ error: 'Email or password is incorrect.' });
     }
 
     // Compare hashed password using bcrypt (bcrypt-only — no plaintext fallback)
@@ -462,7 +469,7 @@ exports.loginUser = async (req, res) => {
     }
 
     if (!passwordMatch) {
-      return res.status(401).json({ error: 'Invalid password. Please try again.' });
+      return res.status(401).json({ error: 'Email or password is incorrect.' });
     }
 
     create30DaySession(res, user);
@@ -501,8 +508,9 @@ exports.verifyOtp = async (req, res) => {
     }
 
     if (user.isVerified) {
-      create30DaySession(res, user);
-      return res.json({ message: 'Account is already verified!', user: safeUser(user) });
+      // No session here: this endpoint proves nothing about the caller, so minting
+      // one from an email address alone would let anyone take over any account.
+      return res.json({ message: 'Account is already verified! Please sign in with your password.' });
     }
 
     // Check 10-Minute OTP Expiry
@@ -621,13 +629,14 @@ exports.sendPhoneOtp = async (req, res) => {
     db.phoneOtps.push({ phone: fullPhone, hashedOtp, expiry });
     writeLocalDb(db);
 
-    const waResult = await sendWhatsAppOtp(cleanPhone, codePrefix, otpCode, name);
+    await sendWhatsAppOtp(cleanPhone, codePrefix, otpCode, name);
 
+    // The response must not carry the code or a link containing it — the caller
+    // would otherwise verify the number without receiving a WhatsApp message.
     res.json({
-      message: `WhatsApp OTP sent successfully to ${fullPhone} (${codePrefix === '+977' ? 'Nepal' : 'India'})! Valid for 10 minutes.`,
+      message: `WhatsApp OTP sent to ${fullPhone} (${codePrefix === '+977' ? 'Nepal' : 'India'}). Valid for 10 minutes.`,
       phone: fullPhone,
-      countryCode: codePrefix,
-      waLink: waResult.waLink
+      countryCode: codePrefix
     });
   } catch (err) {
     res.status(500).json({ error: 'Failed to send WhatsApp OTP code.' });
@@ -648,7 +657,6 @@ exports.verifyPhoneOtp = async (req, res) => {
     const codePrefix = countryCode.startsWith('+') ? countryCode : `+${countryCode}`;
 
     // Look up stored OTP from DB
-    const db = require('./db') ? null : null;
     let storedOtp = null;
     try {
       const u = await User.findOne({ phone: `${codePrefix}${cleanPhone}` }).select('+verificationOtp +verificationOtpExpiry');
@@ -677,6 +685,14 @@ exports.verifyPhoneOtp = async (req, res) => {
     const hashedInput = require('crypto').createHash('sha256').update(cleanOtp).digest('hex');
     if (storedOtp !== hashedInput) {
       return res.status(400).json({ error: 'Incorrect OTP code. Please try again.' });
+    }
+
+    // Consume the code so a captured one cannot be replayed for the rest of the window.
+    const { readLocalDb, writeLocalDb } = require('../db');
+    const localDb = readLocalDb();
+    if (localDb.phoneOtps) {
+      localDb.phoneOtps = localDb.phoneOtps.filter(o => o.phone !== `${codePrefix}${cleanPhone}`);
+      writeLocalDb(localDb);
     }
 
     res.json({
@@ -855,7 +871,6 @@ exports.forgotPassword = async (req, res) => {
       console.log(`📧 Password reset email sent to ${emailClean}`);
     } catch (emailErr) {
       console.error('Email send failed:', emailErr.message);
-      console.log(`🔑 [DEV FALLBACK RESET URL]: ${resetUrl}`);
       // In development mode, return success so testing isn't blocked by missing SMTP setup
       if (process.env.NODE_ENV !== 'production') {
         return res.json({ message: 'If that email is registered, a reset link has been sent.' });

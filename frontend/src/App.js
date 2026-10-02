@@ -34,6 +34,7 @@ const TrainingPage = lazy(() => import('./pages/TrainingPage'));
 const LegalPage = lazy(() => import('./pages/LegalPage'));
 const ClientWorkspacePage = lazy(() => import('./pages/ClientWorkspacePage'));
 const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage'));
+const StaffSignIn = lazy(() => import('./pages/AdminDashboardPage/StaffSignIn'));
 
 
 const getInitialTabFromUrl = () => {
@@ -73,7 +74,7 @@ export default function App() {
 
   // Dynamic Document Title & Meta Tags Sync (Per-Page Single-Page-App SEO)
   useEffect(() => {
-    const title = pageTitles[activeTab] || 'Velora Global | Career Gateway';
+    const title = pageTitles[activeTab] || 'Velora Global';
     const description = pageDescriptions[activeTab] || pageDescriptions.home;
     const url = `https://velora-global.online${tabToPathMap[activeTab] || '/'}`;
 
@@ -218,6 +219,11 @@ export default function App() {
     }
   };
 
+  const handleStaffSignIn = (user) => {
+    setCurrentUser(user);
+    localStorage.setItem('velora_user', JSON.stringify({ user, timestamp: Date.now() }));
+  };
+
   return (
     <ErrorBoundary>
       {/* Premium Brand Intro Splash — plays once per session */}
@@ -316,10 +322,15 @@ export default function App() {
               )}
 
               {activeTab === 'admin' && (
-                <AdminDashboardPage 
-                  currentUser={currentUser} 
-                  onLogout={handleLogout}
-                />
+                ['admin', 'superadmin'].includes(currentUser?.userType) ? (
+                  <AdminDashboardPage 
+                    currentUser={currentUser} 
+                    onCertificateOpen={setActiveCertificate}
+                    onLogout={handleLogout}
+                  />
+                ) : (
+                  <StaffSignIn onSignedIn={handleStaffSignIn} />
+                )
               )}
             </Suspense>
           </PageTransition>

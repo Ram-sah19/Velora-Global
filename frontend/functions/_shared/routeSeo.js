@@ -93,8 +93,8 @@ const CLIENT = {
 };
 
 const ADMIN = {
-  title: "Admin Dashboard | Velora Global",
-  description: "Signed-in administration area for Velora Global staff.",
+  title: "Staff Portal | Velora Global",
+  description: "Private staff sign-in for the Velora Global administration area.",
   canonical: SITE + "/admin",
   robots: "noindex, nofollow"
 };

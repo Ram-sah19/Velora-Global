@@ -89,7 +89,7 @@ export const FAQS = {
     {
       question: "Are Velora Global internship certificates verifiable?",
       answer:
-        "Yes. Every certificate we issue carries a unique verification ID such as VG-2026-88491. Anyone, including an employer or a university, can check it against our public verification endpoint at https://velora-global.online/api/certificates/verify/{certificateId}, which returns the recipient, domain, issue date, duration and grade on record."
+        "Yes. Every certificate we issue carries a unique verification ID such as VG-2026-88491. Anyone, including an employer or a university, can check it against our public verification endpoint at https://velora-global.online/api/certificates/verify/{certificateId}, which returns the recipient, program, issue date and duration on record."
     },
     {
       question: "Who evaluates student project submissions?",
@@ -141,6 +141,11 @@ export const FAQS = {
         "You choose the duration and the fee follows it: 2 weeks for NPR 199, 1 month for NPR 499, 2 months for NPR 999, 3 months for NPR 1,999, or 6 months for NPR 4,999. Every track runs remotely with 1-to-1 mentorship."
     },
     {
+      question: "What is the internship fee for?",
+      answer:
+        "It covers the mentorship and assessment side of the program: 1-to-1 code reviews, milestone grading against the five published criteria, workspace access, evaluation time and infrastructure, and the certificate record issued once your deliverable passes review. It is not payment for a job, and no fee guarantees placement."
+    },
+    {
       question: "Who can apply for a technology internship?",
       answer:
         "Frontend, mobile, cybersecurity, UI/UX and software testing tracks are open to all levels. Backend, full stack, data science and cloud DevOps tracks expect intermediate knowledge, and the AI/ML track expects intermediate to advanced experience."
@@ -148,12 +153,12 @@ export const FAQS = {
     {
       question: "What do interns actually work on?",
       answer:
-        "Interns build deliverables rather than watch lectures: responsive interface components, RESTful endpoints with authentication, deployed full stack or cross-platform applications, trained models behind an inference API, vulnerability audits, or automated test suites, depending on the track."
+        "Interns are assigned to a real-world client project brief in their track and build deliverables rather than watch lectures: responsive interface components, RESTful endpoints with authentication, deployed full stack or cross-platform applications, trained models behind an inference API, vulnerability audits, or automated test suites, depending on the project."
     },
     {
       question: "Is the completion certificate real?",
       answer:
-        "Yes. Each certificate carries a unique verification ID and is checked against our public endpoint at https://velora-global.online/api/certificates/verify/{certificateId}, which returns the recipient, domain, issue date, duration and grade on record."
+        "Yes. Each certificate carries a unique verification ID and is checked against our public endpoint at https://velora-global.online/api/certificates/verify/{certificateId}, which returns the recipient, program, issue date and duration on record."
     }
   ],
   training: [
