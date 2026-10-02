@@ -6,7 +6,8 @@ import {
   tabToPathMap,
   pathToTabMap,
   pageTitles,
-  pageDescriptions
+  pageDescriptions,
+  verifyPageMeta
 } from './constants';
 
 // Centralized Components & Motion System
@@ -34,15 +35,25 @@ const TrainingPage = lazy(() => import('./pages/TrainingPage'));
 const LegalPage = lazy(() => import('./pages/LegalPage'));
 const ClientWorkspacePage = lazy(() => import('./pages/ClientWorkspacePage'));
 const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage'));
+const StaffSignIn = lazy(() => import('./pages/AdminDashboardPage/StaffSignIn'));
+const VerifyCertificatePage = lazy(() => import('./pages/VerifyCertificatePage'));
 
+// A scanned certificate opens /verify/{certificateId}. The ID alphabet and length
+// match the ones the backend issues, so no malformed address reaches the page.
+const VERIFY_PATH = /^\/verify\/([A-Za-z0-9][A-Za-z0-9-]{3,31})$/;
+const SITE_ROBOTS = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
 
-const getInitialTabFromUrl = () => {
-  const path = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/';
-  return pathToTabMap[path] || 'home';
+const normalizePath = (pathname) => pathname.toLowerCase().replace(/\/$/, '') || '/';
+const getVerifyIdFromUrl = () => {
+  const match = window.location.pathname.match(VERIFY_PATH);
+  return match ? match[1] : null;
 };
+const tabForPath = (path) => pathToTabMap[path] || (VERIFY_PATH.test(path) ? 'verify' : 'home');
+const getInitialTabFromUrl = () => tabForPath(normalizePath(window.location.pathname));
 
 export default function App() {
   const [activeTab, setActiveTab] = useState(getInitialTabFromUrl);
+  const [verifyId, setVerifyId] = useState(getVerifyIdFromUrl);
   const mainRef = useRef(null);
   const [selectedServiceCategory, setSelectedServiceCategory] = useState('all');
   const [activeCertificate, setActiveCertificate] = useState(null);
@@ -73,15 +84,20 @@ export default function App() {
 
   // Dynamic Document Title & Meta Tags Sync (Per-Page Single-Page-App SEO)
   useEffect(() => {
-    const title = pageTitles[activeTab] || 'Velora Global | Career Gateway';
-    const description = pageDescriptions[activeTab] || pageDescriptions.home;
-    const url = `https://velora-global.online${tabToPathMap[activeTab] || '/'}`;
+    const verifying = activeTab === 'verify';
+    const title = (verifying ? verifyPageMeta(verifyId).title : pageTitles[activeTab]) || 'Velora Global';
+    const description = (verifying ? verifyPageMeta(verifyId).description : pageDescriptions[activeTab]) || pageDescriptions.home;
+    const url = `https://velora-global.online${verifying ? `/verify/${verifyId}` : tabToPathMap[activeTab] || '/'}`;
 
     document.title = title;
 
     // Update meta description
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) metaDesc.setAttribute('content', description);
+
+    // A certificate lookup is a record, not a page to rank, so it stays out of the index.
+    const metaRobots = document.querySelector('meta[name="robots"]');
+    if (metaRobots) metaRobots.setAttribute('content', verifying ? 'noindex, follow' : SITE_ROBOTS);
 
     // Update Open Graph tags
     const ogTitle = document.querySelector('meta[property="og:title"]');
@@ -112,11 +128,14 @@ export default function App() {
 
     const twUrl = document.querySelector('meta[name="twitter:url"]');
     if (twUrl) twUrl.setAttribute('content', url);
-  }, [activeTab]);
+  }, [activeTab, verifyId]);
+
+  // The verification route carries its ID in the path, so it cannot come from the static map.
+  const pathForTab = (tab) => (tab === 'verify' ? `/verify/${verifyId}` : tabToPathMap[tab] || '/');
 
   // Helper to sync browser URL bar with selected tab
   const navigateTab = (tab, replace = false) => {
-    const targetPath = tabToPathMap[tab] || '/';
+    const targetPath = pathForTab(tab);
     if (window.location.pathname !== targetPath) {
       if (replace) {
         window.history.replaceState({ tab }, '', targetPath);
@@ -129,9 +148,8 @@ export default function App() {
   // Sync tab state when user navigates using browser back / forward buttons
   useEffect(() => {
     const handlePopState = () => {
-      const path = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/';
-      const tab = pathToTabMap[path] || 'home';
-      setActiveTab(tab);
+      setActiveTab(tabForPath(normalizePath(window.location.pathname)));
+      setVerifyId(getVerifyIdFromUrl());
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -140,7 +158,7 @@ export default function App() {
 
   // Ensure initial URL reflects current tab
   useEffect(() => {
-    const targetPath = tabToPathMap[activeTab] || '/';
+    const targetPath = pathForTab(activeTab);
     if (window.location.pathname !== targetPath) {
       window.history.replaceState({ tab: activeTab }, '', targetPath);
     }
@@ -193,6 +211,8 @@ export default function App() {
         navigateTab('client', true);
       }
     }
+    // navigateTab only reads window.history, so the redirect must not re-run on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser, activeTab]);
 
   const handleTabChange = (tab, replace = false) => {
@@ -216,6 +236,11 @@ export default function App() {
       setCurrentUser(null);
       handleTabChange('home');
     }
+  };
+
+  const handleStaffSignIn = (user) => {
+    setCurrentUser(user);
+    localStorage.setItem('velora_user', JSON.stringify({ user, timestamp: Date.now() }));
   };
 
   return (
@@ -300,6 +325,10 @@ export default function App() {
                 />
               )}
 
+              {activeTab === 'verify' && (
+                <VerifyCertificatePage certificateId={verifyId} />
+              )}
+
               {(activeTab === 'privacy' || activeTab === 'terms') && (
                 <LegalPage
                   kind={activeTab}
@@ -316,10 +345,15 @@ export default function App() {
               )}
 
               {activeTab === 'admin' && (
-                <AdminDashboardPage 
-                  currentUser={currentUser} 
-                  onLogout={handleLogout}
-                />
+                ['admin', 'superadmin'].includes(currentUser?.userType) ? (
+                  <AdminDashboardPage 
+                    currentUser={currentUser} 
+                    onCertificateOpen={setActiveCertificate}
+                    onLogout={handleLogout}
+                  />
+                ) : (
+                  <StaffSignIn onSignedIn={handleStaffSignIn} />
+                )
               )}
             </Suspense>
           </PageTransition>

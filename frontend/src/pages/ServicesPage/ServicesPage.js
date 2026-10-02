@@ -79,7 +79,7 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
         <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 2.5rem auto' }}>
           <span className="badge badge-coral" style={{ marginBottom: '0.75rem' }}>Enterprise Tech Solutions</span>
           <h1 style={{ fontSize: '2.5rem', color: '#0b0f19', marginBottom: '1rem', lineHeight: '1.2' }}>
-            Custom Web, Mobile &amp; AI <span className="text-coral">Software Development</span>
+            <span className="text-coral">Tech Services</span> &amp; Custom Software Development in Nepal
           </h1>
           <p style={{ color: '#64748b', fontSize: '1.1rem', lineHeight: '1.6' }}>
             Velora Global builds and ships the full stack of a product — web portals and SaaS systems, cross-platform iOS and Android apps, and AI assistants trained on your own documents.

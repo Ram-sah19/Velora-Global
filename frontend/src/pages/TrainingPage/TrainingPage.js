@@ -116,7 +116,7 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser }
         <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 2.5rem auto' }}>
           <span className="badge badge-blue" style={{ marginBottom: '0.75rem' }}>Guided Skill Accelerator</span>
           <h1 style={{ fontSize: '2.5rem', color: '#0b0f19', marginBottom: '0.75rem' }}>
-            Structured Skill <span className="text-blue">Training Programs</span>
+            Tech <span className="text-blue">Training in Nepal</span>
           </h1>
           <p style={{ color: '#64748b', fontSize: '1.05rem', lineHeight: '1.6' }}>
             Instructor-led programs in high-demand stacks and languages, with live sessions, step-by-step builds and a full codebase walkthrough. Every program ends with a certificate carrying a verifiable ID.
@@ -229,6 +229,12 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser }
           </div>
 
         </div>
+
+        <p style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 2rem auto', fontSize: '0.85rem', color: '#64748b', lineHeight: '1.6' }}>
+          Applications go through a Google Form, so your answers are collected and stored by Google on
+          our account before we set up your sessions. What we keep and why is set out in the{' '}
+          <a href="/privacy-policy" style={{ color: '#2563eb', fontWeight: 600 }}>Privacy Policy</a>.
+        </p>
 
         {/* Programs Grid — Perfectly Aligned Equal Height Cards */}
         <div style={{

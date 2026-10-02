@@ -453,6 +453,13 @@ export default function ContactSection() {
                   />
                 </div>
 
+                <p style={{ margin: 0, fontSize: '0.82rem', color: '#64748b', lineHeight: '1.6' }}>
+                  Submitting this form means you agree to our{' '}
+                  <a href="/terms" style={{ color: '#2563eb', fontWeight: 600 }}>Terms &amp; Conditions</a>
+                  {' '}and confirm we may reply to you, as described in our{' '}
+                  <a href="/privacy-policy" style={{ color: '#2563eb', fontWeight: 600 }}>Privacy Policy</a>.
+                </p>
+
                 <button
                   type="submit"
                   disabled={status.loading}

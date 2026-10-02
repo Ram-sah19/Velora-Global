@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const taskController = require('../controllers/taskController');
-const { requireAdmin } = require('../middleware/authMiddleware');
+const { requireAuth, requireAdmin } = require('../middleware/authMiddleware');
 
-// Public: Students view their own tasks (filtered by studentId in query)
-router.get('/', taskController.getTasks);
-router.put('/:id/submit', taskController.submitTask);
+// Tasks name a student and their program, so the full list is a staff view.
+router.get('/', requireAdmin, taskController.getTasks);
+// Submitting is a student action and must come from a signed-in account.
+router.put('/:id/submit', requireAuth, taskController.submitTask);
 
 // Admin only: Assign tasks to students
 router.post('/assign', requireAdmin, taskController.assignTask);

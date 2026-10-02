@@ -7,7 +7,7 @@
       "version": "1.0.0",
       "description": "Verify a Velora Global certificate ID against the public verification endpoint and read the record held against it.",
       "url": "https://velora-global.online/.well-known/agent-skills/verify-certificate/SKILL.md",
-      "digest": "sha256:a118075256d7ea0f815d8423ff1ec0fb45889dc4d72aabc23656410049f48028"
+      "digest": "sha256:975e86e97fa2e726f20ef9fe7520fbde74f8883853b1e7ddb75334a20fe7752d"
     },
     {
       "name": "explore-internships",

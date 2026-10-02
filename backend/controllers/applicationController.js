@@ -23,7 +23,7 @@ exports.getApplications = async (req, res) => {
     if (studentId || studentEmail) {
       const orClauses = [];
       if (studentId) orClauses.push({ studentId });
-      if (studentEmail) orClauses.push({ studentEmail: new RegExp(`^${studentEmail.trim()}$`, 'i') });
+      if (studentEmail) orClauses.push({ studentEmail: new RegExp(`^${studentEmail.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') });
       if (orClauses.length > 0) filter.$or = orClauses;
     }
     if (status && status !== 'All') filter.status = status;
@@ -69,19 +69,22 @@ exports.getApplications = async (req, res) => {
 
 exports.submitApplication = async (req, res) => {
   try {
-    const { 
-      studentId, 
-      studentName, 
-      studentEmail, 
-      programId, 
-      programTrack, 
-      selectedDuration, 
-      feeAmount, 
-      statementOfPurpose, 
-      portfolioUrl, 
-      resumeUrl 
+    const {
+      programId,
+      programTrack,
+      selectedDuration,
+      feeAmount,
+      statementOfPurpose,
+      portfolioUrl,
+      resumeUrl
     } = req.body;
-    
+
+    // Identity comes from the session, never from the request body: the previous
+    // shape let anyone file an enrollment carrying somebody else's name and email.
+    const studentId = req.user.id;
+    const studentName = req.user.name || 'Student Candidate';
+    const studentEmail = req.user.email || '';
+
     let programTitle = 'Software Engineering Program';
     let domain = 'Software Engineering';
 
@@ -100,16 +103,16 @@ exports.submitApplication = async (req, res) => {
       }
     }
 
-    const initialStatus = req.body.status || 'Approved';
+    const initialStatus = 'Approved';
     const startDate = new Date();
     const days = calculateDurationDays(selectedDuration || '1 Month');
     const endDate = new Date(startDate.getTime() + days * 24 * 60 * 60 * 1000);
 
     const newApp = {
       id: `app-${Date.now()}`,
-      studentId: studentId || `user-temp-${Date.now()}`,
-      studentName: studentName || 'Student Candidate',
-      studentEmail: studentEmail || '',
+      studentId,
+      studentName,
+      studentEmail,
       programId: programId || 'prog-fe-1',
       programTitle,
       domain,
@@ -117,7 +120,6 @@ exports.submitApplication = async (req, res) => {
       selectedDuration: selectedDuration || '1 Month',
       feeAmount: feeAmount || 499,
       status: initialStatus,
-      enrolledBy: req.body.enrolledBy || 'Administrator',
       accessStartDate: startDate.toISOString(),
       accessEndDate: endDate.toISOString(),
       appliedDate: new Date().toISOString().split('T')[0],

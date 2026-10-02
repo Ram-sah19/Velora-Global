@@ -15,8 +15,12 @@ import { buildRouteGraph, serializeGraph } from "./entity.js";
 
 const SITE = "https://velora-global.online";
 
+// The same ID alphabet and length ceiling the backend issues and validates
+// (Certificate ID pattern in controllers/certificateController.js).
+const VERIFY_PATH = /^\/verify\/([A-Za-z0-9][A-Za-z0-9-]{3,31})$/;
+
 const HOMEPAGE = {
-  title: "Velora Global | Technology Training, Internships & Enterprise Solutions",
+  title: "Velora Global | Tech Training & Software Development in Nepal",
   description:
     "Custom web and mobile software, AI chatbot systems, project-driven internships and guided technology training from Velora Global in Kathmandu, Nepal.",
   canonical: SITE + "/",
@@ -25,7 +29,7 @@ const HOMEPAGE = {
 };
 
 const SERVICES = {
-  title: "Enterprise IT Solutions & Services | Velora Global",
+  title: "Tech Services & Software Development in Nepal | Velora Global",
   description:
     "Custom MERN web applications, cross-platform iOS and Android apps and AI chatbot systems, delivered in four steps with 30 days of post-launch support.",
   canonical: SITE + "/services",
@@ -34,7 +38,7 @@ const SERVICES = {
 };
 
 const INTERNSHIPS = {
-  title: "Practical Technology Internships | Velora Global",
+  title: "Project-Based Tech Internships in Nepal | Velora Global",
   description:
     "Project-driven technology internships with 1-to-1 mentorship, published grading criteria and a verifiable completion certificate, from NPR 199 for two weeks.",
   canonical: SITE + "/internships",
@@ -43,7 +47,7 @@ const INTERNSHIPS = {
 };
 
 const TRAINING = {
-  title: "Guided Skills Training & Bootcamps | Velora Global",
+  title: "Tech Training in Nepal | Guided Programs | Velora Global",
   description:
     "Guided technology training in frontend, backend, full stack with AI, machine learning, Python, Java, MERN, PERN, UI/UX and testing, from NPR 3,000 per program.",
   canonical: SITE + "/training",
@@ -93,8 +97,8 @@ const CLIENT = {
 };
 
 const ADMIN = {
-  title: "Admin Dashboard | Velora Global",
-  description: "Signed-in administration area for Velora Global staff.",
+  title: "Staff Portal | Velora Global",
+  description: "Private staff sign-in for the Velora Global administration area.",
   canonical: SITE + "/admin",
   robots: "noindex, nofollow"
 };
@@ -134,6 +138,21 @@ export const ROUTE_SEO = {
 };
 
 export function getRouteSeo(pathname) {
+  // A scanned certificate lands on /verify/{id}. Each ID is its own document, so it
+  // canonicalizes to itself and stays out of the index rather than duplicating the
+  // pages that describe the program.
+  const verify = (pathname || '').replace(/\/$/, '').match(VERIFY_PATH);
+  if (verify) {
+    const certificateId = verify[1];
+    return {
+      title: `Certificate Verification ${certificateId} | Velora Global`,
+      description:
+        `Checks the certificate record Velora Global holds against ${certificateId}: recipient, program, duration and issue date.`,
+      canonical: SITE + '/verify/' + certificateId,
+      robots: 'noindex, follow'
+    };
+  }
+
   let path = (pathname || "/").toLowerCase();
   if (path.length > 1) {
     path = path.replace(/\/+$/, "");

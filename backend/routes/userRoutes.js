@@ -32,6 +32,14 @@ const resetPasswordLimiter = rateLimit({
   legacyHeaders: false
 });
 
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: isDev ? 200 : 10,
+  message: { error: 'Too many sign-in attempts. Please wait 15 minutes and try again.' },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
 // ─── Public routes ──────────────────────────────────────────────────────────
 
 // Founders — cached in-memory for 10 minutes (sub-2ms response)
@@ -52,7 +60,7 @@ router.post('/register-admin', rateLimit({
   standardHeaders: true, legacyHeaders: false
 }), userController.registerAdmin);
 
-router.post('/login', userController.loginUser);
+router.post('/login', loginLimiter, userController.loginUser);
 
 router.post('/forgot-password', forgotPasswordLimiter, userController.forgotPassword);
 router.post('/reset-password', resetPasswordLimiter, userController.resetPassword);

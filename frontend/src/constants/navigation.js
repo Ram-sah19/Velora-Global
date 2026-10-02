@@ -33,16 +33,16 @@ export const pathToTabMap = {
 };
 
 export const pageTitles = {
-  home: 'Velora Global | Technology Training, Internships & Enterprise Solutions',
-  services: 'Enterprise IT Solutions & Services | Velora Global',
+  home: 'Velora Global | Tech Training & Software Development in Nepal',
+  services: 'Tech Services & Software Development in Nepal | Velora Global',
   about: 'About Velora Global | Company, Leadership & How We Work',
   team: 'Executive Leadership & Mentors | Velora Global',
-  internships: 'Practical Technology Internships | Velora Global',
-  training: 'Guided Skills Training & Bootcamps | Velora Global',
+  internships: 'Project-Based Tech Internships in Nepal | Velora Global',
+  training: 'Tech Training in Nepal | Guided Programs | Velora Global',
   privacy: 'Privacy Policy | Velora Global',
   terms: 'Terms & Conditions | Velora Global',
   client: 'Corporate Client Workspace | Velora Global',
-  admin: 'Executive Admin Dashboard | Velora Global'
+  admin: 'Staff Portal | Velora Global'
 };
 
 export const pageDescriptions = {
@@ -55,5 +55,16 @@ export const pageDescriptions = {
   privacy: 'How Velora Global collects, stores, shares and deletes personal data for students, interns and corporate clients, and how to request access or removal.',
   terms: 'The terms that govern Velora Global internship and training enrolment, client project delivery, certificates, fees and refunds.',
   client: 'Private client workspace for reviewing ongoing software deliverables, milestones, source code repositories, and project timelines.',
-  admin: 'Executive management portal for Velora Global administrators to oversee applications, internships, task reviews, and student certifications.'
+  admin: 'Private staff sign-in for the Velora Global administration area.'
 };
+
+/**
+ * A certificate lookup page exists per certificate ID, so its metadata is built
+ * from the ID instead of sitting in the maps above. functions/_shared/routeSeo.js
+ * carries the same copy for the served HTML, and scripts/verify-route-seo.mjs
+ * fails when the two disagree.
+ */
+export const verifyPageMeta = (certificateId) => ({
+  title: `Certificate Verification ${certificateId} | Velora Global`,
+  description: `Checks the certificate record Velora Global holds against ${certificateId}: recipient, program, duration and issue date.`
+});

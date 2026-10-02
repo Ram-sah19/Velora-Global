@@ -51,7 +51,10 @@ const corsOptions = {
 
     const isAllowed =
       allowedOrigins.includes(origin) ||
-      origin.endsWith('.pages.dev') ||
+      // Branch previews live at velora-global-<branch>.pages.dev. A bare
+      // endsWith('.pages.dev') here would have let any Cloudflare project on any
+      // account read credentialed responses, because credentials are enabled below.
+      /^https:\/\/(velora-global(-[a-z0-9-]+)?|[a-z0-9-]+\.velora-global)\.pages\.dev$/.test(origin) ||
       (process.env.CLIENT_ORIGIN && origin === process.env.CLIENT_ORIGIN);
 
     if (isAllowed) {
@@ -67,60 +70,68 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // ─── 2.1 AI AGENT DISCOVERY & MARKDOWN NEGOTIATION ────────────────────────────
-const SITE_MARKDOWN = `# Velora Global — Technology Training, Internships & Enterprise Solutions
+const SITE_MARKDOWN = `# Velora Global — Tech Training, Internships & Software Development in Nepal
 
-> Official Career Gateway delivering industry-aligned internship & training opportunities with purpose, precision, and verified credentials.
-
----
-
-## Executive Leadership & Headquarters
-- **Headquarters**: Balkumari, Ring Road, Kathmandu Valley, Bagmati Province, Nepal (44600)
-- **Contact Helpline**: +977 9826031419 (WhatsApp & Direct Helpline) | support@velora-global.online
-- **Ram Sah** — Founder & CEO (ram@veloraglobal.com)
-- **Krishna Sah** — Co-Founder & CTO (krishna@veloraglobal.com)
-- **Rohit Sah** — Co-Founder & COO (rohit@veloraglobal.com)
-- **Shivshankar Sah** — Contracts & Operations Director (shivshankar@veloraglobal.com)
+> Technology company based in Kathmandu, Nepal. We build custom web, mobile and AI software for clients, and run project-driven internships and instructor-led training programs. Founded 2026.
 
 ---
 
-## Specialized Technology Internship Tracks
-1. Full Stack Web Development (MERN, Next.js)
-2. Backend & Cloud Infrastructure (Node.js, Docker, Microservices)
-3. Frontend & Modern UI/UX (React 19, Tailwind, Accessibility)
-4. AI, Machine Learning & Data Science (Python, PyTorch, LLMs)
-5. Mobile App Engineering (Flutter, React Native)
-6. Cybersecurity & Ethical Hacking
-7. DevOps & Cloud Engineering (AWS, GCP, CI/CD)
-8. Data Analytics & Business Intelligence
-9. Digital Marketing & Growth Systems
-10. Graphic & Product UI Design
+## Headquarters & Contact
+- **Location**: Balkumari, Ring Road, Kathmandu Valley, Bagmati Province, Nepal (44600)
+- **Email**: info@velora-global.online
+- **Phone / WhatsApp**: +977 9826031419
+- **Time zone**: Kathmandu, UTC+5:45
 
-### Pricing in NPR:
-- 2 Weeks: NPR 199 | 1 Month: NPR 499 | 2 Months: NPR 999 | 3 Months: NPR 1,999 | 6 Months: NPR 4,999
+## Team
+- **Abhishek Sah** — Founder & CEO
+- **Krishna Sah** — Co-Founder & CTO
+- **Rohit Sah** — Co-Founder & COO
+- **Shivshankar Sah** — Contracts & Operations Director
+- **Ram Sah** — Website & Engineering
+
+---
+
+## Client Services
+1. Web application development (MERN stack, REST and GraphQL APIs)
+2. Cross-platform mobile apps on one React Native or Flutter codebase
+3. AI chatbots and workflow automation (Python, LangChain, OpenAI and Gemini APIs)
+
+Engagements run in four published steps: discovery meeting, written scope blueprint, agile sprints with live staging demos, then launch with full source code transfer and 30 days of post-launch support. Client work is quoted per project after the scoping meeting; there is no fixed rate card.
+
+## Internship Tracks (13 domains)
+Frontend Development, Backend Development, Full Stack Development, Mobile App Development, Artificial Intelligence & Machine Learning, Data Science, Cybersecurity, UI/UX Design, Cloud & DevOps, Software Testing, JavaScript, Java, Python
+
+You choose the duration, and the fee follows it: 2 Weeks NPR 199 | 1 Month NPR 499 | 2 Months NPR 999 | 3 Months NPR 1,999 | 6 Months NPR 4,999. Interns are assigned a real-world project brief and graded against five published criteria.
+
+## Training Programs (13 programs, NPR 3,000 to NPR 12,000)
+Frontend with React.js, Backend with Node.js, Full Stack with AI Integration, AI & Machine Learning Engineering, Deep Learning & Neural Networks, JavaScript ES6+, Java with Spring Boot & Microservices, Python Automation & Scripting, MERN Stack, PERN Stack, UI/UX Product Design in Figma, Software Testing & QA Automation, Mobile App Engineering
+
+Instructor-led: live sessions, step-by-step builds and a full codebase walkthrough, ending in a certificate with a verifiable ID.
+
+## Applications
+Applications are collected through Google Forms and reviewed by the leadership team.
+- Internship: https://forms.gle/MEfqFcLcFaybJ2Dq5
+- Training: https://forms.gle/a4zqUUQ3eCP6141a8
+- 1-on-1 career counselling: https://forms.gle/WQtcGspuwXZtbUu5A
 
 ---
 
 ## AI Agent Endpoints
-- **Agent Resource Discovery (ARD)**: https://velora-global.online/.well-known/ai-catalog.json
-- **MCP Server Card**: https://velora-global.online/.well-known/mcp/server-card.json
+- **AI Catalog**: https://velora-global.online/.well-known/ai-catalog.json
 - **Agent Skills Index**: https://velora-global.online/.well-known/agent-skills/index.json
 - **API Catalog (RFC 9727)**: https://velora-global.online/.well-known/api-catalog
-- **Auth.md Agent Guide**: https://velora-global.online/auth.md
 - **OpenAPI 3.0 Specification**: https://velora-global.online/openapi.json
-- **Certificate Verification**: GET https://velora-global.online/api/certificates/:id
+- **Certificate Verification**: GET https://velora-global.online/api/certificates/verify/{certificateId} — returns the certificate ID, recipient name, program, issue date and duration on record.
 `;
 
 app.use((req, res, next) => {
   // Inject RFC 8288 / RFC 9727 Link headers on all responses
   res.setHeader(
     'Link',
-    '</.well-known/api-catalog>; rel="api-catalog", </.well-known/ai-catalog.json>; rel="ai-catalog", </.well-known/agent-skills/index.json>; rel="agent-skills", </.well-known/mcp/server-card.json>; rel="mcp-server-card", </auth.md>; rel="service-desc", </openapi.json>; rel="service-desc"; type="application/openapi+json", </docs/api>; rel="service-doc"'
+    '</.well-known/api-catalog>; rel="api-catalog", </.well-known/ai-catalog.json>; rel="ai-catalog", </.well-known/agent-skills/index.json>; rel="agent-skills", </openapi.json>; rel="service-desc"; type="application/openapi+json", </sitemap.xml>; rel="alternate"; type="application/xml"'
   );
 
   const accept = req.headers['accept'] || '';
-  if (req.path === '/auth.md') {
-    return next();
-  }
   if (
     (accept.includes('text/markdown') || accept.includes('text/x-markdown')) &&
     !req.path.startsWith('/api') &&
@@ -139,10 +150,6 @@ app.use((req, res, next) => {
 const publicDir = path.join(__dirname, '../frontend/public');
 if (fs.existsSync(publicDir)) {
   app.use('/.well-known', express.static(path.join(publicDir, '.well-known')));
-  app.use('/auth.md', (req, res) => {
-    res.setHeader('Content-Type', 'text/markdown; charset=utf-8');
-    res.sendFile(path.join(publicDir, 'auth.md'));
-  });
   app.use('/openapi.json', (req, res) => {
     res.setHeader('Content-Type', 'application/openapi+json; charset=utf-8');
     res.sendFile(path.join(publicDir, 'openapi.json'));

@@ -285,7 +285,7 @@ export default function ProjectCarousel3D({ onConsultationClick }) {
           Interfaces and architectures we design when a brief calls for them. These are concept builds, not live client platforms: we do not publish client names, URLs or results without permission.
         </p>
       </div>
-
+ 
       {/* ── SEGMENTED PILL SWITCHER ── */}
       <div style={{
         display: 'flex',

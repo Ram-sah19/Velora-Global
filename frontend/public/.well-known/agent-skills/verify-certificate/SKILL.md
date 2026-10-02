@@ -5,7 +5,7 @@ description: Verify a Velora Global internship or training certificate by checki
 
 # Verify Certificate Skill
 
-Use this skill to confirm whether a certificate ID was issued by Velora Global, and to read the record held against it: recipient, program, domain, issue date, duration and grade.
+Use this skill to confirm whether a certificate ID was issued by Velora Global, and to read the record held against it: recipient, program, issue date and duration.
 
 The endpoint is a lookup service. It returns the record on file; it does not return a cryptographic signature or proof of authenticity beyond that record.
 
@@ -25,22 +25,18 @@ Accept: application/json
 Field names and nesting match the live payload; the values below are illustrative placeholders, not a real recipient's record.
 ```json
 {
-  "valid": true,
+  "success": true,
+  "verified": true,
   "certificate": {
     "certificateId": "VG-2026-88491",
-    "studentName": "Certificate Recipient",
-    "programTitle": "Full Stack Development Internship",
-    "domain": "Full Stack Development",
-    "issueDate": "2026-08-05T00:00:00.000Z",
+    "name": "Certificate Recipient",
+    "program": "Full Stack Development Internship",
     "duration": "8 Weeks",
-    "grade": "A+",
-    "founderSignature": "<signatory name>",
-    "founderTitle": "Founder & CEO",
-    "coFounders": ["<co-founder name>", "<co-founder name>"],
-    "verificationUrl": "https://velora-global.online/api/certificates/verify/VG-2026-88491"
-  },
-  "issuer": "Velora Global",
-  "verifiedAt": "2026-09-28T09:49:02.921Z"
+    "issuedDate": "2026-08-05",
+    "organization": "Velora Global"
+  }
 }
 ```
-An ID with no record returns `404` with `{"valid": false, "message": "Certificate ID not found in Velora Global records"}`.
+An ID with no record returns `404` with `{"success": true, "verified": false, "message": "Certificate not found"}`, and an address that is not a certificate ID returns `400` with `{"success": true, "verified": false, "message": "Not a valid certificate ID"}`.
+
+Recipients and employers can read the same record in a browser at `https://velora-global.online/verify/:certificateId` — that is the URL printed as the certificate QR code.

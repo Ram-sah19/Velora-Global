@@ -63,25 +63,34 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "valid": { "type": "boolean", "example": true },
+                    "success": { "type": "boolean", "example": true },
+                    "verified": { "type": "boolean", "example": true },
                     "certificate": {
                       "type": "object",
                       "properties": {
                         "certificateId": { "type": "string" },
-                        "studentName": { "type": "string" },
-                        "programTitle": { "type": "string" },
-                        "domain": { "type": "string" },
-                        "issueDate": { "type": "string", "format": "date-time" },
+                        "name": { "type": "string" },
+                        "program": { "type": "string" },
                         "duration": { "type": "string" },
-                        "grade": { "type": "string" },
-                        "founderSignature": { "type": "string" },
-                        "founderTitle": { "type": "string" },
-                        "coFounders": { "type": "array", "items": { "type": "string" } },
-                        "verificationUrl": { "type": "string", "format": "uri" }
+                        "issuedDate": { "type": "string" },
+                        "organization": { "type": "string", "example": "Velora Global" }
                       }
-                    },
-                    "issuer": { "type": "string", "example": "Velora Global" },
-                    "verifiedAt": { "type": "string", "format": "date-time" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The address is not a certificate ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "verified": { "type": "boolean", "example": false },
+                    "message": { "type": "string", "example": "Not a valid certificate ID" }
                   }
                 }
               }
@@ -94,8 +103,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "valid": { "type": "boolean", "example": false },
-                    "message": { "type": "string", "example": "Certificate ID not found in Velora Global records" }
+                    "success": { "type": "boolean", "example": true },
+                    "verified": { "type": "boolean", "example": false },
+                    "message": { "type": "string", "example": "Certificate not found" }
                   }
                 }
               }

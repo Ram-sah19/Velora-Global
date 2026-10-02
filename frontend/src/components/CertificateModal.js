@@ -1,207 +1,188 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import VeloraLogo from './VeloraLogo';
+import QrCode from './QrCode';
 import { useDialog } from './DialogShell';
+import { showToast } from './NotificationToast';
+import { ORG_FACTS } from '../content/siteFacts';
+
+const icon = (paths) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    {paths}
+  </svg>
+);
+
+const issuedOn = (date) => {
+  const parsed = new Date(`${date}T00:00:00`);
+  return Number.isNaN(parsed.getTime())
+    ? date
+    : parsed.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+};
 
 export default function CertificateModal({ certificate, onClose }) {
   const panelRef = useDialog(!!certificate, onClose);
+  const sheetRef = useRef(null);
+  const [saving, setSaving] = useState(false);
 
   if (!certificate) return null;
 
-  const handlePrint = () => {
-    window.print();
-  };
+  const { certificateId, studentName, programTitle, duration, issueDate, grade } = certificate;
+  const verifyUrl = `${ORG_FACTS.url}/verify/${certificateId}`;
+  const domain = (certificate.domain || programTitle || '')
+    .replace(/\s+(internship|program|training)$/i, '')
+    .replace(/Developer$/i, 'Development');
+
+  const facts = [
+    { label: 'Internship Domain', value: domain, paths: (<><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" /><path d="M3 12h18" /></>) },
+    { label: 'Duration', value: duration, paths: (<><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M8 3v4M16 3v4M3 10h18" /></>) },
+    { label: 'Program', value: 'Internship Program', paths: (<><path d="M2 8.5 12 4l10 4.5L12 13 2 8.5Z" /><path d="M6 10.6V15c0 1.7 2.7 3 6 3s6-1.3 6-3v-4.4" /><path d="M22 8.5V14" /></>) },
+    { label: 'Issued on', value: issuedOn(issueDate), paths: (<><circle cx="12" cy="9" r="5" /><path d="M9 13.4 7.5 21l4.5-2.6L16.5 21 15 13.4" /></>) }
+  ];
+
+  // Rasterized at the print base unit, so the file matches the printed page.
+  async function downloadCertificate() {
+    setSaving(true);
+    try {
+      const [{ toJpeg }, { default: pdfFromJpeg }] = await Promise.all([
+        import('html-to-image'),
+        import('./certificatePdf')
+      ]);
+      const sheet = sheetRef.current;
+      const scale = 14.6 / parseFloat(getComputedStyle(sheet).fontSize);
+      const dataUrl = await toJpeg(sheet, {
+        pixelRatio: 3,
+        quality: 0.95,
+        backgroundColor: '#f8f4ea',
+        width: Math.round(sheet.offsetWidth * scale),
+        height: Math.round(sheet.offsetHeight * scale),
+        style: { '--u': '14.6px' }
+      });
+      const image = new Image();
+      await new Promise((resolve, reject) => {
+        image.onload = resolve;
+        image.onerror = reject;
+        image.src = dataUrl;
+      });
+      const url = URL.createObjectURL(pdfFromJpeg(dataUrl, image.naturalWidth, image.naturalHeight));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `velora-internship-certificate-${certificateId}.pdf`;
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch {
+      showToast('The certificate file could not be created.', 'error');
+    } finally {
+      setSaving(false);
+    }
+  }
 
   const modalJSX = (
-    <div 
-      className="modal-overlay" 
-      onClick={onClose}
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        width: '100vw',
-        height: '100vh',
-        background: 'rgba(11, 15, 25, 0.75)',
-        backdropFilter: 'blur(8px)',
-        zIndex: 999999,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '1.5rem',
-        overflowY: 'auto',
-        boxSizing: 'border-box'
-      }}
-    >
-      <div 
+    <div className="modal-overlay cert-overlay" onClick={onClose}>
+      <div
         ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="certificate-title"
         tabIndex={-1}
-        className="modal-content" 
+        className="modal-content cert-modal"
         onClick={(e) => e.stopPropagation()}
-        style={{
-          maxWidth: '850px',
-          width: '100%',
-          maxHeight: 'min(92vh, 850px)',
-          overflowY: 'auto',
-          background: '#ffffff',
-          color: '#0f172a',
-          padding: '2.5rem 2rem',
-          borderRadius: '16px',
-          border: '10px solid #0b0f19',
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)',
-          fontFamily: 'serif',
-          position: 'relative',
-          margin: 'auto',
-          boxSizing: 'border-box'
-        }}
       >
-        {/* Close Button */}
-        <button 
-          onClick={onClose}
-          aria-label="Close certificate"
-          style={{
-            position: 'absolute',
-            top: '1rem',
-            right: '1rem',
-            background: '#e2e8f0',
-            color: '#0f172a',
-            borderRadius: '50%',
-            width: '36px',
-            height: '36px',
-            fontSize: '1.2rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <span aria-hidden="true">&#215;</span>
-        </button>
+        <div className="cert-sheet" ref={sheetRef}>
+          <span className="cert-frame" aria-hidden="true" />
+          <span className="cert-corner cert-corner--tl" aria-hidden="true" />
+          <span className="cert-corner cert-corner--br" aria-hidden="true" />
 
-        {/* Certificate Outer Border Frame */}
-        <div style={{
-          border: '2px solid #cbd5e1',
-          padding: '2.5rem',
-          textAlign: 'center',
-          position: 'relative'
-        }}>
-          
-          {/* Official Velora Logo Header */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem' }}>
-            <VeloraLogo width={52} height={52} showText={true} textColor="#0b0f19" />
+          <svg className="cert-mountains" viewBox="0 0 400 180" aria-hidden="true">
+            <path d="M0 180 60 92 96 128 150 58 206 132 250 96 308 150 360 118 400 180Z" fill="#cbb590" opacity="0.4" />
+            <path d="M0 180 44 118 92 158 140 104 196 160 246 126 300 168 352 140 400 180Z" fill="#9aa8bb" opacity="0.3" />
+            <path d="M150 58 168 80 132 80Z" fill="#ffffff" opacity="0.8" />
+            <path d="M60 92 74 108 46 108Z" fill="#ffffff" opacity="0.7" />
+          </svg>
+
+          <div className="cert-head">
+            <div className="cert-brand">
+              <VeloraLogo showText={false} />
+              <div className="cert-wordmark">
+                VELOR<span>A</span>
+                <div className="cert-wordmark-sub">GLOBAL</div>
+              </div>
+            </div>
+            <p className="cert-tagline">
+              Learn &nbsp;&bull;&nbsp; Build &nbsp;&bull;&nbsp; Grow<br />
+              For a Better Tomorrow
+            </p>
           </div>
 
-          <h1 id="certificate-title" style={{ fontSize: '2.5rem', fontWeight: '400', fontFamily: 'Georgia, serif', color: '#0b0f19', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-            Certificate of Completion
-          </h1>
-          <p style={{ fontSize: '1rem', fontStyle: 'italic', color: '#64748b', marginBottom: '1.75rem' }}>
-            This is proudly awarded to
+          <p className="cert-title" id="certificate-title">Certificate of Internship</p>
+          <p className="cert-subtitle">Completion</p>
+
+          <p className="cert-presented">This certificate is proudly presented to</p>
+          <p className="cert-name">{studentName}</p>
+          <span className="cert-name-rule" aria-hidden="true" />
+
+          <p className="cert-body">
+            for successfully completing the <strong>{duration} {programTitle}</strong> at {ORG_FACTS.name}
+            {grade ? <>, with an overall performance grade of <strong>{grade}</strong></> : null}.
           </p>
 
-          <h2 style={{ fontSize: '2.6rem', fontWeight: '700', color: '#0b0f19', fontFamily: "'Outfit', sans-serif", textDecoration: 'underline', textDecorationColor: '#e5a93c', marginBottom: '1.5rem' }}>
-            {certificate.studentName}
-          </h2>
+          <dl className="cert-facts">
+            {facts.map((fact) => (
+              <div className="cert-fact" key={fact.label}>
+                {icon(fact.paths)}
+                <dt>{fact.label}</dt>
+                <dd>{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
 
-          <p style={{ fontSize: '1.05rem', color: '#334155', maxWidth: '650px', margin: '0 auto 2rem auto', lineHeight: '1.7', fontFamily: 'Georgia, serif' }}>
-            for successfully completing the <strong>{certificate.duration}</strong> practical program in <strong>{certificate.programTitle}</strong> at <strong>Velora Global</strong> with an overall performance grade of <strong style={{ color: '#059669' }}>{certificate.grade}</strong>.
+          <p className="cert-note">
+            During the internship, the recipient gained hands-on experience in {domain.toLowerCase()},
+            contributed to real-world projects, and developed valuable skills in a professional
+            environment under the guidance of the {ORG_FACTS.name} team.
           </p>
 
-          {/* Verification Code Box */}
-          <div style={{
-            display: 'inline-block',
-            background: '#f8fafc',
-            border: '1px dashed #cbd5e1',
-            padding: '0.5rem 1.5rem',
-            borderRadius: '8px',
-            marginBottom: '2.5rem',
-            fontFamily: 'monospace',
-            fontSize: '0.9rem',
-            color: '#475569'
-          }}>
-            Certificate ID: <strong>{certificate.certificateId}</strong> • Issued: {certificate.issueDate}
-          </div>
+          <div className="cert-foot">
+            <p className="cert-motto">
+              Empowering Talent.<br />
+              Building the Future.
+            </p>
 
-          {/* Signatures Section */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr 1fr',
-            gap: '2rem',
-            alignItems: 'flex-end',
-            marginTop: '1rem',
-            paddingTop: '1.5rem',
-            borderTop: '1px solid #e2e8f0'
-          }}>
-            <div>
-              <div style={{ fontFamily: "'Brush Script MT', cursive, sans-serif", fontSize: '1.8rem', color: '#0b0f19', marginBottom: '0.25rem' }}>
-                Abhishek Sah
+            <div className="cert-verify">
+              <span className="cert-qr">
+                <QrCode value={verifyUrl} title={`QR code linking to ${verifyUrl}`} />
+              </span>
+              <div>
+                <p className="cert-verify-title">Verify this Certificate</p>
+                <p className="cert-verify-meta">
+                  {icon(<><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3Z" /><path d="M9 12l2 2 4-4" /></>)}
+                  <span>Certificate ID: {certificateId} &nbsp;&bull;&nbsp; Issued: {issuedOn(issueDate)}</span>
+                </p>
               </div>
-              <div style={{ borderTop: '1px solid #94a3b8', paddingTop: '0.35rem', fontSize: '0.85rem', fontWeight: 'bold', color: '#0b0f19', fontFamily: 'sans-serif' }}>
-                Abhishek Sah
-              </div>
-              <span style={{ fontSize: '0.75rem', color: '#64748b', fontFamily: 'sans-serif' }}>Founder & CEO</span>
             </div>
 
-            <div>
-              <div style={{
-                width: '70px',
-                height: '70px',
-                margin: '0 auto 0.25rem auto',
-                border: '2px solid #cbd5e1',
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '0.65rem',
-                color: '#64748b',
-                fontFamily: 'sans-serif',
-                textAlign: 'center',
-                padding: '0.25rem'
-              }}>
-                [QR Verified]
-              </div>
-              <span style={{ fontSize: '0.7rem', color: '#64748b', fontFamily: 'sans-serif' }}>Scan to Verify</span>
-            </div>
-
-            <div>
-              <div style={{ fontFamily: "'Brush Script MT', cursive, sans-serif", fontSize: '1.8rem', color: '#0b0f19', marginBottom: '0.25rem' }}>
-                Krishna & Rohit
-              </div>
-              <div style={{ borderTop: '1px solid #94a3b8', paddingTop: '0.35rem', fontSize: '0.85rem', fontWeight: 'bold', color: '#0b0f19', fontFamily: 'sans-serif' }}>
-                Krishna S. & Rohit S.
-              </div>
-              <span style={{ fontSize: '0.75rem', color: '#64748b', fontFamily: 'sans-serif' }}>Co-Founders</span>
+            <div className="cert-sign">
+              <p className="cert-sign-script">{certificate.founderSignature || 'Rambilas Sah'}</p>
+              <p className="cert-sign-label">Authorized Signatory</p>
+              <span className="cert-sign-rule" aria-hidden="true" />
+              <p className="cert-sign-name">{certificate.founderSignature || 'Rambilas Sah'}</p>
+              <p className="cert-sign-role">{certificate.founderTitle || 'Founder & CEO'}</p>
+              <p className="cert-sign-org">{ORG_FACTS.name}</p>
             </div>
           </div>
 
+          <p className="cert-closing">
+            This certificate is issued by {ORG_FACTS.name} and may be verified using the certificate ID
+            or verification endpoint.
+          </p>
         </div>
 
-        {/* Action Button */}
-        <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-          <button 
-            onClick={handlePrint}
-            className="btn-coral"
-            style={{ 
-              padding: '0.85rem 2rem', 
-              fontSize: '0.95rem',
-              fontWeight: '700',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="6 9 6 2 18 2 18 9"></polyline>
-              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
-              <rect x="6" y="14" width="12" height="8"></rect>
-            </svg>
-            <span>Print / Save Official Certificate PDF</span>
+        <div className="cert-actions">
+          <button type="button" className="btn-premium" onClick={downloadCertificate} disabled={saving}>
+            {icon(<><path d="M12 3v12" /><path d="m7 11 5 5 5-5" /><path d="M4 20h16" /></>)}
+            <span>{saving ? 'Preparing…' : 'Download Certificate'}</span>
           </button>
+          <button type="button" className="btn-secondary" onClick={onClose}>Close</button>
         </div>
-
       </div>
     </div>
   );

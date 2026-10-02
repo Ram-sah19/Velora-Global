@@ -28,11 +28,11 @@ export function registerWebMCP() {
         try {
           const res = await fetch(`/api/certificates/verify/${encodeURIComponent(certificateId)}`);
           if (!res.ok) {
-            return { valid: false, message: `Certificate ${certificateId} could not be found or verified.` };
+            return { verified: false, message: `Certificate ${certificateId} could not be found or verified.` };
           }
           return await res.json();
         } catch (e) {
-          return { valid: false, error: e.message };
+          return { verified: false, error: e.message };
         }
       }
     },

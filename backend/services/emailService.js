@@ -326,7 +326,7 @@ async function sendInquiryEmail(inquiry) {
           <p>We have successfully received your inquiry regarding <strong>${inquiry.projectType || 'our programs/services'}</strong>.</p>
           <p>Our team is reviewing your message and will respond with next steps within 24 business hours.</p>
           <hr style="border:none;border-top:1px solid #e2e8f0;margin:20px 0;" />
-          <p style="font-size:12px;color:#94a3b8;">Velora Global • Technology, Training & Enterprise Solutions<br/>support@velora-global.online</p>
+          <p style="font-size:12px;color:#94a3b8;">Velora Global • Tech Training, Internships &amp; Software Development in Nepal<br/>info@velora-global.online</p>
         </div>
       `
     }).catch(e => console.error('Client auto-reply email skipped:', e.message));
