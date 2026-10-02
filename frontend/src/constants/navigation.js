@@ -57,3 +57,14 @@ export const pageDescriptions = {
   client: 'Private client workspace for reviewing ongoing software deliverables, milestones, source code repositories, and project timelines.',
   admin: 'Private staff sign-in for the Velora Global administration area.'
 };
+
+/**
+ * A certificate lookup page exists per certificate ID, so its metadata is built
+ * from the ID instead of sitting in the maps above. functions/_shared/routeSeo.js
+ * carries the same copy for the served HTML, and scripts/verify-route-seo.mjs
+ * fails when the two disagree.
+ */
+export const verifyPageMeta = (certificateId) => ({
+  title: `Certificate Verification ${certificateId} | Velora Global`,
+  description: `Checks the certificate record Velora Global holds against ${certificateId}: recipient, program, duration and issue date.`
+});

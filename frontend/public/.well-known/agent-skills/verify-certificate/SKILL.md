@@ -25,16 +25,18 @@ Accept: application/json
 Field names and nesting match the live payload; the values below are illustrative placeholders, not a real recipient's record.
 ```json
 {
-  "valid": true,
+  "success": true,
+  "verified": true,
   "certificate": {
     "certificateId": "VG-2026-88491",
-    "studentName": "Certificate Recipient",
-    "programTitle": "Full Stack Development Internship",
-    "issueDate": "2026-08-05",
-    "duration": "8 Weeks"
-  },
-  "issuer": "Velora Global",
-  "verifiedAt": "2026-09-28T09:49:02.921Z"
+    "name": "Certificate Recipient",
+    "program": "Full Stack Development Internship",
+    "duration": "8 Weeks",
+    "issuedDate": "2026-08-05",
+    "organization": "Velora Global"
+  }
 }
 ```
-An ID with no record returns `404` with `{"valid": false, "message": "Certificate ID not found in Velora Global records"}`.
+An ID with no record returns `404` with `{"success": true, "verified": false, "message": "Certificate not found"}`, and an address that is not a certificate ID returns `400` with `{"success": true, "verified": false, "message": "Not a valid certificate ID"}`.
+
+Recipients and employers can read the same record in a browser at `https://velora-global.online/verify/:certificateId` — that is the URL printed as the certificate QR code.

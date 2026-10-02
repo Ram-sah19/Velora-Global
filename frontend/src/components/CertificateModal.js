@@ -27,7 +27,7 @@ export default function CertificateModal({ certificate, onClose }) {
   if (!certificate) return null;
 
   const { certificateId, studentName, programTitle, duration, issueDate, grade } = certificate;
-  const verifyUrl = `${ORG_FACTS.url}/api/certificates/verify/${certificateId}`;
+  const verifyUrl = `${ORG_FACTS.url}/verify/${certificateId}`;
   const domain = (certificate.domain || programTitle || '')
     .replace(/\s+(internship|program|training)$/i, '')
     .replace(/Developer$/i, 'Development');

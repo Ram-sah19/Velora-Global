@@ -104,7 +104,7 @@ export const FAQS = {
     {
       question: "Are Velora Global internship certificates verifiable?",
       answer:
-        "Yes. Every certificate we issue carries a unique verification ID such as VG-2026-88491. Anyone, including an employer or a university, can check it against our public verification endpoint at https://velora-global.online/api/certificates/verify/{certificateId}, which returns the recipient, program, issue date and duration on record."
+        "Yes. Every certificate we issue carries a unique verification ID such as VG-2026-88491. Anyone, including an employer or a university, can check it on our public verification page at https://velora-global.online/verify/{certificateId} — the QR code printed on the certificate opens that page — which shows the recipient, program, issue date and duration on record."
     },
     {
       question: "Who evaluates student project submissions?",
@@ -173,7 +173,7 @@ export const FAQS = {
     {
       question: "Is the completion certificate real?",
       answer:
-        "Yes. Each certificate carries a unique verification ID and is checked against our public endpoint at https://velora-global.online/api/certificates/verify/{certificateId}, which returns the recipient, program, issue date and duration on record."
+        "Yes. Each certificate carries a unique verification ID and opens a public verification page at https://velora-global.online/verify/{certificateId} showing the recipient, program, issue date and duration on record."
     }
   ],
   training: [
@@ -363,6 +363,3 @@ export const ANSWER_BLOCKS = {
     ]
   }
 };
-
-export const VERIFICATION_ENDPOINT =
-  "https://velora-global.online/api/certificates/verify/{certificateId}";

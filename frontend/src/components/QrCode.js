@@ -1,9 +1,9 @@
 import React from 'react';
 
 // Byte-mode QR, versions 1-5, error correction level M, fixed mask pattern 2.
-// The certificate only ever encodes the verification URL: 53 fixed characters plus
+// The certificate only ever encodes the verification URL: 36 fixed characters plus
 // the certificate number, so anything up to 31 characters fits version 5 at level M
-// (84 bytes). Longer input returns null and the sheet falls back to the printed URL.
+// (84 bytes) — the same ceiling the issue form enforces. Longer input renders no QR.
 const VERSIONS = [
   { version: 1, data: 16, ecPerBlock: 10, blocks: 1, alignment: [] },
   { version: 2, data: 28, ecPerBlock: 16, blocks: 1, alignment: [6, 18] },

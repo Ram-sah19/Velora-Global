@@ -34,7 +34,8 @@ import {
   tabToPathMap,
   pathToTabMap,
   pageTitles,
-  pageDescriptions
+  pageDescriptions,
+  verifyPageMeta
 } from '../src/constants/navigation.js';
 
 const ORIGIN = 'https://velora-global.online';
@@ -194,6 +195,24 @@ for (const path of ['/some-unknown-path', '/internsships', '/blog/post-1']) {
   check(`${path} noindex header`, /noindex/i.test(res.headers.get('x-robots-tag') || ''));
   check(`${path} links still crawlable`, /href="\/internships"/.test(body));
   console.log(`  ok   ${path.padEnd(14)} ${res.status}`);
+}
+
+console.log('\nA scanned certificate must open a page, not a 404');
+{
+  const certificateId = 'VG-2026-88491';
+  const path = `/verify/${certificateId}`;
+  const res = await serve(path);
+  const body = await res.text();
+  const canonical = `${ORIGIN}${path}`;
+  check(`${path} status 200`, res.status === 200, `got ${res.status}`);
+  check(`${path} canonicalizes to itself`, (body.match(/rel="canonical"/g) || []).length === 1 && body.includes(`href="${canonical}"`));
+  check(`${path} og:url matches`, body.includes(`property="og:url" content="${canonical}"`));
+  check(`${path} title matches client copy`, body.includes(`<title>${verifyPageMeta(certificateId).title}</title>`));
+  check(`${path} description matches client copy`, body.includes(verifyPageMeta(certificateId).description));
+  check(`${path} is noindexed`, /noindex/i.test(res.headers.get('x-robots-tag') || ''), res.headers.get('x-robots-tag'));
+  check(`${path} publishes no graph`, !/application\/ld\+json/.test(body));
+  check(`${path} 404s for an address that is not an ID`, (await serve('/verify/xyz')).status === 404);
+  console.log(`  ok   ${path.padEnd(22)} ${res.status} [noindex]`);
 }
 
 console.log('\nAssets and agent documents must keep resolving');

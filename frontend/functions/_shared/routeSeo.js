@@ -15,6 +15,10 @@ import { buildRouteGraph, serializeGraph } from "./entity.js";
 
 const SITE = "https://velora-global.online";
 
+// The same ID alphabet and length ceiling the backend issues and validates
+// (Certificate ID pattern in controllers/certificateController.js).
+const VERIFY_PATH = /^\/verify\/([A-Za-z0-9][A-Za-z0-9-]{3,31})$/;
+
 const HOMEPAGE = {
   title: "Velora Global | Tech Training & Software Development in Nepal",
   description:
@@ -134,6 +138,21 @@ export const ROUTE_SEO = {
 };
 
 export function getRouteSeo(pathname) {
+  // A scanned certificate lands on /verify/{id}. Each ID is its own document, so it
+  // canonicalizes to itself and stays out of the index rather than duplicating the
+  // pages that describe the program.
+  const verify = (pathname || '').replace(/\/$/, '').match(VERIFY_PATH);
+  if (verify) {
+    const certificateId = verify[1];
+    return {
+      title: `Certificate Verification ${certificateId} | Velora Global`,
+      description:
+        `Checks the certificate record Velora Global holds against ${certificateId}: recipient, program, duration and issue date.`,
+      canonical: SITE + '/verify/' + certificateId,
+      robots: 'noindex, follow'
+    };
+  }
+
   let path = (pathname || "/").toLowerCase();
   if (path.length > 1) {
     path = path.replace(/\/+$/, "");

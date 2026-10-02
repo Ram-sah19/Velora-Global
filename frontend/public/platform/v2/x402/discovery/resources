@@ -1,13 +1,13 @@
 {
   "resources": [
     {
-      "path": "/api/certificates/verify",
-      "method": "POST",
+      "path": "/api/certificates/verify/{certificateId}",
+      "method": "GET",
       "price": {
         "amount": "0.00",
         "currency": "USD"
       },
-      "description": "Free public cryptographic verification for all Velora Global certificates."
+      "description": "Free public certificate lookup: returns the record Velora Global holds against an ID. It attests the record on file, not a cryptographic signature."
     }
   ]
 }

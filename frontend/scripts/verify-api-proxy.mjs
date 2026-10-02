@@ -17,7 +17,7 @@ const upstream = createServer((req, res) => {
     seen.push({ method: req.method, url: req.url, origin: req.headers.origin, body, cookie: req.headers.cookie });
     if (req.url.startsWith('/api/certificates/verify/')) {
       res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': 'https://example-spoof.test' });
-      return res.end(JSON.stringify({ valid: true, certificateId: 'VG-2026-88491' }));
+      return res.end(JSON.stringify({ success: true, verified: true, certificateId: 'VG-2026-88491' }));
     }
     if (req.url.startsWith('/api/client-inquiries')) {
       res.writeHead(401, { 'content-type': 'application/json; charset=utf-8' });
@@ -83,7 +83,7 @@ check('method forwarded', seen.at(-1)?.method === 'POST');
 console.log('\nProxy must not widen the CORS surface');
 const verified = await call('/api/certificates/verify/VG-2026-88491');
 const payload = await verified.json();
-check('certificate verifies through proxy', payload.valid === true, JSON.stringify(payload));
+check('certificate verifies through proxy', payload.verified === true, JSON.stringify(payload));
 check('upstream ACAO not re-advertised', !verified.headers.get('access-control-allow-origin'), verified.headers.get('access-control-allow-origin'));
 check('content-length recomputed away', !verified.headers.get('content-length'));
 check('no stale content-encoding', !verified.headers.get('content-encoding'));

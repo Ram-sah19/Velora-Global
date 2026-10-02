@@ -147,9 +147,9 @@ export default function CertificateVerifySection() {
               recorded in the Velora Global certificate register.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1.1rem 1.5rem' }}>
-              <Field label="Recipient" value={result.certificate.studentName} />
-              <Field label="Program" value={result.certificate.programTitle} />
-              <Field label="Issued" value={result.certificate.issueDate} />
+              <Field label="Recipient" value={result.certificate.name} />
+              <Field label="Program" value={result.certificate.program} />
+              <Field label="Issued" value={result.certificate.issuedDate} />
               <Field label="Duration" value={result.certificate.duration} />
             </div>
           </div>
