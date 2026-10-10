@@ -12,9 +12,6 @@ export const INTERNSHIP_APPLICATION_FORM_URL = "https://forms.gle/MEfqFcLcFaybJ2
 // Official Guided Skill Training Application Google Form
 export const TRAINING_APPLICATION_FORM_URL = "https://forms.gle/a4zqUUQ3eCP6141a8";
 
-// Official WhatsApp Floating Contact Number
-export const WHATSAPP_CONTACT_NUMBER = "9826031419";
-
 // Company Support Email
 export const SUPPORT_EMAIL = "info@velora-global.online";
 

@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { api } from './services/api';
 import { 
   COUNSELING_FORM_URL, 
-  WHATSAPP_CONTACT_NUMBER,
   tabToPathMap,
   pathToTabMap,
   pageTitles,
@@ -17,7 +16,6 @@ import {
   CertificateModal,
   NotificationToast,
   CookieBanner,
-  WhatsAppFloatingButton,
   ErrorBoundary,
   OfflineBanner,
   PageLoader,
@@ -366,9 +364,6 @@ export default function App() {
             onClose={() => setActiveCertificate(null)}
           />
         )}
-
-        {/* Global Floating WhatsApp Contact Widget */}
-        <WhatsAppFloatingButton phoneNumber={WHATSAPP_CONTACT_NUMBER} />
 
         {/* Global Footer */}
         <Footer setActiveTab={handleTabChange} />

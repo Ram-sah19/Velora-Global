@@ -49,14 +49,13 @@ src/
 ├── components/                  # Centralized shared UI components (barrel exported)
 │   ├── Navbar.js                # Top Navigation Header with 1-on-1 Counseling CTA
 │   ├── Footer.js                # Global Midnight Footer with Legal Modals
-│   ├── WhatsAppFloatingButton.js# Floating Direct WhatsApp Contact
 │   ├── VeloraLogo.js            # Monogram SVG Logo
 │   ├── CertificateModal.js      # Public Verified Credential Modal
 │   ├── UIStates.js              # ErrorBoundary, OfflineBanner, PageLoader
 │   ├── Motion.js                # VeloraIntro Splash & PageTransition
 │   └── index.js                 # Unified components barrel export
 ├── constants/                   # Centralized Application Constants
-│   ├── links.js                 # Forms, WhatsApp, Social, Support Links
+│   ├── links.js                 # Forms, Social, Support Links
 │   ├── navigation.js            # Tab maps, per-page SEO titles & descriptions
 │   └── index.js                 # Constants barrel export
 ├── pages/                       # Modular Feature Pages (index.js barrel per page)
