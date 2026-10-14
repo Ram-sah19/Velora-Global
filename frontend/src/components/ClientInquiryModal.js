@@ -215,9 +215,9 @@ export default function ClientInquiryModal({ defaultService = 'Custom Web Applic
 
           <p className="svc-consent">
             Sending this inquiry means you agree to our{' '}
-            <a href="/terms">Terms &amp; Conditions</a>
+            <a className="svc-link" href="/terms">Terms &amp; Conditions</a>
             {' '}and confirm we may contact you about the project, as described in our{' '}
-            <a href="/privacy-policy">Privacy Policy</a>.
+            <a className="svc-link" href="/privacy-policy">Privacy Policy</a>.
           </p>
 
           <div className="svc-form__actions">

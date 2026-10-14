@@ -1,4 +1,5 @@
 import React from 'react';
+import SectionHead from '../../components/SectionHead';
 import { GRADING_CRITERIA } from '../../content/siteFacts';
 import { INTERNSHIP_PROGRAMS } from '../../content/programs';
 
@@ -29,13 +30,12 @@ export default function StudentJourneySection({ onApplyClick }) {
   return (
     <section className="hp-band hp-band--dark">
       <div className="container">
-        <div className="hp-head">
-          <span className="svc-eyebrow">Our Talent &amp; Academy Engine</span>
-          <h2 className="hp-title">How We Cultivate &amp; Mentor Top Engineering Talent</h2>
-          <p className="hp-lede">
-            A transparent 4-step framework taking candidates through real code reviews, practical software projects, and verified credentials.
-          </p>
-        </div>
+        <SectionHead
+          variant="band"
+          eyebrow="Our Talent & Academy Engine"
+          title="How We Cultivate & Mentor Top Engineering Talent"
+          lede="A transparent 4-step framework taking candidates through real code reviews, practical software projects, and verified credentials."
+        />
 
         <div className="hp-cells">
           {steps.map((item) => (

@@ -165,12 +165,12 @@ export const FAQS = {
     {
       question: "What do Velora Global training programs cost?",
       answer:
-        "Program fees are printed on each program card and range from NPR 3,000 for single-stack programs such as JavaScript, Python, Java, frontend, deep learning, UI/UX and testing, up to NPR 12,000 for AI and machine learning engineering."
+        "Program fees are printed on each program card and range from NPR 1,999 for the AI tools program up to NPR 11,999 for AI and machine learning engineering, with most single-stack programs such as JavaScript, Python, Java, frontend, deep learning, UI/UX and testing at NPR 2,999."
     },
     {
       question: "Which subjects can I be trained in?",
       answer:
-        "Frontend with React, backend with Node.js, full stack with AI integration, artificial intelligence and machine learning, deep learning, JavaScript, Java with Spring Boot, Python, MERN, PERN, UI/UX design in Figma, mobile app engineering and software testing."
+        "Frontend with React, backend with Node.js, full stack with AI integration, artificial intelligence and machine learning, deep learning, AI tools and prompt engineering, JavaScript, Java with Spring Boot, Python, MERN, PERN, UI/UX design in Figma, mobile app engineering and software testing."
     },
     {
       question: "How do I join a training program?",
@@ -282,19 +282,20 @@ export const ENGAGEMENT_STEPS = [
 
 /** Program titles and fees shown on https://velora-global.online/training. */
 export const TRAINING_PROGRAMS = [
-  { title: "Frontend Development & Modern React.js Training", fee: "NPR 3,000" },
-  { title: "Backend Development & Node.js API Training", fee: "NPR 4,000" },
-  { title: "Full Stack Development with AI Integration Training", fee: "NPR 10,000" },
-  { title: "AI & Machine Learning Engineering Training", fee: "NPR 12,000" },
-  { title: "Deep Learning & Neural Networks Training", fee: "NPR 3,000" },
-  { title: "JavaScript & Modern ES6+ Training", fee: "NPR 3,000" },
-  { title: "Java Core, Spring Boot & Microservices Training", fee: "NPR 3,000" },
-  { title: "Python Programming, Automation & Scripting Training", fee: "NPR 3,000" },
-  { title: "MERN Stack Development Training", fee: "NPR 10,000" },
-  { title: "PERN Stack Development Training", fee: "NPR 10,000" },
-  { title: "UI/UX Product Design & Figma Training", fee: "NPR 3,000" },
-  { title: "Software Testing & QA Automation Training", fee: "NPR 3,000" },
-  { title: "Mobile App Engineering Training", fee: "NPR 4,000" }
+  { title: "Frontend Development & Modern React.js Training", fee: "NPR 2,999" },
+  { title: "Backend Development & Node.js API Training", fee: "NPR 3,999" },
+  { title: "Full Stack Development with AI Integration Training", fee: "NPR 9,999" },
+  { title: "AI & Machine Learning Engineering Training", fee: "NPR 11,999" },
+  { title: "Deep Learning & Neural Networks Training", fee: "NPR 2,999" },
+  { title: "AI Tools & Prompt Engineering Training", fee: "NPR 1,999" },
+  { title: "JavaScript & Modern ES6+ Training", fee: "NPR 2,999" },
+  { title: "Java Core, Spring Boot & Microservices Training", fee: "NPR 2,999" },
+  { title: "Python Programming, Automation & Scripting Training", fee: "NPR 2,999" },
+  { title: "MERN Stack Development Training", fee: "NPR 9,999" },
+  { title: "PERN Stack Development Training", fee: "NPR 9,999" },
+  { title: "UI/UX Product Design & Figma Training", fee: "NPR 2,999" },
+  { title: "Software Testing & QA Automation Training", fee: "NPR 2,999" },
+  { title: "Mobile App Engineering Training", fee: "NPR 3,999" }
 ];
 
 function personNodes() {
@@ -450,12 +451,13 @@ function internshipProgramNode(seo) {
 
 function trainingCourseNode(seo) {
   const canonical = seo.canonical;
+  const fees = TRAINING_PROGRAMS.map((program) => Number(String(program.fee).replace(/[^0-9]/g, "")));
   return {
     "@type": "Course",
     "@id": `${canonical}#course`,
     "name": "Guided Technology Training",
     "description":
-      "Hands-on training programs covering frontend, backend, full stack with AI, machine learning, deep learning, JavaScript, Java, Python, MERN, PERN, UI/UX, mobile and software testing.",
+      "Hands-on training programs covering frontend, backend, full stack with AI, machine learning, deep learning, AI tools and prompt engineering, JavaScript, Java, Python, MERN, PERN, UI/UX, mobile and software testing.",
     "provider": { "@id": ORG_ID },
     "url": canonical,
     "hasCourseInstance": {
@@ -463,11 +465,11 @@ function trainingCourseNode(seo) {
       "courseMode": "Remote",
       "offers": {
         "@type": "AggregateOffer",
-        "lowPrice": "3000",
-        "highPrice": "12000",
+        "lowPrice": String(Math.min(...fees)),
+        "highPrice": String(Math.max(...fees)),
         "priceCurrency": "NPR",
         "description":
-          "Program fee is printed on each program card, from NPR 3,000 for single-stack programs to NPR 12,000 for AI and machine learning engineering."
+          "Program fee is printed on each program card, from NPR 1,999 for the AI tools program to NPR 11,999 for AI and machine learning engineering."
       }
     }
   };

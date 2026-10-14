@@ -14,19 +14,20 @@ Instructor-led rather than project-assigned: live sessions, step-by-step develop
 
 | Program | Fee |
 | --- | --- |
-| Frontend Development & Modern React.js Training | NPR 3,000 |
-| Backend Development & Node.js API Training | NPR 4,000 |
-| Full Stack Development with AI Integration Training | NPR 10,000 |
-| AI & Machine Learning Engineering Training | NPR 12,000 |
-| Deep Learning & Neural Networks Training | NPR 3,000 |
-| JavaScript & Modern ES6+ Training | NPR 3,000 |
-| Java Core, Spring Boot & Microservices Training | NPR 3,000 |
-| Python Programming, Automation & Scripting Training | NPR 3,000 |
-| MERN Stack Development Training | NPR 10,000 |
-| PERN Stack Development Training | NPR 10,000 |
-| UI/UX Product Design & Figma Training | NPR 3,000 |
-| Software Testing & QA Automation Training | NPR 3,000 |
-| Mobile App Engineering Training | NPR 4,000 |
+| Frontend Development & Modern React.js Training | NPR 2,999 |
+| Backend Development & Node.js API Training | NPR 3,999 |
+| Full Stack Development with AI Integration Training | NPR 9,999 |
+| AI & Machine Learning Engineering Training | NPR 11,999 |
+| Deep Learning & Neural Networks Training | NPR 2,999 |
+| AI Tools & Prompt Engineering Training | NPR 1,999 |
+| JavaScript & Modern ES6+ Training | NPR 2,999 |
+| Java Core, Spring Boot & Microservices Training | NPR 2,999 |
+| Python Programming, Automation & Scripting Training | NPR 2,999 |
+| MERN Stack Development Training | NPR 9,999 |
+| PERN Stack Development Training | NPR 9,999 |
+| UI/UX Product Design & Figma Training | NPR 2,999 |
+| Software Testing & QA Automation Training | NPR 2,999 |
+| Mobile App Engineering Training | NPR 3,999 |
 
 ## How enrollment works
 Enroll through the training application form linked from `https://velora-global.online/training`. Each program card lists the technologies it covers; that list is the starting point, not an entrance test.

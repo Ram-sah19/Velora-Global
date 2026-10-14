@@ -16,6 +16,8 @@ export { default as ClientInquiryModal } from './ClientInquiryModal';
 export { default as CookieBanner } from './CookieBanner';
 export { default as NotificationToast } from './NotificationToast';
 export { default as AnswerSection } from './AnswerSection';
+export { default as SectionHead } from './SectionHead';
+export { default as CtaBand } from './CtaBand';
 export { default as PageFaq } from './PageFaq';
 export { default as LegalSections } from './LegalSections';
 export * from './UIStates';

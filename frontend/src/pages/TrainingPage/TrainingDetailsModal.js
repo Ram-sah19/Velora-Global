@@ -1,7 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { api } from '../../services/api';
-import { useDialog } from '../../components/DialogShell';
+import DialogShell from '../../components/DialogShell';
 import { TRAINING_APPLICATION_FORM_URL } from '../../constants';
 
 const GOOGLE_FORM_URL = TRAINING_APPLICATION_FORM_URL;
@@ -62,6 +61,17 @@ function getTrainingDeliverables(domainTitle = '', domainCategory = '') {
       'PyTorch / TensorFlow Framework Deep Dives & GPU Acceleration',
       '1 Guided Computer Vision / Neural Network Project',
       '1-on-1 Mentor Code Review & Model Debugging',
+      'Official Verified Training Credential'
+    ];
+  }
+  if (name.includes('ai tools') || name.includes('prompt engineering')) {
+    return [
+      'ChatGPT & Gemini for Research, Writing and Summaries',
+      'Prompt Writing Frameworks & Iterative Refinement',
+      'AI-Assisted Documents, Spreadsheets & Presentation Workflows',
+      'No-Code Automation with AI Tools & Templates',
+      '1 Guided Capstone Built with Everyday AI Tools',
+      '1-on-1 Mentor Review of Your AI Workflows',
       'Official Verified Training Credential'
     ];
   }
@@ -131,11 +141,7 @@ function getTrainingDeliverables(domainTitle = '', domainCategory = '') {
 }
 
 export default function TrainingDetailsModal({ program, currentUser, onApplySuccess, onClose }) {
-  const panelRef = useDialog(!!program, onClose);
-
-  if (!program) return null;
-
-  const displayFee = program.fee || 'NPR 3,000';
+  const displayFee = program.fee || 'NPR 2,999';
   const deliverables = getTrainingDeliverables(program.title, program.domain);
 
   const handleEnrollClick = () => {
@@ -148,7 +154,7 @@ export default function TrainingDetailsModal({ program, currentUser, onApplySucc
 
     // 3. Record training application in backend in the background
     const feeMatch = displayFee.match(/\d[\d,]*/);
-    const feeNum = program.feeAmount || (feeMatch ? parseInt(feeMatch[0].replace(/,/g, ''), 10) : 3000);
+    const feeNum = program.feeAmount || (feeMatch ? parseInt(feeMatch[0].replace(/,/g, ''), 10) : 2999);
 
     api.submitApplication({
       studentId: currentUser ? currentUser.id : `guest-${Date.now()}`,
@@ -166,166 +172,49 @@ export default function TrainingDetailsModal({ program, currentUser, onApplySucc
     });
   };
 
-  const modalJSX = (
-    <div 
-      className="modal-overlay" 
-      onClick={onClose} 
-      style={{ 
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        width: '100vw',
-        height: '100vh',
-        background: 'rgba(11, 15, 25, 0.75)',
-        backdropFilter: 'blur(8px)',
-        zIndex: 999999,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '1.5rem',
-        overflowY: 'auto',
-        boxSizing: 'border-box'
-      }}
-    >
-      <div 
-        ref={panelRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="training-details-title"
-        tabIndex={-1}
-        className="modal-content" 
-        onClick={(e) => e.stopPropagation()} 
-        style={{
-          maxWidth: '680px',
-          width: '100%',
-          maxHeight: 'min(90vh, 760px)',
-          overflowY: 'auto',
-          borderRadius: '24px',
-          padding: '2.25rem 2rem',
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.35)',
-          background: '#ffffff',
-          position: 'relative',
-          margin: 'auto',
-          boxSizing: 'border-box'
-        }}
-      >
-        {/* Close Button */}
-        <button 
-          onClick={onClose}
-          aria-label="Close dialog"
-          style={{
-            position: 'absolute',
-            top: '1.25rem',
-            right: '1.25rem',
-            background: '#f1f5f9',
-            color: '#64748b',
-            borderRadius: '50%',
-            width: '36px',
-            height: '36px',
-            fontSize: '1rem',
-            border: 'none',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'all 0.2s ease',
-            zIndex: 10
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = '#e2e8f0'; e.currentTarget.style.color = '#0b0f19'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = '#f1f5f9'; e.currentTarget.style.color = '#64748b'; }}
-        >
-          <span aria-hidden="true">&#215;</span>
-        </button>
+  return (
+    <DialogShell labelId="training-details-title" onClose={onClose} panelClassName="svc-modal">
+      <button type="button" className="svc-modal__close" aria-label="Close dialog" onClick={onClose}>
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2.5 2.5l9 9M11.5 2.5l-9 9" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+        </svg>
+      </button>
 
-        {/* Modal Header */}
-        <div style={{ marginBottom: '1.5rem', paddingRight: '2rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
-            <span className="badge badge-blue">{program.domain}</span>
-            <span className="badge badge-coral">Guided Skill Training</span>
-          </div>
+      <p className="svc-eyebrow">Guided Skill Training</p>
+      <h2 id="training-details-title" className="svc-modal__title">{program.title}</h2>
+      <p className="svc-modal__note">{program.description}</p>
 
-          <h2 id="training-details-title" style={{ fontSize: 'clamp(1.4rem, 2.5vw, 1.8rem)', color: '#0b0f19', marginBottom: '0.5rem', fontWeight: '800', lineHeight: 1.25 }}>
-            {program.title}
-          </h2>
+      <h3 className="ip-label">Technologies and tools taught</h3>
+      <ul className="svc-features ip-modal__stack">
+        {(program.skillsRequired || []).map((skill) => (
+          <li key={skill}>{skill}</li>
+        ))}
+      </ul>
 
-          <p style={{ color: '#64748b', fontSize: '0.92rem', lineHeight: '1.6', margin: 0 }}>
-            {program.description}
-          </p>
-        </div>
-
-        {/* Required Tech Stack */}
-        <div style={{ marginBottom: '1.5rem' }}>
-          <span style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: '800', display: 'block', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-            Technologies & Tools Taught:
-          </span>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem' }}>
-            {(program.skillsRequired || []).map((skill, i) => (
-              <span key={i} style={{
-                fontSize: '0.8rem',
-                background: '#eff6ff',
-                border: '1px solid #dbeafe',
-                padding: '0.28rem 0.7rem',
-                borderRadius: '6px',
-                color: '#2563eb',
-                fontWeight: '700'
-              }}>
-                {skill}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Deliverables Section */}
-        <div style={{
-          background: '#f8fafc',
-          border: '1px solid #e2e8f0',
-          borderRadius: '18px',
-          padding: '1.25rem',
-          marginBottom: '1.75rem'
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-            <span style={{ fontSize: '0.95rem', fontWeight: '800', color: '#0b0f19' }}>
-              Curriculum & Deliverables Included
-            </span>
-            <span className="badge badge-blue" style={{ fontSize: '0.85rem', fontWeight: '800' }}>
-              {displayFee}
-            </span>
-          </div>
-
-          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.55rem', fontSize: '0.88rem', color: '#334155', margin: 0, padding: 0 }}>
-            {deliverables.map((item, idx) => (
-              <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.55rem', lineHeight: '1.45' }}>
-                <span style={{ color: '#2563eb', fontWeight: '800', fontSize: '0.95rem', flexShrink: 0 }}>✓</span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Bottom Call to Action */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '1rem', borderTop: '1px solid #e2e8f0', flexWrap: 'wrap', gap: '1rem' }}>
-          <div>
-            <span style={{ display: 'block', fontSize: '0.75rem', color: '#64748b', fontWeight: '600' }}>Training Program Fee</span>
-            <span style={{ fontSize: '1.35rem', fontWeight: '800', color: '#2563eb' }}>
-              {displayFee}
-            </span>
-          </div>
-
-          <button 
-            onClick={handleEnrollClick}
-            className="btn-primary"
-            style={{ padding: '0.75rem 1.75rem', fontSize: '0.92rem', fontWeight: '800', cursor: 'pointer', borderRadius: '10px' }}
-          >
-            Enroll in Training Program
-          </button>
-        </div>
-
+      <div className="ip-tiers">
+        <h3 className="ip-label">Curriculum and deliverables included</h3>
+        <ul className="svc-deliverables">
+          {deliverables.map((item) => (
+            <li key={item}>
+              <svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M5 10.5L8 13.5L15 6.5" stroke="#1d4ed8" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
       </div>
-    </div>
+
+      <div className="ip-modal__foot">
+        <div>
+          <p className="ip-card__price-label">Program fee</p>
+          <p className="ip-card__price-value">{displayFee}</p>
+        </div>
+
+        <button type="button" className="svc-btn svc-btn--primary" onClick={handleEnrollClick}>
+          Enroll in Training Program
+        </button>
+      </div>
+    </DialogShell>
   );
-
-  return typeof document !== 'undefined' ? ReactDOM.createPortal(modalJSX, document.body) : modalJSX;
 }
-

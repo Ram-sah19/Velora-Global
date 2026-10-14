@@ -49,7 +49,7 @@ const INTERNSHIPS = {
 const TRAINING = {
   title: "Tech Training in Nepal | Guided Programs | Velora Global",
   description:
-    "Guided technology training in frontend, backend, full stack with AI, machine learning, Python, Java, MERN, PERN, UI/UX and testing, from NPR 3,000 per program.",
+    "Guided technology training in frontend, backend, full stack with AI, machine learning, Python, Java, MERN, PERN, UI/UX and testing, from NPR 1,999 per program.",
   canonical: SITE + "/training",
   graph: "course",
   faq: "training"

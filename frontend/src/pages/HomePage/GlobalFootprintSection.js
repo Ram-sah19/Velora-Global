@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import SectionHead from '../../components/SectionHead';
 import { ENGAGEMENT_STEPS, SERVICES_CATALOG } from '../../content/siteFacts';
 
 const PRINCIPLES = [
@@ -147,13 +148,12 @@ export default function GlobalFootprintSection({ onServicesClick }) {
   return (
     <section className="hp-band">
       <div className="container">
-        <div className="hp-head">
-          <span className="svc-eyebrow">Delivery, Support and Communication</span>
-          <h2 className="hp-title">Based in Kathmandu, Working to Your Business Hours</h2>
-          <p className="hp-lede">
-            Velora Global builds and maintains custom web platforms, mobile applications and AI assistants for business clients, from Kathmandu, Nepal. We have no other offices — what changes by region is how your working hours overlap with ours, and what that means for meetings, demos and support.
-          </p>
-        </div>
+        <SectionHead
+          variant="band"
+          eyebrow="Delivery, Support and Communication"
+          title="Based in Kathmandu, Working to Your Business Hours"
+          lede="Velora Global builds and maintains custom web platforms, mobile applications and AI assistants for business clients, from Kathmandu, Nepal. We have no other offices — what changes by region is how your working hours overlap with ours, and what that means for meetings, demos and support."
+        />
 
         <div className="hp-facts">
           <div className="hp-fact">

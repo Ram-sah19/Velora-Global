@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import SectionHead from '../../components/SectionHead';
 import { api } from '../../services/api';
 
 function InfoRow({ icon, label, children }) {
@@ -67,14 +68,13 @@ export default function ContactSection() {
   return (
     <section id="contact-section" className="hp-band">
       <div className="container">
-        <div className="hp-head hp-head--center">
-          <span className="svc-eyebrow">Get In Touch</span>
-          <h2 className="hp-title">Contact &amp; Inquiries</h2>
-          <p className="hp-lede">
-            Have questions about internship enrollment, guided training tracks, or enterprise software
-            development? Reach out directly.
-          </p>
-        </div>
+        <SectionHead
+          variant="band"
+          center
+          eyebrow="Get In Touch"
+          title="Contact & Inquiries"
+          lede="Have questions about internship enrollment, guided training tracks, or enterprise software development? Reach out directly."
+        />
 
         <div className="hp-contact">
           <div>
@@ -291,9 +291,9 @@ export default function ContactSection() {
 
                 <p className="svc-consent">
                   Submitting this form means you agree to our{' '}
-                  <a href="/terms">Terms &amp; Conditions</a>
+                  <a className="svc-link" href="/terms">Terms &amp; Conditions</a>
                   {' '}and confirm we may reply to you, as described in our{' '}
-                  <a href="/privacy-policy">Privacy Policy</a>.
+                  <a className="svc-link" href="/privacy-policy">Privacy Policy</a>.
                 </p>
 
                 <div className="svc-form__actions">

@@ -131,7 +131,7 @@ export const TERMS_SECTIONS = [
     listType: 'ul',
     items: [
       { label: 'Practical internship', text: 'You choose the length: 2 weeks (NPR 199), 1 month (NPR 499), 2 months (NPR 999), 3 months (NPR 1,999), or 6 months (NPR 4,999). Interns are assigned to a real-world project brief drawn from our client work.' },
-      { label: 'Guided training', text: 'Instructor-led programs priced per program, from NPR 3,000 to NPR 12,000. The fee printed on each program card is the fee charged.' }
+      { label: 'Guided training', text: 'Instructor-led programs priced per program, from NPR 1,999 to NPR 11,999. The fee printed on each program card is the fee charged.' }
     ]
   },
   {

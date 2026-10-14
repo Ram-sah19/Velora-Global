@@ -103,8 +103,8 @@ Frontend Development, Backend Development, Full Stack Development, Mobile App De
 
 You choose the duration, and the fee follows it: 2 Weeks NPR 199 | 1 Month NPR 499 | 2 Months NPR 999 | 3 Months NPR 1,999 | 6 Months NPR 4,999. Interns are assigned a real-world project brief and graded against five published criteria.
 
-## Training Programs (13 programs, NPR 3,000 to NPR 12,000)
-Frontend with React.js, Backend with Node.js, Full Stack with AI Integration, AI & Machine Learning Engineering, Deep Learning & Neural Networks, JavaScript ES6+, Java with Spring Boot & Microservices, Python Automation & Scripting, MERN Stack, PERN Stack, UI/UX Product Design in Figma, Software Testing & QA Automation, Mobile App Engineering
+## Training Programs (14 programs, NPR 1,999 to NPR 11,999)
+Frontend with React.js, Backend with Node.js, Full Stack with AI Integration, AI & Machine Learning Engineering, Deep Learning & Neural Networks, AI Tools & Prompt Engineering, JavaScript ES6+, Java with Spring Boot & Microservices, Python Automation & Scripting, MERN Stack, PERN Stack, UI/UX Product Design in Figma, Software Testing & QA Automation, Mobile App Engineering
 
 Instructor-led: live sessions, step-by-step builds and a full codebase walkthrough, ending in a certificate with a verifiable ID.
 

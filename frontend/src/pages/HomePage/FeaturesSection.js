@@ -1,4 +1,5 @@
 import React from 'react';
+import SectionHead from '../../components/SectionHead';
 import { GRADING_CRITERIA } from '../../content/siteFacts';
 
 export default function FeaturesSection() {
@@ -28,13 +29,12 @@ export default function FeaturesSection() {
   return (
     <section className="hp-band hp-band--white">
       <div className="container">
-        <div className="hp-head">
-          <span className="svc-eyebrow">Why Velora Global</span>
-          <h2 className="hp-title">Built for Excellence &amp; Career Trust</h2>
-          <p className="hp-lede">
-            Our platform combines rigorous project standards, verified credentials, and founding leadership support.
-          </p>
-        </div>
+        <SectionHead
+          variant="band"
+          eyebrow="Why Velora Global"
+          title="Built for Excellence & Career Trust"
+          lede="Our platform combines rigorous project standards, verified credentials, and founding leadership support."
+        />
 
         <div className="hp-cells">
           {features.map((feature) => (
