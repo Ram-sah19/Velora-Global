@@ -42,6 +42,11 @@ export function useDialog(active, onClose) {
 
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
+        // This listener runs in the capture phase, before any handler on the target, so a
+        // listbox that is open has to be recognised here: Escape closes its panel, not the dialog.
+        if (event.target instanceof Element && event.target.closest('[role="combobox"][aria-expanded="true"]')) {
+          return;
+        }
         event.stopPropagation();
         closeRef.current();
         return;

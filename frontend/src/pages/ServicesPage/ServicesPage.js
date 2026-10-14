@@ -3,10 +3,42 @@ import ClientInquiryModal from '../../components/ClientInquiryModal';
 import { AnswerSection, PageFaq } from '../../components';
 import { ANSWER_BLOCKS, FAQS } from '../../content/siteFacts';
 
+const CATEGORY_FILTERS = [
+  { key: 'all', label: 'All Services' },
+  { key: 'web', label: 'Web App Development' },
+  { key: 'mobile', label: 'Mobile App Development' },
+  { key: 'ai', label: 'AI Chatbot Integration' },
+  { key: 'seo', label: 'SEO & Digital Growth' },
+  { key: 'support', label: 'Maintenance & Support' }
+];
+
+const PROCESS_STEPS = [
+  {
+    num: 'Step 01',
+    title: '1-on-1 Discovery Meeting',
+    text: 'We start with a call over Google Meet or Zoom, or an in-person meeting in Kathmandu, to understand your business model, target audience, and feature goals.'
+  },
+  {
+    num: 'Step 02',
+    title: 'Tailored Scope Blueprint',
+    text: 'Our leadership team drafts a comprehensive technical architecture, UI wireframe roadmap, transparent budget milestones, and realistic delivery schedule.'
+  },
+  {
+    num: 'Step 03',
+    title: 'Agile Sprints & Live Demos',
+    text: 'You get live staging previews and sprint updates with our engineering team, allowing your direct feedback to shape the product iteratively.'
+  },
+  {
+    num: 'Step 04',
+    title: 'Launch, Training & Warranty',
+    text: 'We deploy your system to cloud servers, transfer 100% full source code ownership, train your internal staff, and provide 30-day dedicated post-launch support.'
+  }
+];
+
 export default function ServicesPage({ selectedCategory = 'all', currentUser }) {
   const [activeCategory, setActiveCategory] = useState(selectedCategory);
   const [showClientModal, setShowClientModal] = useState(false);
-  const [targetServiceTitle, setTargetServiceTitle] = useState('Web Application Development');
+  const [targetServiceTitle, setTargetServiceTitle] = useState('Custom Web Application Development');
 
   React.useEffect(() => {
     if (selectedCategory) {
@@ -18,47 +50,115 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
     {
       id: 'web-dev',
       category: 'web',
-      badge: 'Web Solutions',
-      title: 'Web Application Development',
-      tagline: 'Custom SaaS, Enterprise Web Portals & High-Performance Full Stack Systems',
-      deliverables: [
-        'MERN Full Stack MVC Architecture (MongoDB, Express, React, Node.js)',
-        'Custom Enterprise Web Portals & High-Performance SaaS Systems',
-        'Scalable REST & GraphQL Microservice APIs',
-        'Responsive Mobile-First UI/UX & Cloud DB Infrastructure'
+      label: 'Digital Solutions',
+      title: 'Custom Web Application Development',
+      subtitle: 'Powerful digital platforms built around your business needs.',
+      features: [
+        'Custom Business Platforms',
+        'Customer Portals',
+        'Workflow Automation',
+        'Online Booking Systems',
+        'Business Management Tools'
       ],
-      techStack: ['MERN Stack', 'Full Stack MVC', 'React.js', 'Node.js', 'Express', 'MongoDB Atlas'],
-      description: 'We build high-performance, secure, and scalable web applications tailored to your business goals. Powered by MERN Full Stack MVC Architecture, our platform delivers production-ready code with modern enterprise standards.'
+      deliverables: [
+        'A custom application tailored to your business processes.',
+        'Easy-to-use dashboards and management tools.',
+        'Secure user accounts and role-based access.',
+        'Streamlined workflows and automated tasks.',
+        'Responsive experiences across desktop, tablet, and mobile.',
+        'Ongoing support and improvements, where included in the service offering.'
+      ],
+      description: 'We build custom web applications that simplify operations, improve customer experiences, and help businesses grow. From customer portals and booking platforms to complex business management systems, we turn your requirements into reliable, easy-to-use digital solutions.'
     },
     {
       id: 'mobile-dev',
       category: 'mobile',
-      badge: 'Mobile Solutions',
-      title: 'Mobile Application Development',
-      tagline: 'Cross-Platform iOS & Android Apps with Native Performance & Fluid UX',
-      deliverables: [
-        'iOS & Android Cross-Platform Mobile Apps',
-        'Real-Time Offline Data Sync & Push Notifications',
-        'Native Device Hardware API Integration',
-        'App Store & Google Play Store Publishing'
+      label: 'Mobile Solutions',
+      title: 'Mobile App Development',
+      subtitle: 'Seamless mobile experiences that keep your customers connected.',
+      features: [
+        'Customer Mobile Apps',
+        'Online Ordering and Booking',
+        'Real-Time Notifications',
+        'Account and Profile Management',
+        'Mobile Business Tools'
       ],
-      techStack: ['React Native', 'Flutter', 'iOS & Android Native UI', 'REST APIs', 'Firebase'],
-      description: 'Transform your ideas into intuitive, high-speed mobile applications. We design cross-platform apps using React Native and Flutter, ensuring cost-efficient deployment across iOS and Android with single-codebase efficiency.'
+      deliverables: [
+        'A mobile application designed around your business goals.',
+        'Simple and intuitive screens and navigation.',
+        'Customer accounts and personalized experiences, where required.',
+        'Notifications and real-time updates, where applicable.',
+        'Testing across supported devices.',
+        'App store submission assistance, where included in the agreed scope.'
+      ],
+      description: 'We create intuitive mobile applications that help businesses reach customers, deliver services, and simplify everyday interactions. From customer-facing apps to internal business tools, we focus on usability, performance, and a consistent experience across mobile devices.'
     },
     {
       id: 'ai-chatbot',
       category: 'ai',
-      badge: 'AI & Automation',
+      label: 'Automation Solutions',
       title: 'AI Chatbots & Intelligent Agents',
-      tagline: 'Autonomous Support Agents, Conversational LLM Bots & Smart Workflow Automation',
-      deliverables: [
-        'Custom 24/7 AI Customer Support Chatbots',
-        'Gemini & OpenAI LLM RAG System Integrations',
-        'Natural Language FAQ & Smart Lead Capture Systems',
-        'Automated Business Workflow Pipeline Automations'
+      subtitle: 'Automated customer support and lead capture that works around the clock.',
+      features: [
+        '24/7 Customer Support',
+        'Answers From Your Documents',
+        'Smart Lead Capture',
+        'Routine Task Automation',
+        'Website and App Integration'
       ],
-      techStack: ['Python', 'PyTorch / TensorFlow', 'LangChain', 'OpenAI & Gemini APIs', 'Node.js'],
-      description: 'We build conversational AI assistants, support agents, and workflow automations that answer from your own documents using retrieval-augmented generation.'
+      deliverables: [
+        'A support assistant that answers customer questions at any hour.',
+        'Responses based on your own documents, policies, and service information.',
+        'Website enquiries captured and routed to your team.',
+        'Routine requests and repetitive internal tasks handled automatically.',
+        'The assistant placed inside your existing website or mobile application.'
+      ],
+      description: 'We build digital assistants that answer customer questions at any time of day, working from your own business documents rather than generic replies. They capture enquiries from your website and take over the repetitive requests your staff would otherwise handle by hand.'
+    },
+    {
+      id: 'seo-growth',
+      category: 'seo',
+      label: 'Search & Growth',
+      title: 'SEO & Digital Growth',
+      subtitle: 'Make your business easier to find when customers search online.',
+      features: [
+        'Search Visibility',
+        'Local Search Presence',
+        'Keyword and Competitor Research',
+        'Page Speed Improvement',
+        'Written Performance Reports'
+      ],
+      deliverables: [
+        'A written audit of where your business stands in search today.',
+        'Page content and structure aligned with the terms your customers search.',
+        'A stronger presence in local search and on your Google Business Profile.',
+        'Faster pages that present well on mobile devices.',
+        'A closing report of the changes made and how the site now performs.'
+      ],
+      description: 'We improve how visible your business is in search results. Work begins with an audit of where you stand today, then covers site structure, page content, and loading speed — the factors that decide whether a customer finds you or moves on. You finish with a written account of what changed.'
+    },
+    {
+      id: 'maintenance-support',
+      category: 'support',
+      label: 'Care & Support',
+      title: 'Website Maintenance & Support',
+      subtitle: 'Keep your website secure, current, and running properly after launch.',
+      features: [
+        'Content and Feature Updates',
+        'Bug Fixing and Troubleshooting',
+        'Security and Uptime Monitoring',
+        'Scheduled Backups',
+        'Hosting and Domain Migration'
+      ],
+      deliverables: [
+        'Content, image, and feature updates on your live website.',
+        'Bug fixing and troubleshooting when something stops working.',
+        'Security patching, SSL checks, and uptime monitoring.',
+        'Scheduled backups and recovery support.',
+        'Help with hosting, domain, and website migration.',
+        'Direct support from the team that built your system.'
+      ],
+      description: 'Launching a project is not where our involvement ends. We keep your system current afterwards — content changes, feature updates, security and backup routines, and practical help with hosting — handled by the same team that built it, so nothing has to be explained twice.'
     }
   ];
 
@@ -67,361 +167,146 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
     : servicesList.filter(s => s.category === activeCategory);
 
   const openInquiryModal = (serviceTitle) => {
-    setTargetServiceTitle(serviceTitle || 'Web Application Development');
+    setTargetServiceTitle(serviceTitle || 'Custom Web Application Development');
     setShowClientModal(true);
   };
 
   return (
-    <section style={{ padding: '4rem 0' }}>
+    <section className="services-page">
       <div className="container">
-        
-        {/* Section Header */}
-        <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 2.5rem auto' }}>
-          <span className="badge badge-coral" style={{ marginBottom: '0.75rem' }}>Enterprise Tech Solutions</span>
-          <h1 style={{ fontSize: '2.5rem', color: '#0b0f19', marginBottom: '1rem', lineHeight: '1.2' }}>
-            <span className="text-coral">Tech Services</span> &amp; Custom Software Development in Nepal
+
+        <header className="svc-head">
+          <p className="svc-eyebrow">Solutions for Business Owners</p>
+          <h1 className="svc-title">
+            Tech Services &amp; Custom Software Development in Nepal
           </h1>
-          <p style={{ color: '#64748b', fontSize: '1.1rem', lineHeight: '1.6' }}>
-            Velora Global builds and ships the full stack of a product — web portals and SaaS systems, cross-platform iOS and Android apps, and AI assistants trained on your own documents.
+          <p className="svc-lede">
+            Velora Global builds digital systems that help businesses run better — custom web platforms, mobile applications, and automated customer support. We also handle what comes after launch: making your business easier to find online, and keeping your systems current, secure, and dependable.
           </p>
-        </div>
+        </header>
 
-        {/* Category Filter Pills */}
-        <div role="group" aria-label="Filter services by category" style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '3rem' }}>
-          <button
-            type="button"
-            aria-pressed={activeCategory === 'all'}
-            onClick={() => setActiveCategory('all')}
-            style={{
-              padding: '0.6rem 1.3rem',
-              borderRadius: '9999px',
-              fontSize: '0.9rem',
-              fontWeight: '700',
-              background: activeCategory === 'all' ? '#0b0f19' : '#ffffff',
-              border: activeCategory === 'all' ? '1px solid #0b0f19' : '1px solid #e2e8f0',
-              color: activeCategory === 'all' ? '#ffffff' : '#64748b',
-              boxShadow: 'var(--shadow-sm)',
-              cursor: 'pointer'
-            }}
-          >
-            All Services
-          </button>
-          <button
-            type="button"
-            aria-pressed={activeCategory === 'web'}
-            onClick={() => setActiveCategory('web')}
-            style={{
-              padding: '0.6rem 1.3rem',
-              borderRadius: '9999px',
-              fontSize: '0.9rem',
-              fontWeight: '700',
-              background: activeCategory === 'web' ? '#2563eb' : '#ffffff',
-              border: activeCategory === 'web' ? '1px solid #2563eb' : '1px solid #e2e8f0',
-              color: activeCategory === 'web' ? '#ffffff' : '#64748b',
-              boxShadow: 'var(--shadow-sm)',
-              cursor: 'pointer'
-            }}
-          >
-            Web App Development
-          </button>
-          <button
-            type="button"
-            aria-pressed={activeCategory === 'mobile'}
-            onClick={() => setActiveCategory('mobile')}
-            style={{
-              padding: '0.6rem 1.3rem',
-              borderRadius: '9999px',
-              fontSize: '0.9rem',
-              fontWeight: '700',
-              background: activeCategory === 'mobile' ? '#2563eb' : '#ffffff',
-              border: activeCategory === 'mobile' ? '1px solid #2563eb' : '1px solid #e2e8f0',
-              color: activeCategory === 'mobile' ? '#ffffff' : '#64748b',
-              boxShadow: 'var(--shadow-sm)',
-              cursor: 'pointer'
-            }}
-          >
-            Mobile App Development
-          </button>
-          <button
-            type="button"
-            aria-pressed={activeCategory === 'ai'}
-            onClick={() => setActiveCategory('ai')}
-            style={{
-              padding: '0.6rem 1.3rem',
-              borderRadius: '9999px',
-              fontSize: '0.9rem',
-              fontWeight: '700',
-              background: activeCategory === 'ai' ? '#2563eb' : '#ffffff',
-              border: activeCategory === 'ai' ? '1px solid #2563eb' : '1px solid #e2e8f0',
-              color: activeCategory === 'ai' ? '#ffffff' : '#64748b',
-              boxShadow: 'var(--shadow-sm)',
-              cursor: 'pointer'
-            }}
-          >
-            AI Chatbot Integration
-          </button>
-        </div>
-
-        {/* Services Showcase Cards */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
-          {filteredServices.map((service) => (
-            <div 
-              key={service.id} 
-              className="corporate-card" 
-              style={{
-                padding: '2.5rem',
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-                gap: '2.5rem',
-                alignItems: 'center'
-              }}
+        <div className="svc-toolbar" role="group" aria-label="Filter services by category">
+          {CATEGORY_FILTERS.map((filter) => (
+            <button
+              key={filter.key}
+              type="button"
+              className="svc-filter"
+              aria-pressed={activeCategory === filter.key}
+              onClick={() => setActiveCategory(filter.key)}
             >
+              {filter.label}
+            </button>
+          ))}
+        </div>
+
+        <h2 className="visually-hidden">Service offerings</h2>
+        <div className="svc-list">
+          {filteredServices.map((service) => (
+            <article key={service.id} className="svc-card">
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-                  <span className="badge badge-blue" style={{ fontSize: '0.8rem' }}>{service.badge}</span>
-                </div>
-
-                <h3 style={{ fontSize: '1.8rem', color: '#0b0f19', marginBottom: '0.5rem', fontWeight: '800' }}>
-                  {service.title}
-                </h3>
-
-                <p style={{ color: '#2563eb', fontWeight: '700', fontSize: '1rem', marginBottom: '1.25rem' }}>
-                  {service.tagline}
-                </p>
-
-                <p style={{ color: '#64748b', fontSize: '0.98rem', lineHeight: '1.7', marginBottom: '1.5rem' }}>
-                  {service.description}
-                </p>
-
-                {/* Tech Stack Pills */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem', marginBottom: '1.5rem' }}>
-                  {service.techStack.map((tech, i) => (
-                    <span 
-                      key={i} 
-                      style={{
-                        fontSize: '0.8rem',
-                        background: '#f1f5f9',
-                        border: '1px solid #cbd5e1',
-                        padding: '0.3rem 0.75rem',
-                        borderRadius: '6px',
-                        color: '#0b0f19',
-                        fontWeight: '700'
-                      }}
-                    >
-                      {tech}
-                    </span>
+                <p className="svc-eyebrow">{service.label}</p>
+                <h3 className="svc-card__title">{service.title}</h3>
+                <p className="svc-card__tagline">{service.subtitle}</p>
+                <p className="svc-card__desc">{service.description}</p>
+                <ul className="svc-features">
+                  {service.features.map((feature) => (
+                    <li key={feature}>{feature}</li>
                   ))}
-                </div>
+                </ul>
               </div>
 
-              {/* Deliverables List Box & Call to Action */}
-              <div style={{
-                background: '#f8fafc',
-                border: '1px solid #e2e8f0',
-                borderRadius: '16px',
-                padding: '1.75rem'
-              }}>
-                <h4 style={{ fontSize: '1.05rem', color: '#0b0f19', marginBottom: '1rem', fontWeight: '800' }}>
-                  Key Deliverables Included:
-                </h4>
-
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.75rem', fontSize: '0.92rem', color: '#334155' }}>
-                  {service.deliverables.map((item, index) => (
-                    <li key={index} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem' }}>
-                      <span style={{ color: '#10b981', fontWeight: '800' }}>✓</span>
+              <div className="svc-card__aside">
+                <h4 className="svc-aside-label">What You Get</h4>
+                <ul className="svc-deliverables">
+                  {service.deliverables.map((item) => (
+                    <li key={item}>
+                      <svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M5 10.5L8 13.5L15 6.5" stroke="#1d4ed8" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
                       <span>{item}</span>
                     </li>
                   ))}
                 </ul>
-
                 <button
+                  type="button"
+                  className="svc-btn svc-btn--primary svc-btn--block"
                   onClick={() => openInquiryModal(service.title)}
-                  className="btn-coral"
-                  style={{
-                    display: 'block',
-                    textAlign: 'center',
-                    width: '100%',
-                    padding: '0.85rem 1.25rem',
-                    fontSize: '0.95rem',
-                    fontWeight: '700',
-                    cursor: 'pointer'
-                  }}
                 >
-                  Inquire for {service.title}
+                  Discuss Your Project
                 </button>
               </div>
-            </div>
+            </article>
           ))}
         </div>
 
-        {/* Face-to-Face & Virtual Project Discovery Engagement Framework */}
-        <div style={{
-          marginTop: '5rem',
-          background: '#ffffff',
-          border: '1px solid #e2e8f0',
-          borderRadius: '24px',
-          padding: '3.5rem 2.5rem',
-          boxShadow: 'var(--shadow-md)'
-        }}>
-          <div style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 3rem auto' }}>
-            <span className="badge badge-blue" style={{ marginBottom: '0.65rem' }}>How We Deliver Excellence</span>
-            <h2 style={{ fontSize: '2.2rem', color: '#0b0f19', fontWeight: '800', lineHeight: '1.25' }}>
-              Our 4-Step Client Engagement Process
-            </h2>
-            <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.5rem', lineHeight: '1.6' }}>
-              Every serious project is unique. We believe in direct, face-to-face consultation to understand your exact business workflow before writing a single line of code.
-            </p>
-          </div>
+        <section className="svc-process" aria-labelledby="svc-process-title">
+          <p className="svc-eyebrow">How We Deliver Excellence</p>
+          <h2 id="svc-process-title" className="svc-section-title">Our 4-Step Client Engagement Process</h2>
+          <p className="svc-section-lede">
+            Every serious project is unique. We believe in direct, face-to-face consultation to understand your exact business workflow before writing a single line of code.
+          </p>
 
-          {/* 4 Process Cards */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '1.75rem',
-            marginBottom: '3.5rem'
-          }}>
-            <div style={{
-              background: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: '16px',
-              padding: '1.75rem'
-            }}>
-              <span style={{ fontSize: '0.82rem', fontWeight: '800', color: '#2563eb', background: '#eff6ff', border: '1px solid #dbeafe', padding: '0.25rem 0.65rem', borderRadius: '6px', display: 'inline-block', marginBottom: '1rem' }}>
-                STEP 01
-              </span>
-              <h4 style={{ fontSize: '1.15rem', color: '#0b0f19', fontWeight: '700', marginBottom: '0.6rem' }}>
-                1-on-1 Discovery Meeting
-              </h4>
-              <p style={{ fontSize: '0.88rem', color: '#64748b', lineHeight: '1.55', margin: 0 }}>
-                We start with a call over Google Meet or Zoom, or an in-person meeting in Kathmandu, to understand your business model, target audience, and feature goals.
-              </p>
-            </div>
+          <ol className="svc-steps">
+            {PROCESS_STEPS.map((step) => (
+              <li key={step.num} className="svc-step">
+                <span className="svc-step__num">{step.num}</span>
+                <h3 className="svc-step__title">{step.title}</h3>
+                <p className="svc-step__text">{step.text}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
 
-            <div style={{
-              background: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: '16px',
-              padding: '1.75rem'
-            }}>
-              <span style={{ fontSize: '0.82rem', fontWeight: '800', color: '#2563eb', background: '#eff6ff', border: '1px solid #dbeafe', padding: '0.25rem 0.65rem', borderRadius: '6px', display: 'inline-block', marginBottom: '1rem' }}>
-                STEP 02
-              </span>
-              <h4 style={{ fontSize: '1.15rem', color: '#0b0f19', fontWeight: '700', marginBottom: '0.6rem' }}>
-                Tailored Scope Blueprint
-              </h4>
-              <p style={{ fontSize: '0.88rem', color: '#64748b', lineHeight: '1.55', margin: 0 }}>
-                Our leadership team drafts a comprehensive technical architecture, UI wireframe roadmap, transparent budget milestones, and realistic delivery schedule.
-              </p>
-            </div>
+      </div>
 
-            <div style={{
-              background: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: '16px',
-              padding: '1.75rem'
-            }}>
-              <span style={{ fontSize: '0.82rem', fontWeight: '800', color: '#2563eb', background: '#eff6ff', border: '1px solid #dbeafe', padding: '0.25rem 0.65rem', borderRadius: '6px', display: 'inline-block', marginBottom: '1rem' }}>
-                STEP 03
-              </span>
-              <h4 style={{ fontSize: '1.15rem', color: '#0b0f19', fontWeight: '700', marginBottom: '0.6rem' }}>
-                Agile Sprints & Live Demos
-              </h4>
-              <p style={{ fontSize: '0.88rem', color: '#64748b', lineHeight: '1.55', margin: 0 }}>
-                You get live staging previews and sprint updates with our engineering team, allowing your direct feedback to shape the product iteratively.
-              </p>
-            </div>
-
-            <div style={{
-              background: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: '16px',
-              padding: '1.75rem'
-            }}>
-              <span style={{ fontSize: '0.82rem', fontWeight: '800', color: '#2563eb', background: '#eff6ff', border: '1px solid #dbeafe', padding: '0.25rem 0.65rem', borderRadius: '6px', display: 'inline-block', marginBottom: '1rem' }}>
-                STEP 04
-              </span>
-              <h4 style={{ fontSize: '1.15rem', color: '#0b0f19', fontWeight: '700', marginBottom: '0.6rem' }}>
-                Launch, Training & Warranty
-              </h4>
-              <p style={{ fontSize: '0.88rem', color: '#64748b', lineHeight: '1.55', margin: 0 }}>
-                We deploy your system to cloud servers, transfer 100% full source code ownership, train your internal staff, and provide 30-day dedicated post-launch support.
-              </p>
-            </div>
-          </div>
-
-          {/* Direct Face-to-Face Meeting Booking Card */}
-          <div style={{
-            background: 'linear-gradient(135deg, #0b0f19 0%, #1e293b 100%)',
-            borderRadius: '20px',
-            padding: '3rem',
-            color: '#ffffff',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            textAlign: 'center',
-            boxShadow: 'var(--shadow-lg)'
-          }}>
-            <span className="badge badge-coral" style={{ marginBottom: '1rem' }}>Direct Leadership Consultation</span>
-            <h3 style={{ fontSize: '2rem', fontWeight: '800', color: '#ffffff', marginBottom: '0.85rem' }}>
-              Schedule a Face-to-Face Project Discussion
-            </h3>
-            <p style={{ color: '#cbd5e1', fontSize: '1.05rem', maxWidth: '680px', margin: '0 auto 2rem auto', lineHeight: '1.6' }}>
-              Visit our office in Balkumari, Kathmandu, or book an interactive video session with Founder Abhishek Sah & our technical team to discuss your project requirements.
+      {/* Full-bleed band: outside the container so the colour covers the viewport. */}
+      <section className="svc-cta" aria-labelledby="svc-cta-title">
+        <div className="container svc-cta__inner">
+          <div>
+            <p className="svc-eyebrow">Direct Leadership Consultation</p>
+            <h2 id="svc-cta-title" className="svc-cta__title">Schedule a Face-to-Face Project Discussion</h2>
+            <p className="svc-cta__text">
+              Visit our office in Balkumari, Kathmandu, or book an interactive video session with Founder Abhishek Sah &amp; our delivery team to discuss your project requirements.
             </p>
 
-            <div style={{
-              display: 'flex',
-              gap: '1.5rem',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              marginBottom: '2rem',
-              fontSize: '0.9rem',
-              color: '#94a3b8'
-            }}>
-              <div>
-                <strong style={{ color: '#ffffff' }}>Office Location:</strong> Balkumari, Ring Road, Kathmandu
-              </div>
-              <div>
-                <strong style={{ color: '#ffffff' }}>Virtual Meeting:</strong> Google Meet / Zoom / WhatsApp
-              </div>
-              <div>
-                <strong style={{ color: '#ffffff' }}>Helpline:</strong> +977 9826031419
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <div className="svc-cta__actions">
               <a
+                className="svc-btn svc-btn--whatsapp"
                 href="https://wa.me/9779826031419?text=Hello%20Velora%20Global%20Team%2C%20I%20would%20like%20to%20schedule%20a%20face-to-face%20meeting%20to%20discuss%20a%20custom%20software%20project."
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{
-                  padding: '0.85rem 1.75rem',
-                  fontSize: '0.95rem',
-                  fontWeight: '700',
-                  background: '#25D366',
-                  color: '#ffffff',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  textDecoration: 'none',
-                  borderRadius: '10px',
-                  boxShadow: '0 4px 14px rgba(37, 211, 102, 0.35)'
-                }}
               >
                 Schedule via WhatsApp (+977 9826031419)
               </a>
 
               <button
+                type="button"
+                className="svc-btn svc-btn--primary"
                 onClick={() => openInquiryModal('Direct Face-to-Face Project Discussion')}
-                className="btn-coral"
-                style={{ padding: '0.85rem 1.75rem', fontSize: '0.95rem', fontWeight: '700', borderRadius: '10px' }}
               >
                 Request In-Person Consultation
               </button>
             </div>
           </div>
-        </div>
 
+          <dl className="svc-cta__facts">
+            <div>
+              <dt>Office Location</dt>
+              <dd>Balkumari, Ring Road, Kathmandu</dd>
+            </div>
+            <div>
+              <dt>Virtual Meeting</dt>
+              <dd>Google Meet / Zoom / WhatsApp</dd>
+            </div>
+            <div>
+              <dt>Helpline</dt>
+              <dd>+977 9826031419</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <div className="container">
         <PageFaq items={FAQS.services} />
 
         <AnswerSection

@@ -4,7 +4,7 @@ import DomainSpecializationsSection from './DomainSpecializationsSection';
 import StudentJourneySection from './StudentJourneySection';
 import FeaturesSection from './FeaturesSection';
 import GlobalFootprintSection from './GlobalFootprintSection';
-import ProjectCarousel3D from './ProjectCarousel3D';
+import ProductConceptsSection from './ProductConceptsSection';
 import FaqSection from './FaqSection';
 import ContactSection from './ContactSection';
 
@@ -51,34 +51,29 @@ export default function HomePage({ onExploreClick, onTrainingClick, onServicesCl
         onServicesClick={onServicesClick}
       />
 
-      {/* 2. Domain Specializations Explorer ("What We Do") */}
-      <DomainSpecializationsSection 
-        onExploreClick={onExploreClick}
-        onTrainingClick={onTrainingClick}
+      {/* 2. What We Do: the published service lines and their business purpose */}
+      <DomainSpecializationsSection onServicesClick={onServicesClick} />
+
+      {/* 3. Product Concepts: four concept builds in a plus grid, full-width teal band */}
+      <ProductConceptsSection onConsultationClick={onConsultationClick} />
+
+      {/* 4. Global Footprint (Kathmandu HQ and remote client delivery windows) */}
+      <GlobalFootprintSection
+        onServicesClick={onServicesClick}
       />
 
-      {/* 3. Live 3D Showcase: Delivered Client Projects & Production Systems */}
-      <div className="container">
-        <ProjectCarousel3D onConsultationClick={onConsultationClick} />
-      </div>
-
-      {/* 3. Global Footprint (Nepal HQ to USA Hub & Multinational Clients) */}
-      <GlobalFootprintSection 
-        onConsultationClick={onConsultationClick}
-      />
-
-      {/* 4. Production Rigor & Engineering Standards (Why Velora Global) */}
+      {/* 5. Production Rigor & Engineering Standards (Why Velora Global) */}
       <FeaturesSection />
 
-      {/* 5. Talent & Mentorship Engine: Structured Student Journey & Internship Framework */}
+      {/* 6. Talent & Mentorship Engine: Structured Student Journey & Internship Framework */}
       <StudentJourneySection 
         onApplyClick={onExploreClick}
       />
 
-      {/* 6. Frequently Asked Questions */}
+      {/* 7. Frequently Asked Questions */}
       <FaqSection />
 
-      {/* 7. Direct Consultation & Enterprise Inquiries */}
+      {/* 8. Direct Consultation & Enterprise Inquiries */}
       <ContactSection />
     </div>
   );

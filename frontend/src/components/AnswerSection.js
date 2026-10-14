@@ -16,7 +16,7 @@ export default function AnswerSection({ heading, answer, specs = [], steps = [],
         style={{
           background: '#ffffff',
           border: '1px solid #e2e8f0',
-          borderRadius: '20px',
+          borderRadius: 'var(--answer-radius, 20px)',
           padding: '2rem 2rem 2.25rem',
           boxShadow: 'var(--shadow-sm)'
         }}

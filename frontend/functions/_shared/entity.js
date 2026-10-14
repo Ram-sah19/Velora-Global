@@ -116,7 +116,7 @@ export const FAQS = {
     {
       question: "How does Velora Global price a custom software project?",
       answer:
-        "Each project is quoted after a scoping meeting rather than from a fixed price list. Once we understand your business model and feature goals, our leadership team drafts the technical architecture, a UI wireframe roadmap, budget milestones and a delivery schedule before any code is written."
+        "Each project is quoted after a scoping meeting rather than from a fixed price list. Once we understand your business model and goals, we put the plan in writing — system design, screen-by-screen wireframes, budget milestones and a delivery schedule — before any work begins."
     },
     {
       question: "Do we keep ownership of the source code?",
@@ -126,12 +126,12 @@ export const FAQS = {
     {
       question: "Can we meet the team in person?",
       answer:
-        "Yes. Discovery meetings are held at our office in Balkumari, Kathmandu, or remotely over Google Meet or Zoom, with Founder Abhishek Sah and the technical team."
+        "Yes. Discovery meetings are held at our office in Balkumari, Kathmandu, or remotely over Google Meet or Zoom, with Founder Abhishek Sah and the delivery team."
     },
     {
-      question: "Which technologies does Velora Global build with?",
+      question: "Do we need to choose the technology or platforms?",
       answer:
-        "Web applications use the MERN stack (MongoDB, Express, React, Node.js) with REST and GraphQL APIs. Mobile apps use React Native or Flutter on a single codebase. AI work uses Python with LangChain and the OpenAI and Gemini APIs."
+        "No. You decide the outcomes — what the system must do, who will use it, and what it can cost — and we recommend how to build it, explaining the trade-offs in business terms: upfront cost, how easily the system can grow later, and how well it runs on the devices your customers already use."
     }
   ],
   internships: [
@@ -208,22 +208,34 @@ export const INTERNSHIP_TIERS = [
 
 export const SERVICES_CATALOG = [
   {
-    name: "Web Application Development",
+    name: "Custom Web Application Development",
     serviceType: "Web Application Development",
     description:
-      "Custom SaaS products, enterprise web portals and full stack systems built on the MERN stack with REST and GraphQL APIs."
+      "Customer portals, booking platforms and business management systems built around your processes, with secure user accounts and easy-to-use dashboards."
   },
   {
-    name: "Mobile Application Development",
+    name: "Mobile App Development",
     serviceType: "Mobile Application Development",
     description:
-      "Cross-platform iOS and Android applications built on a single React Native or Flutter codebase, published to the App Store and Google Play."
+      "Intuitive iOS and Android applications for customer-facing services and internal business tools, focused on usability and consistent performance."
   },
   {
     name: "AI Chatbots & Intelligent Agents",
     serviceType: "AI Chatbot Development",
     description:
-      "Conversational support agents and workflow automation built with Python, LangChain and the OpenAI and Gemini APIs."
+      "Digital assistants that answer customer questions around the clock from your own documents, capture website enquiries, and take over repetitive internal tasks."
+  },
+  {
+    name: "SEO & Digital Growth",
+    serviceType: "SEO & Digital Marketing",
+    description:
+      "Search visibility work that starts with a written audit: page content and structure, keyword and competitor research, local search and Google Business Profile setup, page speed, and a closing report."
+  },
+  {
+    name: "Website Maintenance & Support",
+    serviceType: "Website Maintenance & Support",
+    description:
+      "Content and feature updates, bug fixing, security and uptime monitoring, backups, and hosting or migration support for systems already in production."
   }
 ];
 
@@ -376,10 +388,12 @@ function serviceNode(seo) {
     "serviceType": [
       "Web Application Development",
       "Mobile Application Development",
-      "AI Chatbot Development"
+      "AI Chatbot Development",
+      "SEO & Digital Marketing",
+      "Website Maintenance & Support"
     ],
     "description":
-      "Custom web applications, cross-platform mobile applications and AI chatbot systems, delivered through a four-step engagement: discovery meeting, scope blueprint, agile sprints with live demos, then launch with source code transfer and 30 days of post-launch support.",
+      "Custom web applications, cross-platform mobile applications, AI chatbot systems, SEO and ongoing website maintenance, delivered through a four-step engagement: discovery meeting, scope blueprint, agile sprints with live demos, then launch with source code transfer and 30 days of post-launch support.",
     "provider": { "@id": ORG_ID },
     "url": canonical,
     "areaServed": "Remote and in-person from Kathmandu, Nepal",

@@ -10,48 +10,16 @@ export default function PageFaq({ items = [], heading = 'Questions this page ans
   if (!items.length) return null;
 
   return (
-    <section className="container" style={{ maxWidth: '900px', margin: '3rem auto 0', padding: '0 1.5rem' }} aria-labelledby="page-faq-heading">
-      <h2 id="page-faq-heading" style={{
-        fontFamily: 'var(--font-heading)',
-        fontSize: '1.6rem',
-        color: '#0b0f19',
-        margin: '0 0 1.25rem'
-      }}>
+    <section className="container page-faq" aria-labelledby="page-faq-heading">
+      <h2 id="page-faq-heading" className="page-faq__heading">
         {heading}
       </h2>
 
-      <div style={{ display: 'grid', gap: '0.75rem' }}>
+      <div className="page-faq__list">
         {items.map((item) => (
-          <details
-            key={item.question}
-            style={{
-              background: '#ffffff',
-              border: '1px solid #e2e8f0',
-              borderRadius: '14px',
-              padding: '1rem 1.25rem',
-              boxShadow: 'var(--shadow-sm)'
-            }}
-          >
-            <summary style={{
-              cursor: 'pointer',
-              fontWeight: 700,
-              fontSize: '1rem',
-              color: '#0b0f19',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              gap: '1rem'
-            }}>
-              {item.question}
-            </summary>
-            <p style={{
-              margin: '0.75rem 0 0',
-              color: '#475569',
-              fontSize: '0.95rem',
-              lineHeight: 1.7
-            }}>
-              {item.answer}
-            </p>
+          <details key={item.question} className="page-faq__item">
+            <summary className="page-faq__q">{item.question}</summary>
+            <p className="page-faq__a">{item.answer}</p>
           </details>
         ))}
       </div>

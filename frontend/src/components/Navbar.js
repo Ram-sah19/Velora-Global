@@ -6,10 +6,11 @@ import { tabToPathMap } from '../constants';
 const isPlainLeftClick = (event) =>
   event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
 
-function NavTab({ href, isActive, onActivate, activeBg = '#2563eb', hasPopup, expanded, children, style }) {
+function NavTab({ href, isActive, onActivate, hasPopup, expanded, children }) {
   return (
     <a
       href={href}
+      className="nav-tab"
       aria-current={isActive ? 'page' : undefined}
       aria-haspopup={hasPopup ? 'true' : undefined}
       aria-expanded={hasPopup ? expanded : undefined}
@@ -18,29 +19,6 @@ function NavTab({ href, isActive, onActivate, activeBg = '#2563eb', hasPopup, ex
           event.preventDefault();
           onActivate();
         }
-      }}
-      onMouseEnter={(event) => {
-        if (!isActive) event.currentTarget.style.background = '#f1f5f9';
-      }}
-      onMouseLeave={(event) => {
-        if (!isActive) event.currentTarget.style.background = 'transparent';
-      }}
-      style={{
-        padding: '0.5rem 1.15rem',
-        borderRadius: '9999px',
-        fontSize: '0.88rem',
-        fontWeight: '700',
-        fontFamily: 'var(--font-body)',
-        background: isActive ? activeBg : 'transparent',
-        color: isActive ? '#ffffff' : '#0b0f19',
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '0.3rem',
-        whiteSpace: 'nowrap',
-        textDecoration: 'none',
-        cursor: 'pointer',
-        transition: 'all 0.15s ease',
-        ...style
       }}
     >
       {children}
@@ -88,6 +66,53 @@ const CloseIcon = () => (
   </svg>
 );
 
+// Every column heading links to a matching /services filter, so the menu and the page
+// advertise the same five offerings.
+const SERVICE_MENU_COLUMNS = [
+  {
+    heading: 'Web Development',
+    category: 'web',
+    items: [
+      'Business & Corporate Sites',
+      'E-commerce Development',
+      'School & College Portals',
+      'Custom Web Applications',
+      'Landing Pages',
+      'Redesign & UI/UX'
+    ]
+  },
+  {
+    heading: 'SEO & Digital Growth',
+    category: 'seo',
+    items: [
+      'Technical & On-Page SEO',
+      'Local SEO',
+      'Keyword Research',
+      'Google Business Profile',
+      'Speed Optimization',
+      'SEO Audits & Reports'
+    ]
+  },
+  {
+    heading: 'Maintenance & Support',
+    category: 'support',
+    items: [
+      'Content & Feature Updates',
+      'Bug Fixing',
+      'Security & Monitoring',
+      'Backup & Recovery',
+      'Hosting & Domain Support',
+      'Website Migration'
+    ]
+  }
+];
+
+const SERVICE_MENU_LINKS = [
+  { label: 'All Services Overview', category: 'all' },
+  { label: 'Mobile App Development', category: 'mobile' },
+  { label: 'AI Chatbots & Intelligent Agents', category: 'ai' }
+];
+
 function DrawerLink({ href, isActive, onActivate, activeBg = '#2563eb', activeSoft = '#eff6ff', children }) {
   return (
     <a
@@ -103,8 +128,11 @@ function DrawerLink({ href, isActive, onActivate, activeBg = '#2563eb', activeSo
         padding: '0.75rem 1rem',
         borderRadius: '10px',
         textAlign: 'left',
-        fontWeight: '700',
-        fontFamily: 'var(--font-body)',
+        fontSize: '0.78rem',
+        fontWeight: '500',
+        fontFamily: 'var(--font-ui)',
+        textTransform: 'uppercase',
+        letterSpacing: '0.13em',
         background: isActive ? activeSoft : '#f8fafc',
         color: isActive ? activeBg : '#0b0f19',
         textDecoration: 'none',
@@ -254,9 +282,10 @@ export default function Navbar({
             </NavTab>
 
             {/* Services Tab - Global Enterprise Solutions */}
+            {/* Static on purpose: the mega menu is a DOM child here, but resolves its box
+                against .navbar-shell so it can span the full navbar width. */}
             <div 
               ref={dropdownRef}
-              style={{ position: 'relative' }}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
@@ -278,75 +307,73 @@ export default function Navbar({
               <div style={{
                 position: 'absolute',
                 top: '100%',
-                left: '0',
+                left: 0,
+                right: 0,
                 paddingTop: '0.4rem',
                 zIndex: 600,
                 opacity: showServicesDropdown ? 1 : 0,
                 visibility: showServicesDropdown ? 'visible' : 'hidden',
-                transform: showServicesDropdown ? 'translateY(0) scale(1)' : 'translateY(-8px) scale(0.96)',
-                transition: 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
+                transform: showServicesDropdown ? 'translateY(0)' : 'translateY(-6px)',
+                transition: 'opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s',
                 pointerEvents: showServicesDropdown ? 'auto' : 'none'
               }}>
                 <div style={{
                   background: '#ffffff',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '16px',
-                  padding: '0.6rem',
-                  boxShadow: 'var(--shadow-lg)',
-                  minWidth: '260px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '0.2rem'
+                  border: '1px solid #e4e8ef',
+                  borderRadius: '10px',
+                  padding: '1.15rem 1.25rem',
+                  boxShadow: '0 16px 40px -18px rgba(11, 18, 32, 0.28)'
                 }}>
-                  <a
-                    href={tabToPathMap.services}
-                    onClick={(event) => {
-                      if (isPlainLeftClick(event)) {
-                        event.preventDefault();
-                        handleServiceSelect('all');
-                      }
-                    }}
-                    className="dropdown-menu-item"
-                    style={{ fontWeight: '700', color: '#0b0f19' }}
-                  >
-                    All Services Overview
-                  </a>
-                  <a
-                    href={tabToPathMap.services}
-                    onClick={(event) => {
-                      if (isPlainLeftClick(event)) {
-                        event.preventDefault();
-                        handleServiceSelect('web');
-                      }
-                    }}
-                    className="dropdown-menu-item"
-                  >
-                    Web App Development
-                  </a>
-                  <a
-                    href={tabToPathMap.services}
-                    onClick={(event) => {
-                      if (isPlainLeftClick(event)) {
-                        event.preventDefault();
-                        handleServiceSelect('mobile');
-                      }
-                    }}
-                    className="dropdown-menu-item"
-                  >
-                    Mobile App Development
-                  </a>
-                  <a
-                    href={tabToPathMap.services}
-                    onClick={(event) => {
-                      if (isPlainLeftClick(event)) {
-                        event.preventDefault();
-                        handleServiceSelect('ai');
-                      }
-                    }}
-                    className="dropdown-menu-item"
-                  >
-                    AI Chatbot Integration in Web Apps
-                  </a>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: '1.5rem' }}>
+                    {SERVICE_MENU_COLUMNS.map((column) => (
+                      <div key={column.heading}>
+                        <a
+                          href={tabToPathMap.services}
+                          onClick={(event) => {
+                            if (isPlainLeftClick(event)) {
+                              event.preventDefault();
+                              handleServiceSelect(column.category);
+                            }
+                          }}
+                          className="dropdown-menu-item"
+                          style={{ fontWeight: '700', color: '#0b0f19', padding: '0.35rem 0.9rem' }}
+                        >
+                          {column.heading}
+                        </a>
+
+                        <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+                          {column.items.map((item) => (
+                            <li key={item} style={{ padding: '0.3rem 0.9rem', fontSize: '0.82rem', color: '#64748b', lineHeight: '1.35' }}>
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+
+                    <div style={{ borderLeft: '1px solid #e2e8f0', paddingLeft: '1.5rem' }}>
+                      <span style={{ display: 'block', padding: '0.35rem 0.9rem', fontSize: '0.7rem', fontWeight: '700', letterSpacing: '0.07em', textTransform: 'uppercase', color: '#94a3b8' }}>
+                        Explore
+                      </span>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem', marginTop: '0.2rem' }}>
+                        {SERVICE_MENU_LINKS.map((link) => (
+                          <a
+                            key={link.label}
+                            href={tabToPathMap.services}
+                            onClick={(event) => {
+                              if (isPlainLeftClick(event)) {
+                                event.preventDefault();
+                                handleServiceSelect(link.category);
+                              }
+                            }}
+                            className="dropdown-menu-item"
+                          >
+                            {link.label}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -358,7 +385,6 @@ export default function Navbar({
             <NavTab
               href={tabToPathMap.internships}
               isActive={activeTab === 'internships'}
-              activeBg="#ff6b6b"
               onActivate={() => setActiveTab('internships')}
             >
               Explore Internships
@@ -434,7 +460,7 @@ export default function Navbar({
             title="Toggle Navigation Menu"
           >
             {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-            <span style={{ fontSize: '0.82rem' }}>Menu</span>
+            <span style={{ fontSize: '0.75rem', fontWeight: '500', letterSpacing: '0.14em', textTransform: 'uppercase' }}>Menu</span>
           </button>
         </div>
 
