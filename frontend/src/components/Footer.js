@@ -3,6 +3,21 @@ import VeloraLogo from './VeloraLogo';
 import { COUNSELING_FORM_URL } from '../constants';
 
 export default function Footer({ setActiveTab }) {
+  // The verification form lives in a lazy chunk, and the internships page keeps changing
+  // height while its sections settle, so the anchor is re-applied once after that settles.
+  const goToCertificateVerify = () => {
+    setActiveTab('internships');
+    const anchor = () => document.getElementById('verify-certificate')?.scrollIntoView({ behavior: 'instant', block: 'start' });
+    const findAndAnchor = (tries) => {
+      if (document.getElementById('verify-certificate')) {
+        anchor();
+        setTimeout(anchor, 600);
+        return;
+      }
+      if (tries < 60) setTimeout(() => findAndAnchor(tries + 1), 50);
+    };
+    findAndAnchor(0);
+  };
 
   return (
     <footer className="global-footer" style={{
@@ -282,11 +297,12 @@ export default function Footer({ setActiveTab }) {
           color: '#64748b'
         }}>
           <div>
-            © {new Date().getFullYear()} Velora Global. All rights reserved. Built with Pro Corporate MERN architecture.
+            © {new Date().getFullYear()} Velora Global. All rights reserved. Every certificate we issue is publicly verifiable.
           </div>
-          <div style={{ display: 'flex', gap: '1.25rem' }}>
+          <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
             <a href="/privacy-policy" onClick={(e) => { e.preventDefault(); setActiveTab('privacy'); }} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '0.82rem', textDecoration: 'none' }}>Privacy Policy</a>
             <a href="/terms" onClick={(e) => { e.preventDefault(); setActiveTab('terms'); }} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '0.82rem', textDecoration: 'none' }}>Terms &amp; Conditions</a>
+            <a href="/internships#verify-certificate" onClick={(e) => { e.preventDefault(); goToCertificateVerify(); }} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '0.82rem', textDecoration: 'none' }}>Verify a Certificate</a>
           </div>
         </div>
 

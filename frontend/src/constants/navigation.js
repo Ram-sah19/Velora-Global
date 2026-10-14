@@ -47,7 +47,7 @@ export const pageTitles = {
 
 export const pageDescriptions = {
   home: 'Custom web and mobile software, AI chatbot systems, project-driven internships and guided technology training from Velora Global in Kathmandu, Nepal.',
-  services: 'Custom MERN web applications, cross-platform iOS and Android apps and AI chatbot systems, delivered in four steps with 30 days of post-launch support.',
+  services: 'Custom web platforms, mobile apps, AI support assistants, SEO and website maintenance for businesses in Nepal — quoted per project, delivered in four steps.',
   about: 'Velora Global is a Kathmandu-based technology company building web, mobile and AI software for clients and running internships and training programs.',
   team: 'Meet the Velora Global leadership team: Abhishek Sah (Founder & CEO), Krishna Sah (Co-Founder & CTO), Rohit Sah (Co-Founder & COO) and Shivshankar Sah.',
   internships: 'Project-driven technology internships with 1-to-1 mentorship, published grading criteria and a verifiable completion certificate, from NPR 199 for two weeks.',

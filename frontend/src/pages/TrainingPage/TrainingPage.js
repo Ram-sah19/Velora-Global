@@ -150,7 +150,7 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser }
               color: '#ffffff',
               margin: '0 0 0.5rem'
             }}>
-              Up to 60% off program fees
+              Up to 40% off program fees
             </h2>
             <p style={{ color: '#cbd5e1', fontSize: '0.95rem', lineHeight: '1.65', margin: 0 }}>
               Enrol in any guided training program during the Dashain–Tihar season and the festival

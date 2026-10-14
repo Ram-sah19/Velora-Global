@@ -62,7 +62,7 @@ src/
 │   ├── HomePage/                # Home Page Module
 │   │   ├── HomePage.js          # Main Entry Component
 │   │   ├── HeroSection.js       # Enterprise Positioning & Metrics
-│   │   ├── ProjectCarousel3D.js # 3D Delivered Projects Showcase
+│   │   ├── ProductConceptsSection.js # Four concept builds in a plus grid
 │   │   ├── GlobalFootprintSection.js # Interactive Hub Explorer
 │   │   ├── FeaturesSection.js   # Engineering Standards & Production Rigor
 │   │   ├── StudentJourneySection.js # 4-Step Student Path

@@ -85,12 +85,13 @@
          reading navigator.modelContext.tools could pick a declaration that could never
          run. The bundle is the single source of truth. -->
 
-    <!-- Google Fonts: Plus Jakarta Sans (body) & Outfit (headings, --font-heading in index.css).
-         Playfair Display + Great Vibes are used only by the issued certificate sheet; they ride on
-         this same request so the certificate never costs a second render-blocking stylesheet. -->
+    <!-- Google Fonts: Cormorant Garamond (headings, --font-heading), Inter (body, --font-body) and
+         Manrope (navigation, buttons, labels, --font-ui). Playfair Display, Plus Jakarta Sans, Outfit
+         and Great Vibes stay because the issued certificate sheet and the intro tagline name them
+         directly; they ride on this same request so nothing costs a second render-blocking stylesheet. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Outfit:wght@600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,400;1,500&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&family=Outfit:wght@600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,400;1,500&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Bootstrap was loaded for its grid/utilities, but no Bootstrap class is used anywhere in
          src/ (layout is inline styles + index.css) and the CSP above refused it, so it cost a

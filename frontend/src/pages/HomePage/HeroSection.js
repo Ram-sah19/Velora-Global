@@ -1,5 +1,30 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+// Each line traces to a deliverable already described on /services: e-commerce and business
+// sites, customer portals, booking platforms, dashboards and business management systems.
+const TICKER_ITEMS = [
+  'Clothing & Apparel Brands',
+  'Small Business Websites',
+  'E-commerce Stores',
+  'Restaurant & Café Booking',
+  'School & College Portals',
+  'Customer Portals',
+  'Business Dashboards',
+  'Inventory & Sales Systems',
+  'Internal Automation',
+  'AI Support Assistants',
+  'Portfolio & Landing Pages',
+  'Corporate Company Sites'
+];
+
+// Condensed from the four engagement steps published on /services.
+const CAPABILITIES = [
+  { title: 'Written Blueprint', text: 'Architecture, wireframes, budget milestones and a delivery schedule agreed before work starts.' },
+  { title: 'Sprint Demos', text: 'Live staging previews and progress updates while your system is being built.' },
+  { title: 'Source Ownership', text: 'Full source code transfer and training for your team at handover.' },
+  { title: '30-Day Support', text: 'Dedicated post-launch support once we deploy to your servers.' }
+];
+
 export default function HeroSection({ onExploreClick, onTrainingClick, onServicesClick }) {
   // Premium entrance animation — triggers once on mount
   const [heroReady, setHeroReady] = useState(false);
@@ -323,10 +348,11 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
                 <h1 style={{
                   fontSize: 'clamp(1.85rem, 3.6vw, 2.75rem)',
                   lineHeight: '1.2',
-                  fontWeight: '800',
+                  fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif",
+                  fontWeight: '500',
                   color: '#0a2540',
                   marginBottom: '1rem',
-                  letterSpacing: '-0.02em',
+                  letterSpacing: '-0.01em',
                   textShadow: '0 1px 12px rgba(255, 255, 255, 0.6)',
                   ...reveal(100)
                 }}>
@@ -525,10 +551,11 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
 
             <h2 style={{
               fontSize: 'clamp(1.55rem, 3.2vw, 2.35rem)',
-              fontWeight: '900',
+              fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif",
+              fontWeight: '500',
               color: '#0a2540',
               lineHeight: '1.25',
-              letterSpacing: '-0.02em',
+              letterSpacing: '-0.01em',
               marginBottom: '0.85rem',
               textShadow: '0 2px 16px rgba(255, 255, 255, 0.95), 0 1px 4px rgba(255, 255, 255, 0.8)'
             }}>
@@ -587,10 +614,11 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
 
             <h2 style={{
               fontSize: 'clamp(1.55rem, 3.2vw, 2.35rem)',
-              fontWeight: '900',
+              fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif",
+              fontWeight: '500',
               color: '#0a2540',
               lineHeight: '1.25',
-              letterSpacing: '-0.02em',
+              letterSpacing: '-0.01em',
               marginBottom: '0.85rem',
               textShadow: '0 2px 16px rgba(255, 255, 255, 0.95), 0 1px 4px rgba(255, 255, 255, 0.8)'
             }}>
@@ -646,10 +674,11 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
 
             <h2 style={{
               fontSize: 'clamp(1.55rem, 3.2vw, 2.35rem)',
-              fontWeight: '900',
+              fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif",
+              fontWeight: '500',
               color: '#0a2540',
               lineHeight: '1.25',
-              letterSpacing: '-0.02em',
+              letterSpacing: '-0.01em',
               marginBottom: '0.85rem',
               textShadow: '0 2px 16px rgba(255, 255, 255, 0.95), 0 1px 4px rgba(255, 255, 255, 0.8)'
             }}>
@@ -711,63 +740,29 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
 
       </div>
 
-      {/* ── UNIFIED 4-METRICS BANNER (Placed directly in natural document flow) ── */}
-      <div className="container" style={{ position: 'relative', zIndex: 1, marginTop: '2rem', marginBottom: '4.5rem' }}>
-        <div style={{
-          background: 'rgba(255, 255, 255, 0.65)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.85)',
-          borderRadius: '24px',
-          padding: '2.25rem 2.75rem',
-          boxShadow: '0 12px 35px rgba(0, 0, 0, 0.05)',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '2.5rem',
-          alignItems: 'flex-start'
-        }}>
-          
-          {/* Stat 1: USA & Global */}
-          <div>
-            <span style={{ fontSize: '2.3rem', fontWeight: '800', color: '#10b981', display: 'block', lineHeight: '1.15', letterSpacing: '-0.02em' }}>
-              USA & Global
-            </span>
-            <span style={{ fontSize: '0.92rem', color: '#334155', fontWeight: '700', marginTop: '0.65rem', display: 'block', lineHeight: '1.4' }}>
-              Clients & International Delivery
-            </span>
-          </div>
-
-          {/* Stat 2: 10+ */}
-          <div>
-            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#2563eb', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
-              10+
-            </span>
-            <span style={{ fontSize: '0.92rem', color: '#334155', fontWeight: '700', marginTop: '0.65rem', display: 'block' }}>
-              Enterprise Solutions & Tracks
-            </span>
-          </div>
-
-          {/* Stat 3: 50+ */}
-          <div>
-            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#f87171', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
-              50+
-            </span>
-            <span style={{ fontSize: '0.92rem', color: '#334155', fontWeight: '700', marginTop: '0.65rem', display: 'block' }}>
-              Active Engineers & Tech Interns
-            </span>
-          </div>
-
-          {/* Stat 4: 100+ */}
-          <div>
-            <span style={{ fontSize: '2.75rem', fontWeight: '800', color: '#0b0f19', display: 'block', lineHeight: '1', letterSpacing: '-0.03em' }}>
-              100+
-            </span>
-            <span style={{ fontSize: '0.92rem', color: '#334155', fontWeight: '700', marginTop: '0.65rem', display: 'block' }}>
-              Developers Trained, Mentored & Placed / Hired
-            </span>
-          </div>
-
+      {/* ── TICKER: the kinds of systems built here, running left to right ── */}
+      <div className="hero-ticker" aria-hidden="true">
+        <div className="hero-ticker__track">
+          {[0, 1].map((copy) => (
+            <div className="hero-ticker__group" key={copy}>
+              {TICKER_ITEMS.map((item) => (
+                <span className="hero-ticker__item" key={item}>
+                  {item}
+                </span>
+              ))}
+            </div>
+          ))}
         </div>
+      </div>
+
+      {/* ── ENGAGEMENT TERMS: what buying from us looks like, no counts ── */}
+      <div className="container hero-capabilities" style={{ position: 'relative', zIndex: 1 }}>
+        {CAPABILITIES.map((item) => (
+          <div className="hero-capability" key={item.title}>
+            <span className="hero-capability__value">{item.title}</span>
+            <p className="hero-capability__text">{item.text}</p>
+          </div>
+        ))}
       </div>
 
     </section>

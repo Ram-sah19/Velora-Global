@@ -31,7 +31,7 @@ const HOMEPAGE = {
 const SERVICES = {
   title: "Tech Services & Software Development in Nepal | Velora Global",
   description:
-    "Custom MERN web applications, cross-platform iOS and Android apps and AI chatbot systems, delivered in four steps with 30 days of post-launch support.",
+    "Custom web platforms, mobile apps, AI support assistants, SEO and website maintenance for businesses in Nepal — quoted per project, delivered in four steps.",
   canonical: SITE + "/services",
   graph: "service",
   faq: "services"
