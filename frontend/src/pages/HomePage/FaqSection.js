@@ -1,4 +1,5 @@
 import React from 'react';
+import SectionHead from '../../components/SectionHead';
 import { FAQS } from '../../content/siteFacts';
 
 export default function FaqSection() {
@@ -7,13 +8,12 @@ export default function FaqSection() {
   return (
     <section className="hp-band hp-band--white">
       <div className="container hp-faq">
-        <div className="hp-head">
-          <span className="svc-eyebrow">Transparent Answers</span>
-          <h2 className="hp-title">Frequently Asked Questions</h2>
-          <p className="hp-lede">
-            Everything you need to know about Velora Global internships, training, and credential verification.
-          </p>
-        </div>
+        <SectionHead
+          variant="band"
+          eyebrow="Transparent Answers"
+          title="Frequently Asked Questions"
+          lede="Everything you need to know about Velora Global internships, training, and credential verification."
+        />
 
         <div className="page-faq__list">
           {faqs.map((faq, index) => (

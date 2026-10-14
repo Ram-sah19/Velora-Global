@@ -1,259 +1,193 @@
 import React from 'react';
-import { AnswerSection, PageFaq } from '../../components';
+import { AnswerSection, CtaBand, PageFaq, SectionHead } from '../../components';
 import { ORG_FACTS, LEADERSHIP, GRADING_CRITERIA, ENGAGEMENT_STEPS, ANSWER_BLOCKS, FAQS } from '../../content/siteFacts';
 import { INTERNSHIP_PROGRAMS, TRAINING_PROGRAMS } from '../../content/programs';
 
 /**
- * Company page. The /team route carries the long leadership profiles; this page
- * answers the company-level questions an answer engine quotes, and links out to
- * the routes that carry the detail. All copy reads from content/siteFacts.js so
- * the page and the edge JSON-LD graph cannot drift apart.
+ * Company page. /team carries the long leadership profiles; this page answers the
+ * company-level questions an answer engine quotes. All copy reads from
+ * content/siteFacts.js so the page and the edge JSON-LD graph cannot drift apart.
  */
+
+const COMPANY_FACTS = [
+  { label: 'Organization', value: ORG_FACTS.name },
+  { label: 'Founded', value: ORG_FACTS.founded },
+  { label: 'Location', value: `${ORG_FACTS.city}, ${ORG_FACTS.country}` },
+  { label: 'Website', value: ORG_FACTS.url.replace(/^https?:\/\//, ''), href: ORG_FACTS.url }
+];
+
+const CONTACT_FACTS = [
+  { label: 'Email', value: ORG_FACTS.email, href: `mailto:${ORG_FACTS.email}` },
+  {
+    label: 'Phone',
+    value: ORG_FACTS.telephone,
+    href: `tel:${ORG_FACTS.telephone.replace(/[^+\d]/g, '')}`
+  },
+  { label: 'Office', value: `Balkumari, ${ORG_FACTS.city}, ${ORG_FACTS.country}` }
+];
+
+const WHATSAPP_URL = `https://wa.me/${ORG_FACTS.telephone.replace(/\D/g, '')}` +
+  '?text=Hello%20Velora%20Global%20Team%2C%20I%20would%20like%20to%20ask%20about%20Velora%20Global.';
+
+/** The four directors, with the same photo per person /team already publishes. */
+const LEADERSHIP_PHOTOS = {
+  'Abhishek Sah': '/media/abhishek_sah.jpg',
+  'Krishna Sah': '/media/rambilas_sah.png',
+  'Rohit Sah': '/media/rohit_sah.jpg',
+  'Shivshankar Sah': '/media/shivshankar_sah.jpg'
+};
+
 export default function AboutPage({ onServicesClick, onExploreClick, onTrainingClick, onTeamClick }) {
   return (
-    <section style={{ padding: '4rem 0' }}>
+    <section className="about-page">
       <div className="container">
 
-        <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 2.5rem auto' }}>
-          <span className="badge badge-coral" style={{ marginBottom: '0.75rem' }}>The Company</span>
-          <h1 style={{ fontSize: '2.5rem', color: '#0b0f19', marginBottom: '0.75rem' }}>
-            About <span className="text-coral">Velora Global</span>
-          </h1>
-          <p style={{ color: '#64748b', fontSize: '1.05rem', lineHeight: '1.6' }}>
-            {ORG_FACTS.name} is a technology company in Kathmandu, Nepal. One team builds software for
-            business clients; the same team runs internships and training for students and working
-            professionals.
-          </p>
-        </div>
+        <SectionHead
+          level={1}
+          eyebrow="The Company"
+          title="About Velora Global"
+          lede={`${ORG_FACTS.name} is a technology company in Kathmandu, Nepal. One team builds software for business clients; the same team runs internships and training for students and working professionals.`}
+        />
 
-        {/* What the two arms actually cover */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '1.75rem',
-          marginBottom: '3rem'
-        }}>
-          <article className="corporate-card" style={{
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
-            borderRadius: '20px',
-            padding: '2rem',
-            boxShadow: 'var(--shadow-sm)'
-          }}>
-            <h2 style={{
-              fontFamily: 'var(--font-heading)',
-              fontSize: '1.35rem',
-              color: '#0b0f19',
-              margin: '0 0 0.6rem'
-            }}>
-              Client engineering
-            </h2>
-            <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: '1.7', margin: '0 0 1.25rem' }}>
-              Custom web applications, cross-platform mobile apps and AI assistant systems, quoted per
-              project after a scoping meeting rather than from a price list.
-            </p>
-            <h3 style={{ fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.03em', color: '#1d4ed8', margin: '0 0 0.6rem' }}>
-              How an engagement runs
-            </h3>
-            <ol style={{ margin: 0, paddingLeft: '1.25rem', color: '#475569', fontSize: '0.92rem', lineHeight: '1.7' }}>
-              {ENGAGEMENT_STEPS.map((step) => (
-                <li key={step.name} style={{ marginBottom: '0.5rem' }}>
-                  <strong style={{ color: '#0b0f19' }}>{step.name}.</strong> {step.text}
-                </li>
-              ))}
-            </ol>
-            {onServicesClick && (
-              <button
-                onClick={onServicesClick}
-                className="btn-coral"
-                style={{ marginTop: '1.5rem', padding: '0.65rem 1.5rem', fontSize: '0.9rem' }}
-              >
-                See the services we list
-              </button>
-            )}
-          </article>
+        <dl className="ip-facts">
+          {COMPANY_FACTS.map((fact) => (
+            <div key={fact.label}>
+              <dt>{fact.label}</dt>
+              <dd>
+                {fact.href
+                  ? <a href={fact.href} rel="noopener noreferrer">{fact.value}</a>
+                  : fact.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
 
-          <article className="corporate-card" style={{
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
-            borderRadius: '20px',
-            padding: '2rem',
-            boxShadow: 'var(--shadow-sm)'
-          }}>
-            <h2 style={{
-              fontFamily: 'var(--font-heading)',
-              fontSize: '1.35rem',
-              color: '#0b0f19',
-              margin: '0 0 0.6rem'
-            }}>
-              Talent programs
-            </h2>
-            <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: '1.7', margin: '0 0 1.25rem' }}>
-              {INTERNSHIP_PROGRAMS.length} project-driven internship tracks and {TRAINING_PROGRAMS.length}{' '}
-              instructor-led training programs, all delivered remotely and reviewed against the same
-              five criteria.
-            </p>
-            <h3 style={{ fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.03em', color: '#1d4ed8', margin: '0 0 0.6rem' }}>
-              The five grading criteria
-            </h3>
-            <ul style={{ margin: 0, paddingLeft: '1.25rem', color: '#475569', fontSize: '0.92rem', lineHeight: '1.7' }}>
-              {GRADING_CRITERIA.map((criterion) => (
-                <li key={criterion} style={{ marginBottom: '0.35rem' }}>{criterion}</li>
-              ))}
-            </ul>
-            <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap', marginTop: '1.5rem' }}>
-              {onExploreClick && (
-                <button onClick={onExploreClick} className="btn-coral" style={{ padding: '0.65rem 1.4rem', fontSize: '0.9rem' }}>
-                  Internship tracks
-                </button>
-              )}
-              {onTrainingClick && (
-                <button
-                  onClick={onTrainingClick}
-                  style={{
-                    padding: '0.65rem 1.4rem',
-                    fontSize: '0.9rem',
-                    fontWeight: '700',
-                    borderRadius: '9999px',
-                    background: '#ffffff',
-                    border: '1px solid #e2e8f0',
-                    color: '#0b0f19',
-                    cursor: 'pointer'
-                  }}
-                >
-                  Training programs
-                </button>
+        <section className="svc-process" aria-labelledby="about-arms-title">
+          <p className="ip-label">Two sides</p>
+          <h2 id="about-arms-title" className="svc-section-title">One team, two sides of the business</h2>
+          <div className="ip-notice__cols">
+            <div>
+              <p className="ip-label">Client engineering</p>
+              <p className="ip-notice__note">
+                Custom web applications, cross-platform mobile apps and AI assistant systems, quoted per
+                project after a scoping meeting rather than from a price list.
+              </p>
+              {onServicesClick && (
+                <div className="svc-cta__actions">
+                  <button type="button" className="svc-btn svc-btn--primary" onClick={onServicesClick}>
+                    See the services we list
+                  </button>
+                </div>
               )}
             </div>
-          </article>
-        </div>
 
-        {/* Who is responsible for what */}
-        <div style={{ maxWidth: '900px', margin: '0 auto 3rem auto' }}>
-          <h2 style={{
-            fontFamily: 'var(--font-heading)',
-            fontSize: '1.6rem',
-            color: '#0b0f19',
-            margin: '0 0 0.5rem',
-            textAlign: 'center'
-          }}>
-            Who runs Velora Global?
-          </h2>
-          <p style={{ color: '#64748b', fontSize: '0.98rem', lineHeight: '1.7', textAlign: 'center', margin: '0 auto 1.75rem', maxWidth: '660px' }}>
-            {LEADERSHIP[0].name} is the Founder and Chief Executive Officer. The named leads below are
-            the people a client or applicant actually works with.
-          </p>
+            <div>
+              <p className="ip-label">Talent programs</p>
+              <p className="ip-notice__note">
+                {INTERNSHIP_PROGRAMS.length} project-driven internship tracks and{' '}
+                {TRAINING_PROGRAMS.length} instructor-led training programs, all delivered remotely and
+                reviewed against the same five criteria.
+              </p>
+              <ul className="svc-features">
+                {GRADING_CRITERIA.map((criterion) => (
+                  <li key={criterion}>{criterion}</li>
+                ))}
+              </ul>
+              <div className="svc-cta__actions">
+                {onExploreClick && (
+                  <button type="button" className="svc-btn svc-btn--quiet" onClick={onExploreClick}>
+                    Internship tracks
+                  </button>
+                )}
+                {onTrainingClick && (
+                  <button type="button" className="svc-btn svc-btn--quiet" onClick={onTrainingClick}>
+                    Training programs
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
 
-          <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: '0.75rem' }}>
-            {LEADERSHIP.map((person) => (
-              <li
-                key={person.name}
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'baseline',
-                  justifyContent: 'space-between',
-                  gap: '0.35rem 1rem',
-                  background: '#ffffff',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '14px',
-                  padding: '0.95rem 1.25rem'
-                }}
-              >
-                <span style={{ fontSize: '1rem', fontWeight: 800, color: '#0b0f19' }}>{person.name}</span>
-                <span style={{ fontSize: '0.9rem', color: '#2563eb', fontWeight: 600 }}>{person.jobTitle}</span>
+        <section className="svc-process" aria-labelledby="about-process-title">
+          <p className="ip-label">How we work</p>
+          <h2 id="about-process-title" className="svc-section-title">Four steps from first meeting to launch</h2>
+          <ol className="svc-steps">
+            {ENGAGEMENT_STEPS.map((step, index) => (
+              <li key={step.name} className="svc-step">
+                <span className="svc-step__num">{String(index + 1).padStart(2, '0')}</span>
+                <h3 className="svc-step__title">{step.name}</h3>
+                <p className="svc-step__text">{step.text}</p>
               </li>
             ))}
-          </ul>
+          </ol>
+        </section>
+
+        <section className="svc-process" aria-labelledby="about-team-title">
+          <p className="ip-label">Leadership</p>
+          <h2 id="about-team-title" className="svc-section-title">Who runs Velora Global?</h2>
+          <p className="svc-section-lede">
+            {LEADERSHIP[0].name} is the Founder and Chief Executive Officer. The directors below are
+            the people a client actually works with.
+          </p>
+
+          <div className="ip-grid ip-grid--people">
+            {LEADERSHIP.filter((person) => LEADERSHIP_PHOTOS[person.name]).map((person) => (
+              <article key={person.name} className="ip-person">
+                <img
+                  className="ip-person__photo"
+                  src={LEADERSHIP_PHOTOS[person.name]}
+                  alt={`${person.name}, ${person.jobTitle} at Velora Global`}
+                  width="400"
+                  height="500"
+                  loading="lazy"
+                  decoding="async"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = LEADERSHIP_PHOTOS[person.name].replace('/media/', '/images/');
+                  }}
+                />
+                <h3 className="ip-person__name">{person.name}</h3>
+                <p className="svc-card__tagline">{person.jobTitle}</p>
+              </article>
+            ))}
+          </div>
 
           {onTeamClick && (
-            <p style={{ textAlign: 'center', marginTop: '1.5rem' }}>
-              <button
-                onClick={onTeamClick}
-                style={{
-                  padding: '0.65rem 1.5rem',
-                  fontSize: '0.9rem',
-                  fontWeight: '700',
-                  borderRadius: '9999px',
-                  background: '#ffffff',
-                  border: '1px solid #dbeafe',
-                  color: '#1d4ed8',
-                  cursor: 'pointer'
-                }}
-              >
+            <div className="svc-cta__actions">
+              <button type="button" className="svc-btn svc-btn--quiet" onClick={onTeamClick}>
                 Read the full leadership and mentor profiles
               </button>
-            </p>
+            </div>
           )}
-        </div>
+        </section>
+      </div>
 
-        {/* Practical facts */}
-        <div style={{
-          maxWidth: '900px',
-          margin: '0 auto 3rem auto',
-          background: '#ffffff',
-          border: '1px solid #e2e8f0',
-          borderRadius: '20px',
-          padding: '2rem',
-          boxShadow: 'var(--shadow-sm)'
-        }}>
-          <h2 style={{
-            fontFamily: 'var(--font-heading)',
-            fontSize: '1.5rem',
-            color: '#0b0f19',
-            margin: '0 0 1.25rem'
-          }}>
-            Company facts
-          </h2>
-          <dl style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '1.35rem 2rem',
-            margin: 0
-          }}>
-            <div>
-              <dt style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '0.03em', textTransform: 'uppercase', color: '#1d4ed8', marginBottom: '0.35rem' }}>
-                Organization
-              </dt>
-              <dd style={{ margin: 0, fontSize: '0.95rem', lineHeight: '1.65', color: '#475569' }}>{ORG_FACTS.name}</dd>
-            </div>
-            <div>
-              <dt style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '0.03em', textTransform: 'uppercase', color: '#1d4ed8', marginBottom: '0.35rem' }}>
-                Founded
-              </dt>
-              <dd style={{ margin: 0, fontSize: '0.95rem', lineHeight: '1.65', color: '#475569' }}>{ORG_FACTS.founded}</dd>
-            </div>
-            <div>
-              <dt style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '0.03em', textTransform: 'uppercase', color: '#1d4ed8', marginBottom: '0.35rem' }}>
-                Location
-              </dt>
-              <dd style={{ margin: 0, fontSize: '0.95rem', lineHeight: '1.65', color: '#475569' }}>
-                {`${ORG_FACTS.city}, ${ORG_FACTS.country}`}
-              </dd>
-            </div>
-            <div>
-              <dt style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '0.03em', textTransform: 'uppercase', color: '#1d4ed8', marginBottom: '0.35rem' }}>
-                Contact
-              </dt>
-              <dd style={{ margin: 0, fontSize: '0.95rem', lineHeight: '1.65', color: '#475569' }}>
-                <a href={`mailto:${ORG_FACTS.email}`} style={{ color: '#2563eb', fontWeight: 600, textDecoration: 'none' }}>{ORG_FACTS.email}</a>
-                {' · '}
-                <a href={`tel:${ORG_FACTS.telephone.replace(/[^+\d]/g, '')}`} style={{ color: '#2563eb', fontWeight: 600, textDecoration: 'none' }}>{ORG_FACTS.telephone}</a>
-              </dd>
-            </div>
-            <div>
-              <dt style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '0.03em', textTransform: 'uppercase', color: '#1d4ed8', marginBottom: '0.35rem' }}>
-                Website
-              </dt>
-              <dd style={{ margin: 0, fontSize: '0.95rem', lineHeight: '1.65', color: '#475569' }}>
-                <a href={ORG_FACTS.url} style={{ color: '#2563eb', fontWeight: 600, textDecoration: 'none' }}>
-                  {ORG_FACTS.url.replace(/^https?:\/\//, '')}
-                </a>
-              </dd>
-            </div>
-          </dl>
-        </div>
+      {/* Full-bleed band: outside the container so the colour covers the viewport. */}
+      <CtaBand
+        id="about-cta-title"
+        eyebrow="Get in touch"
+        title="Talk to us about a project or a program"
+        text="Email us for general enquiries, call the number listed here, or submit the project enquiry form on the services page. We work remotely and can also meet in person in Kathmandu."
+        actions={
+          <>
+            <a className="svc-btn svc-btn--primary" href={`mailto:${ORG_FACTS.email}`}>
+              Email the team
+            </a>
+            <a className="svc-btn svc-btn--whatsapp" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+              Message on WhatsApp
+            </a>
+          </>
+        }
+        facts={CONTACT_FACTS.map((fact) => ({
+          label: fact.label,
+          value: fact.href
+            ? <a href={fact.href} rel="noopener noreferrer">{fact.value}</a>
+            : fact.value
+        }))}
+      />
 
+      <div className="container">
         <PageFaq items={FAQS.about} />
 
         <AnswerSection

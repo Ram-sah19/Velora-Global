@@ -1,7 +1,4 @@
 :root {
-  --bg-slate: #f1f5f9;
-  --bg-white: #ffffff;
-  --bg-midnight: #0b0f19;
   --bg-card: #ffffff;
   --border-color: #e2e8f0;
   --border-hover: #cbd5e1;
@@ -15,18 +12,13 @@
   --accent-coral-light: #fff5f5;
 
   --accent-green: #10b981;
-  --accent-gold: #f59e0b;
 
   --text-dark: #0b0f19;
-  --text-muted: #64748b;
-  --text-dim: #94a3b8;
-  --text-light: #f8fafc;
 
   --font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --font-body: 'Inter', sans-serif;
   --font-ui: 'Manrope', sans-serif;
 
-  --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 20px;
   --radius-full: 9999px;
@@ -35,7 +27,6 @@
   --shadow-md: 0 4px 20px rgba(11, 15, 25, 0.08);
   --shadow-lg: 0 10px 30px rgba(11, 15, 25, 0.12);
   --shadow-blue: 0 4px 14px rgba(37, 99, 235, 0.3);
-  --shadow-coral: 0 4px 14px rgba(255, 107, 107, 0.35);
 
   --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -118,10 +109,6 @@ h1, h2, h3, h4, h5, h6 {
    because white-background text needs 3:1 even at headline size and #ff6b6b is 2.79:1. */
 .text-coral {
   color: var(--accent-coral-hover);
-}
-
-.text-blue {
-  color: var(--primary-blue);
 }
 
 /* Screen-reader-only content: live regions, the skip link target text. */
@@ -226,12 +213,6 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
   border: 1px solid #a7f3d0;
 }
 
-.badge-gold {
-  background: #fffbeb;
-  color: var(--accent-gold);
-  border: 1px solid #fde68a;
-}
-
 /* Corporate Cards */
 .corporate-card {
   background: var(--bg-card);
@@ -265,25 +246,6 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
   background: var(--primary-blue-hover);
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
-}
-
-.btn-coral {
-  background: var(--accent-coral);
-  color: #ffffff;
-  padding: 0.75rem 1.6rem;
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  box-shadow: var(--shadow-coral);
-}
-
-.btn-coral:hover {
-  background: var(--accent-coral-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(255, 107, 107, 0.5);
 }
 
 .btn-secondary {
@@ -620,16 +582,9 @@ button:disabled {
    Premium Layer — shared tokens & classes for home page sections
    ============================================================ */
 :root {
-  --premium-navy: #0a1628;
-  --premium-navy-soft: #0f2038;
-  --premium-ink: #0b1220;
-  --premium-gold: #c9a227;
   --premium-grad-brand: linear-gradient(135deg, #1d4ed8 0%, #2563eb 45%, #7c3aed 100%);
   --premium-grad-text: linear-gradient(92deg, #0b1220 0%, #1d4ed8 60%, #4f46e5 100%);
-  --premium-grad-light: linear-gradient(180deg, #ffffff 0%, #f6f8fc 55%, #eef2fb 100%);
-  --premium-grad-tinted: linear-gradient(180deg, #f8fafc 0%, #eff4ff 100%);
   --premium-shadow-card: 0 1px 2px rgba(11, 18, 32, 0.04), 0 8px 24px -8px rgba(11, 18, 32, 0.10), 0 24px 48px -24px rgba(29, 78, 216, 0.12);
-  --premium-shadow-lift: 0 2px 4px rgba(11, 18, 32, 0.05), 0 16px 40px -12px rgba(11, 18, 32, 0.18), 0 32px 64px -32px rgba(29, 78, 216, 0.22);
   /* Product concepts: declared here because the detail dialog portals onto body. */
   --concept-accent: #7dd3fc;
   --concept-ink: #f2f8fb;
@@ -686,42 +641,6 @@ button:disabled {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-}
-
-/* Glass card */
-.premium-glass {
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-.premium-card {
-  box-shadow: var(--premium-shadow-card) !important;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease !important;
-}
-
-.premium-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--premium-shadow-lift) !important;
-  border-color: rgba(37, 99, 235, 0.35) !important;
-}
-
-/* Gradient hairline divider */
-.premium-divider {
-  height: 1px;
-  border: none;
-  background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.35), transparent);
-}
-
-/* Tinted section band. Needs !important because the mobile system rule
-   `section { padding: 2.5rem 0 !important }` would strip its side padding. */
-.premium-band {
-  padding: clamp(1.75rem, 3.5vw, 3rem) !important;
-}
-
-/* Small uppercase column caption. Needs !important because the mobile rules
-   `h3 { font-size: 1.3rem / 1.15rem !important }` would inflate it. */
-.notice-label {
-  font-size: 0.78rem !important;
 }
 
 /* Staff desk: sidebar column on desktop, stacked on tablet and below */
@@ -943,7 +862,8 @@ button:disabled {
   color: #eaf4f9;
 }
 
-.concept-deliverables svg {
+.concept-deliverables svg,
+.svc-deliverables svg {
   flex-shrink: 0;
   margin-top: 3px;
 }
@@ -956,7 +876,8 @@ button:disabled {
   padding-bottom: 1.15rem;
 }
 
-.concept-tags span {
+.concept-tags span,
+.concept-modal-tags span {
   font-size: 0.72rem;
   font-weight: 700;
   color: #dceaf2;
@@ -1060,16 +981,6 @@ button:disabled {
   flex-wrap: wrap;
   gap: 0.4rem;
   margin: 0 0 1.5rem 0;
-}
-
-.concept-modal-tags span {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #dceaf2;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--concept-hairline);
-  padding: 0.25rem 0.7rem;
-  border-radius: 9999px;
 }
 
 @keyframes conceptOverlayIn {
@@ -1202,14 +1113,13 @@ button:disabled {
   --svc-radius-ctl: 5px;
   --svc-shadow: 0 1px 2px rgba(11, 18, 32, 0.04), 0 6px 16px -12px rgba(11, 18, 32, 0.10);
   --svc-shadow-lift: 0 1px 2px rgba(11, 18, 32, 0.06), 0 16px 34px -16px rgba(11, 18, 32, 0.16);
-  --svc-band: #101a3c;
+  --svc-band: #14485e;
   --svc-band-eyebrow: #d8bd93;
 }
 
 /* !important because the mobile system rule `section { padding: 2.5rem 0 !important }`
    would otherwise flatten the page's own rhythm. */
 .services-page {
-  --answer-radius: var(--svc-radius);
   padding: clamp(2.75rem, 5.5vw, 4.25rem) 0 !important;
 }
 
@@ -1229,13 +1139,13 @@ button:disabled {
 .svc-title,
 .svc-section-title,
 .svc-cta__title,
-.services-page .page-faq__heading {
+:is(.services-page, .internships-page, .training-page, .about-page, .team-page) .page-faq__heading {
   text-wrap: balance;
 }
 
 /* AnswerSection sizes its heading inline for the sans pages; 1.6rem is small in Cormorant
    next to this page's hierarchy. */
-.services-page .corporate-card h2 {
+:is(.services-page, .internships-page, .training-page, .about-page, .team-page) .corporate-card h2 {
   font-size: 1.9rem !important;
   font-weight: 600;
   line-height: 1.15 !important;
@@ -1285,6 +1195,24 @@ button:disabled {
   color: var(--svc-muted);
 }
 
+/* The one inline text link. Put it on the anchor itself rather than relying on an
+   ancestor class, so a link inside any new section inherits it for free. */
+.svc-link {
+  color: var(--svc-accent);
+  font-weight: 600;
+}
+
+/* Ruled stack instead of a stack of cards: one outer rule above the first row and below
+   the last, plus a hairline between neighbours. Put .svc-ruled on the container. */
+.svc-ruled {
+  border-top: 1px solid var(--svc-hairline);
+  border-bottom: 1px solid var(--svc-hairline);
+}
+
+.svc-ruled > * + * {
+  border-top: 1px solid var(--svc-hairline);
+}
+
 .svc-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -1321,25 +1249,20 @@ button:disabled {
 .svc-list {
   display: flex;
   flex-direction: column;
-  gap: 1.15rem;
 }
 
+/* Each service is a ruled row on the page background, not a slab: hairline above, the
+   aside kept apart by its own vertical rule. */
 .svc-card {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
   gap: clamp(1.5rem, 2.5vw, 2.5rem);
-  background: var(--svc-surface);
-  border: 1px solid var(--svc-hairline);
-  border-radius: var(--svc-radius);
-  padding: clamp(1.5rem, 2.6vw, 2.2rem);
-  box-shadow: var(--svc-shadow);
-  transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+  padding: clamp(1.75rem, 3vw, 2.6rem) 0;
+  border-top: 1px solid var(--svc-hairline);
 }
 
-.svc-card:hover {
-  border-color: var(--svc-hairline-strong);
-  box-shadow: var(--svc-shadow-lift);
-  transform: translateY(-2px);
+.svc-card:last-child {
+  border-bottom: 1px solid var(--svc-hairline);
 }
 
 .svc-card__title {
@@ -1421,11 +1344,6 @@ button:disabled {
   color: var(--svc-body);
 }
 
-.svc-deliverables svg {
-  flex-shrink: 0;
-  margin-top: 3px;
-}
-
 /* Buttons — one rectangular control, four fills */
 .svc-btn {
   display: inline-flex;
@@ -1498,18 +1416,6 @@ button:disabled {
   border-color: var(--svc-hairline-strong);
 }
 
-.svc-btn--ghost {
-  background: transparent;
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.28);
-  box-shadow: none;
-}
-
-.svc-btn--ghost:hover {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.55);
-}
-
 /* Engagement process: a ruled grid, not four cards */
 .svc-process {
   margin-top: clamp(2.75rem, 5vw, 4rem);
@@ -1544,6 +1450,16 @@ button:disabled {
   padding: 1.4rem 1.5rem;
   border-right: 1px solid var(--svc-hairline);
   border-bottom: 1px solid var(--svc-hairline);
+}
+
+/* Three lines rather than four, so the last column isn't left empty. */
+.svc-steps--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* The roster is two people, not four stages. */
+.svc-steps--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .svc-step:last-child {
@@ -1617,7 +1533,13 @@ button:disabled {
   margin: 0 0 1.8rem;
   font-size: 0.94rem;
   line-height: 1.75;
-  color: #b6c1dc;
+  color: #cbe2ee;
+}
+
+/* The founder story runs to three paragraphs, and the last one must not push the
+   band taller on its side of the grid. */
+.svc-cta__text:last-child {
+  margin-bottom: 0;
 }
 
 /* Ruled fact column: labels stacked on values, one hairline per row. */
@@ -1637,7 +1559,7 @@ button:disabled {
   font-weight: 800;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: #8c9ac0;
+  color: #9fc2d6;
 }
 
 .svc-cta__facts dd {
@@ -1653,26 +1575,790 @@ button:disabled {
   gap: 0.7rem;
 }
 
+/* Every button on the band reads as cut out of it: no fill, hairline outline,
+   white label. Scoped through .svc-cta because the same actions row also
+   appears on light sections, where a white label would vanish. */
+.svc-cta .svc-cta__actions .svc-btn {
+  background: transparent;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.32);
+  box-shadow: none;
+}
+
+.svc-cta .svc-cta__actions .svc-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
 /* ============================================================
-   Display type on the two client-facing pages. Playfair Display carries the
-   headings there; every other page, the navbar and the locked hero keep the
-   Cormorant token. Inter prose and Manrope labels are unchanged.
+   Internships, training, about and team pages — premium layer
+   These pages reuse the svc-* controls, feature chips, deliverable lists and
+   consultation band as-is. ip-* covers only what they add: the fact row,
+   the notice panel, the search row, the program grid and the tier picker.
+   ============================================================ */
+.internships-page,
+.training-page,
+.about-page,
+.team-page {
+  /* !important because the mobile rule `section { padding: 2.5rem 0 !important }`
+     would otherwise flatten the page's own rhythm. */
+  padding: clamp(2.75rem, 5.5vw, 4.25rem) 0 !important;
+}
+
+.ip-label,
+.ip-card__price-label,
+.ip-facts dt,
+.ip-tier__best {
+  font-family: var(--font-ui);
+}
+
+/* Ruled fact row under the page head: labels on values, one hairline per column. */
+.ip-facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 0 1.75rem;
+  border-top: 1px solid var(--svc-hairline);
+  border-bottom: 1px solid var(--svc-hairline);
+}
+
+.ip-facts > div {
+  padding: 1rem 1.4rem 1.05rem;
+  border-left: 1px solid var(--svc-hairline);
+}
+
+.ip-facts > div:first-child {
+  padding-left: 0;
+  border-left: none;
+}
+
+.ip-facts dt {
+  margin: 0 0 0.32rem;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--svc-muted);
+}
+
+.ip-facts dd {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--svc-ink);
+}
+
+/* Small-caps field label, shared by the notice columns and the details dialog. */
+.ip-label {
+  margin: 0 0 0.8rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--svc-muted);
+}
+
+/* Both notice blocks sit straight on the page background — the column rule inside
+   ip-notice__cols and the hairline above ip-notice__foot carry the structure. */
+.ip-notice {
+  margin: 0 0 2rem;
+}
+
+.ip-notice__title {
+  max-width: 44ch;
+  margin: 0 0 1.4rem;
+  font-size: clamp(1.3rem, 2.1vw, 1.62rem);
+  line-height: 1.22;
+  letter-spacing: -0.006em;
+  color: var(--svc-ink);
+}
+
+.ip-notice__cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(1.5rem, 3vw, 2.75rem);
+}
+
+.ip-notice__cols > div + div {
+  padding-left: clamp(1.5rem, 3vw, 2.75rem);
+  border-left: 1px solid var(--svc-hairline);
+}
+
+.ip-notice__note {
+  margin: 0.9rem 0 0;
+  max-width: 62ch;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--svc-muted);
+}
+
+.ip-notice__foot {
+  max-width: 82ch;
+  margin: 1.5rem 0 0;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--svc-hairline);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--svc-body);
+}
+
+/* Feature chips and action rows follow prose inside a column, so each takes its own gap. */
+.ip-notice__cols .svc-features,
+.ip-notice__cols .svc-cta__actions,
+.ip-grid + .svc-cta__actions {
+  margin-top: 1.15rem;
+}
+
+.ip-search {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 520px;
+  margin: 0 0 0.35rem;
+}
+
+.ip-search .svc-input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ip-consent {
+  max-width: 76ch;
+  margin: 0 0 1.9rem;
+  font-size: 0.79rem;
+  line-height: 1.65;
+  color: var(--svc-muted);
+}
+
+/* Answer-first block: a ruled section on the page background, not a white card. */
+.ip-answer {
+  max-width: 900px;
+  margin: 0 auto 3rem;
+  padding-top: clamp(1.75rem, 3vw, 2.6rem);
+  border-top: 1px solid var(--svc-hairline);
+}
+
+.ip-answer__lede {
+  margin: 0;
+  max-width: 78ch;
+  font-size: 1.02rem;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--svc-body);
+}
+
+.ip-answer__block {
+  margin-top: clamp(1.75rem, 3vw, 2.2rem);
+}
+
+.ip-answer__sub {
+  margin: 0 0 0.7rem;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  color: var(--svc-ink);
+}
+
+.ip-answer__steps {
+  margin: 0;
+  padding-left: 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--svc-body);
+}
+
+.ip-answer__steps li + li {
+  margin-top: 0.4rem;
+}
+
+/* A fee table needs its cell rules; only the block around it is unboxed. */
+.ip-answer__scroll {
+  overflow-x: auto;
+}
+
+.ip-answer__scroll table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.ip-answer__scroll caption {
+  margin: 0;
+  padding-bottom: 0.6rem;
+  caption-side: top;
+  text-align: left;
+  font-weight: 700;
+  color: var(--svc-ink);
+}
+
+.ip-answer__scroll th,
+.ip-answer__scroll td {
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--svc-hairline);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.ip-answer__scroll th {
+  background: var(--svc-surface-soft);
+  color: var(--svc-ink);
+}
+
+.ip-answer__scroll td {
+  font-weight: 500;
+  color: var(--svc-body);
+}
+
+.ip-answer__scroll td:first-child {
+  font-weight: 600;
+  color: var(--svc-ink);
+  white-space: normal;
+}
+
+.ip-answer__specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.35rem 2rem;
+  margin: clamp(1.75rem, 3vw, 2.2rem) 0 0;
+  padding-top: 1.35rem;
+  border-top: 1px solid var(--svc-hairline);
+}
+
+.ip-answer__specs dt {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--svc-accent);
+}
+
+.ip-answer__specs dd {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--svc-body);
+}
+
+/* Certificate check: the same ruled treatment — field row, then the record's fact row. */
+.ip-verify {
+  max-width: 900px;
+  margin: 0 auto clamp(2.5rem, 4vw, 3rem);
+}
+
+/* The hint is a grid row of its own so the button bottoms out against the input
+   rather than against the hint text under it. */
+.ip-verify__form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  column-gap: 0.9rem;
+}
+
+.ip-verify__field {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.ip-verify__form .svc-btn {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.ip-verify__input {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.ip-verify__hint {
+  display: block;
+  grid-column: 1;
+  grid-row: 2;
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--svc-muted);
+}
+
+.ip-verify__state {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 1.7rem 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ip-verify__state--ok {
+  color: #047857;
+}
+
+.ip-verify__state--unknown {
+  color: #a16207;
+}
+
+.ip-verify__note {
+  margin: 0.7rem 0 0;
+  max-width: 78ch;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--svc-body);
+}
+
+.ip-verify__id {
+  font-family: var(--font-ui);
+  letter-spacing: 0.04em;
+}
+
+.ip-verify .ip-facts {
+  margin-top: 1.35rem;
+  margin-bottom: 0;
+}
+
+@media (max-width: 640px) {
+  .ip-verify__form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ip-verify__form .svc-btn {
+    grid-column: 1;
+    grid-row: 3;
+    justify-self: start;
+  }
+}
+
+.ip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.15rem;
+}
+
+/* The director row is four people, so it gets four columns; the card grid above
+   would strand the fourth one in a three-column row. */
+.ip-grid--people {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1.25rem, 2.4vw, 2rem);
+}
+
+@media (max-width: 1023px) {
+  .ip-grid--people {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .ip-grid--people {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.ip-card {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.35rem, 2.2vw, 1.75rem);
+  background: var(--svc-surface);
+  border: 1px solid var(--svc-hairline);
+  border-radius: var(--svc-radius);
+  box-shadow: var(--svc-shadow);
+  transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+}
+
+.ip-card .svc-eyebrow::before {
+  display: none;
+}
+
+.ip-card:hover {
+  border-color: var(--svc-hairline-strong);
+  box-shadow: var(--svc-shadow-lift);
+  transform: translateY(-2px);
+}
+
+.ip-card__title {
+  margin: 0 0 0.4rem;
+  font-size: 1.22rem;
+  line-height: 1.26;
+  letter-spacing: -0.005em;
+  color: var(--svc-ink);
+}
+
+/* Format and level vary per track, so they get their own quiet line rather than
+   competing with the domain label for the width of one. */
+.ip-card__meta {
+  margin: 0 0 0.6rem;
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--svc-muted);
+}
+
+.ip-card__desc {
+  margin: 0 0 1.1rem;
+  max-width: 60ch;
+  font-size: 0.87rem;
+  line-height: 1.7;
+  color: var(--svc-body);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ip-card__stack {
+  margin-bottom: 1.3rem;
+}
+
+.ip-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--svc-hairline);
+}
+
+.ip-card__price-label {
+  margin: 0 0 0.25rem;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--svc-muted);
+}
+
+.ip-card__price-value {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 1.02rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--svc-ink);
+}
+
+.ip-card__price-note {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--svc-muted);
+}
+
+.ip-card__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ip-card__actions .svc-btn {
+  padding: 0.55rem 0.95rem;
+  font-size: 0.8rem;
+}
+
+/* Director strip on /about: the portrait carries the column's width and sits straight
+   on the page background — no frame, no shell. Two of the four sources are 3:4, so the
+   crop is anchored to the top and never takes pixels off the head. */
+.ip-person__photo {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  margin: 0 0 1.05rem;
+  display: block;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.ip-person__name {
+  margin: 0 0 0.25rem;
+  font-size: 1.22rem;
+  line-height: 1.25;
+  color: var(--svc-ink);
+}
+
+/* The role line closes the column, so its own gap would stack onto the grid's. */
+.ip-person .svc-card__tagline {
+  margin-bottom: 0;
+}
+
+/* Founder feature: portrait and bio face each other across a hairline, and the
+   columns swap sides down the page. Even rows flip the tracks, not just the order,
+   so the text keeps the wide column either way. */
+.tp-founders {
+  border-bottom: 1px solid var(--svc-hairline);
+}
+
+.tp-founder {
+  display: grid;
+  grid-template-columns: minmax(0, 32%) minmax(0, 1fr);
+  column-gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: center;
+  padding: clamp(1.75rem, 3vw, 2.6rem) 0;
+  border-top: 1px solid var(--svc-hairline);
+}
+
+.tp-founder:nth-child(even) {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 32%);
+}
+
+.tp-founder:nth-child(even) .tp-founder__photo {
+  order: 2;
+}
+
+.tp-founder__photo {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  max-height: 20rem;
+  display: block;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: var(--svc-radius-ctl);
+}
+
+@media (max-width: 700px) {
+  .tp-founder,
+  .tp-founder:nth-child(even) {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 1.4rem;
+  }
+
+  .tp-founder:nth-child(even) .tp-founder__photo {
+    order: 0;
+  }
+}
+
+.ip-empty {
+  grid-column: 1 / -1;
+  padding: clamp(2.5rem, 5vw, 3.5rem) 1.5rem;
+  text-align: center;
+  background: var(--svc-surface);
+  border: 1px solid var(--svc-hairline);
+  border-radius: var(--svc-radius);
+}
+
+.ip-empty h3 {
+  margin: 0 0 0.55rem;
+  font-size: 1.25rem;
+  color: var(--svc-ink);
+}
+
+.ip-empty p {
+  max-width: 46ch;
+  margin: 0 auto 1.4rem;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--svc-muted);
+}
+
+/* ---- Details dialog ---- */
+.ip-modal__stack {
+  margin: 0 0 1.4rem;
+}
+
+.ip-tiers {
+  margin: 0 0 1.5rem;
+  padding: 1.25rem;
+  background: var(--svc-surface-soft);
+  border: 1px solid var(--svc-hairline);
+  border-radius: var(--svc-radius);
+}
+
+.ip-tiers__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 1.15rem;
+}
+
+.ip-tier {
+  flex: 1 1 92px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  padding: 0.5rem 0.7rem;
+  background: var(--svc-surface);
+  border: 1px solid var(--svc-hairline);
+  border-radius: var(--svc-radius-ctl);
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.ip-tier:hover {
+  border-color: var(--svc-hairline-strong);
+}
+
+.ip-tier__duration {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--svc-ink);
+}
+
+.ip-tier__fee {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--svc-muted);
+}
+
+.ip-tier[aria-pressed="true"] {
+  background: var(--svc-ink);
+  border-color: var(--svc-ink);
+}
+
+.ip-tier[aria-pressed="true"] .ip-tier__duration {
+  color: #ffffff;
+}
+
+.ip-tier[aria-pressed="true"] .ip-tier__fee {
+  color: #9fb0cd;
+}
+
+.ip-tier__detail {
+  padding: 1.15rem 1.25rem;
+  background: var(--svc-surface);
+  border: 1px solid var(--svc-hairline);
+  border-radius: var(--svc-radius);
+}
+
+.ip-tier__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.95rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--svc-hairline);
+}
+
+.ip-tier__title {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--svc-ink);
+}
+
+.ip-tier__best {
+  flex-shrink: 0;
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--svc-accent);
+}
+
+.ip-modal__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--svc-hairline);
+}
+
+@media (max-width: 1023px) {
+  .ip-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ip-facts > div:nth-child(odd) {
+    padding-left: 0;
+    border-left: none;
+  }
+
+  .ip-notice__cols {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 1.35rem;
+  }
+
+  .ip-notice__cols > div + div {
+    padding-top: 1.35rem;
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid var(--svc-hairline);
+  }
+}
+
+@media (max-width: 560px) {
+  .ip-facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ip-facts > div {
+    padding-left: 0;
+    border-left: none;
+  }
+
+  .ip-facts > div + div {
+    border-top: 1px solid var(--svc-hairline);
+  }
+
+  .ip-search {
+    max-width: none;
+  }
+
+  .ip-card__foot {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .ip-card__actions {
+    width: 100%;
+  }
+
+  .ip-card__actions .svc-btn {
+    flex: 1 1 auto;
+  }
+
+  .ip-modal__foot {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* The global ≤768px h3 size is tuned for a geometric sans; Playfair needs the step up
+   to hold the same visual weight inside a card. */
+@media (max-width: 768px) {
+  :is(.internships-page, .training-page, .about-page, .team-page) .ip-card__title {
+    font-size: 1.42rem !important;
+    line-height: 1.2 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ip-card,
+  .ip-card:hover {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   Display type on the program and client-facing pages. Playfair Display
+   carries the headings there; every other page, the navbar and the locked hero
+   keep the Cormorant token. Inter prose and Manrope labels are unchanged.
    Playfair draws far darker than Cormorant at the same weight, so the display
    tiers drop to 500 — the lighter Playfair weight already loaded.
    ============================================================ */
 .home-page :is(.hp-band, .concept-band),
-.services-page {
+.services-page,
+.internships-page,
+.training-page,
+.about-page,
+.team-page {
   --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
 }
 
 .home-page :is(.hp-band, .concept-band) :is(h1, h2, h3, h4):not(.svc-aside-label),
-.services-page :is(h1, h2, h3, h4):not(.svc-aside-label),
+:is(.services-page, .internships-page, .training-page, .about-page, .team-page) :is(h1, h2, h3, h4):not(.svc-aside-label, .ip-label),
 .home-page .hp-fact__value {
   font-weight: 500;
 }
 
 /* The reference sets its small-caps labels wider than the current tracking. */
-:is(.home-page, .services-page) :is(.svc-eyebrow, .svc-aside-label, .hp-cell__label, .hp-picker__label, .hp-panel__stat-label, .hp-contact__label) {
+:is(.home-page, .services-page, .internships-page, .training-page, .about-page, .team-page) :is(.svc-eyebrow, .svc-aside-label, .ip-label, .hp-cell__label, .hp-picker__label, .hp-panel__stat-label, .hp-contact__label) {
   letter-spacing: 0.18em;
 }
 
@@ -1858,23 +2544,22 @@ button:disabled {
   color: var(--svc-body);
 }
 
-/* Four facts as one ruled strip instead of four floating glass cards. */
+/* Four facts as ruled columns on the band's own surface: one hairline above and below,
+   a divider per column, no slab. */
 .hp-facts {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin: 0 0 2.5rem;
-  border: 1px solid var(--svc-hairline);
-  border-radius: var(--svc-radius);
-  background: var(--svc-surface);
-  box-shadow: var(--svc-shadow);
+  border-top: 1px solid var(--hp-rule, var(--svc-hairline));
+  border-bottom: 1px solid var(--hp-rule, var(--svc-hairline));
 }
 
 .hp-fact {
-  padding: 1.15rem 1.3rem;
+  padding: 1.4rem 1.6rem 1.5rem;
 }
 
 .hp-fact + .hp-fact {
-  border-left: 1px solid var(--svc-hairline);
+  border-left: 1px solid var(--hp-rule, var(--svc-hairline));
 }
 
 .hp-fact__value {
@@ -1902,7 +2587,7 @@ button:disabled {
 .hp-grid {
   display: grid;
   grid-template-columns: minmax(0, 330px) minmax(0, 1fr);
-  gap: 1.4rem;
+  gap: clamp(1.75rem, 3.4vw, 3.25rem);
   align-items: start;
   margin-bottom: 2.9rem;
 }
@@ -1910,11 +2595,10 @@ button:disabled {
 .hp-picker {
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
 }
 
 .hp-picker__label {
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.55rem;
   font-family: var(--font-ui);
   font-size: 0.68rem;
   font-weight: 800;
@@ -1923,24 +2607,29 @@ button:disabled {
   color: var(--svc-muted);
 }
 
+/* Region list: ruled rows on the band's own surface. The chosen one is marked by its
+   filled code chip, not by a dark slab. */
 .hp-region {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.8rem;
   width: 100%;
-  padding: 0.7rem 0.85rem;
+  padding: 0.8rem 0;
   text-align: left;
-  background: var(--svc-surface);
-  border: 1px solid var(--svc-hairline);
-  border-radius: var(--svc-radius-ctl);
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--svc-hairline);
   color: var(--svc-ink);
-  transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+  transition: background-color 0.16s ease, color 0.16s ease;
+}
+
+.hp-region:last-child {
+  border-bottom: 1px solid var(--svc-hairline);
 }
 
 .hp-region:hover {
-  border-color: var(--svc-hairline-strong);
-  background: #ffffff;
+  background-color: var(--svc-surface);
 }
 
 .hp-region:focus-visible {
@@ -1948,10 +2637,8 @@ button:disabled {
   outline-offset: 2px;
 }
 
-.hp-region[aria-pressed="true"] {
-  background: var(--svc-ink);
-  border-color: var(--svc-ink);
-  color: #ffffff;
+.hp-region[aria-pressed="true"] .hp-region__name {
+  color: var(--svc-accent);
 }
 
 .hp-region__id {
@@ -1988,8 +2675,8 @@ button:disabled {
 }
 
 .hp-region[aria-pressed="true"] .hp-code {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.26);
+  background: var(--svc-accent);
+  border-color: var(--svc-accent);
   color: #ffffff;
 }
 
@@ -2009,10 +2696,6 @@ button:disabled {
   color: var(--svc-muted);
 }
 
-.hp-region[aria-pressed="true"] .hp-region__city {
-  color: rgba(255, 255, 255, 0.72);
-}
-
 .hp-tag {
   display: inline-flex;
   align-items: center;
@@ -2030,12 +2713,6 @@ button:disabled {
   white-space: nowrap;
 }
 
-.hp-region[aria-pressed="true"] .hp-tag {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.28);
-}
-
 .hp-tag--quiet {
   color: var(--svc-muted);
   letter-spacing: 0.04em;
@@ -2049,15 +2726,12 @@ button:disabled {
   background: #10b981;
 }
 
+/* The region detail carries no shell of its own: its blocks are stacked on the band
+   and separated by hairlines. */
 .hp-panel {
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
-  background: var(--svc-surface);
-  border: 1px solid var(--svc-hairline);
-  border-radius: var(--svc-radius);
-  padding: clamp(1.35rem, 2.3vw, 1.9rem);
-  box-shadow: var(--svc-shadow);
   animation: hpPanelIn 0.24s ease both;
 }
 
@@ -2114,10 +2788,8 @@ button:disabled {
 }
 
 .hp-focus {
-  background: var(--svc-surface-soft);
-  border: 1px solid var(--svc-hairline);
-  border-radius: var(--svc-radius-ctl);
-  padding: 1.1rem 1.2rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--svc-hairline);
 }
 
 .hp-focus__label {
@@ -2344,8 +3016,6 @@ button:disabled {
    band reads as a service list rather than a second copy of the region picker. */
 .hp-svc {
   margin: 0 0 2.3rem;
-  border-top: 1px solid var(--svc-hairline);
-  border-bottom: 1px solid var(--svc-hairline);
 }
 
 .hp-svc__row {
@@ -2354,10 +3024,6 @@ button:disabled {
   gap: 0.2rem 2.2rem;
   align-items: start;
   padding: 1.4rem 0 1.5rem;
-}
-
-.hp-svc__row + .hp-svc__row {
-  border-top: 1px solid var(--svc-hairline);
 }
 
 .hp-svc__id .hp-cell__label {
@@ -2790,7 +3456,8 @@ button:disabled {
   transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
-.svc-input:hover {
+.svc-input:hover,
+.svc-select__trigger:hover {
   border-color: var(--svc-hairline-strong);
 }
 
@@ -2809,11 +3476,6 @@ textarea.svc-input {
   font-size: 0.79rem;
   line-height: 1.65;
   color: var(--svc-muted);
-}
-
-.svc-consent a {
-  color: var(--svc-accent);
-  font-weight: 600;
 }
 
 .svc-form__actions {
@@ -2843,10 +3505,6 @@ textarea.svc-input {
   font-weight: 600;
   color: var(--svc-ink);
   transition: border-color 0.18s ease, box-shadow 0.18s ease;
-}
-
-.svc-select__trigger:hover {
-  border-color: var(--svc-hairline-strong);
 }
 
 .svc-select--open .svc-select__trigger {
@@ -2925,16 +3583,16 @@ textarea.svc-input {
 }
 
 /* The global ≤768px / ≤480px heading sizes were tuned for a geometric sans; Cormorant's
-   small x-height reads a step smaller, so the Services layer re-asserts larger sizes. */
+   small x-height reads a step smaller, so the premium layer re-asserts larger sizes. */
 @media (max-width: 768px) {
-  .services-page .svc-title {
+  :is(.services-page, .internships-page, .training-page, .about-page, .team-page) .svc-title {
     font-size: 2.4rem !important;
     line-height: 1.1 !important;
   }
 
-  .services-page .svc-section-title,
-  .services-page .svc-cta__title,
-  .services-page .page-faq__heading {
+  :is(.services-page, .internships-page, .training-page, .about-page, .team-page) .svc-section-title,
+  :is(.services-page, .internships-page, .training-page, .about-page, .team-page) .svc-cta__title,
+  :is(.services-page, .internships-page, .training-page, .about-page, .team-page) .page-faq__heading {
     font-size: 1.85rem !important;
     line-height: 1.16 !important;
   }
@@ -2944,22 +3602,31 @@ textarea.svc-input {
     font-size: 1.45rem !important;
     line-height: 1.2 !important;
   }
+
+  :is(.internships-page, .training-page, .about-page, .team-page) .ip-notice__title {
+    font-size: 1.7rem !important;
+    line-height: 1.2 !important;
+  }
 }
 
 @media (max-width: 480px) {
-  .services-page .svc-title {
+  :is(.services-page, .internships-page, .training-page, .about-page, .team-page) .svc-title {
     font-size: 2.05rem !important;
   }
 
-  .services-page .svc-section-title,
-  .services-page .svc-cta__title,
-  .services-page .page-faq__heading {
+  :is(.services-page, .internships-page, .training-page, .about-page, .team-page) .svc-section-title,
+  :is(.services-page, .internships-page, .training-page, .about-page, .team-page) .svc-cta__title,
+  :is(.services-page, .internships-page, .training-page, .about-page, .team-page) .page-faq__heading {
     font-size: 1.62rem !important;
   }
 
   .services-page .svc-card__title,
   .services-page .svc-step__title {
     font-size: 1.3rem !important;
+  }
+
+  :is(.internships-page, .training-page, .about-page, .team-page) .ip-notice__title {
+    font-size: 1.45rem !important;
   }
 }
 
@@ -2994,6 +3661,38 @@ textarea.svc-input {
   }
 
   .svc-step:last-child {
+    border-bottom: none;
+  }
+
+  /* Three wide columns get unreadable at tablet width, so the index stacks and keeps
+     only its horizontal rules. */
+  .svc-steps--three {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .svc-steps--three .svc-step {
+    padding: 1.4rem 0;
+    border-right: none;
+  }
+
+  /* The pair stays side by side at tablet width, so its closing rule stays whole. */
+  .svc-steps--two .svc-step {
+    border-bottom: 1px solid var(--svc-hairline);
+  }
+}
+
+/* Placed after the 1023 block so its own two-column rule doesn't outvote this one. */
+@media (max-width: 640px) {
+  .svc-steps--two {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .svc-steps--two .svc-step {
+    padding: 1.4rem 0;
+    border-right: none;
+  }
+
+  .svc-steps--two .svc-step:last-child {
     border-bottom: none;
   }
 }
@@ -3079,14 +3778,14 @@ textarea.svc-input {
    separate cards. Used by /services and the home FAQ band (`.hp-faq`), so the two
    read as one component. /services drops the block's horizontal padding so the panel
    shares the answer block's column. */
-.services-page .page-faq {
+:is(.services-page, .internships-page, .training-page, .about-page, .team-page) .page-faq {
   margin-top: 3.5rem;
   /* !important to beat the global `.container { padding: 0 1rem !important }` mobile rule. */
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
-.services-page .page-faq__heading {
+:is(.services-page, .internships-page, .training-page, .about-page, .team-page) .page-faq__heading {
   font-size: clamp(1.55rem, 2.7vw, 2.05rem);
   font-weight: 600;
   line-height: 1.16;
@@ -3095,7 +3794,7 @@ textarea.svc-input {
   margin-bottom: 1.1rem;
 }
 
-:is(.services-page, .hp-faq) .page-faq__list {
+:is(.services-page, .internships-page, .training-page, .about-page, .team-page, .hp-faq) .page-faq__list {
   gap: 0;
   border: 1px solid var(--svc-hairline);
   border-radius: var(--svc-radius);
@@ -3104,7 +3803,7 @@ textarea.svc-input {
   overflow: hidden;
 }
 
-:is(.services-page, .hp-faq) .page-faq__item {
+:is(.services-page, .internships-page, .training-page, .about-page, .team-page, .hp-faq) .page-faq__item {
   background: transparent;
   border: 0;
   border-radius: 0;
@@ -3112,11 +3811,11 @@ textarea.svc-input {
   box-shadow: none;
 }
 
-:is(.services-page, .hp-faq) .page-faq__item + .page-faq__item {
+:is(.services-page, .internships-page, .training-page, .about-page, .team-page, .hp-faq) .page-faq__item + .page-faq__item {
   border-top: 1px solid var(--svc-hairline);
 }
 
-:is(.services-page, .hp-faq) .page-faq__q {
+:is(.services-page, .internships-page, .training-page, .about-page, .team-page, .hp-faq) .page-faq__q {
   padding: 1.05rem 1.35rem;
   font-size: 0.95rem;
   font-weight: 600;
@@ -3126,11 +3825,11 @@ textarea.svc-input {
   transition: background 0.16s ease;
 }
 
-:is(.services-page, .hp-faq) .page-faq__q::-webkit-details-marker {
+:is(.services-page, .internships-page, .training-page, .about-page, .team-page, .hp-faq) .page-faq__q::-webkit-details-marker {
   display: none;
 }
 
-:is(.services-page, .hp-faq) .page-faq__q::after {
+:is(.services-page, .internships-page, .training-page, .about-page, .team-page, .hp-faq) .page-faq__q::after {
   content: '';
   flex: 0 0 auto;
   width: 8px;
@@ -3141,24 +3840,24 @@ textarea.svc-input {
   transition: transform 0.2s ease;
 }
 
-:is(.services-page, .hp-faq) .page-faq__q:hover {
+:is(.services-page, .internships-page, .training-page, .about-page, .team-page, .hp-faq) .page-faq__q:hover {
   background: var(--svc-surface-soft);
 }
 
-:is(.services-page, .hp-faq) .page-faq__q:focus-visible {
+:is(.services-page, .internships-page, .training-page, .about-page, .team-page, .hp-faq) .page-faq__q:focus-visible {
   outline: 2px solid var(--svc-accent);
   outline-offset: -2px;
 }
 
-:is(.services-page, .hp-faq) .page-faq__item[open] .page-faq__q {
+:is(.services-page, .internships-page, .training-page, .about-page, .team-page, .hp-faq) .page-faq__item[open] .page-faq__q {
   background: var(--svc-surface-soft);
 }
 
-:is(.services-page, .hp-faq) .page-faq__item[open] .page-faq__q::after {
+:is(.services-page, .internships-page, .training-page, .about-page, .team-page, .hp-faq) .page-faq__item[open] .page-faq__q::after {
   transform: rotate(-135deg);
 }
 
-:is(.services-page, .hp-faq) .page-faq__a {
+:is(.services-page, .internships-page, .training-page, .about-page, .team-page, .hp-faq) .page-faq__a {
   margin: 0;
   padding: 0 1.35rem 1.2rem;
   max-width: 74ch;
@@ -3180,43 +3879,29 @@ textarea.svc-input {
 }
 
 @media (max-width: 560px) {
-  :is(.services-page, .hp-faq) .page-faq__q {
+  :is(.services-page, .internships-page, .training-page, .about-page, .team-page, .hp-faq) .page-faq__q {
     padding: 0.9rem 1.05rem;
   }
 
-  :is(.services-page, .hp-faq) .page-faq__a {
+  :is(.services-page, .internships-page, .training-page, .about-page, .team-page, .hp-faq) .page-faq__a {
     padding: 0 1.05rem 1.05rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .svc-card,
-  .svc-card:hover,
   .svc-select__chevron,
-  :is(.services-page, .hp-faq) .page-faq__q {
+  :is(.services-page, .internships-page, .training-page, .about-page, .team-page, .hp-faq) .page-faq__q {
     transition: none;
     transform: none;
   }
 
   /* The chevron keeps its rotation; only its motion is removed. */
-  :is(.services-page, .hp-faq) .page-faq__q::after {
+  :is(.services-page, .internships-page, .training-page, .about-page, .team-page, .hp-faq) .page-faq__q::after {
     transition: none;
   }
 
-  :is(.services-page, .hp-faq) .page-faq__a {
+  :is(.services-page, .internships-page, .training-page, .about-page, .team-page, .hp-faq) .page-faq__a {
     animation: none;
-  }
-}
-
-/* Stage slide entrance (global footprint) */
-@keyframes projectSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -3233,15 +3918,11 @@ textarea.svc-input {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .premium-card, .premium-card:hover, .btn-premium, .btn-premium:hover,
+  .btn-premium, .btn-premium:hover,
   .concept-card, .concept-card:hover, .concept-more, .concept-more:hover, .concept-modal-close, .concept-modal-close:hover,
   .concept-cta-btn, .concept-cta-btn:hover {
     transition: none;
     transform: none;
-  }
-
-  [style*="projectSlideIn"] {
-    animation: none !important;
   }
 
   /* Blanket stop for the rest: the hero orbs, the pre-React and skeleton shimmers,

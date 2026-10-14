@@ -192,12 +192,12 @@ export const FAQS = {
     {
       question: "What do Velora Global training programs cost?",
       answer:
-        "Program fees are printed on each program card and range from NPR 3,000 for single-stack programs such as JavaScript, Python, Java, frontend, deep learning, UI/UX and testing, up to NPR 12,000 for AI and machine learning engineering."
+        "Program fees are printed on each program card and range from NPR 1,999 for the AI tools program up to NPR 11,999 for AI and machine learning engineering, with most single-stack programs such as JavaScript, Python, Java, frontend, deep learning, UI/UX and testing at NPR 2,999."
     },
     {
       question: "Which subjects can I be trained in?",
       answer:
-        "Frontend with React, backend with Node.js, full stack with AI integration, artificial intelligence and machine learning, deep learning, JavaScript, Java with Spring Boot, Python, MERN, PERN, UI/UX design in Figma, mobile app engineering and software testing."
+        "Frontend with React, backend with Node.js, full stack with AI integration, artificial intelligence and machine learning, deep learning, AI tools and prompt engineering, JavaScript, Java with Spring Boot, Python, MERN, PERN, UI/UX design in Figma, mobile app engineering and software testing."
     },
     {
       question: "How do I join a training program?",
@@ -290,11 +290,6 @@ export const ANSWER_BLOCKS = {
         label: "Requirements",
         text:
           "The technology pills on each program card are the starting point for that track. Participation is remote, so no commute or fixed office hours are required."
-      },
-      {
-        label: "Fee",
-        text:
-          "NPR 199 for 2 weeks, NPR 499 for 1 month, NPR 999 for 2 months, NPR 1,999 for 3 months, NPR 4,999 for 6 months."
       }
     ],
     steps: [
@@ -303,17 +298,12 @@ export const ANSWER_BLOCKS = {
       "Build the assigned deliverables, reviewed 1-to-1 with a mentor.",
       "Submit for milestone grading against the five published criteria.",
       "Receive written remarks and a certificate with a unique verification ID."
-    ],
-    table: {
-      caption: "Internship duration and fee",
-      columns: ["Duration", "Fee"],
-      rows: INTERNSHIP_TIERS.map((tier) => [tier.duration, tier.fee])
-    }
+    ]
   },
   training: {
     heading: "What is guided training at Velora Global?",
     answer:
-      "Guided training is instructor-led rather than project-assigned: live lectures, step-by-step development, and a walkthrough of the complete codebase for the stack you choose, from frontend and backend engineering through AI and machine learning, deep learning, Python, Java, MERN, PERN, UI/UX, mobile and software testing. The fee is printed on each program card and runs from NPR 3,000 to NPR 12,000.",
+      "Guided training is instructor-led rather than project-assigned: live lectures, step-by-step development, and a walkthrough of the complete codebase for the stack you choose, from frontend and backend engineering through AI and machine learning, deep learning, AI tools, Python, Java, MERN, PERN, UI/UX, mobile and software testing. The fee is printed on each program card and runs from NPR 1,999 to NPR 11,999.",
     specs: [
       {
         label: "Who is this for",
@@ -338,7 +328,7 @@ export const ANSWER_BLOCKS = {
       {
         label: "Fee",
         text:
-          "NPR 3,000 for single-stack programs, NPR 4,000 for backend and mobile engineering, NPR 10,000 for full stack with AI, MERN and PERN, and NPR 12,000 for AI and machine learning engineering."
+          "NPR 1,999 for AI tools and prompt engineering, NPR 2,999 for single-stack programs, NPR 3,999 for backend and mobile engineering, NPR 9,999 for full stack with AI, MERN and PERN, and NPR 11,999 for AI and machine learning engineering."
       }
     ],
     table: {

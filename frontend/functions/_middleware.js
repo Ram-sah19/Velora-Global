@@ -82,6 +82,15 @@ function isMissingDocument(pathname, contentType) {
 // /api/certificates/verify/{id}. Override with a VG_API_ORIGIN Pages env var.
 const DEFAULT_API_ORIGIN = "https://velora-global.onrender.com";
 
+// Search Console file-verification tokens, keyed by the extension-less path.
+// Pages serves any static foo.html at /foo and 308-redirects /foo.html onto it, and
+// the extension-less path is then a genuine 404 from the SPA fallback — so a token
+// dropped in public/ is unreachable in production and has to be answered here.
+// public/google14a618a8649b198c.html stays for the CRA dev server, which has no middleware.
+const VERIFICATION_TOKENS = {
+  "/google14a618a8649b198c": "google-site-verification: google14a618a8649b198c.html"
+};
+
 async function proxyToApi(request, url, apiOrigin) {
   const method = request.method.toUpperCase();
   const headers = new Headers(request.headers);
@@ -143,6 +152,14 @@ export async function onRequest(context) {
         headers: { "Content-Type": "application/json" }
       });
     }
+  }
+
+  // 0.5 Verification tokens, answered before the asset router can strip the extension.
+  const token = VERIFICATION_TOKENS[url.pathname.replace(/\.html$/, "")];
+  if (token) {
+    return new Response(token, {
+      headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=86400" }
+    });
   }
 
   // 1. Markdown Content Negotiation for AI Agents: each real page answers with

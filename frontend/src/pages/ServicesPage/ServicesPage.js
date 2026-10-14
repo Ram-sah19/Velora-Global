@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ClientInquiryModal from '../../components/ClientInquiryModal';
-import { AnswerSection, PageFaq } from '../../components';
+import { AnswerSection, CtaBand, PageFaq, SectionHead } from '../../components';
 import { ANSWER_BLOCKS, FAQS } from '../../content/siteFacts';
 
 const CATEGORY_FILTERS = [
@@ -175,15 +175,12 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
     <section className="services-page">
       <div className="container">
 
-        <header className="svc-head">
-          <p className="svc-eyebrow">Solutions for Business Owners</p>
-          <h1 className="svc-title">
-            Tech Services &amp; Custom Software Development in Nepal
-          </h1>
-          <p className="svc-lede">
-            Velora Global builds digital systems that help businesses run better — custom web platforms, mobile applications, and automated customer support. We also handle what comes after launch: making your business easier to find online, and keeping your systems current, secure, and dependable.
-          </p>
-        </header>
+        <SectionHead
+          level={1}
+          eyebrow="Solutions for Business Owners"
+          title="Tech Services & Custom Software Development in Nepal"
+          lede="Velora Global builds digital systems that help businesses run better — custom web platforms, mobile applications, and automated customer support. We also handle what comes after launch: making your business easier to find online, and keeping your systems current, secure, and dependable."
+        />
 
         <div className="svc-toolbar" role="group" aria-label="Filter services by category">
           {CATEGORY_FILTERS.map((filter) => (
@@ -260,51 +257,36 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
       </div>
 
       {/* Full-bleed band: outside the container so the colour covers the viewport. */}
-      <section className="svc-cta" aria-labelledby="svc-cta-title">
-        <div className="container svc-cta__inner">
-          <div>
-            <p className="svc-eyebrow">Direct Leadership Consultation</p>
-            <h2 id="svc-cta-title" className="svc-cta__title">Schedule a Face-to-Face Project Discussion</h2>
-            <p className="svc-cta__text">
-              Visit our office in Balkumari, Kathmandu, or book an interactive video session with Founder Abhishek Sah &amp; our delivery team to discuss your project requirements.
-            </p>
-
-            <div className="svc-cta__actions">
-              <a
-                className="svc-btn svc-btn--whatsapp"
-                href="https://wa.me/9779826031419?text=Hello%20Velora%20Global%20Team%2C%20I%20would%20like%20to%20schedule%20a%20face-to-face%20meeting%20to%20discuss%20a%20custom%20software%20project."
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Schedule via WhatsApp (+977 9826031419)
-              </a>
-
-              <button
-                type="button"
-                className="svc-btn svc-btn--primary"
-                onClick={() => openInquiryModal('Direct Face-to-Face Project Discussion')}
-              >
-                Request In-Person Consultation
-              </button>
-            </div>
-          </div>
-
-          <dl className="svc-cta__facts">
-            <div>
-              <dt>Office Location</dt>
-              <dd>Balkumari, Ring Road, Kathmandu</dd>
-            </div>
-            <div>
-              <dt>Virtual Meeting</dt>
-              <dd>Google Meet / Zoom / WhatsApp</dd>
-            </div>
-            <div>
-              <dt>Helpline</dt>
-              <dd>+977 9826031419</dd>
-            </div>
-          </dl>
-        </div>
-      </section>
+      <CtaBand
+        id="svc-cta-title"
+        eyebrow="Direct Leadership Consultation"
+        title="Schedule a Face-to-Face Project Discussion"
+        text="Visit our office in Balkumari, Kathmandu, or book an interactive video session with Founder Abhishek Sah & our delivery team to discuss your project requirements."
+        actions={
+          <>
+            <a
+              className="svc-btn svc-btn--whatsapp"
+              href="https://wa.me/9779826031419?text=Hello%20Velora%20Global%20Team%2C%20I%20would%20like%20to%20schedule%20a%20face-to-face%20meeting%20to%20discuss%20a%20custom%20software%20project."
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Schedule via WhatsApp (+977 9826031419)
+            </a>
+            <button
+              type="button"
+              className="svc-btn svc-btn--primary"
+              onClick={() => openInquiryModal('Direct Face-to-Face Project Discussion')}
+            >
+              Request In-Person Consultation
+            </button>
+          </>
+        }
+        facts={[
+          { label: 'Office Location', value: 'Balkumari, Ring Road, Kathmandu' },
+          { label: 'Virtual Meeting', value: 'Google Meet / Zoom / WhatsApp' },
+          { label: 'Helpline', value: '+977 9826031419' }
+        ]}
+      />
 
       <div className="container">
         <PageFaq items={FAQS.services} />
