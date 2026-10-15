@@ -1,22 +1,18 @@
 import React from 'react';
 
 /**
- * Renders the legal sections from src/content/legal.js. The disclosure modals and
- * the /privacy-policy and /terms routes both use it, so an indexed page and a
- * popup can no longer show different terms.
+ * Renders the legal sections from src/content/legal.js as a ruled document: clauses
+ * separated by hairlines, no card around them. /privacy-policy and /terms are its only
+ * routes, so what a crawler indexes is what a visitor is shown.
  */
-export default function LegalSections({ sections = [], idPrefix = 'legal' }) {
+export default function LegalSections({ sections = [] }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', fontSize: '0.92rem', color: '#334155', lineHeight: '1.7' }}>
+    <div className="svc-ruled lp-doc">
       {sections.map((section) => (
-        <section key={section.heading}>
-          <h3 style={{ fontSize: '1.1rem', color: '#0b0f19', fontWeight: '700', marginBottom: '0.35rem' }}>
-            {section.heading}
-          </h3>
+        <section key={section.heading} className="lp-section">
+          <h2 className="lp-section__title">{section.heading}</h2>
           {section.paragraphs.map((paragraph) => (
-            <p key={`${idPrefix}-${paragraph.slice(0, 24)}`} style={{ margin: '0 0 0.5rem' }}>
-              {paragraph}
-            </p>
+            <p key={paragraph.slice(0, 24)}>{paragraph}</p>
           ))}
           {section.items && (
             <List listType={section.listType} items={section.items} />
@@ -30,11 +26,10 @@ export default function LegalSections({ sections = [], idPrefix = 'legal' }) {
 function List({ listType = 'ul', items }) {
   const Tag = listType === 'ol' ? 'ol' : 'ul';
   return (
-    <Tag style={{ paddingLeft: '1.25rem', margin: '0.35rem 0 0' }}>
+    <Tag className="lp-list">
       {items.map((item) => (
-        <li key={item.text} style={{ marginBottom: '0.3rem' }}>
-          {item.label ? <strong>{item.label}:</strong> : null}
-          {item.label ? ' ' : ''}
+        <li key={item.text}>
+          {item.label ? <strong>{item.label}: </strong> : null}
           {item.text}
         </li>
       ))}

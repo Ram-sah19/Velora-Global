@@ -15,6 +15,7 @@ import {
   Footer,
   CertificateModal,
   NotificationToast,
+  CollegeCollabPopup,
   CookieBanner,
   ErrorBoundary,
   OfflineBanner,
@@ -56,6 +57,9 @@ export default function App() {
   const [selectedServiceCategory, setSelectedServiceCategory] = useState('all');
   const [activeCertificate, setActiveCertificate] = useState(null);
   const [introReady, setIntroReady] = useState(!!sessionStorage.getItem('vg_intro_done'));
+  // On the home landing the college notice takes the screen straight after the splash, so the
+  // cookie banner sits out until the notice has had its turn.
+  const [noticeHold, setNoticeHold] = useState(activeTab === 'home');
   const [, setIsAuthRestoring] = useState(true);
 
   // Authentication State with Instant 30-Day Session Restoration
@@ -254,7 +258,15 @@ export default function App() {
         <a className="skip-link" href="#main-content">Skip to content</a>
         <OfflineBanner />
         <NotificationToast />
-        <CookieBanner />
+        {!noticeHold && <CookieBanner />}
+        {/* College collaboration notice — opens on the home page once the splash is done */}
+        {introReady && activeTab === 'home' && (
+          <CollegeCollabPopup
+            onExploreClick={() => handleTabChange('internships')}
+            onTrainingClick={() => handleTabChange('training')}
+            onHoldChange={setNoticeHold}
+          />
+        )}
         
         {/* Global Navigation Header */}
         <Navbar 

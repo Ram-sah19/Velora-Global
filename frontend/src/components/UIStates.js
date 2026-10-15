@@ -5,22 +5,28 @@ import React, { Component, useState, useEffect } from 'react';
    ========================================================================== */
 
 export function PageLoader() {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShow(true), 300);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // The quiet window above keeps a warm chunk swap from flashing a placeholder; only a slow
+  // connection that is still waiting shows the skeleton.
+  if (!show) return null;
+
   return (
-    <div style={{ padding: '4rem 1.5rem', minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.25rem' }}>
-      <div style={{
-        width: '44px',
-        height: '44px',
-        border: '3px solid #e2e8f0',
-        borderTopColor: '#2563eb',
-        borderRadius: '50%',
-        animation: 'veloraSpin 0.8s linear infinite'
-      }} />
-      <style>{`
-        @keyframes veloraSpin {
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
-      <p style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: '500' }}>Loading content...</p>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '3rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+        <SkeletonBox width="34%" height="1.9rem" borderRadius="10px" />
+        <SkeletonBox width="58%" height="1rem" />
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+        <SkeletonCard />
+        <SkeletonCard />
+        <SkeletonCard />
+      </div>
     </div>
   );
 }

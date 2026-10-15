@@ -32,98 +32,40 @@ const DOCS = {
 export default function LegalPage({ kind = 'privacy', onNavigateKind, onHomeClick }) {
   const doc = DOCS[kind] || DOCS.privacy;
 
+  const navigate = (handler, arg) => (event) => {
+    if (!handler) return;
+    event.preventDefault();
+    handler(arg);
+  };
+
   return (
-    <section style={{ padding: '4rem 0' }}>
-      <div className="container" style={{ maxWidth: '860px' }}>
+    <section className="legal-page">
+      <div className="container">
 
-        <div style={{ marginBottom: '2rem' }}>
-          <span className="badge badge-blue" style={{ marginBottom: '0.75rem' }}>{doc.badge}</span>
-          <h1 style={{ fontSize: '2.25rem', color: '#0b0f19', marginBottom: '0.6rem' }}>
-            {doc.heading}
-          </h1>
-          <p style={{ color: '#64748b', fontSize: '0.88rem', margin: 0 }}>
-            Last updated: {LAST_UPDATED}
-          </p>
-        </div>
+        <header className="svc-head">
+          <p className="svc-eyebrow">{doc.badge}</p>
+          <h1 className="svc-title">{doc.heading}</h1>
+          <p className="lp-updated">Last updated: {LAST_UPDATED}</p>
+        </header>
 
-        <p style={{
-          fontSize: '1.02rem',
-          lineHeight: '1.7',
-          color: '#334155',
-          background: '#ffffff',
-          border: '1px solid #e2e8f0',
-          borderRadius: '20px',
-          padding: '1.5rem 1.75rem',
-          marginBottom: '2.25rem',
-          boxShadow: 'var(--shadow-sm)',
-          fontWeight: 500
-        }}>
-          {doc.introduction}
+        <p className="svc-lede lp-intro">{doc.introduction}</p>
+
+        <LegalSections sections={doc.sections} />
+
+        <p className="lp-contact">
+          Questions about this document: write to{' '}
+          <a className="svc-link" href={`mailto:${ORG_FACTS.email}`}>{ORG_FACTS.email}</a>.
         </p>
 
-        <div
-          className="corporate-card"
-          style={{
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
-            borderRadius: '20px',
-            padding: '2rem 2rem 2.25rem',
-            boxShadow: 'var(--shadow-sm)',
-            marginBottom: '2.25rem'
-          }}
-        >
-          <LegalSections sections={doc.sections} />
-
-          <p style={{ margin: '2rem 0 0', fontSize: '0.92rem', color: '#334155', lineHeight: '1.7' }}>
-            Questions about this document: write to{' '}
-            <a href={`mailto:${ORG_FACTS.email}`} style={{ color: '#2563eb', fontWeight: 600, textDecoration: 'none' }}>
-              {ORG_FACTS.email}
-            </a>
-            .
-          </p>
-        </div>
-
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center' }}>
+        <div className="lp-actions">
           <a
+            className="svc-btn svc-btn--quiet"
             href={DOCS[doc.other.kind].href}
-            onClick={(e) => {
-              if (!onNavigateKind) return;
-              e.preventDefault();
-              onNavigateKind(doc.other.kind);
-            }}
-            style={{
-              padding: '0.65rem 1.5rem',
-              fontSize: '0.9rem',
-              fontWeight: '700',
-              borderRadius: '9999px',
-              background: '#ffffff',
-              border: '1px solid #dbeafe',
-              color: '#1d4ed8',
-              textDecoration: 'none',
-              cursor: 'pointer'
-            }}
+            onClick={navigate(onNavigateKind, doc.other.kind)}
           >
             {doc.other.label}
           </a>
-          <a
-            href="/"
-            onClick={(e) => {
-              if (!onHomeClick) return;
-              e.preventDefault();
-              onHomeClick();
-            }}
-            style={{
-              padding: '0.65rem 1.5rem',
-              fontSize: '0.9rem',
-              fontWeight: '700',
-              borderRadius: '9999px',
-              background: '#ffffff',
-              border: '1px solid #e2e8f0',
-              color: '#0b0f19',
-              textDecoration: 'none',
-              cursor: 'pointer'
-            }}
-          >
+          <a className="svc-btn svc-btn--quiet" href="/" onClick={navigate(onHomeClick)}>
             Back to home
           </a>
         </div>

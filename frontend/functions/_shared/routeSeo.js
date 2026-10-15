@@ -20,36 +20,36 @@ const SITE = "https://velora-global.online";
 const VERIFY_PATH = /^\/verify\/([A-Za-z0-9][A-Za-z0-9-]{3,31})$/;
 
 const HOMEPAGE = {
-  title: "Velora Global | Tech Training & Software Development in Nepal",
+  title: "Velora Global | Software Solutions in Nepal",
   description:
-    "Custom web and mobile software, AI chatbot systems, project-driven internships and guided technology training from Velora Global in Kathmandu, Nepal.",
+    "Custom websites, mobile apps and AI chatbots for businesses. Internships and tech training for students. Built in Kathmandu, Nepal, delivered remotely.",
   canonical: SITE + "/",
   graph: "home",
   faq: "home"
 };
 
 const SERVICES = {
-  title: "Tech Services & Software Development in Nepal | Velora Global",
+  title: "IT Solutions & Software Development in Nepal | Velora Global",
   description:
-    "Custom web platforms, mobile apps, AI support assistants, SEO and website maintenance for businesses in Nepal — quoted per project, delivered in four steps.",
+    "IT solutions for businesses in Nepal: web platforms, mobile apps, AI support tools, SEO and maintenance. Quoted in writing, with the code handed over to you.",
   canonical: SITE + "/services",
   graph: "service",
   faq: "services"
 };
 
 const INTERNSHIPS = {
-  title: "Project-Based Tech Internships in Nepal | Velora Global",
+  title: "Tech Internships in Nepal for Students | Velora Global",
   description:
-    "Project-driven technology internships with 1-to-1 mentorship, published grading criteria and a verifiable completion certificate, from NPR 199 for two weeks.",
+    "Internships where students ship real client work with 1-to-1 mentors. Pick 2 weeks to 6 months, from NPR 199. Fully remote, and every certificate is verifiable.",
   canonical: SITE + "/internships",
   graph: "program",
   faq: "internships"
 };
 
 const TRAINING = {
-  title: "Tech Training in Nepal | Guided Programs | Velora Global",
+  title: "Tech Training in Nepal | Velora Global",
   description:
-    "Guided technology training in frontend, backend, full stack with AI, machine learning, Python, Java, MERN, PERN, UI/UX and testing, from NPR 1,999 per program.",
+    "Instructor-led tech training in Nepal: frontend, backend, full stack, AI, machine learning, Python, Java, UI/UX, mobile and testing. From NPR 1,999 per program.",
   canonical: SITE + "/training",
   graph: "course",
   faq: "training"
@@ -66,7 +66,7 @@ const TEAM = {
 const ABOUT = {
   title: "About Velora Global | Company, Leadership & How We Work",
   description:
-    "Velora Global is a Kathmandu-based technology company building web, mobile and AI software for clients and running internships and training programs.",
+    "A Kathmandu technology company: one team builds web, mobile and AI software for clients, the other runs internships and training for students across Nepal.",
   canonical: SITE + "/about",
   graph: "about",
   faq: "about"

@@ -33,12 +33,12 @@ export const pathToTabMap = {
 };
 
 export const pageTitles = {
-  home: 'Velora Global | Tech Training & Software Development in Nepal',
-  services: 'Tech Services & Software Development in Nepal | Velora Global',
+  home: 'Velora Global | Software Solutions in Nepal',
+  services: 'IT Solutions & Software Development in Nepal | Velora Global',
   about: 'About Velora Global | Company, Leadership & How We Work',
   team: 'Executive Leadership & Mentors | Velora Global',
-  internships: 'Project-Based Tech Internships in Nepal | Velora Global',
-  training: 'Tech Training in Nepal | Guided Programs | Velora Global',
+  internships: 'Tech Internships in Nepal for Students | Velora Global',
+  training: 'Tech Training in Nepal | Velora Global',
   privacy: 'Privacy Policy | Velora Global',
   terms: 'Terms & Conditions | Velora Global',
   client: 'Corporate Client Workspace | Velora Global',
@@ -46,12 +46,12 @@ export const pageTitles = {
 };
 
 export const pageDescriptions = {
-  home: 'Custom web and mobile software, AI chatbot systems, project-driven internships and guided technology training from Velora Global in Kathmandu, Nepal.',
-  services: 'Custom web platforms, mobile apps, AI support assistants, SEO and website maintenance for businesses in Nepal — quoted per project, delivered in four steps.',
-  about: 'Velora Global is a Kathmandu-based technology company building web, mobile and AI software for clients and running internships and training programs.',
+  home: 'Custom websites, mobile apps and AI chatbots for businesses. Internships and tech training for students. Built in Kathmandu, Nepal, delivered remotely.',
+  services: 'IT solutions for businesses in Nepal: web platforms, mobile apps, AI support tools, SEO and maintenance. Quoted in writing, with the code handed over to you.',
+  about: 'A Kathmandu technology company: one team builds web, mobile and AI software for clients, the other runs internships and training for students across Nepal.',
   team: 'Meet the Velora Global leadership team: Abhishek Sah (Founder & CEO), Krishna Sah (Co-Founder & CTO), Rohit Sah (Co-Founder & COO) and Shivshankar Sah.',
-  internships: 'Project-driven technology internships with 1-to-1 mentorship, published grading criteria and a verifiable completion certificate, from NPR 199 for two weeks.',
-  training: 'Guided technology training in frontend, backend, full stack with AI, machine learning, Python, Java, MERN, PERN, UI/UX and testing, from NPR 1,999 per program.',
+  internships: 'Internships where students ship real client work with 1-to-1 mentors. Pick 2 weeks to 6 months, from NPR 199. Fully remote, and every certificate is verifiable.',
+  training: 'Instructor-led tech training in Nepal: frontend, backend, full stack, AI, machine learning, Python, Java, UI/UX, mobile and testing. From NPR 1,999 per program.',
   privacy: 'How Velora Global collects, stores, shares and deletes personal data for students, interns and corporate clients, and how to request access or removal.',
   terms: 'The terms that govern Velora Global internship and training enrolment, client project delivery, certificates, fees and refunds.',
   client: 'Private client workspace for reviewing ongoing software deliverables, milestones, source code repositories, and project timelines.',

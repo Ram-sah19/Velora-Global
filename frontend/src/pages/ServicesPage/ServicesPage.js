@@ -178,7 +178,7 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
         <SectionHead
           level={1}
           eyebrow="Solutions for Business Owners"
-          title="Tech Services & Custom Software Development in Nepal"
+          title="IT Solutions & Custom Software Development in Nepal"
           lede="Velora Global builds digital systems that help businesses run better — custom web platforms, mobile applications, and automated customer support. We also handle what comes after launch: making your business easier to find online, and keeping your systems current, secure, and dependable."
         />
 

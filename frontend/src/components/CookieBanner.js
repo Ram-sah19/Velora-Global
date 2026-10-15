@@ -2,6 +2,21 @@ import React, { useState, useEffect } from 'react';
 
 const COOKIE_KEY = 'velora_cookie_consent';
 
+const COOKIES = [
+  {
+    name: 'velora_refresh_token',
+    purpose: 'Keeps you securely logged in to your account',
+    duration: '30 days',
+    type: 'Essential'
+  },
+  {
+    name: 'velora_user',
+    purpose: 'Stores your basic profile (name, email, role) in browser for fast page loads',
+    duration: '30 days',
+    type: 'LocalStorage'
+  }
+];
+
 export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
@@ -28,169 +43,54 @@ export default function CookieBanner() {
   if (!visible) return null;
 
   return (
-    <>
-      {/* Backdrop blur on mobile */}
-      <div style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        zIndex: 99998,
-        display: 'flex',
-        justifyContent: 'center',
-        padding: '1rem',
-        pointerEvents: 'none'
-      }} />
+    <div role="region" aria-label="Cookie consent" className={leaving ? 'cb cb--leaving' : 'cb'}>
+      <h3 className="cb__title">Velora Global uses cookies</h3>
+      <p className="cb__text">
+        We use an essential session cookie to keep you securely logged in. No tracking, no ads, no
+        third-party analytics.{' '}
+        <a className="svc-link" href="/privacy-policy">Read the privacy policy</a>.
+      </p>
 
-      {/* Cookie Banner */}
-      <div role="region" aria-label="Cookie consent" style={{
-        position: 'fixed',
-        bottom: '1.25rem',
-        left: '50%',
-        transform: `translateX(-50%) translateY(${leaving ? '120%' : '0'})`,
-        transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-        zIndex: 99999,
-        width: 'min(680px, calc(100vw - 2rem))',
-        background: '#ffffff',
-        border: '1px solid #e2e8f0',
-        borderRadius: '20px',
-        boxShadow: '0 25px 60px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.08)',
-        overflow: 'hidden'
-      }}>
-        {/* Top accent bar */}
-        <div style={{ height: '4px', background: 'linear-gradient(90deg, #f94d4d 0%, #ff8c00 100%)' }} />
-
-        <div style={{ padding: '1.5rem 1.75rem' }}>
-          {/* Header Row */}
-          <div style={{ marginBottom: '0.9rem' }}>
-            <h3 style={{ fontSize: '1.05rem', fontWeight: '800', color: '#0b0f19', margin: '0 0 0.2rem' }}>
-              Velora Global uses cookies
-            </h3>
-            <p style={{ fontSize: '0.85rem', color: '#64748b', lineHeight: '1.55', margin: 0 }}>
-              We use an essential session cookie to keep you securely logged in. No tracking, no ads, no third-party analytics.{' '}
-              <a href="/privacy-policy" style={{ color: '#2563eb', fontWeight: 600 }}>Read the privacy policy</a>.
-            </p>
-          </div>
-
-          {/* Expandable Details */}
-          {showDetails && (
-            <div
-              id="cookie-details"
-              style={{
-              background: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: '12px',
-              padding: '1rem',
-              marginBottom: '1rem',
-              fontSize: '0.82rem',
-              color: '#334155',
-              lineHeight: '1.6'
-            }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-                <thead>
-                  <tr style={{ borderBottom: '1px solid #e2e8f0', color: '#64748b', fontSize: '0.78rem' }}>
-                    <th scope="col" style={{ padding: '0.4rem 0.5rem' }}>Cookie Name</th>
-                    <th scope="col" style={{ padding: '0.4rem 0.5rem' }}>Purpose</th>
-                    <th scope="col" style={{ padding: '0.4rem 0.5rem' }}>Duration</th>
-                    <th scope="col" style={{ padding: '0.4rem 0.5rem' }}>Type</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td style={{ padding: '0.5rem', fontFamily: 'monospace', color: '#f94d4d', fontWeight: '700' }}>velora_refresh_token</td>
-                    <td style={{ padding: '0.5rem' }}>Keeps you securely logged in to your account</td>
-                    <td style={{ padding: '0.5rem' }}>30 days</td>
-                    <td style={{ padding: '0.5rem' }}>
-                      <span style={{ background: '#ecfdf5', color: '#065f46', padding: '0.1rem 0.5rem', borderRadius: '99px', fontWeight: '700', fontSize: '0.75rem' }}>
-                        Essential
-                      </span>
-                    </td>
-                  </tr>
-                  <tr style={{ borderTop: '1px solid #f1f5f9' }}>
-                    <td style={{ padding: '0.5rem', fontFamily: 'monospace', color: '#2563eb', fontWeight: '700' }}>velora_user</td>
-                    <td style={{ padding: '0.5rem' }}>Stores your basic profile (name, email, role) in browser for fast page loads</td>
-                    <td style={{ padding: '0.5rem' }}>30 days</td>
-                    <td style={{ padding: '0.5rem' }}>
-                      <span style={{ background: '#eff6ff', color: '#1e40af', padding: '0.1rem 0.5rem', borderRadius: '99px', fontWeight: '700', fontSize: '0.75rem' }}>
-                        LocalStorage
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <p style={{ marginTop: '0.75rem', marginBottom: 0, color: '#64748b', fontSize: '0.8rem' }}>
-                We do <strong>not</strong> use advertising cookies, tracking pixels, or any third-party analytics. These cookies are strictly necessary to operate the platform.
-              </p>
-            </div>
-          )}
-
-          {/* Actions Row */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-            <button
-              onClick={() => dismiss('accepted')}
-              style={{
-                padding: '0.65rem 1.5rem',
-                borderRadius: '9999px',
-                background: '#f94d4d',
-                color: '#ffffff',
-                fontWeight: '800',
-                fontSize: '0.88rem',
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'background 0.15s',
-                whiteSpace: 'nowrap'
-              }}
-              onMouseEnter={e => e.target.style.background = '#e03131'}
-              onMouseLeave={e => e.target.style.background = '#f94d4d'}
-            >
-              Accept All Cookies
-            </button>
-
-            <button
-              onClick={() => dismiss('essential_only')}
-              style={{
-                padding: '0.65rem 1.25rem',
-                borderRadius: '9999px',
-                background: 'transparent',
-                color: '#334155',
-                fontWeight: '700',
-                fontSize: '0.88rem',
-                border: '1.5px solid #cbd5e1',
-                cursor: 'pointer',
-                transition: 'border-color 0.15s',
-                whiteSpace: 'nowrap'
-              }}
-              onMouseEnter={e => e.target.style.borderColor = '#94a3b8'}
-              onMouseLeave={e => e.target.style.borderColor = '#cbd5e1'}
-            >
-              Essential Only
-            </button>
-
-            <button
-              type="button"
-              aria-expanded={showDetails}
-              aria-controls={showDetails ? 'cookie-details' : undefined}
-              onClick={() => setShowDetails(v => !v)}
-              style={{
-                padding: '0.65rem 1rem',
-                borderRadius: '9999px',
-                background: 'transparent',
-                color: '#64748b',
-                fontWeight: '600',
-                fontSize: '0.85rem',
-                border: 'none',
-                cursor: 'pointer',
-                marginLeft: 'auto',
-                textDecoration: 'underline',
-                textUnderlineOffset: '2px',
-                whiteSpace: 'nowrap'
-              }}
-            >
-              {showDetails ? 'Hide Details ▲' : 'Cookie Details ▼'}
-            </button>
-          </div>
+      {showDetails && (
+        <div id="cookie-details" className="cb__details">
+          <ul className="cb__list">
+            {COOKIES.map((cookie) => (
+              <li key={cookie.name} className="cb__row">
+                <div className="cb__row__id">
+                  <p className="cb__name">{cookie.name}</p>
+                  <p className="cb__purpose">{cookie.purpose}</p>
+                </div>
+                <p className="cb__meta">
+                  {cookie.duration}
+                  <span className="cb__chip">{cookie.type}</span>
+                </p>
+              </li>
+            ))}
+          </ul>
+          <p className="cb__note">
+            We do <strong>not</strong> use advertising cookies, tracking pixels, or any third-party
+            analytics. These cookies are strictly necessary to operate the platform.
+          </p>
         </div>
+      )}
+
+      <div className="cb__actions">
+        <button type="button" className="svc-btn svc-btn--blue" onClick={() => dismiss('accepted')}>
+          Accept All Cookies
+        </button>
+        <button type="button" className="svc-btn svc-btn--quiet" onClick={() => dismiss('essential_only')}>
+          Essential Only
+        </button>
+        <button
+          type="button"
+          className="cb__toggle"
+          aria-expanded={showDetails}
+          aria-controls={showDetails ? 'cookie-details' : undefined}
+          onClick={() => setShowDetails((value) => !value)}
+        >
+          {showDetails ? 'Hide details' : 'Cookie details'}
+        </button>
       </div>
-    </>
+    </div>
   );
 }
