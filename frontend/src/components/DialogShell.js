@@ -18,8 +18,10 @@ function setLocked(owner) {
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 // Attach the returned ref to the dialog panel to get scroll lock, Escape-to-close,
-// a focus trap, and focus returned to the trigger on close.
-export function useDialog(active, onClose) {
+// a focus trap, and focus returned to the trigger on close. Pass lockScroll: false for
+// notices that open themselves — they must not freeze the document scroll (§3) and closing
+// one would otherwise wipe a `hidden` value the hero's story freeze had set.
+export function useDialog(active, onClose, lockScroll = true) {
   const panelRef = useRef(null);
   const ownerRef = useRef(null);
   const closeRef = useRef(onClose);
@@ -28,9 +30,11 @@ export function useDialog(active, onClose) {
   useEffect(() => {
     if (!active) return undefined;
     const owner = {};
-    ownerRef.current = owner;
-    lockStack.add(owner);
-    setLocked(owner);
+    if (lockScroll) {
+      ownerRef.current = owner;
+      lockStack.add(owner);
+      setLocked(owner);
+    }
 
     const trigger = document.activeElement;
     const panel = panelRef.current;
@@ -74,17 +78,19 @@ export function useDialog(active, onClose) {
     return () => {
       cancelAnimationFrame(raf);
       document.removeEventListener('keydown', handleKeyDown, true);
-      lockStack.delete(owner);
-      setLocked(null);
+      if (lockScroll) {
+        lockStack.delete(owner);
+        setLocked(null);
+      }
       if (trigger && typeof trigger.focus === 'function') trigger.focus({ preventScroll: true });
     };
-  }, [active]);
+  }, [active, lockScroll]);
 
   return panelRef;
 }
 
-export default function DialogShell({ labelId, onClose, overlayStyle, panelClassName, panelStyle, onPanelClick, children }) {
-  const panelRef = useDialog(true, onClose);
+export default function DialogShell({ labelId, onClose, overlayStyle, panelClassName, panelStyle, onPanelClick, lockScroll = true, children }) {
+  const panelRef = useDialog(true, onClose, lockScroll);
 
   return ReactDOM.createPortal(
     <div

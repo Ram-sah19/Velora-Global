@@ -11,6 +11,7 @@ export { default as VeloraLogo } from './VeloraLogo';
 // Modals
 export { default as CertificateModal } from './CertificateModal';
 export { default as ClientInquiryModal } from './ClientInquiryModal';
+export { default as CollegeCollabPopup } from './CollegeCollabPopup';
 
 // Feedback & Common UI
 export { default as CookieBanner } from './CookieBanner';
