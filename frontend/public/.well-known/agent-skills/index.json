@@ -13,9 +13,9 @@
       "name": "explore-internships",
       "type": "skill",
       "version": "1.0.0",
-      "description": "Discover Velora Global internship domains, the fee tiers by duration, and how applications work.",
+      "description": "Discover Velora Global internship domains, the one-time mentorship fee levels, and how applications work.",
       "url": "https://velora-global.online/.well-known/agent-skills/explore-internships/SKILL.md",
-      "digest": "sha256:2be2f54b21e15aec1988137498eb37a7d08e2a0b0cbb20aa81b81e5d6d2be762"
+      "digest": "sha256:04f7e9e8d9de061e4d86290e27205ba2e375cee08696ec31e0d2ad1082ff339c"
     },
     {
       "name": "explore-training",
@@ -23,7 +23,7 @@
       "version": "1.0.0",
       "description": "Discover Velora Global guided training programs, published fees per program, and how enrollment works.",
       "url": "https://velora-global.online/.well-known/agent-skills/explore-training/SKILL.md",
-      "digest": "sha256:00c528510c9f66a0ec26bb5269cc6702ae2b4d056dd62091c674276fce54340a"
+      "digest": "sha256:02db3ecfd0a0ce6e11d79861de0fb042a59f5c764246255cef245b0f13cbdfd2"
     }
   ]
 }

@@ -17,8 +17,10 @@ import {
   FAQS as EDGE_FAQS,
   GRADING_CRITERIA as EDGE_CRITERIA,
   INTERNSHIP_TIERS as EDGE_TIERS,
+  MENTORSHIP_LEVELS as EDGE_LEVELS,
   INTERNSHIP_TRACKS as EDGE_INTERNSHIP_TRACKS,
   SERVICES_CATALOG as EDGE_SERVICES,
+  MARKETING_PACKAGES as EDGE_PACKAGES,
   TRAINING_PROGRAMS as EDGE_TRAINING
 } from '../functions/_shared/entity.js';
 import {
@@ -27,7 +29,9 @@ import {
   FAQS as CLIENT_FAQS,
   GRADING_CRITERIA as CLIENT_CRITERIA,
   INTERNSHIP_TIERS as CLIENT_TIERS,
-  SERVICES_CATALOG as CLIENT_SERVICES
+  MENTORSHIP_LEVELS as CLIENT_LEVELS,
+  SERVICES_CATALOG as CLIENT_SERVICES,
+  MARKETING_PACKAGES as CLIENT_PACKAGES
 } from '../src/content/siteFacts.js';
 import { INTERNSHIP_PROGRAMS, TRAINING_PROGRAMS as CLIENT_TRAINING } from '../src/content/programs.js';
 import {
@@ -35,6 +39,7 @@ import {
   pathToTabMap,
   pageTitles,
   pageDescriptions,
+  pageRobots,
   verifyPageMeta
 } from '../src/constants/navigation.js';
 
@@ -276,8 +281,10 @@ check('published people', same(
   PEOPLE.filter((person) => person.slug !== 'ram-sah').map((person) => `${person.name} / ${person.jobTitle}`)
 ));
 check('grading criteria', same(EDGE_CRITERIA, CLIENT_CRITERIA));
-check('internship fee tiers', same(EDGE_TIERS, CLIENT_TIERS));
+check('internship duration tiers', same(EDGE_TIERS, CLIENT_TIERS));
+check('mentorship fee levels', same(EDGE_LEVELS, CLIENT_LEVELS));
 check('service catalog', same(EDGE_SERVICES, CLIENT_SERVICES));
+check('digital marketing packages', same(EDGE_PACKAGES, CLIENT_PACKAGES));
 check('internship track titles', same(
   EDGE_INTERNSHIP_TRACKS,
   INTERNSHIP_PROGRAMS.map((program) => program.title)
@@ -293,10 +300,13 @@ for (const key of Object.keys(EDGE_FAQS)) {
 console.log('\nClient tab metadata must match the edge route metadata');
 for (const [path, seo] of Object.entries(ROUTE_SEO)) {
   const tab = pathToTabMap[path];
-  if (!tab || seo.robots) continue;
+  if (!tab) continue;
   if (tabToPathMap[tab] !== path) continue;
   check(`${path} title matches client`, pageTitles[tab] === seo.title, pageTitles[tab]);
   check(`${path} description matches client`, pageDescriptions[tab] === seo.description, (pageDescriptions[tab] || '').slice(0, 60));
+  if (seo.robots) {
+    check(`${path} robots matches client`, pageRobots[tab] === seo.robots, pageRobots[tab] || 'indexable');
+  }
 }
 
 console.log('\nSchema must not claim ratings, reviews, awards or unverified business data');

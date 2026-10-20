@@ -116,7 +116,7 @@ export const FAQS = {
     {
       question: "How does Velora Global price a custom software project?",
       answer:
-        "Each project is quoted after a scoping meeting rather than from a fixed price list. Once we understand your business model and goals, we put the plan in writing — system design, screen-by-screen wireframes, budget milestones and a delivery schedule — before any work begins."
+        "Custom software is quoted after a scoping meeting, not from a fixed price list — once we understand your business model and goals, we put the plan in writing: system design, screen-by-screen wireframes, budget milestones and a delivery schedule, before any work begins. Digital marketing is the exception and runs on the monthly packages published on this page; ad spend stays in your own Google or Meta account and is billed by them separately."
     },
     {
       question: "Do we keep ownership of the source code?",
@@ -132,13 +132,23 @@ export const FAQS = {
       question: "Do we need to choose the technology or platforms?",
       answer:
         "No. You decide the outcomes — what the system must do, who will use it, and what it can cost — and we recommend how to build it, explaining the trade-offs in business terms: upfront cost, how easily the system can grow later, and how well it runs on the devices your customers already use."
+    },
+    {
+      question: "Do you run marketing as well as building the site?",
+      answer:
+        "Yes. The Digital Marketing line covers social media management, SEO and Google Business Profile work, Google Ads and Meta Ads, branding and content, lead generation, and conversion optimization on the pages your traffic lands on. Ad budget is spent from your own Google or Meta account and billed by them, separately from our service fee. Work is scoped per engagement and reported in writing; no ranking or sales result is guaranteed."
     }
   ],
   internships: [
     {
-      question: "What does a Velora Global internship cost and how long does it run?",
+      question: "How long does a Velora Global internship run?",
       answer:
-        "You choose the duration and the fee follows it: 2 weeks for NPR 199, 1 month for NPR 499, 2 months for NPR 999, 3 months for NPR 1,999, or 6 months for NPR 4,999. Every track runs remotely with 1-to-1 mentorship."
+        "You choose the length: 2 weeks, 1 month, 2 months, 3 months or 6 months. Every track runs remotely with 1-to-1 mentorship."
+    },
+    {
+      question: "What does Velora Global mentorship cost?",
+      answer:
+        "Three one-time fee levels: Basic NPR 500 (resume review, introductory career guidance and group mentorship), Standard NPR 999 (resume, LinkedIn, GitHub and a defined one-to-one mentorship session), and Advanced NPR 1,999 (more extensive one-to-one mentorship, portfolio feedback, mock interview practice and a personalized career action plan). Enrolment is confirmed once the fee is received; the amount and payment instructions are sent after you apply."
     },
     {
       question: "What is the internship fee for?",
@@ -199,11 +209,32 @@ export const FAQS = {
 
 /** Duration tiers shown in the internship details modal and the page header. */
 export const INTERNSHIP_TIERS = [
-  { duration: "2 Weeks", fee: "NPR 199" },
-  { duration: "1 Month", fee: "NPR 499" },
-  { duration: "2 Months", fee: "NPR 999" },
-  { duration: "3 Months", fee: "NPR 1,999" },
-  { duration: "6 Months", fee: "NPR 4,999" }
+  { duration: "2 Weeks" },
+  { duration: "1 Month" },
+  { duration: "2 Months" },
+  { duration: "3 Months" },
+  { duration: "6 Months" }
+];
+
+/** The three paid mentorship levels published on https://velora-global.online/internships. */
+export const MENTORSHIP_LEVELS = [
+  {
+    name: "Basic",
+    fee: "NPR 500",
+    deliverables: "Resume review, introductory career guidance, and group mentorship."
+  },
+  {
+    name: "Standard",
+    fee: "NPR 999",
+    deliverables: "Resume, LinkedIn, GitHub, and a defined one-to-one mentorship session.",
+    popular: true
+  },
+  {
+    name: "Advanced",
+    fee: "NPR 1,999",
+    deliverables:
+      "More extensive one-to-one mentorship, portfolio feedback, mock interview practice, and a personalized career action plan."
+  }
 ];
 
 export const SERVICES_CATALOG = [
@@ -232,11 +263,26 @@ export const SERVICES_CATALOG = [
       "Search visibility work that starts with a written audit: page content and structure, keyword and competitor research, local search and Google Business Profile setup, page speed, and a closing report."
   },
   {
+    name: "Digital Marketing",
+    serviceType: "Digital Marketing",
+    description:
+      "Search, social and paid campaigns run together: social media management, Google Ads and Meta Ads, branding and content, lead generation, and conversion work on the pages your traffic lands on."
+  },
+  {
     name: "Website Maintenance & Support",
     serviceType: "Website Maintenance & Support",
     description:
       "Content and feature updates, bug fixing, security and uptime monitoring, backups, and hosting or migration support for systems already in production."
   }
+];
+
+/** The five monthly packages published under the Digital Marketing line on /services. */
+export const MARKETING_PACKAGES = [
+  { name: "Social media management", fee: "NPR 8,000–15,000" },
+  { name: "SEO services", fee: "NPR 10,000–20,000" },
+  { name: "Social media + creative content", fee: "NPR 12,000–25,000" },
+  { name: "Digital advertising management", fee: "NPR 8,000–20,000" },
+  { name: "Website + digital marketing", fee: "NPR 25,000–60,000+" }
 ];
 
 /** Track names shown on the internship program cards. */
@@ -430,16 +476,13 @@ function internshipProgramNode(seo) {
     "url": canonical,
     "educationalCredentialAwarded":
       "Velora Global internship completion certificate with a unique verification ID",
-    "offers": {
-      "@type": "AggregateOffer",
-      "lowPrice": "199",
-      "highPrice": "4999",
+    "offers": MENTORSHIP_LEVELS.map((level) => ({
+      "@type": "Offer",
+      "name": `${level.name} mentorship`,
+      "price": level.fee.replace(/[^0-9]/g, ""),
       "priceCurrency": "NPR",
-      "offerCount": String(INTERNSHIP_TIERS.length),
-      "description": `Fee depends on the duration chosen: ${INTERNSHIP_TIERS.map(
-        (tier) => `${tier.duration} ${tier.fee}`
-      ).join(", ")}.`
-    },
+      "description": `${level.fee}, one-time fee. ${level.deliverables}`
+    })),
     "coursePrerequisites":
       "Varies by track: frontend, mobile, cybersecurity, UI/UX and testing accept all levels; backend, full stack, data science and cloud DevOps expect intermediate knowledge; AI/ML expects intermediate to advanced experience.",
     "teaches": INTERNSHIP_TRACKS.map((track) => ({

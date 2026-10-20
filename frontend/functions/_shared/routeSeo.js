@@ -31,7 +31,7 @@ const HOMEPAGE = {
 const SERVICES = {
   title: "IT Solutions & Software Development in Nepal | Velora Global",
   description:
-    "IT solutions for businesses in Nepal: web platforms, mobile apps, AI support tools, SEO and maintenance. Quoted in writing, with the code handed over to you.",
+    "IT solutions for businesses in Nepal: web platforms, mobile apps, AI tools, digital marketing, SEO and maintenance. Quoted in writing, code handed over.",
   canonical: SITE + "/services",
   graph: "service",
   faq: "services"
@@ -40,7 +40,7 @@ const SERVICES = {
 const INTERNSHIPS = {
   title: "Tech Internships in Nepal for Students | Velora Global",
   description:
-    "Internships where students ship real client work with 1-to-1 mentors. Pick 2 weeks to 6 months, from NPR 199. Fully remote, and every certificate is verifiable.",
+    "Internships where students ship real client work with 1-to-1 mentors. One-time mentorship fee from NPR 500. Pick 2 weeks to 6 months, fully remote.",
   canonical: SITE + "/internships",
   graph: "program",
   faq: "internships"
@@ -49,7 +49,7 @@ const INTERNSHIPS = {
 const TRAINING = {
   title: "Tech Training in Nepal | Velora Global",
   description:
-    "Instructor-led tech training in Nepal: frontend, backend, full stack, AI, machine learning, Python, Java, UI/UX, mobile and testing. From NPR 1,999 per program.",
+    "Instructor-led tech training in Nepal: frontend, backend, full stack, AI, machine learning, Python, Java, UI/UX, mobile and testing. From NPR 1,999.",
   canonical: SITE + "/training",
   graph: "course",
   faq: "training"

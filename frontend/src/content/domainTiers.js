@@ -1,9 +1,9 @@
 /**
  * Per-domain track content for the internship details modal.
  *
- * The five durations and their fees come from INTERNSHIP_TIERS in siteFacts.js
- * and the edge entity graph; this file deliberately carries no fee or duration
- * text so the ladder cannot drift from what the page and schema publish.
+ * The five durations come from INTERNSHIP_TIERS in siteFacts.js and the edge
+ * entity graph; this file deliberately carries no duration text so the ladder
+ * cannot drift from what the page and schema publish.
  * Tiers are indexed by position: 2 weeks, 1 month, 2 months, 3 months, 6 months.
  */
 

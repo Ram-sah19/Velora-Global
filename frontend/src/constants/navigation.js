@@ -47,15 +47,26 @@ export const pageTitles = {
 
 export const pageDescriptions = {
   home: 'Custom websites, mobile apps and AI chatbots for businesses. Internships and tech training for students. Built in Kathmandu, Nepal, delivered remotely.',
-  services: 'IT solutions for businesses in Nepal: web platforms, mobile apps, AI support tools, SEO and maintenance. Quoted in writing, with the code handed over to you.',
+  services: 'IT solutions for businesses in Nepal: web platforms, mobile apps, AI tools, digital marketing, SEO and maintenance. Quoted in writing, code handed over.',
   about: 'A Kathmandu technology company: one team builds web, mobile and AI software for clients, the other runs internships and training for students across Nepal.',
   team: 'Meet the Velora Global leadership team: Abhishek Sah (Founder & CEO), Krishna Sah (Co-Founder & CTO), Rohit Sah (Co-Founder & COO) and Shivshankar Sah.',
-  internships: 'Internships where students ship real client work with 1-to-1 mentors. Pick 2 weeks to 6 months, from NPR 199. Fully remote, and every certificate is verifiable.',
-  training: 'Instructor-led tech training in Nepal: frontend, backend, full stack, AI, machine learning, Python, Java, UI/UX, mobile and testing. From NPR 1,999 per program.',
+  internships: 'Internships where students ship real client work with 1-to-1 mentors. One-time mentorship fee from NPR 500. Pick 2 weeks to 6 months, fully remote.',
+  training: 'Instructor-led tech training in Nepal: frontend, backend, full stack, AI, machine learning, Python, Java, UI/UX, mobile and testing. From NPR 1,999.',
   privacy: 'How Velora Global collects, stores, shares and deletes personal data for students, interns and corporate clients, and how to request access or removal.',
   terms: 'The terms that govern Velora Global internship and training enrolment, client project delivery, certificates, fees and refunds.',
-  client: 'Private client workspace for reviewing ongoing software deliverables, milestones, source code repositories, and project timelines.',
+  client: 'Private client workspace for reviewing ongoing software deliverables, milestones, source code repositories and project timelines.',
   admin: 'Private staff sign-in for the Velora Global administration area.'
+};
+
+/**
+ * Indexing policy for the signed-in app views. Their values match the `robots`
+ * entries in functions/_shared/routeSeo.js, which the edge writes into the served
+ * HTML; a tab absent here is open to the index. scripts/verify-route-seo.mjs fails
+ * when the two layers disagree.
+ */
+export const pageRobots = {
+  client: 'noindex, nofollow',
+  admin: 'noindex, nofollow'
 };
 
 /**
