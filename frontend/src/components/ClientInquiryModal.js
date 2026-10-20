@@ -12,6 +12,7 @@ const SERVICE_OPTIONS = [
   'Mobile App Development',
   'AI Chatbots & Intelligent Agents',
   'SEO & Digital Growth',
+  'Digital Marketing',
   'Website Maintenance & Support',
   'Full Enterprise Custom Software',
   'Direct Face-to-Face Project Discussion'

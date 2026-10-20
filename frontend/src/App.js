@@ -6,6 +6,7 @@ import {
   pathToTabMap,
   pageTitles,
   pageDescriptions,
+  pageRobots,
   verifyPageMeta
 } from './constants';
 
@@ -97,9 +98,14 @@ export default function App() {
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) metaDesc.setAttribute('content', description);
 
-    // A certificate lookup is a record, not a page to rank, so it stays out of the index.
+    // A certificate lookup is a record, not a page to rank, and the two app-protected
+    // areas must stay out of the index however they are reached — the edge already
+    // serves the same policy, so hydration cannot widen it back to index.
     const metaRobots = document.querySelector('meta[name="robots"]');
-    if (metaRobots) metaRobots.setAttribute('content', verifying ? 'noindex, follow' : SITE_ROBOTS);
+    if (metaRobots) {
+      metaRobots.setAttribute('content',
+        verifying ? 'noindex, follow' : pageRobots[activeTab] || SITE_ROBOTS);
+    }
 
     // Update Open Graph tags
     const ogTitle = document.querySelector('meta[property="og:title"]');

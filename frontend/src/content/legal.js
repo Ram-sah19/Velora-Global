@@ -126,11 +126,11 @@ export const TERMS_SECTIONS = [
   {
     heading: '2. Programs and Published Fees',
     paragraphs: [
-      'We run two pathways, and the prices on this site are the prices we charge:'
+      'We run two pathways, and where a fee is published on this site it is the fee we charge:'
     ],
     listType: 'ul',
     items: [
-      { label: 'Practical internship', text: 'You choose the length: 2 weeks (NPR 199), 1 month (NPR 499), 2 months (NPR 999), 3 months (NPR 1,999), or 6 months (NPR 4,999). Interns are assigned to a real-world project brief drawn from our client work.' },
+      { label: 'Practical internship', text: 'Mentorship is sold at three published levels, each a one-time fee with different deliverables: Basic NPR 500 (resume review, introductory career guidance, group mentorship), Standard NPR 999 (resume, LinkedIn, GitHub and a defined one-to-one mentorship session), and Advanced NPR 1,999 (more extensive one-to-one mentorship, portfolio feedback, mock interview practice and a personalized career action plan). Separately, you choose the length: 2 weeks, 1 month, 2 months, 3 months or 6 months. The level sets the fee, not the duration. Interns are assigned to a real-world project brief drawn from our client work.' },
       { label: 'Guided training', text: 'Instructor-led programs priced per program, from NPR 1,999 to NPR 11,999. The fee printed on each program card is the fee charged.' }
     ]
   },
@@ -157,7 +157,7 @@ export const TERMS_SECTIONS = [
   {
     heading: '5. Fees and Refunds',
     paragraphs: [
-      'Fees are shown in Nepali Rupees and cover platform access, project evaluation, mentor feedback, infrastructure, and certificate issuance. A fee is not refundable once project assignments, course materials, or dashboard credentials have been issued.',
+      'Fees are shown in Nepali Rupees and cover platform access, project evaluation, mentor feedback, infrastructure, and certificate issuance. Enrolment in an internship is confirmed once the one-time mentorship fee is received; the amount and payment instructions reach you after you apply. A fee is not refundable once project assignments, course materials, or dashboard credentials have been issued.',
       'A program fee buys the mentorship and evaluation described above. It is not payment for a job, it does not entitle you to a job offer, and no fee guarantees placement.'
     ]
   },

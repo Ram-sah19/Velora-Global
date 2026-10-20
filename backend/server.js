@@ -101,7 +101,9 @@ Engagements run in four published steps: discovery meeting, written scope bluepr
 ## Internship Tracks (13 domains)
 Frontend Development, Backend Development, Full Stack Development, Mobile App Development, Artificial Intelligence & Machine Learning, Data Science, Cybersecurity, UI/UX Design, Cloud & DevOps, Software Testing, JavaScript, Java, Python
 
-You choose the duration, and the fee follows it: 2 Weeks NPR 199 | 1 Month NPR 499 | 2 Months NPR 999 | 3 Months NPR 1,999 | 6 Months NPR 4,999. Interns are assigned a real-world project brief and graded against five published criteria.
+Five durations to choose from: 2 Weeks | 1 Month | 2 Months | 3 Months | 6 Months. Interns are assigned a real-world project brief and graded against five published criteria.
+
+Three mentorship levels, each a one-time fee with different deliverables: Basic NPR 500 (resume review, introductory career guidance, group mentorship) | Standard NPR 999 (resume, LinkedIn, GitHub, and a defined one-to-one mentorship session) | Advanced NPR 1,999 (more extensive one-to-one mentorship, portfolio feedback, mock interview practice, and a personalized career action plan). The level sets the fee, not the duration. Enrolment is confirmed once the fee is received; the amount and payment instructions are sent after applying.
 
 ## Training Programs (14 programs, NPR 1,999 to NPR 11,999)
 Frontend with React.js, Backend with Node.js, Full Stack with AI Integration, AI & Machine Learning Engineering, Deep Learning & Neural Networks, AI Tools & Prompt Engineering, JavaScript ES6+, Java with Spring Boot & Microservices, Python Automation & Scripting, MERN Stack, PERN Stack, UI/UX Product Design in Figma, Software Testing & QA Automation, Mobile App Engineering

@@ -6,11 +6,9 @@ import { AnswerSection, CtaBand, PageFaq, SectionHead } from '../../components';
 import CertificateVerifySection from '../../components/CertificateVerifySection';
 import { INTERNSHIP_APPLICATION_FORM_URL } from '../../constants';
 import { INTERNSHIP_PROGRAMS } from '../../content/programs';
-import { ANSWER_BLOCKS, FAQS, INTERNSHIP_TIERS } from '../../content/siteFacts';
+import { ANSWER_BLOCKS, FAQS, MENTORSHIP_LEVELS } from '../../content/siteFacts';
 
 const GOOGLE_FORM_URL = INTERNSHIP_APPLICATION_FORM_URL;
-
-const START_TIER = INTERNSHIP_TIERS[0];
 
 const softwareDevSubDomains = [
   'Frontend Development',
@@ -27,13 +25,6 @@ const PROGRAM_FACTS = [
   { label: 'Duration', value: '2 weeks to 6 months' },
   { label: 'Mentoring', value: '1-to-1 code reviews' },
   { label: 'On completion', value: 'Grade + verified certificate' }
-];
-
-const FEE_COVERS = [
-  '1-to-1 mentor reviews of your code and architecture',
-  'Grading against the five published criteria',
-  'Workspace access, evaluation time and infrastructure',
-  'A completion certificate carrying a verification ID'
 ];
 
 const REAL_WORK = [
@@ -144,32 +135,40 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
 
         <section className="ip-notice" aria-labelledby="ip-notice-title">
           <h2 id="ip-notice-title" className="ip-notice__title">
-            The fee is for mentorship. The work is real client projects.
+            Three mentorship levels. One one-time fee.
           </h2>
 
-          <div className="ip-notice__cols">
-            <div>
-              <h3 className="ip-label">What your fee pays for</h3>
-              <ul className="svc-deliverables">
-                {FEE_COVERS.map((item) => (
-                  <li key={item}><Check /><span>{item}</span></li>
-                ))}
-              </ul>
-              <p className="ip-notice__note">
-                It is a mentorship fee, not payment for a job, and it buys nothing on its own: the
-                certificate is issued only after a graded deliverable.
-              </p>
-            </div>
+          <div className="svc-ruled ip-levels">
+            {MENTORSHIP_LEVELS.map((level) => (
+              <div key={level.name} className="ip-level">
+                <div>
+                  <h3 className="ip-level__name">
+                    {level.name}
+                    {level.popular && <span className="ip-level__badge">Most popular</span>}
+                  </h3>
+                  <p className="ip-level__text">{level.deliverables}</p>
+                </div>
 
-            <div>
-              <h3 className="ip-label">What you actually work on</h3>
-              <ul className="svc-deliverables">
-                {REAL_WORK.map((item) => (
-                  <li key={item}><Check /><span>{item}</span></li>
-                ))}
-              </ul>
-            </div>
+                <p className="ip-level__fee">
+                  {level.fee}
+                  <span className="ip-level__once">One-time</span>
+                </p>
+              </div>
+            ))}
           </div>
+
+          <p className="ip-notice__note">
+            Enrolment is confirmed once the one-time fee is received: the amount and payment
+            instructions reach you after you apply. It is a mentorship fee, not payment for a job,
+            and no fee guarantees placement.
+          </p>
+
+          <p className="ip-label ip-notice__work">What you actually work on</p>
+          <ul className="svc-deliverables">
+            {REAL_WORK.map((item) => (
+              <li key={item}><Check /><span>{item}</span></li>
+            ))}
+          </ul>
 
           <p className="ip-notice__foot">
             You finish with a deployed project, a grade recorded against five published criteria, and a
@@ -262,15 +261,8 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
                   </ul>
 
                   <div className="ip-card__foot">
-                    <div>
-                      <span className="ip-card__price-label">Fee starts at</span>
-                      <span className="ip-card__price-value">
-                        {START_TIER.fee}{' '}
-                        <span className="ip-card__price-note">({START_TIER.duration})</span>
-                      </span>
-                    </div>
-
                     <div className="ip-card__actions">
+                      <span className="ip-card__hint">Choose your track duration</span>
                       <button
                         type="button"
                         className="svc-btn svc-btn--quiet"

@@ -9,14 +9,13 @@ const GOOGLE_FORM_URL = INTERNSHIP_APPLICATION_FORM_URL;
 
 const TIER_IDS = ['2w', '1m', '2m', '3m', '6m'];
 
-// The durations and fees are the ones published on the page and in the schema;
-// only the track description differs per domain.
+// The durations are the ones published on the page and in the schema; only the
+// track description differs per domain.
 function getDomainDurationTiers(domainTitle = '', domainCategory = '') {
   const content = getTierContent(domainTitle, domainCategory);
   return INTERNSHIP_TIERS.map((tier, i) => ({
     id: TIER_IDS[i],
     duration: tier.duration,
-    fee: tier.fee,
     bestFor: content[i].bestFor,
     deliverables: content[i].deliverables
   }));
@@ -39,9 +38,6 @@ export default function InternshipDetailsModal({ program, currentUser, onApplySu
     if (onApplySuccess) onApplySuccess();
 
     // 3. Record application in backend in the background
-    const feeMatch = (activeT.fee || '').match(/\d[\d,]*/);
-    const feeNum = feeMatch ? parseInt(feeMatch[0].replace(/,/g, ''), 10) : 199;
-
     api.submitApplication({
       studentId: currentUser ? currentUser.id : `guest-${Date.now()}`,
       studentName: currentUser ? currentUser.name : '',
@@ -51,7 +47,6 @@ export default function InternshipDetailsModal({ program, currentUser, onApplySu
       domain: program.domain,
       programTrack: 'Practical Internship',
       selectedDuration: activeT.duration,
-      feeAmount: feeNum,
       statementOfPurpose: 'Application via Google Form Link'
     }).catch(e => {
       console.warn("Recorded application locally", e);
@@ -90,7 +85,6 @@ export default function InternshipDetailsModal({ program, currentUser, onApplySu
               onClick={() => setSelectedTier(t.id)}
             >
               <span className="ip-tier__duration">{t.duration}</span>
-              <span className="ip-tier__fee">{t.fee}</span>
             </button>
           ))}
         </div>
@@ -115,14 +109,12 @@ export default function InternshipDetailsModal({ program, currentUser, onApplySu
         </div>
       </div>
 
-      <div className="ip-modal__foot">
-        <div>
-          <p className="ip-card__price-label">Selected tier fee</p>
-          <p className="ip-card__price-value">
-            {activeT.fee} <span className="ip-card__price-note">({activeT.duration})</span>
-          </p>
-        </div>
+      <p className="ip-notice__note">
+        Duration does not set the fee: mentorship is a one-time charge by level, as listed on this
+        page, and enrolment is confirmed once that fee is received.
+      </p>
 
+      <div className="ip-modal__foot">
         <button type="button" className="svc-btn svc-btn--primary" onClick={handleApplyClick}>
           Apply for Internship
         </button>

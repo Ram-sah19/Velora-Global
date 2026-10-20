@@ -24,12 +24,8 @@ Founding Leadership:
 
 ### 1. Practical Internships Page (`/internships`)
 - **Focus**: Real-world production project work, 5-criteria evaluation, and QR-verified certificate.
-- **Duration Pricing Options**:
-  - `2 Weeks`: **NPR 199**
-  - `1 Month`: **NPR 499**
-  - `2 Months`: **NPR 999**
-  - `3 Months`: **NPR 1,999**
-  - `6 Months`: **NPR 4,999**
+- **Duration Options**: 2 Weeks, 1 Month, 2 Months, 3 Months, 6 Months
+- **Mentorship Levels** (one-time fee, enrolment confirmed once it is received): Basic NPR 500, Standard NPR 999, Advanced NPR 1,999
 
 ### 2. Training Programs Page (`/training`)
 - **Focus**: Structured skill curriculum modules, hands-on lab projects, co-founder mentorship, and practical internship placement.

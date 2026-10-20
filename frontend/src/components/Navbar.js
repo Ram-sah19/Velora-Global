@@ -66,8 +66,8 @@ const CloseIcon = () => (
   </svg>
 );
 
-// Every column heading links to a matching /services filter, so the menu and the page
-// advertise the same five offerings.
+// Every column heading and every Explore link points at a matching /services filter,
+// so the menu and the page advertise the same six offerings.
 const SERVICE_MENU_COLUMNS = [
   {
     heading: 'Web Development',
@@ -82,15 +82,15 @@ const SERVICE_MENU_COLUMNS = [
     ]
   },
   {
-    heading: 'SEO & Digital Growth',
-    category: 'seo',
+    heading: 'Digital Marketing',
+    category: 'marketing',
     items: [
-      'Technical & On-Page SEO',
-      'Local SEO',
-      'Keyword Research',
-      'Google Business Profile',
-      'Speed Optimization',
-      'SEO Audits & Reports'
+      'Social Media Management',
+      'SEO & Google Business Profile',
+      'Google Ads & Meta Ads',
+      'Branding & Content Creation',
+      'Lead Generation',
+      'Conversion Optimization'
     ]
   },
   {
@@ -110,7 +110,8 @@ const SERVICE_MENU_COLUMNS = [
 const SERVICE_MENU_LINKS = [
   { label: 'All Services Overview', category: 'all' },
   { label: 'Mobile App Development', category: 'mobile' },
-  { label: 'AI Chatbots & Intelligent Agents', category: 'ai' }
+  { label: 'AI Chatbots & Intelligent Agents', category: 'ai' },
+  { label: 'SEO & Digital Growth', category: 'seo' }
 ];
 
 function DrawerLink({ href, isActive, onActivate, activeBg = '#2563eb', activeSoft = '#eff6ff', children }) {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ClientInquiryModal from '../../components/ClientInquiryModal';
 import { AnswerSection, CtaBand, PageFaq, SectionHead } from '../../components';
-import { ANSWER_BLOCKS, FAQS } from '../../content/siteFacts';
+import { ANSWER_BLOCKS, FAQS, MARKETING_PACKAGES } from '../../content/siteFacts';
 
 const CATEGORY_FILTERS = [
   { key: 'all', label: 'All Services' },
@@ -9,6 +9,7 @@ const CATEGORY_FILTERS = [
   { key: 'mobile', label: 'Mobile App Development' },
   { key: 'ai', label: 'AI Chatbot Integration' },
   { key: 'seo', label: 'SEO & Digital Growth' },
+  { key: 'marketing', label: 'Digital Marketing' },
   { key: 'support', label: 'Maintenance & Support' }
 ];
 
@@ -138,6 +139,31 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
       description: 'We improve how visible your business is in search results. Work begins with an audit of where you stand today, then covers site structure, page content, and loading speed — the factors that decide whether a customer finds you or moves on. You finish with a written account of what changed.'
     },
     {
+      id: 'digital-marketing',
+      category: 'marketing',
+      label: 'Campaigns & Content',
+      title: 'Digital Marketing',
+      subtitle: 'Turn attention into enquiries on the channels your customers already use.',
+      packages: MARKETING_PACKAGES,
+      features: [
+        'Social Media Management',
+        'SEO & Google Business Profile',
+        'Google Ads & Meta Ads',
+        'Branding & Content Creation',
+        'Lead Generation',
+        'Traffic & Conversion Optimization'
+      ],
+      deliverables: [
+        'A monthly content plan for the social channels you keep, with posting and replies handled for you.',
+        'Search and Google Business Profile work folded into the same plan as the paid campaigns.',
+        'Google Ads and Meta Ads set up, managed week to week, and reported in writing.',
+        'Brand basics — logo usage, colours, tone and post templates — with copy written per channel.',
+        'Lead capture on your site and a clear route for each enquiry to reach the right person.',
+        'A view of where visitors come from and where they leave, then changes to the pages they land on.'
+      ],
+      description: 'More traffic is not the goal — enquiries are. Search, social and paid campaigns run as one plan, so the audience, the message and the budget are handled in one place rather than by three vendors. Your ad budget stays in your own Google or Meta account and is billed by them, separately from our service fee.'
+    },
+    {
       id: 'maintenance-support',
       category: 'support',
       label: 'Care & Support',
@@ -179,7 +205,7 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
           level={1}
           eyebrow="Solutions for Business Owners"
           title="IT Solutions & Custom Software Development in Nepal"
-          lede="Velora Global builds digital systems that help businesses run better — custom web platforms, mobile applications, and automated customer support. We also handle what comes after launch: making your business easier to find online, and keeping your systems current, secure, and dependable."
+          lede="Velora Global builds digital systems that help businesses run better — custom web platforms, mobile applications, automated customer support, and the campaigns that bring customers to them. We also handle what comes after launch: making your business easier to find online, and keeping your systems current, secure, and dependable."
         />
 
         <div className="svc-toolbar" role="group" aria-label="Filter services by category">
@@ -210,6 +236,26 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
                     <li key={feature}>{feature}</li>
                   ))}
                 </ul>
+
+                {service.packages && (
+                  <div className="svc-packages">
+                    <p className="svc-packages__caption">
+                      <span>Monthly packages</span>
+                      <span>Illustrative monthly fee</span>
+                    </p>
+                    <div className="svc-ruled">
+                      {service.packages.map((pkg) => (
+                        <p key={pkg.name} className="svc-package">
+                          <span>{pkg.name}</span>
+                          <span className="svc-package__fee">{pkg.fee}</span>
+                        </p>
+                      ))}
+                    </div>
+                    <p className="svc-packages__note">
+                      The final scope and monthly amount are agreed in writing before work begins.
+                    </p>
+                  </div>
+                )}
               </div>
 
               <div className="svc-card__aside">

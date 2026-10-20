@@ -1349,6 +1349,51 @@ button:disabled {
   padding-left: clamp(1.25rem, 2vw, 1.75rem);
 }
 
+/* Digital marketing is the one line with published monthly fees, so its ranges sit
+   in a ruled band under the chips: package left, fee against the right edge. */
+.svc-packages {
+  margin-top: 1.4rem;
+}
+
+.svc-packages__caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 0.55rem;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--svc-muted);
+}
+
+.svc-package {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0.7rem 0;
+  font-size: 0.9rem;
+  color: var(--svc-ink);
+}
+
+.svc-package__fee {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.svc-packages__note {
+  margin: 0.9rem 0 0;
+  max-width: 66ch;
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: var(--svc-muted);
+}
+
 .svc-aside-label {
   margin: 0 0 0.8rem;
   font-family: var(--font-ui);
@@ -1717,12 +1762,87 @@ button:disabled {
   border-left: 1px solid var(--svc-hairline);
 }
 
+/* Mentorship levels: the deliverables carry the left column, the one-time fee sits
+   against the right edge. Row hairlines come from svc-ruled, so only the grid is local. */
+.ip-levels {
+  margin-bottom: 1.5rem;
+}
+
+.ip-level {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.5rem;
+  align-items: start;
+  padding: 1.1rem 0;
+}
+
+.ip-level__name {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.3rem;
+  font-size: 1.05rem;
+  line-height: 1.25;
+  color: var(--svc-ink);
+}
+
+.ip-level__text {
+  max-width: 66ch;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--svc-body);
+}
+
+.ip-level__fee {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+  font-family: var(--font-ui);
+  font-size: 1.02rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--svc-ink);
+  white-space: nowrap;
+}
+
+.ip-level__once {
+  padding: 0.22rem 0.55rem;
+  border: 1px solid var(--svc-hairline);
+  border-radius: var(--svc-radius-ctl);
+  background: var(--svc-surface-soft);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--svc-muted);
+}
+
+/* A plain ruled row with a solid emphasis pill — the level itself carries no fill. */
+.ip-level__badge {
+  padding: 0.24rem 0.55rem;
+  border-radius: var(--svc-radius-ctl);
+  background: #047857;
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #ffffff;
+}
+
 .ip-notice__note {
   margin: 0.9rem 0 0;
   max-width: 62ch;
   font-size: 0.85rem;
   line-height: 1.7;
   color: var(--svc-muted);
+}
+
+.ip-notice__work {
+  margin-top: 1.8rem;
 }
 
 .ip-notice__foot {
@@ -2071,12 +2191,6 @@ button:disabled {
   color: var(--svc-ink);
 }
 
-.ip-card__price-note {
-  font-size: 0.74rem;
-  font-weight: 600;
-  color: var(--svc-muted);
-}
-
 .ip-card__actions {
   display: flex;
   gap: 0.5rem;
@@ -2085,6 +2199,15 @@ button:disabled {
 .ip-card__actions .svc-btn {
   padding: 0.55rem 0.95rem;
   font-size: 0.8rem;
+}
+
+/* Plain pointer line: the duration itself is picked inside the details dialog. */
+.ip-card__hint {
+  align-self: center;
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--svc-muted);
 }
 
 /* Director strip on /about: the portrait carries the column's width and sits straight
@@ -2196,14 +2319,13 @@ button:disabled {
 }
 
 .ip-tiers__row {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
   gap: 0.45rem;
   margin-bottom: 1.15rem;
 }
 
 .ip-tier {
-  flex: 1 1 92px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -2226,14 +2348,6 @@ button:disabled {
   color: var(--svc-ink);
 }
 
-.ip-tier__fee {
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  color: var(--svc-muted);
-}
-
 .ip-tier[aria-pressed="true"] {
   background: var(--svc-ink);
   border-color: var(--svc-ink);
@@ -2241,10 +2355,6 @@ button:disabled {
 
 .ip-tier[aria-pressed="true"] .ip-tier__duration {
   color: #ffffff;
-}
-
-.ip-tier[aria-pressed="true"] .ip-tier__fee {
-  color: #9fb0cd;
 }
 
 .ip-tier__detail {
@@ -2331,6 +2441,16 @@ button:disabled {
     max-width: none;
   }
 
+  .ip-level {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.6rem;
+  }
+
+  .ip-level__fee {
+    flex-direction: row;
+    align-items: baseline;
+  }
+
   .ip-card__foot {
     align-items: flex-start;
     flex-direction: column;
@@ -2339,6 +2459,11 @@ button:disabled {
 
   .ip-card__actions {
     width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .ip-card__hint {
+    flex: 1 1 100%;
   }
 
   .ip-card__actions .svc-btn {
@@ -3873,6 +3998,13 @@ textarea.svc-input {
   .svc-filter {
     flex: 1 1 auto;
     text-align: center;
+  }
+
+  .svc-packages__caption,
+  .svc-package {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
   }
 }
 
