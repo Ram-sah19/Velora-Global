@@ -173,6 +173,12 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Render spins its instance down when idle, so the first request after a quiet period
+  // waits on a cold boot — and that first request is usually a visitor's form submission,
+  // which the client aborts before the container answers. This GET costs nothing.
+  useEffect(() => {
+    api.getHealth().catch(() => {});
+  }, []);
 
 
   // Scroll to top and ensure scrollbar is free on tab switch
