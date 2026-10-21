@@ -1,6 +1,7 @@
 # Velora Global — Internship & Career Development Platform
 
-> **Official Career Gateway delivering industry-aligned internship & training opportunities with purpose, precision, and verified credentials.**
+> **Official Career Gateway delivering industry-aligned internship & training opportunities with purpose, precision, and verified credentials.** hm 
+
 
 ---
 
