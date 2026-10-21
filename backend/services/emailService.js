@@ -14,12 +14,16 @@ function createTransporter() {
     throw new Error('EMAIL_USER and EMAIL_PASS environment variables must be set.');
   }
 
+  const isProduction = process.env.NODE_ENV === 'production';
+
   return nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    port: 587,
+    secure: false,
     auth: { user, pass },
-    tls: { rejectUnauthorized: true }
+    requireTLS: true,
+    family: 4,
+    tls: { rejectUnauthorized: isProduction }
   });
 }
 
@@ -292,35 +296,38 @@ async function sendOtpEmail(toEmail, otpCode, name = 'Valued User') {
  * Sends notifications for new client inquiries and contact submissions.
  */
 async function sendInquiryEmail(inquiry) {
+  const transporter = createTransporter();
+  // Gmail only accepts the authenticated account (or a verified alias) as From.
+  const senderEmail = (process.env.EMAIL_USER || '').trim();
+  const recipientEmail = (
+    process.env.INQUIRY_RECIPIENT_EMAIL ||
+    'info@velora-global.online'
+  ).trim();
+
+  // The admin notification is awaited so the API can report an SMTP failure.
+  await transporter.sendMail({
+    from: `"Velora Global Inquiries" <${senderEmail}>`,
+    to: recipientEmail,
+    subject: `New Inquiry: ${inquiry.projectType || 'General'} from ${inquiry.clientName}`,
+    html: `
+      <h2>New Inquiry / Contact Form Received</h2>
+      <p><strong>Name:</strong> ${inquiry.clientName}</p>
+      <p><strong>Email:</strong> ${inquiry.email}</p>
+      <p><strong>Phone:</strong> ${inquiry.phone || 'N/A'}</p>
+      <p><strong>Company:</strong> ${inquiry.companyName || 'N/A'}</p>
+      <p><strong>Topic / Project:</strong> ${inquiry.projectType || 'General'}</p>
+      <p><strong>Message:</strong></p>
+      <blockquote style="background:#f8fafc;padding:12px;border-left:4px solid #2563eb;">${inquiry.description}</blockquote>
+      <p><small>Received at: ${new Date().toISOString()}</small></p>
+    `
+  });
+
+  // A client auto-reply is useful, but must not hide a successful admin delivery.
   try {
-    const transporter = createTransporter();
-    // Gmail only accepts the authenticated account (or a verified alias) as From, so the sender
-    // stays EMAIL_USER while the inquiry lands in the public team inbox.
-    const adminEmail = process.env.EMAIL_USER || 'veloraglobal.hr@gmail.com';
-
-    // 1. Send notification to admin / operations team
     await transporter.sendMail({
-      from: `"Velora Global Inquiries" <${adminEmail}>`,
-      to: 'info@velora-global.online',
-      subject: `📩 New Inquiry: ${inquiry.projectType || 'General'} from ${inquiry.clientName}`,
-      html: `
-        <h2>New Inquiry / Contact Form Received</h2>
-        <p><strong>Name:</strong> ${inquiry.clientName}</p>
-        <p><strong>Email:</strong> ${inquiry.email}</p>
-        <p><strong>Phone:</strong> ${inquiry.phone || 'N/A'}</p>
-        <p><strong>Company:</strong> ${inquiry.companyName || 'N/A'}</p>
-        <p><strong>Topic / Project:</strong> ${inquiry.projectType || 'General'}</p>
-        <p><strong>Message:</strong></p>
-        <blockquote style="background:#f8fafc;padding:12px;border-left:4px solid #2563eb;">${inquiry.description}</blockquote>
-        <p><small>Received at: ${new Date().toISOString()}</small></p>
-      `
-    }).catch(e => console.error('Admin notification email skipped:', e.message));
-
-    // 2. Send confirmation auto-reply to client
-    await transporter.sendMail({
-      from: `"Velora Global" <${adminEmail}>`,
+      from: `"Velora Global" <${senderEmail}>`,
       to: inquiry.email,
-      subject: `We have received your inquiry — Velora Global`,
+      subject: 'We have received your inquiry — Velora Global',
       html: `
         <div style="font-family:Arial,sans-serif;line-height:1.6;color:#334155;max-width:600px;margin:0 auto;padding:20px;">
           <h2 style="color:#0a2540;">Thank You for Contacting Velora Global</h2>
@@ -331,11 +338,10 @@ async function sendInquiryEmail(inquiry) {
           <p style="font-size:12px;color:#94a3b8;">Velora Global • Tech Training, Internships &amp; Software Development in Nepal<br/>info@velora-global.online</p>
         </div>
       `
-    }).catch(e => console.error('Client auto-reply email skipped:', e.message));
-  } catch (err) {
-    console.error('Inquiry email error:', err.message);
+    });
+  } catch (replyError) {
+    console.error('Client auto-reply email failed:', replyError.message);
   }
 }
 
 module.exports = { sendPasswordResetEmail, sendVerificationEmail, sendOtpEmail, sendInquiryEmail };
-

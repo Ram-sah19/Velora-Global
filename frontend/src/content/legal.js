@@ -74,7 +74,7 @@ export const PRIVACY_SECTIONS = [
   {
     heading: '8. Services We Collect Through',
     paragraphs: [
-      'Internship and training applications are submitted through Google Forms, so the answers you type into those forms are collected and stored by Google on our account before we transfer them into our own system. Our website is hosted on Cloudflare Pages and our application programming interface runs on Render, both of which process limited technical data (such as your IP address and request logs) as part of hosting those services. We publish no advertising or analytics trackers, so no third party profiles you through this site.'
+      'Internship and training applications are submitted through Google Forms, so the answers you type into those forms are collected and stored by Google on our account before we transfer them into our own system. Our website is hosted on Cloudflare Pages and our application programming interface runs on Render, both of which process limited technical data (such as your IP address and request logs) as part of hosting those services. For traffic measurement the site loads one script from Cloudflare Web Analytics, which reports page visits to Cloudflare at cloudflareinsights.com; it sets no cookie and writes nothing to your browser storage, and we see only aggregate counts of visits, referrers and pages. Apart from that we publish no advertising or analytics trackers, so no third party profiles you through this site.'
     ]
   },
   {

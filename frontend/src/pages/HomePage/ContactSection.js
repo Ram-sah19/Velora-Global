@@ -210,7 +210,7 @@ export default function ContactSection() {
           <div className="hp-contact__panel">
             <h3 className="hp-contact__title">Send an Official Message</h3>
             <p className="hp-contact__note">
-              Direct inquiries are reviewed by the Velora Global team and answered within 24 working hours.
+              Direct inquiries are reviewed by the Velora Global team and answered within 24 business hours.
             </p>
 
             {status.success ? (
