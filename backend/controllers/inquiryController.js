@@ -72,8 +72,15 @@ exports.submitInquiry = async (req, res) => {
       writeLocalDb(db);
     }
 
-    // ── Dispatch notification emails (non-blocking) ──
-    sendInquiryEmail(inquiryData).catch(() => {});
+    // ── Dispatch notification emails and report delivery failures ──
+    try {
+      await sendInquiryEmail(inquiryData);
+    } catch (emailError) {
+      console.error('Inquiry email delivery failed:', emailError.message);
+      return res.status(503).json({
+        error: 'Your inquiry was saved, but email delivery is temporarily unavailable. Please try again shortly.'
+      });
+    }
 
     res.status(201).json({
       success: true,
