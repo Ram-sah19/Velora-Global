@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SectionHead from '../../components/SectionHead';
 import { api } from '../../services/api';
+import { buildInquiryMailto } from '../../services/inquiryMailto';
 
 function InfoRow({ icon, label, children }) {
   return (
@@ -33,7 +34,7 @@ export default function ContactSection() {
     inquiryType: 'internship', // values must exist in ALLOWED_PROJECT_TYPES on the server
     message: ''
   });
-  const [status, setStatus] = useState({ loading: false, success: false, error: '' });
+  const [status, setStatus] = useState({ loading: false, success: false, error: '', mailto: '' });
 
   const update = (field) => (event) => setFormData({ ...formData, [field]: event.target.value });
 
@@ -50,24 +51,49 @@ export default function ContactSection() {
       return;
     }
 
-    setStatus({ loading: true, success: false, error: '' });
+    setStatus({ loading: true, success: false, error: '', mailto: '' });
+
+    const payload = {
+      clientName: formData.name,
+      email: formData.email,
+      projectType: formData.inquiryType,
+      description: formData.message
+    };
+    // The select's visible label rather than the enum value, so the prepared email reads
+    // like the form the visitor filled in.
+    const topicLabel = document.getElementById('contact-topic')?.selectedOptions[0]?.textContent
+      || formData.inquiryType;
+    const mailto = buildInquiryMailto({
+      clientName: payload.clientName,
+      email: payload.email,
+      service: topicLabel,
+      message: payload.description
+    });
+
+    const recorded = api.submitClientInquiry(payload);
+    // Launched while the click gesture is still live, which is what lets the mail client open.
+    window.location.href = mailto;
+
+    let saved = true;
+    let failure = '';
     try {
-      await api.submitClientInquiry({
-        clientName: formData.name,
-        email: formData.email,
-        projectType: formData.inquiryType,
-        description: formData.message
-      });
-      setStatus({ loading: false, success: true, error: '' });
-      setFormData({ name: '', email: '', inquiryType: 'internship', message: '' });
+      await recorded;
     } catch (err) {
-      setStatus({
-        loading: false,
-        success: false,
-        error: err.name === 'AbortError'
+      // 503 means the message is stored and only our own SMTP failed — the visitor's mail
+      // client is already opening with the same details, so nothing here is their problem.
+      if (err.status !== 503) {
+        saved = false;
+        failure = err.name === 'AbortError'
           ? 'The request timed out. Please try again in a moment.'
-          : (err.message || 'We could not send your message. Please try again in a moment.')
-      });
+          : (err.message || 'We could not send your message. Please try again in a moment.');
+      }
+    }
+
+    if (saved) {
+      setStatus({ loading: false, success: true, error: '', mailto });
+      setFormData({ name: '', email: '', inquiryType: 'internship', message: '' });
+    } else {
+      setStatus({ loading: false, success: false, mailto, error: failure });
     }
   };
 
@@ -220,11 +246,14 @@ export default function ContactSection() {
                   Thank you for reaching out. The Velora Global team will review your message and reply via
                   email within 24 business hours.
                 </p>
+                <p className="svc-result__fallback">
+                  If your mail app did not open, <a href={status.mailto}>send your message to us from here</a>.
+                </p>
                 <div className="svc-result__actions">
                   <button
                     type="button"
                     className="svc-btn svc-btn--quiet"
-                    onClick={() => setStatus({ loading: false, success: false, error: '' })}
+                    onClick={() => setStatus({ loading: false, success: false, error: '', mailto: '' })}
                   >
                     Send another message
                   </button>
@@ -235,6 +264,9 @@ export default function ContactSection() {
                 {status.error && (
                   <div role="alert" className="svc-result svc-result--warning">
                     <p className="svc-result__message">{status.error}</p>
+                    <p className="svc-result__fallback">
+                      <a href={status.mailto}>Open the prepared email</a>
+                    </p>
                   </div>
                 )}
 

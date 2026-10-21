@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../services/api';
+import { buildInquiryMailto } from '../services/inquiryMailto';
 import DialogShell from './DialogShell';
 import SelectField from './SelectField';
 
@@ -33,6 +34,8 @@ const PROJECT_TYPE_BY_SERVICE = {
   'Full Enterprise Custom Software': 'enterprise-solutions'
 };
 
+const SAVED_MESSAGE = 'Your inquiry is with our team. We reply to you within 24 business hours.';
+
 export default function ClientInquiryModal({ defaultService = 'Custom Web Application Development', currentUser, onClose }) {
   const [formData, setFormData] = useState({
     clientName: currentUser?.name || '',
@@ -58,31 +61,49 @@ export default function ClientInquiryModal({ defaultService = 'Custom Web Applic
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
+
+    // The endpoint contract is clientName/email/description (+projectType, budget, phone,
+    // companyName) — the same shape ContactSection posts, not this form's own field names.
+    const payload = {
+      clientName: formData.clientName,
+      email: formData.businessEmail,
+      phone: formData.phone,
+      companyName: formData.companyName,
+      projectType: PROJECT_TYPE_BY_SERVICE[formData.serviceRequired] || 'general',
+      budget: formData.budgetRange,
+      description: formData.projectScope
+    };
+    const mailto = buildInquiryMailto({
+      clientName: payload.clientName,
+      email: payload.email,
+      phone: payload.phone,
+      companyName: payload.companyName,
+      service: formData.serviceRequired,
+      budget: payload.budget,
+      message: payload.description
+    });
+
+    const recorded = api.submitClientInquiry(payload);
+    // Launched while the click gesture is still live, which is what lets the mail client open.
+    window.location.href = mailto;
+
     try {
-      // The endpoint contract is clientName/email/description (+projectType, budget, phone,
-      // companyName) — the same shape ContactSection posts, not this form's own field names.
-      await api.submitClientInquiry({
-        clientName: formData.clientName,
-        email: formData.businessEmail,
-        phone: formData.phone,
-        companyName: formData.companyName,
-        projectType: PROJECT_TYPE_BY_SERVICE[formData.serviceRequired] || 'general',
-        budget: formData.budgetRange,
-        description: formData.projectScope
-      });
-      // Delivery is server-side: the inquiry is stored and emailed to the team inbox, so the
-      // client never has to send anything from their own mail app.
-      setResult({
-        sent: true,
-        message: 'Your inquiry is with our team. We reply to you within 24 business hours.'
-      });
+      await recorded;
+      setResult({ sent: true, mailto, message: SAVED_MESSAGE });
     } catch (err) {
-      setResult({
-        sent: false,
-        message: err.name === 'AbortError'
-          ? 'The request timed out. Please try again in a moment.'
-          : (err.message || `We could not send your inquiry. Please try again in a moment, or email ${TARGET_EMAIL}.`)
-      });
+      // 503 means the inquiry is stored and only our own SMTP failed. The visitor's mail
+      // client is already opening with the same details, so there is nothing for them to fix.
+      if (err.status === 503) {
+        setResult({ sent: true, mailto, message: SAVED_MESSAGE });
+      } else {
+        setResult({
+          sent: false,
+          mailto,
+          message: err.name === 'AbortError'
+            ? 'The request timed out. Please try again in a moment.'
+            : (err.message || 'We could not send your inquiry. Please try again in a moment.')
+        });
+      }
     } finally {
       setSubmitting(false);
     }
@@ -99,7 +120,8 @@ export default function ClientInquiryModal({ defaultService = 'Custom Web Applic
       <p className="svc-eyebrow">Enterprise Project Consultation</p>
       <h2 id="client-inquiry-title" className="svc-modal__title">Schedule Client Consultation</h2>
       <p className="svc-modal__note">
-        Submit your project requirements — they reach our team directly at <strong>{TARGET_EMAIL}</strong>, with no mail app or extra step.
+        Submit your project requirements and they reach our team at <strong>{TARGET_EMAIL}</strong>. Your mail
+        app also opens with a prepared copy of the same details, so you can send it yourself as well.
       </p>
 
       {result ? (
@@ -109,6 +131,9 @@ export default function ClientInquiryModal({ defaultService = 'Custom Web Applic
           className={`svc-result${result.sent ? '' : ' svc-result--warning'}`}
         >
           <p className="svc-result__message">{result.message}</p>
+          <p className="svc-result__fallback">
+            If your mail app did not open, <a href={result.mailto}>send the prepared email here</a>.
+          </p>
           <div className="svc-result__actions">
             <button type="button" onClick={onClose} className="svc-btn svc-btn--quiet">Close</button>
           </div>

@@ -3678,6 +3678,11 @@ html.cc-locked body {
   line-height: 1.6;
 }
 
+.svc-result__fallback a {
+  color: var(--svc-accent);
+  font-weight: 600;
+}
+
 /* Server recording failed: keep the gold warning tint so the two outcomes stay distinct. */
 .svc-result--warning {
   background: #fdf8ee;
