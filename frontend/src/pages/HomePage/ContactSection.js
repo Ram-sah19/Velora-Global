@@ -61,12 +61,12 @@ export default function ContactSection() {
       setStatus({ loading: false, success: true, error: '' });
       setFormData({ name: '', email: '', inquiryType: 'internship', message: '' });
     } catch (err) {
-      // The old handler set success:true here, so a dropped inquiry looked delivered
-      // and the typed message was cleared.
       setStatus({
         loading: false,
         success: false,
-        error: 'We could not send your message. Please email info@velora-global.online or try again in a moment.'
+        error: err.name === 'AbortError'
+          ? 'The request timed out. Please try again in a moment.'
+          : (err.message || 'We could not send your message. Please try again in a moment.')
       });
     }
   };

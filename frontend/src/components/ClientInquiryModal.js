@@ -79,7 +79,9 @@ export default function ClientInquiryModal({ defaultService = 'Custom Web Applic
     } catch (err) {
       setResult({
         sent: false,
-        message: `We could not send your inquiry. Please try again in a moment, or email ${TARGET_EMAIL}.`
+        message: err.name === 'AbortError'
+          ? 'The request timed out. Please try again in a moment.'
+          : (err.message || `We could not send your inquiry. Please try again in a moment, or email ${TARGET_EMAIL}.`)
       });
     } finally {
       setSubmitting(false);

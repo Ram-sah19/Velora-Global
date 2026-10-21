@@ -20,6 +20,10 @@ const inquiryRoutes = require('./routes/inquiryRoutes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Render terminates the public connection and forwards requests with
+// X-Forwarded-For. Trust its single proxy so rate limiting can identify clients.
+app.set('trust proxy', 1);
+
 // Ensure static public asset directories exist
 const publicMediaDir = path.join(__dirname, '..', 'frontend', 'public', 'media');
 if (!fs.existsSync(publicMediaDir)) {
