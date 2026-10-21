@@ -4,7 +4,7 @@ const API_BASE = process.env.NODE_ENV === 'production'
 
 async function request(endpoint, options = {}) {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 20000);
+  const timeout = setTimeout(() => controller.abort(), 30000);
 
   let res;
   try {

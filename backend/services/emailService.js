@@ -14,8 +14,6 @@ function createTransporter() {
     throw new Error('EMAIL_USER and EMAIL_PASS environment variables must be set.');
   }
 
-  const isProduction = process.env.NODE_ENV === 'production';
-
   return nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
@@ -23,7 +21,13 @@ function createTransporter() {
     auth: { user, pass },
     requireTLS: true,
     family: 4,
-    tls: { rejectUnauthorized: isProduction }
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000,
+    // Always verified: an untrusted chain means the SMTP login (and every message body)
+    // is handed to whoever holds the certificate, so a permissive dev mode would send
+    // real credentials into whatever network path the developer happens to be on.
+    tls: { rejectUnauthorized: true }
   });
 }
 
