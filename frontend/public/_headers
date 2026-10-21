@@ -14,7 +14,10 @@
   # connect-src lists the Render service the bundle actually calls (REACT_APP_API_URL).
   # style-src deliberately omits cdn.jsdelivr.net: no Bootstrap class is used, so the
   # stylesheet is not loaded at all (see public/index.html) rather than widened for nothing.
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://velora-global.online https://www.velora-global.online; connect-src 'self' https://velora-global.onrender.com; frame-ancestors 'none';
+  # Cloudflare Web Analytics injects its beacon at the edge, so its two origins are allowed
+  # explicitly: script-src serves static.cloudflareinsights.com, and the beacon reports to
+  # cloudflareinsights.com/cdn-cgi/rum, which needs the connect-src entry.
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://velora-global.online https://www.velora-global.online; connect-src 'self' https://velora-global.onrender.com https://cloudflareinsights.com; frame-ancestors 'none';
 
 # Agent Resource Discovery (ARD)
 /.well-known/ai-catalog.json
