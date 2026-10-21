@@ -1386,6 +1386,11 @@ button:disabled {
   white-space: nowrap;
 }
 
+/* A line with one fee and no package names keeps the figure under the fee column. */
+.svc-package--single {
+  justify-content: flex-end;
+}
+
 .svc-packages__note {
   margin: 0.9rem 0 0;
   max-width: 66ch;
@@ -3671,11 +3676,6 @@ html.cc-locked body {
   margin: 0.75rem 0 0;
   font-size: 0.85rem;
   line-height: 1.6;
-}
-
-.svc-result__fallback a {
-  font-weight: 700;
-  text-decoration: underline !important;
 }
 
 /* Server recording failed: keep the gold warning tint so the two outcomes stay distinct. */

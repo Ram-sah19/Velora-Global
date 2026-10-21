@@ -24,6 +24,15 @@ const BUDGET_OPTIONS = [
   'NPR 100,000+ / Custom Enterprise'
 ];
 
+// The inquiry endpoint whitelists projectType (ALLOWED_PROJECT_TYPES in
+// backend/controllers/inquiryController.js); anything else is stored as 'general'.
+const PROJECT_TYPE_BY_SERVICE = {
+  'Custom Web Application Development': 'web-development',
+  'Mobile App Development': 'mobile-app',
+  'AI Chatbots & Intelligent Agents': 'ai-automation',
+  'Full Enterprise Custom Software': 'enterprise-solutions'
+};
+
 export default function ClientInquiryModal({ defaultService = 'Custom Web Application Development', currentUser, onClose }) {
   const [formData, setFormData] = useState({
     clientName: currentUser?.name || '',
@@ -37,7 +46,6 @@ export default function ClientInquiryModal({ defaultService = 'Custom Web Applic
 
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState(null);
-  const [mailtoUrl, setMailtoUrl] = useState('');
 
   useEffect(() => {
     if (defaultService) {
@@ -47,46 +55,35 @@ export default function ClientInquiryModal({ defaultService = 'Custom Web Applic
 
   const update = (field) => (event) => setFormData(prev => ({ ...prev, [field]: event.target.value }));
 
-  const buildMailtoUrl = () => {
-    const subject = encodeURIComponent(`[Client Project Inquiry] - ${formData.serviceRequired} - ${formData.companyName || formData.clientName}`);
-    const body = encodeURIComponent(
-      `Velora Global - Client Project Consultation Request\n` +
-      `--------------------------------------------------\n` +
-      `Client Name: ${formData.clientName}\n` +
-      `Company: ${formData.companyName || 'N/A'}\n` +
-      `Business Email: ${formData.businessEmail}\n` +
-      `Phone/WhatsApp: ${formData.phone}\n` +
-      `Service Required: ${formData.serviceRequired}\n` +
-      `Estimated Budget: ${formData.budgetRange}\n\n` +
-      `Project Scope / Requirements Summary:\n` +
-      `${formData.projectScope}\n`
-    );
-    return `mailto:${TARGET_EMAIL}?subject=${subject}&body=${body}`;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    const url = buildMailtoUrl();
-    setMailtoUrl(url);
-
-    let recorded = true;
     try {
-      await api.submitClientInquiry(formData);
+      // The endpoint contract is clientName/email/description (+projectType, budget, phone,
+      // companyName) — the same shape ContactSection posts, not this form's own field names.
+      await api.submitClientInquiry({
+        clientName: formData.clientName,
+        email: formData.businessEmail,
+        phone: formData.phone,
+        companyName: formData.companyName,
+        projectType: PROJECT_TYPE_BY_SERVICE[formData.serviceRequired] || 'general',
+        budget: formData.budgetRange,
+        description: formData.projectScope
+      });
+      // Delivery is server-side: the inquiry is stored and emailed to the team inbox, so the
+      // client never has to send anything from their own mail app.
+      setResult({
+        sent: true,
+        message: 'Your inquiry is with our team. We reply to you within 24 business hours.'
+      });
     } catch (err) {
-      recorded = false;
+      setResult({
+        sent: false,
+        message: `We could not send your inquiry. Please try again in a moment, or email ${TARGET_EMAIL}.`
+      });
+    } finally {
+      setSubmitting(false);
     }
-
-    // The email client is the delivery path that actually reaches the founder, so it opens
-    // either way; `recorded` only decides whether we claim the inquiry was also stored.
-    window.location.href = url;
-    setSubmitting(false);
-    setResult({
-      recorded,
-      message: recorded
-        ? `Your inquiry was recorded and your email app is opening so you can send it to ${TARGET_EMAIL}.`
-        : `We could not record this inquiry on our server, so your email app is opening instead — please send it to ${TARGET_EMAIL}.`
-    });
   };
 
   return (
@@ -100,20 +97,16 @@ export default function ClientInquiryModal({ defaultService = 'Custom Web Applic
       <p className="svc-eyebrow">Enterprise Project Consultation</p>
       <h2 id="client-inquiry-title" className="svc-modal__title">Schedule Client Consultation</h2>
       <p className="svc-modal__note">
-        Submit your project requirements. Details will be redirected directly to <strong>{TARGET_EMAIL}</strong>.
+        Submit your project requirements — they reach our team directly at <strong>{TARGET_EMAIL}</strong>, with no mail app or extra step.
       </p>
 
       {result ? (
         <div
           role="status"
           aria-live="polite"
-          className={`svc-result${result.recorded ? '' : ' svc-result--warning'}`}
+          className={`svc-result${result.sent ? '' : ' svc-result--warning'}`}
         >
           <p className="svc-result__message">{result.message}</p>
-          <p className="svc-result__fallback">
-            If your email app did not open,{' '}
-            <a href={mailtoUrl}>open a prepared draft here</a>.
-          </p>
           <div className="svc-result__actions">
             <button type="button" onClick={onClose} className="svc-btn svc-btn--quiet">Close</button>
           </div>
@@ -128,6 +121,7 @@ export default function ClientInquiryModal({ defaultService = 'Custom Web Applic
                 className="svc-input"
                 type="text"
                 required
+                minLength={2}
                 aria-required="true"
                 placeholder="e.g. Rajesh Shrestha"
                 value={formData.clientName}
@@ -207,6 +201,7 @@ export default function ClientInquiryModal({ defaultService = 'Custom Web Applic
               className="svc-input"
               rows={3}
               required
+              minLength={10}
               aria-required="true"
               placeholder="Describe your project goals, the business problem you want solved, or the features you need..."
               value={formData.projectScope}
@@ -224,7 +219,7 @@ export default function ClientInquiryModal({ defaultService = 'Custom Web Applic
           <div className="svc-form__actions">
             <button type="button" onClick={onClose} className="svc-btn svc-btn--quiet">Cancel</button>
             <button type="submit" disabled={submitting} aria-busy={submitting} className="svc-btn svc-btn--primary">
-              {submitting ? 'Opening Email...' : 'Send Inquiry to Founder Email'}
+              {submitting ? 'Sending...' : 'Send Inquiry'}
             </button>
           </div>
         </form>

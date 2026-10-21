@@ -152,24 +152,22 @@ export default function TrainingDetailsModal({ program, currentUser, onApplySucc
     window.open(GOOGLE_FORM_URL, '_blank');
     if (onApplySuccess) onApplySuccess();
 
-    // 3. Record training application in backend in the background
-    const feeMatch = displayFee.match(/\d[\d,]*/);
-    const feeNum = program.feeAmount || (feeMatch ? parseInt(feeMatch[0].replace(/,/g, ''), 10) : 2999);
+    // 3. Record training application in backend in the background. Same session-only contract as
+    // the internship record: identity and the program come from the session and programId.
+    if (currentUser && program.id) {
+      const feeMatch = displayFee.match(/\d[\d,]*/);
+      const feeNum = program.feeAmount || (feeMatch ? parseInt(feeMatch[0].replace(/,/g, ''), 10) : 2999);
 
-    api.submitApplication({
-      studentId: currentUser ? currentUser.id : `guest-${Date.now()}`,
-      studentName: currentUser ? currentUser.name : '',
-      studentEmail: currentUser ? currentUser.email : '',
-      programId: program.id || `prog-${Date.now()}`,
-      programTitle: program.title,
-      domain: program.domain,
-      programTrack: 'Guided Skill Training',
-      selectedDuration: 'Complete Track',
-      feeAmount: feeNum,
-      statementOfPurpose: 'Training enrollment via Google Form Link'
-    }).catch(e => {
-      console.warn("Recorded training application locally", e);
-    });
+      api.submitApplication({
+        programId: program.id,
+        programTrack: 'Guided Skill Training',
+        selectedDuration: 'Complete Track',
+        feeAmount: feeNum,
+        statementOfPurpose: 'Training enrollment via Google Form Link'
+      }).catch((e) => {
+        console.warn('Enrollment record was not stored:', e.message);
+      });
+    }
   };
 
   return (

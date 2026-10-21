@@ -188,7 +188,7 @@ export const TERMS_SECTIONS = [
   {
     heading: '10. Client Engagements: Scope and Payment',
     paragraphs: [
-      'Custom software work is quoted per project after a scoping meeting. Fees are set out in the milestone proposal in NPR or USD. An initial deposit is required before kickoff, and remaining milestones are invoiced as each phase is accepted.'
+      'Each service line on our services page carries an indicative NPR fee band for its usual scope. Custom software work beyond that scope is quoted per project after a scoping meeting. Fees are set out in the milestone proposal in NPR or USD. An initial deposit is required before kickoff, and remaining milestones are invoiced as each phase is accepted.'
     ]
   },
   {

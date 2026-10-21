@@ -31,7 +31,7 @@ const HOMEPAGE = {
 const SERVICES = {
   title: "IT Solutions & Software Development in Nepal | Velora Global",
   description:
-    "IT solutions for businesses in Nepal: web platforms, mobile apps, AI tools, digital marketing, SEO and maintenance. Quoted in writing, code handed over.",
+    "IT solutions for businesses in Nepal: web platforms, mobile apps, AI tools, digital marketing and SEO. Published NPR fee bands, source code handed over.",
   canonical: SITE + "/services",
   graph: "service",
   faq: "services"

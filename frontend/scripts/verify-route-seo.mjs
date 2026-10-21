@@ -20,7 +20,7 @@ import {
   MENTORSHIP_LEVELS as EDGE_LEVELS,
   INTERNSHIP_TRACKS as EDGE_INTERNSHIP_TRACKS,
   SERVICES_CATALOG as EDGE_SERVICES,
-  MARKETING_PACKAGES as EDGE_PACKAGES,
+  SERVICE_PACKAGES as EDGE_PACKAGES,
   TRAINING_PROGRAMS as EDGE_TRAINING
 } from '../functions/_shared/entity.js';
 import {
@@ -31,7 +31,7 @@ import {
   INTERNSHIP_TIERS as CLIENT_TIERS,
   MENTORSHIP_LEVELS as CLIENT_LEVELS,
   SERVICES_CATALOG as CLIENT_SERVICES,
-  MARKETING_PACKAGES as CLIENT_PACKAGES
+  SERVICE_PACKAGES as CLIENT_PACKAGES
 } from '../src/content/siteFacts.js';
 import { INTERNSHIP_PROGRAMS, TRAINING_PROGRAMS as CLIENT_TRAINING } from '../src/content/programs.js';
 import {
@@ -284,7 +284,7 @@ check('grading criteria', same(EDGE_CRITERIA, CLIENT_CRITERIA));
 check('internship duration tiers', same(EDGE_TIERS, CLIENT_TIERS));
 check('mentorship fee levels', same(EDGE_LEVELS, CLIENT_LEVELS));
 check('service catalog', same(EDGE_SERVICES, CLIENT_SERVICES));
-check('digital marketing packages', same(EDGE_PACKAGES, CLIENT_PACKAGES));
+check('published service fee bands', same(EDGE_PACKAGES, CLIENT_PACKAGES));
 check('internship track titles', same(
   EDGE_INTERNSHIP_TRACKS,
   INTERNSHIP_PROGRAMS.map((program) => program.title)

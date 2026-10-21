@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ClientInquiryModal from '../../components/ClientInquiryModal';
 import { AnswerSection, CtaBand, PageFaq, SectionHead } from '../../components';
-import { ANSWER_BLOCKS, FAQS, MARKETING_PACKAGES } from '../../content/siteFacts';
+import { ANSWER_BLOCKS, FAQS, SERVICE_PACKAGES } from '../../content/siteFacts';
 
 const CATEGORY_FILTERS = [
   { key: 'all', label: 'All Services' },
@@ -51,6 +51,7 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
     {
       id: 'web-dev',
       category: 'web',
+      packages: SERVICE_PACKAGES["Custom Web Application Development"],
       label: 'Digital Solutions',
       title: 'Custom Web Application Development',
       subtitle: 'Powerful digital platforms built around your business needs.',
@@ -74,6 +75,7 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
     {
       id: 'mobile-dev',
       category: 'mobile',
+      packages: SERVICE_PACKAGES["Mobile App Development"],
       label: 'Mobile Solutions',
       title: 'Mobile App Development',
       subtitle: 'Seamless mobile experiences that keep your customers connected.',
@@ -97,6 +99,7 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
     {
       id: 'ai-chatbot',
       category: 'ai',
+      packages: SERVICE_PACKAGES["AI Chatbots & Intelligent Agents"],
       label: 'Automation Solutions',
       title: 'AI Chatbots & Intelligent Agents',
       subtitle: 'Automated customer support and lead capture that works around the clock.',
@@ -119,6 +122,7 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
     {
       id: 'seo-growth',
       category: 'seo',
+      packages: SERVICE_PACKAGES["SEO & Digital Growth"],
       label: 'Search & Growth',
       title: 'SEO & Digital Growth',
       subtitle: 'Make your business easier to find when customers search online.',
@@ -144,7 +148,7 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
       label: 'Campaigns & Content',
       title: 'Digital Marketing',
       subtitle: 'Turn attention into enquiries on the channels your customers already use.',
-      packages: MARKETING_PACKAGES,
+      packages: SERVICE_PACKAGES["Digital Marketing"],
       features: [
         'Social Media Management',
         'SEO & Google Business Profile',
@@ -166,6 +170,7 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
     {
       id: 'maintenance-support',
       category: 'support',
+      packages: SERVICE_PACKAGES["Website Maintenance & Support"],
       label: 'Care & Support',
       title: 'Website Maintenance & Support',
       subtitle: 'Keep your website secure, current, and running properly after launch.',
@@ -205,7 +210,7 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
           level={1}
           eyebrow="Solutions for Business Owners"
           title="IT Solutions & Custom Software Development in Nepal"
-          lede="Velora Global builds digital systems that help businesses run better — custom web platforms, mobile applications, automated customer support, and the campaigns that bring customers to them. We also handle what comes after launch: making your business easier to find online, and keeping your systems current, secure, and dependable."
+          lede="Velora Global builds digital systems that help businesses run better — custom web platforms, mobile applications, automated customer support, and the campaigns that bring customers to them. We also handle what comes after launch: making your business easier to find online, and keeping your systems current, secure, and dependable. Every service line below publishes an indicative NPR fee band for its usual scope."
         />
 
         <div className="svc-toolbar" role="group" aria-label="Filter services by category">
@@ -240,20 +245,20 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
                 {service.packages && (
                   <div className="svc-packages">
                     <p className="svc-packages__caption">
-                      <span>Monthly packages</span>
-                      <span>Illustrative monthly fee</span>
+                      <span>{service.packages.label}</span>
+                      <span>{service.packages.feeLabel}</span>
                     </p>
                     <div className="svc-ruled">
-                      {service.packages.map((pkg) => (
-                        <p key={pkg.name} className="svc-package">
-                          <span>{pkg.name}</span>
-                          <span className="svc-package__fee">{pkg.fee}</span>
+                      {service.packages.rows.map((row) => (
+                        <p key={row.fee} className={row.name ? 'svc-package' : 'svc-package svc-package--single'}>
+                          {row.name && <span>{row.name}</span>}
+                          <span className="svc-package__fee">{row.fee}</span>
                         </p>
                       ))}
                     </div>
-                    <p className="svc-packages__note">
-                      The final scope and monthly amount are agreed in writing before work begins.
-                    </p>
+                    {service.packages.note && (
+                      <p className="svc-packages__note">{service.packages.note}</p>
+                    )}
                   </div>
                 )}
               </div>

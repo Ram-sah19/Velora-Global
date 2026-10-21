@@ -47,7 +47,7 @@ export const pageTitles = {
 
 export const pageDescriptions = {
   home: 'Custom websites, mobile apps and AI chatbots for businesses. Internships and tech training for students. Built in Kathmandu, Nepal, delivered remotely.',
-  services: 'IT solutions for businesses in Nepal: web platforms, mobile apps, AI tools, digital marketing, SEO and maintenance. Quoted in writing, code handed over.',
+  services: 'IT solutions for businesses in Nepal: web platforms, mobile apps, AI tools, digital marketing and SEO. Published NPR fee bands, source code handed over.',
   about: 'A Kathmandu technology company: one team builds web, mobile and AI software for clients, the other runs internships and training for students across Nepal.',
   team: 'Meet the Velora Global leadership team: Abhishek Sah (Founder & CEO), Krishna Sah (Co-Founder & CTO), Rohit Sah (Co-Founder & COO) and Shivshankar Sah.',
   internships: 'Internships where students ship real client work with 1-to-1 mentors. One-time mentorship fee from NPR 500. Pick 2 weeks to 6 months, fully remote.',

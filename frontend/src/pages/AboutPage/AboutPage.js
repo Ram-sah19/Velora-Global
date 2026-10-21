@@ -69,8 +69,8 @@ export default function AboutPage({ onServicesClick, onExploreClick, onTrainingC
             <div>
               <p className="ip-label">Client engineering</p>
               <p className="ip-notice__note">
-                Custom web applications, cross-platform mobile apps and AI assistant systems, quoted per
-                project after a scoping meeting rather than from a price list.
+                Custom web applications, cross-platform mobile apps and AI assistant systems, with indicative
+                fee bands published per line and larger builds quoted per project after a scoping meeting.
               </p>
               {onServicesClick && (
                 <div className="svc-cta__actions">

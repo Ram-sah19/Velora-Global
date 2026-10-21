@@ -30,7 +30,7 @@ export default function ContactSection() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    inquiryType: 'internship', // 'internship', 'training', 'enterprise', 'general'
+    inquiryType: 'internship', // values must exist in ALLOWED_PROJECT_TYPES on the server
     message: ''
   });
   const [status, setStatus] = useState({ loading: false, success: false, error: '' });
@@ -39,8 +39,14 @@ export default function ContactSection() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) {
-      setStatus({ loading: false, success: false, error: 'Please complete all required fields.' });
+    // Mirrors the server's own rules (inquiryController.js: name, valid email, 10-char message),
+    // so a too-short message is caught here instead of as a failed send.
+    if (!formData.name.trim() || !formData.email.trim() || formData.message.trim().length < 10) {
+      setStatus({
+        loading: false,
+        success: false,
+        error: 'Please add your name, email and a message of at least 10 characters.'
+      });
       return;
     }
 
@@ -212,7 +218,7 @@ export default function ContactSection() {
                 <p className="svc-result__message">Inquiry Received!</p>
                 <p className="svc-result__fallback">
                   Thank you for reaching out. The Velora Global team will review your message and reply via
-                  email within 24 hours.
+                  email within 24 business hours.
                 </p>
                 <div className="svc-result__actions">
                   <button
@@ -270,7 +276,7 @@ export default function ContactSection() {
                   >
                     <option value="internship">Remote Internship Program</option>
                     <option value="training">Guided Skill Training Track</option>
-                    <option value="enterprise">Enterprise Custom Software Development</option>
+                    <option value="enterprise-solutions">Enterprise Custom Software Development</option>
                     <option value="general">General Support / Partnership</option>
                   </select>
                 </div>
