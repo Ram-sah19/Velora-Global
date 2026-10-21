@@ -294,12 +294,14 @@ async function sendOtpEmail(toEmail, otpCode, name = 'Valued User') {
 async function sendInquiryEmail(inquiry) {
   try {
     const transporter = createTransporter();
+    // Gmail only accepts the authenticated account (or a verified alias) as From, so the sender
+    // stays EMAIL_USER while the inquiry lands in the public team inbox.
     const adminEmail = process.env.EMAIL_USER || 'veloraglobal.hr@gmail.com';
 
     // 1. Send notification to admin / operations team
     await transporter.sendMail({
       from: `"Velora Global Inquiries" <${adminEmail}>`,
-      to: adminEmail,
+      to: 'info@velora-global.online',
       subject: `📩 New Inquiry: ${inquiry.projectType || 'General'} from ${inquiry.clientName}`,
       html: `
         <h2>New Inquiry / Contact Form Received</h2>

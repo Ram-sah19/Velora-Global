@@ -116,7 +116,12 @@ export const FAQS = {
     {
       question: "How does Velora Global price a custom software project?",
       answer:
-        "Custom software is quoted after a scoping meeting, not from a fixed price list — once we understand your business model and goals, we put the plan in writing: system design, screen-by-screen wireframes, budget milestones and a delivery schedule, before any work begins. Digital marketing is the exception and runs on the monthly packages published on this page; ad spend stays in your own Google or Meta account and is billed by them separately."
+        "Each service line on this page publishes an indicative NPR fee band for its usual scope. Anything beyond that — a larger enterprise platform, a complex native app, heavy AI usage — is quoted after a scoping meeting, when we put the plan in writing: system design, screen-by-screen wireframes, budget milestones and a delivery schedule, before any work begins."
+    },
+    {
+      question: "What do software and marketing services cost in Nepal?",
+      answer:
+        "Every service line on this page publishes an indicative NPR band: custom web applications NPR 50,000–300,000+, mobile apps NPR 80,000–500,000+, AI chatbots and agents NPR 25,000–150,000+, SEO and website maintenance NPR 10,000–15,000 each, and digital marketing packages from NPR 8,000 a month. Work outside that usual scope is quoted after a scoping meeting, and ad spend is billed separately by Google or Meta."
     },
     {
       question: "Do we keep ownership of the source code?",
@@ -136,7 +141,7 @@ export const FAQS = {
     {
       question: "Do you run marketing as well as building the site?",
       answer:
-        "Yes. The Digital Marketing line covers social media management, SEO and Google Business Profile work, Google Ads and Meta Ads, branding and content, lead generation, and conversion optimization on the pages your traffic lands on. Ad budget is spent from your own Google or Meta account and billed by them, separately from our service fee. Work is scoped per engagement and reported in writing; no ranking or sales result is guaranteed."
+        "Yes. The Digital Marketing line covers social media management, SEO and Google Business Profile work, Google Ads and Meta Ads, branding and content, lead generation, and conversion optimization on the pages your traffic lands on. The monthly packages published on this page are indicative and the exact scope is agreed in writing before work begins. Ad budget is spent from your own Google or Meta account and billed by them, separately from our service fee; no ranking or sales result is guaranteed."
     }
   ],
   internships: [
@@ -276,14 +281,64 @@ export const SERVICES_CATALOG = [
   }
 ];
 
-/** The five monthly packages published under the Digital Marketing line on /services. */
-export const MARKETING_PACKAGES = [
-  { name: "Social media management", fee: "NPR 8,000–15,000" },
-  { name: "SEO services", fee: "NPR 10,000–20,000" },
-  { name: "Social media + creative content", fee: "NPR 12,000–25,000" },
-  { name: "Digital advertising management", fee: "NPR 8,000–20,000" },
-  { name: "Website + digital marketing", fee: "NPR 25,000–60,000+" }
-];
+/** Fee bands published on /services, keyed by the matching SERVICES_CATALOG name. */
+export const SERVICE_PACKAGES = {
+  "Custom Web Application Development": {
+    label: "Project scope",
+    feeLabel: "Indicative project fee",
+    rows: [
+      {
+        name: "Business dashboards, customer portals, booking platforms, and management systems",
+        fee: "NPR 50,000–300,000+"
+      }
+    ],
+    note: "Larger enterprise platforms: custom quotation."
+  },
+  "Mobile App Development": {
+    label: "Project scope",
+    feeLabel: "Indicative project fee",
+    rows: [
+      {
+        name: "Customer apps, ordering, bookings, profiles, and mobile business tools",
+        fee: "NPR 80,000–500,000+"
+      }
+    ],
+    note: "Complex apps and separate native iOS/Android builds: custom quotation."
+  },
+  "AI Chatbots & Intelligent Agents": {
+    label: "Project scope",
+    feeLabel: "Indicative project fee",
+    rows: [
+      {
+        name: "Website chatbots, document-based answers, lead capture, and business automation",
+        fee: "NPR 25,000–150,000+"
+      }
+    ],
+    note: "AI usage, third-party integrations, and ongoing hosting may cost extra."
+  },
+  "SEO & Digital Growth": {
+    label: "Search & Growth",
+    feeLabel: "Indicative fee",
+    rows: [{ fee: "NPR 10,000–15,000" }]
+  },
+  "Website Maintenance & Support": {
+    label: "Ongoing support",
+    feeLabel: "Indicative fee",
+    rows: [{ fee: "NPR 10,000–15,000" }]
+  },
+  "Digital Marketing": {
+    label: "Monthly packages",
+    feeLabel: "Illustrative monthly fee",
+    rows: [
+      { name: "Social media management", fee: "NPR 8,000–15,000" },
+      { name: "SEO services", fee: "NPR 10,000–20,000" },
+      { name: "Social media + creative content", fee: "NPR 12,000–25,000" },
+      { name: "Digital advertising management", fee: "NPR 8,000–20,000" },
+      { name: "Website + digital marketing", fee: "NPR 25,000–60,000+" }
+    ],
+    note: "The final scope and monthly amount are agreed in writing before work begins."
+  }
+};
 
 /** Track names shown on the internship program cards. */
 export const INTERNSHIP_TRACKS = [

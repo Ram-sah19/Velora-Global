@@ -15,7 +15,7 @@ import {
   MENTORSHIP_LEVELS,
   INTERNSHIP_TRACKS,
   SERVICES_CATALOG,
-  MARKETING_PACKAGES,
+  SERVICE_PACKAGES,
   ENGAGEMENT_STEPS,
   TRAINING_PROGRAMS
 } from "./entity.js";
@@ -90,13 +90,15 @@ const SECTION = {
       ),
       "",
       "## Pricing",
-      "Custom software is scoped and quoted individually after the discovery meeting; there is no fixed price list for project work.",
+      "Each service line publishes an indicative NPR band for its usual scope. Work outside that scope is quoted after the discovery meeting.",
       "",
-      "Digital marketing runs on monthly packages; the final scope and monthly amount are agreed in writing before work begins.",
-      "",
-      "| Package | Illustrative monthly fee |",
-      "| --- | --- |",
-      ...MARKETING_PACKAGES.map((pkg) => `| ${pkg.name} | ${pkg.fee} |`),
+      ...Object.entries(SERVICE_PACKAGES).map(([service, pkg]) =>
+        [
+          `- **${service}** (${pkg.feeLabel}):`,
+          ...pkg.rows.map((row) => `  - ${row.name ? row.name + ": " : ""}${row.fee}`),
+          ...(pkg.note ? [`  _${pkg.note}_`] : [])
+        ].join("\n")
+      ),
       "",
       "## Contact",
       `- Email ${ORG.email}`,

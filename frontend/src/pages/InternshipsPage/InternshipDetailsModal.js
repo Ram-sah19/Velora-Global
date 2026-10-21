@@ -37,20 +37,19 @@ export default function InternshipDetailsModal({ program, currentUser, onApplySu
     window.open(GOOGLE_FORM_URL, '_blank');
     if (onApplySuccess) onApplySuccess();
 
-    // 3. Record application in backend in the background
-    api.submitApplication({
-      studentId: currentUser ? currentUser.id : `guest-${Date.now()}`,
-      studentName: currentUser ? currentUser.name : '',
-      studentEmail: currentUser ? currentUser.email : '',
-      programId: program.id || `prog-${Date.now()}`,
-      programTitle: program.title,
-      domain: program.domain,
-      programTrack: 'Practical Internship',
-      selectedDuration: activeT.duration,
-      statementOfPurpose: 'Application via Google Form Link'
-    }).catch(e => {
-      console.warn("Recorded application locally", e);
-    });
+    // 3. Record application in backend in the background. POST /applications is session-only
+    // (requireAuth) and the server takes identity from the session and resolves the program from
+    // programId, so a guest record would only ever be rejected and the body carries no name fields.
+    if (currentUser && program.id) {
+      api.submitApplication({
+        programId: program.id,
+        programTrack: 'Practical Internship',
+        selectedDuration: activeT.duration,
+        statementOfPurpose: 'Application via Google Form Link'
+      }).catch((e) => {
+        console.warn('Application record was not stored:', e.message);
+      });
+    }
   };
 
   return (
