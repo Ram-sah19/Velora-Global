@@ -23,7 +23,10 @@ async function request(endpoint, options = {}) {
 
   if (!res.ok) {
     const errorData = await res.json().catch(() => ({}));
-    throw new Error(errorData.error || errorData.message || `HTTP error! status: ${res.status}`);
+    const error = new Error(errorData.error || errorData.message || `HTTP error! status: ${res.status}`);
+    // Callers must tell a 503 (saved, but the server's own mail failed) from a rejection.
+    error.status = res.status;
+    throw error;
   }
 
   // Several endpoints answer DELETE with an empty 200/204 body.
