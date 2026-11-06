@@ -39,8 +39,33 @@ function useHeroFreezeLock() {
   }, []);
 }
 
+// Each band's contents rise into place once, when the band first enters the viewport.
+// The hero is not a band, so its own reveal is untouched.
+function useBandReveal() {
+  useEffect(() => {
+    const bands = document.querySelectorAll('.home-page .hp-band, .home-page .concept-band');
+
+    if (!('IntersectionObserver' in window)) {
+      bands.forEach((band) => band.classList.add('is-inview'));
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver((entries, self) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-inview');
+        self.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -10% 0px' });
+
+    bands.forEach((band) => observer.observe(band));
+    return () => observer.disconnect();
+  }, []);
+}
+
 export default function HomePage({ onExploreClick, onTrainingClick, onServicesClick, onConsultationClick }) {
   useHeroFreezeLock();
+  useBandReveal();
 
   return (
     <div className="home-page landing-page">

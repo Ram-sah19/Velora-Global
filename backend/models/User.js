@@ -24,7 +24,11 @@ const userSchema = new mongoose.Schema({
   countryCode: { type: String, default: '+977' },
   isPhoneVerified: { type: Boolean, default: false },
   phoneOtp: { type: String, select: false },
-  phoneOtpExpiry: { type: Date, select: false }
+  phoneOtpExpiry: { type: Date, select: false },
+  // Staff sign-in second factor: single-use code, 5-minute window, capped guesses.
+  loginOtp: { type: String, select: false },
+  loginOtpExpiry: { type: Date, select: false },
+  loginOtpAttempts: { type: Number, select: false }
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

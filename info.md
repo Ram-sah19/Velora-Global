@@ -129,7 +129,7 @@ Company/
 | Layer | Technology / Implementation | Details |
 |---|---|---|
 | **Password Protection** | `bcryptjs` (12 rounds) | All user passwords hashed before DB storage. Legacy plain-text passwords auto-upgrade upon successful login. |
-| **Session Cookies** | `HttpOnly`, `SameSite=Lax` | Session stored in `velora_refresh_token` cookie (30 days). JavaScript cannot access token (prevents XSS theft). |
+| **Session Cookies** | `HttpOnly`, `SameSite=Lax` | Session stored in `velora_refresh_token` cookie — 30 days for students and clients, 8 hours for staff accounts signed in through the emailed code. JavaScript cannot access token (prevents XSS theft). |
 | **LocalStorage Cleanliness** | Minimal profile data only | Stripped all sensitive tokens from `localStorage`. Stores only safe public fields (`name`, `email`, `role`). |
 | **Password Reset** | Crypto + Nodemailer | Generates 32-byte crypto token. Stores SHA-256 hash in DB with 1-hr expiration. Raw token sent via branded Gmail HTML email. |
 | **API Rate Limiting** | `express-rate-limit` | Strict rate limit on sensitive endpoints (`/api/users/login`, `/api/users/forgot-password`). |
@@ -163,12 +163,13 @@ pie title User Types Distribution
 ## Key API Endpoints Reference
 
 ### User & Authentication Routes (`/api/users`)
-- `POST /api/users/login` — Log in user & set `velora_refresh_token` HttpOnly cookie.
+- `POST /api/users/login` — Log in user. Student and client accounts post `{ email, password }` and get the `velora_refresh_token` HttpOnly cookie. Staff (`admin`/`superadmin`) post `{ email }` only — no password is checked — and get `{ otpRequired, maskedEmail }` with no session until the emailed code is confirmed.
+- `POST /api/users/verify-login-otp` — Staff sign-in code: `{ email, otpCode }` against the 6-digit code emailed by the step above. Valid 5 minutes, single use, 5 guesses; success mints an 8-hour session cookie. If the code email cannot be sent, login is blocked with a 503.
 - `POST /api/users/logout` — Clear session cookie & revoke session.
 - `GET /api/users/me` — Auto-sync current logged-in user from session cookie on page refresh.
 - `POST /api/users/register-student` — Register new Student account.
 - `POST /api/users/register-client` — Register new Client account.
-- `POST /api/users/register-admin` — Register Super Admin account (requires `ADMIN_SECRET_KEY`).
+- `POST /api/users/register-admin` — Register Super Admin account (requires `ADMIN_SECRET_KEY`). Creates the account only; signing in goes through the emailed code.
 - `POST /api/users/forgot-password` — Generate reset token & email reset link.
 - `POST /api/users/reset-password` — Reset password using token from email.
 

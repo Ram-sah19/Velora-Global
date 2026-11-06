@@ -231,19 +231,12 @@ async function sendVerificationEmail(toEmail, verifyUrl, name = 'New User') {
 }
 
 /**
- * Sends a branded 6-digit OTP verification code email (10-min expiry).
+ * The 6-digit code email body, shared by account activation and staff sign-in.
+ * `intro` is the one sentence that differs; `validityMinutes` has to match the expiry
+ * the caller actually stored, otherwise the email lies about the window.
  */
-async function sendOtpEmail(toEmail, otpCode, name = 'Valued User') {
-  console.log('\n================================================================');
-  console.log('🔑 [SECURITY OTP] 6-DIGIT VERIFICATION CODE GENERATED:');
-  console.log(`To: ${toEmail}`);
-  console.log(`OTP Code: ${otpCode} (Valid for 10 Minutes)`);
-  console.log('================================================================\n');
-
-  try {
-    const transporter = createTransporter();
-
-  const html = `
+function otpEmailHtml(name, otpCode, validityMinutes, intro) {
+  return `
   <!DOCTYPE html>
   <html>
   <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
@@ -264,7 +257,7 @@ async function sendOtpEmail(toEmail, otpCode, name = 'Valued User') {
                 <p style="font-size:16px;color:#334155;margin:0 0 8px;">Hello, <strong>${name}</strong> 👋</p>
                 <h2 style="font-size:22px;color:#0b0f19;font-weight:800;margin:0 0 12px;">Your 6-Digit Verification Code</h2>
                 <p style="font-size:15px;color:#64748b;line-height:1.6;margin:0 0 24px;">
-                  Use the 6-digit verification code below to activate your Velora Global account. This code is valid for <strong>10 minutes</strong>.
+                  ${intro} This code is valid for <strong>${validityMinutes} minutes</strong>.
                 </p>
                 <div style="background:#f1f5f9;border:2px dashed #2563eb;border-radius:14px;padding:20px;display:inline-block;margin-bottom:24px;">
                   <span style="font-size:36px;font-weight:900;letter-spacing:10px;color:#2563eb;font-family:monospace;">${otpCode}</span>
@@ -284,16 +277,66 @@ async function sendOtpEmail(toEmail, otpCode, name = 'Valued User') {
   </body>
   </html>
   `;
+}
+
+/**
+ * The code reaches the server log only outside production. Render's log is readable by
+ * anyone with project access, so printing it there would be a second door into the staff
+ * portal for whoever already knows a staff address.
+ */
+function logOtpInLocalDev(toEmail, otpCode, validityMinutes, purpose) {
+  if (process.env.NODE_ENV === 'production') return;
+  console.log('\n================================================================');
+  console.log(`🔑 [DEV MODE] OTP CODE FOR ${purpose.toUpperCase()}:`);
+  console.log(`To: ${toEmail}`);
+  console.log(`OTP Code: ${otpCode} (Valid for ${validityMinutes} Minutes)`);
+  console.log('================================================================\n');
+}
+
+/** Sends the account-activation 6-digit code (10-min expiry). */
+async function sendOtpEmail(toEmail, otpCode, name = 'Valued User') {
+  logOtpInLocalDev(toEmail, otpCode, 10, 'account activation');
+  const transporter = createTransporter();
 
   await transporter.sendMail({
     from: `"Velora Global Support" <${process.env.EMAIL_USER || 'veloraglobal.hr@gmail.com'}>`,
     to: toEmail,
     subject: `🔑 Your Verification Code: ${otpCode}`,
-    html
+    html: otpEmailHtml(name, otpCode, 10, 'Use the 6-digit verification code below to activate your Velora Global account.')
   });
-  } catch (err) {
-    console.error('❌ Error sending OTP email:', err.message);
+}
+
+/**
+ * Sends the staff sign-in code (5-min expiry). Deliberately not caught: a caller that
+ * cannot deliver the code has to fail the login, otherwise a broken SMTP setup silently
+ * drops the portal back to password-only. Placeholder credentials print the code outside
+ * production so local portal testing does not depend on Gmail.
+ */
+async function sendLoginOtpEmail(toEmail, otpCode, name = 'Staff Member') {
+  const isPlaceholder = !process.env.EMAIL_USER ||
+                        !process.env.EMAIL_PASS ||
+                        process.env.EMAIL_USER.includes('your-gmail') ||
+                        process.env.EMAIL_PASS.includes('your-gmail-app-password');
+
+  if (isPlaceholder && process.env.NODE_ENV !== 'production') {
+    logOtpInLocalDev(toEmail, otpCode, 5, 'staff sign-in');
+    return;
   }
+
+  const transporter = createTransporter();
+
+  await transporter.sendMail({
+    from: `"Velora Global Support" <${process.env.EMAIL_USER}>`,
+    to: toEmail,
+    // Code-free subject: it would otherwise sit in inbox previews and mail-gateway logs.
+    subject: 'Your Velora staff sign-in code',
+    html: otpEmailHtml(
+      name,
+      otpCode,
+      5,
+      'Use the 6-digit code below to sign in to the Velora staff portal. This code is the only thing that grants access, so if you did not try to sign in, tell us immediately.'
+    )
+  });
 }
 
 /**
@@ -348,4 +391,4 @@ async function sendInquiryEmail(inquiry) {
   }
 }
 
-module.exports = { sendPasswordResetEmail, sendVerificationEmail, sendOtpEmail, sendInquiryEmail };
+module.exports = { sendPasswordResetEmail, sendVerificationEmail, sendOtpEmail, sendLoginOtpEmail, sendInquiryEmail };
