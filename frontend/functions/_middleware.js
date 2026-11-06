@@ -36,9 +36,9 @@ const NOT_FOUND_HTML = `<!DOCTYPE html>
     <title>Page Not Found | Velora Global</title>
     <link rel="canonical" href="https://velora-global.online/" />
     <style>
-      body { margin: 0; padding: 4rem 1.5rem; background: #f8fafc; color: #0b0f19; font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+      body { margin: 0; padding: 4rem 1.5rem; background: #f8fafc; color: #0b0f19; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
       main { max-width: 640px; margin: 0 auto; text-align: center; }
-      h1 { font-family: 'Outfit', sans-serif; font-size: 2rem; margin: 0 0 0.75rem; }
+      h1 { font-size: 2rem; margin: 0 0 0.75rem; }
       p { font-size: 1rem; line-height: 1.65; color: #475569; margin: 0 0 2rem; }
       nav { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; }
       a { display: inline-flex; padding: 0.6rem 1.25rem; border-radius: 9999px; background: #ffffff; border: 1px solid #e2e8f0; color: #0b0f19; font-size: 0.88rem; font-weight: 700; text-decoration: none; }

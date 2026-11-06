@@ -348,7 +348,7 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
                 <h1 style={{
                   fontSize: 'clamp(1.85rem, 3.6vw, 2.75rem)',
                   lineHeight: '1.2',
-                  fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif",
+                  fontFamily: "'Cormorant Garamond', Georgia, 'Times New Roman', serif",
                   fontWeight: '500',
                   color: '#0a2540',
                   marginBottom: '1rem',
@@ -551,7 +551,7 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
 
             <h2 style={{
               fontSize: 'clamp(1.55rem, 3.2vw, 2.35rem)',
-              fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif",
+              fontFamily: "'Cormorant Garamond', Georgia, 'Times New Roman', serif",
               fontWeight: '500',
               color: '#0a2540',
               lineHeight: '1.25',
@@ -614,7 +614,7 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
 
             <h2 style={{
               fontSize: 'clamp(1.55rem, 3.2vw, 2.35rem)',
-              fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif",
+              fontFamily: "'Cormorant Garamond', Georgia, 'Times New Roman', serif",
               fontWeight: '500',
               color: '#0a2540',
               lineHeight: '1.25',
@@ -674,7 +674,7 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
 
             <h2 style={{
               fontSize: 'clamp(1.55rem, 3.2vw, 2.35rem)',
-              fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif",
+              fontFamily: "'Cormorant Garamond', Georgia, 'Times New Roman', serif",
               fontWeight: '500',
               color: '#0a2540',
               lineHeight: '1.25',

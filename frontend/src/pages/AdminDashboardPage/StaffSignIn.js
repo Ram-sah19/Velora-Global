@@ -1,34 +1,60 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { api } from '../../services/api';
 
-const STAFF_TYPES = ['admin', 'superadmin'];
-
 export default function StaffSignIn({ onSignedIn }) {
+  const [step, setStep] = useState('credentials');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [maskedEmail, setMaskedEmail] = useState('');
+  const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const otpRef = useRef(null);
+
+  useEffect(() => {
+    if (step === 'code') otpRef.current?.focus();
+  }, [step]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setBusy(true);
     setError('');
     try {
-      const res = await api.loginUser(email.trim(), password);
-      if (!STAFF_TYPES.includes(res.user.userType)) {
-        // The endpoint issues a session cookie for any valid account, so a
-        // non-staff sign-in has to be undone before we show this page again.
-        await api.logoutUser().catch(() => {});
-        setError('That account is not a staff account.');
-        return;
+      const res = await api.loginUser(email.trim());
+      if (res.otpRequired) {
+        // Nothing is stored here: no session cookie exists until the code is verified.
+        setMaskedEmail(res.maskedEmail || 'your work email');
+        setOtp('');
+        setStep('code');
       }
-      onSignedIn(res.user);
     } catch (err) {
-      setError(err.message || 'Sign in failed. Please try again.');
+      // This page never sends a password, so a 400 from the shared login endpoint can
+      // only mean the account is a student or client one.
+      setError(err.status === 400
+        ? 'That account is not a staff account.'
+        : (err.message || 'Sign in failed. Please try again.'));
     } finally {
       setBusy(false);
-      setPassword('');
     }
+  };
+
+  const handleVerify = async (event) => {
+    event.preventDefault();
+    setBusy(true);
+    setError('');
+    try {
+      const res = await api.verifyLoginOtp(email.trim(), otp.trim());
+      onSignedIn(res.user);
+    } catch (err) {
+      setError(err.message || 'That code was not accepted. Please try again.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const backToCredentials = () => {
+    setStep('credentials');
+    setOtp('');
+    setError('');
   };
 
   const inputStyle = {
@@ -66,54 +92,90 @@ export default function StaffSignIn({ onSignedIn }) {
           color: '#0b0f19',
           margin: '0.85rem 0 0.4rem'
         }}>
-          Velora staff portal
+          {step === 'code' ? 'Confirm it is you' : 'Velora staff portal'}
         </h1>
         <p style={{ margin: '0 0 1.5rem', fontSize: '0.88rem', color: '#64748b', lineHeight: '1.6' }}>
-          Not linked from the public site and excluded from search indexing.
+          {step === 'code'
+            ? `We sent a 6-digit code to ${maskedEmail}. It expires in 5 minutes and works once.`
+            : 'We will email a 6-digit code that expires in 5 minutes. This portal is not linked from the public site.'}
         </p>
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
-          <div>
-            <label htmlFor="staff-email" style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: '#334155', marginBottom: '0.35rem' }}>
-              Work email
-            </label>
-            <input
-              id="staff-email"
-              type="email"
-              required
-              aria-required="true"
-              autoComplete="username"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              style={inputStyle}
-            />
-          </div>
+        {step === 'code' ? (
+          <form onSubmit={handleVerify} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
+            <div>
+              <label htmlFor="staff-otp" style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: '#334155', marginBottom: '0.35rem' }}>
+                6-digit code
+              </label>
+              <input
+                id="staff-otp"
+                ref={otpRef}
+                type="text"
+                required
+                aria-required="true"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                maxLength={6}
+                pattern="\d{6}"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+                style={{ ...inputStyle, letterSpacing: '0.5rem', fontFamily: 'monospace', fontSize: '1.1rem' }}
+              />
+            </div>
 
-          <div>
-            <label htmlFor="staff-password" style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: '#334155', marginBottom: '0.35rem' }}>
-              Password
-            </label>
-            <input
-              id="staff-password"
-              type="password"
-              required
-              aria-required="true"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              style={inputStyle}
-            />
-          </div>
+            <button
+              type="submit"
+              disabled={busy || otp.length !== 6}
+              className="btn-premium"
+              style={{ padding: '0.75rem', fontSize: '0.92rem', fontWeight: 700 }}
+            >
+              {busy ? 'Verifying...' : 'Verify and sign in'}
+            </button>
 
-          <button
-            type="submit"
-            disabled={busy}
-            className="btn-premium"
-            style={{ padding: '0.75rem', fontSize: '0.92rem', fontWeight: 700 }}
-          >
-            {busy ? 'Signing in...' : 'Sign in'}
-          </button>
-        </form>
+            <button
+              type="button"
+              onClick={backToCredentials}
+              style={{
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                fontSize: '0.85rem',
+                fontWeight: 600,
+                color: '#2563eb',
+                cursor: 'pointer',
+                textAlign: 'center'
+              }}
+            >
+              Wrong email, or code expired — request a new one
+            </button>
+          </form>
+        ) : (
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
+            <div>
+              <label htmlFor="staff-email" style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: '#334155', marginBottom: '0.35rem' }}>
+                Work email
+              </label>
+              <input
+                id="staff-email"
+                type="email"
+                required
+                aria-required="true"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                style={inputStyle}
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={busy}
+              className="btn-premium"
+              style={{ padding: '0.75rem', fontSize: '0.92rem', fontWeight: 700 }}
+            >
+              {busy ? 'Sending code...' : 'Email me a code'}
+            </button>
+          </form>
+        )}
 
         <div role="alert" aria-live="assertive" style={{ minHeight: '1.4rem', marginTop: '1rem' }}>
           {error && <p style={{ margin: 0, fontSize: '0.85rem', color: '#b91c1c' }}>{error}</p>}

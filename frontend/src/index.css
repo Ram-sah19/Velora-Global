@@ -1,6 +1,7 @@
 :root {
   --bg-card: #ffffff;
   --border-color: #e2e8f0;
+  
   --border-hover: #cbd5e1;
   
   --primary-blue: #2563eb;
@@ -386,6 +387,11 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
   width: 100%;
 }
 
+/* Column labels, not headlines, so they take the UI sans like every other small title. */
+.global-footer h4 {
+  font-family: var(--font-ui);
+}
+
 /* Comprehensive Responsive Utilities for Mobile & Tablet Devices */
 
 @media (max-width: 1024px) {
@@ -457,7 +463,6 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
   gap: 0.3rem;
   padding: 0.5rem 0.35rem;
   color: #0b0f19;
-  font-family: var(--font-ui);
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.14em;
@@ -737,7 +742,7 @@ button:disabled {
   font-size: clamp(1.85rem, 3.4vw, 2.6rem) !important;
   font-weight: 800;
   line-height: 1.15;
-  /* -0.03em from .premium-headline is a Cormorant value; it crashes Playfair up. */
+  /* Looser than .premium-headline's -0.03em, which crowds a title running to 2.6rem. */
   letter-spacing: -0.006em;
   margin: 0 0 0.85rem 0;
 }
@@ -2481,8 +2486,8 @@ button:disabled {
   }
 }
 
-/* The global ≤768px h3 size is tuned for a geometric sans; Playfair needs the step up
-   to hold the same visual weight inside a card. */
+/* The global ≤768px h3 size is small for a title that heads a whole card row, so the
+   premium pages step it up. */
 @media (max-width: 768px) {
   :is(.internships-page, .training-page, .about-page, .team-page) .ip-card__title {
     font-size: 1.42rem !important;
@@ -2499,25 +2504,23 @@ button:disabled {
 }
 
 /* ============================================================
-   Display type on the program and client-facing pages. Playfair Display
-   carries the headings there; every other page, the navbar and the locked hero
-   keep the Cormorant token. Inter prose and Manrope labels are unchanged.
-   Playfair draws far darker than Cormorant at the same weight, so the display
-   tiers drop to 500 — the lighter Playfair weight already loaded.
+   Two display tiers: Cormorant Garamond carries the section headlines through the
+   --font-heading token, Manrope carries the card and sub-item titles. Inter prose
+   is unchanged, and each card class keeps the weight it declares for itself.
    ============================================================ */
-.home-page :is(.hp-band, .concept-band),
-.services-page,
-.internships-page,
-.training-page,
-.about-page,
-.team-page {
-  --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
-}
 
-.home-page :is(.hp-band, .concept-band) :is(h1, h2, h3, h4):not(.svc-aside-label),
-:is(.services-page, .internships-page, .training-page, .about-page, .team-page) :is(h1, h2, h3, h4):not(.svc-aside-label, .ip-label),
-.home-page .hp-fact__value {
-  font-weight: 500;
+/* The serif belongs on headlines only: at 18-26px its hairline contrast reads
+   decorative, so the card tier takes the UI sans. */
+.hp-cell__title,
+.hp-panel__title,
+.hp-pillar__title,
+.concept-card-title,
+.svc-card__title,
+.svc-step__title,
+.ip-card__title,
+.ip-level__name,
+.ip-person__name {
+  font-family: var(--font-ui);
 }
 
 /* The reference sets its small-caps labels wider than the current tracking. */
@@ -2603,8 +2606,8 @@ button:disabled {
 
 .hero-capability__value {
   display: block;
-  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  font-weight: 500;
+  font-family: var(--font-heading);
+  font-weight: 600;
   font-size: clamp(1.15rem, 1.6vw, 1.5rem);
   line-height: 1.25;
   letter-spacing: -0.005em;
@@ -2646,16 +2649,57 @@ button:disabled {
 }
 
 /* ============================================================
-   Home bands (hp-*) — What We Do, footprint, Features, Talent, FAQ and Contact.
+   Home bands (hp-*) — What We Do, Product Concepts, footprint, Features, Talent, FAQ and Contact.
    Same vocabulary as svc-*: flat surface, hairline rules, 8px/5px radii,
-   Playfair display type on this page, Manrope for chips and labels.
+   Average display type, Roboto Serif text, Manrope for chips and labels.
    ============================================================ */
+
+/* Scoped to the bands rather than .home-page so the locked hero keeps Cormorant, and the
+   other routes keep theirs. font-family is set, not just the token, because paragraphs
+   inherit body's already-resolved Inter. Average ships 400 only, so the display headings
+   go to 400 instead of synthesising a bold. */
+.home-page :is(.hp-band, .concept-band) {
+  --font-heading: 'Average', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-body: 'Roboto Serif', Inter, sans-serif;
+  font-family: var(--font-body);
+}
+
+.home-page :is(.hp-band, .concept-band) :is(.hp-title, .hp-fact__value, .hp-cell__num, .concept-title) {
+  font-weight: 400;
+}
+
 .hp-band {
   /* !important beats the mobile `section { padding: 2.5rem 0 !important }` rule. */
   padding: clamp(3rem, 5.4vw, 4.6rem) 0 !important;
   background: var(--svc-surface-soft);
   border-top: 1px solid var(--svc-hairline);
   border-bottom: 1px solid var(--svc-hairline);
+}
+
+/* ============================================================
+   Scroll reveal on the home bands. The band surface keeps its full
+   opacity and only the contents rise, so mid-transition the neighbouring
+   bands never show bare white between them. The locked hero carries
+   neither .hp-band nor .concept-band, so it is outside this scope.
+   ============================================================ */
+.home-page :is(.hp-band, .concept-band) > .container {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.home-page :is(.hp-band.is-inview, .concept-band.is-inview) > .container {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-page :is(.hp-band, .concept-band) > .container {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 .hp-head {
@@ -3175,7 +3219,7 @@ button:disabled {
   margin-bottom: 0;
 }
 
-/* What We Do band: the five published service lines as a ruled index, so the
+/* What We Do band: the published service lines as a ruled index, so the
    band reads as a service list rather than a second copy of the region picker. */
 .hp-svc {
   margin: 0 0 2.3rem;
@@ -3214,7 +3258,7 @@ button:disabled {
 
 .hp-contact__title {
   margin: 0 0 1.1rem;
-  font-family: var(--font-heading);
+  font-family: var(--font-ui);
   font-size: 1.3rem;
   font-weight: 600;
   line-height: 1.2;
@@ -4896,7 +4940,7 @@ textarea.svc-input {
 
 .cb__title {
   margin-bottom: 0.4rem;
-  font-family: var(--font-heading);
+  font-family: var(--font-ui);
   font-size: 1.3rem;
   font-weight: 600;
   letter-spacing: -0.005em;
@@ -5019,4 +5063,3 @@ textarea.svc-input {
     margin-left: 0;
   }
 }
-

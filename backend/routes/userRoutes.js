@@ -61,6 +61,8 @@ router.post('/register-admin', rateLimit({
 }), userController.registerAdmin);
 
 router.post('/login', loginLimiter, userController.loginUser);
+// Staff second factor: the code is 5 minutes old at most and good for one guess-set.
+router.post('/verify-login-otp', otpLimiter, userController.verifyLoginOtp);
 
 router.post('/forgot-password', forgotPasswordLimiter, userController.forgotPassword);
 router.post('/reset-password', resetPasswordLimiter, userController.resetPassword);

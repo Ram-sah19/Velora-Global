@@ -46,6 +46,7 @@ export const api = {
   registerClient: (data) => request('/users/register-client', { method: 'POST', body: JSON.stringify(data) }),
   registerAdmin: (data) => request('/users/register-admin', { method: 'POST', body: JSON.stringify(data) }),
   loginUser: (email, password) => request('/users/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
+  verifyLoginOtp: (email, otpCode) => request('/users/verify-login-otp', { method: 'POST', body: JSON.stringify({ email, otpCode }) }),
   getCurrentUser: () => request('/users/me'),
   logoutUser: () => request('/users/logout', { method: 'POST' }),
   deleteUser: (id) => request(`/users/${encodeURIComponent(id)}`, { method: 'DELETE' }),

@@ -131,7 +131,6 @@ function DrawerLink({ href, isActive, onActivate, activeBg = '#2563eb', activeSo
         textAlign: 'left',
         fontSize: '0.78rem',
         fontWeight: '500',
-        fontFamily: 'var(--font-ui)',
         textTransform: 'uppercase',
         letterSpacing: '0.13em',
         background: isActive ? activeSoft : '#f8fafc',

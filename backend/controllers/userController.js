@@ -2,12 +2,57 @@ const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const User = require('../models/User');
 const { readLocalDb, writeLocalDb } = require('../db');
-const { sendPasswordResetEmail, sendVerificationEmail, sendOtpEmail } = require('../services/emailService');
+const { sendPasswordResetEmail, sendVerificationEmail, sendOtpEmail, sendLoginOtpEmail } = require('../services/emailService');
 const { sendWhatsAppOtp } = require('../services/whatsappService');
 
 // 30-Day Session Duration
 const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 const SALT_ROUNDS = 10;
+
+// Staff accounts sign in with their work email and an emailed code only — no password is
+// checked, so the session is only ever minted by verifyLoginOtp.
+const STAFF_TYPES = ['admin', 'superadmin'];
+const LOGIN_OTP_MS = 5 * 60 * 1000;
+const MAX_LOGIN_OTP_ATTEMPTS = 5;
+// A verified staff session is a working-day session, not a month-long one.
+const STAFF_SESSION_MS = 8 * 60 * 60 * 1000;
+
+function hashOtp(code) {
+  return crypto.createHash('sha256').update(code).digest('hex');
+}
+
+/**
+ * Reads and writes the pending staff login code. Atlas is primary and db.json is the
+ * fallback the rest of this controller uses, so both are covered here rather than at
+ * each of the three call sites.
+ */
+async function loadLoginOtp(emailClean) {
+  try {
+    return await User.findOne({ email: emailClean }).select('+loginOtp +loginOtpExpiry +loginOtpAttempts');
+  } catch (e) {
+    const db = readLocalDb();
+    return (db.users || []).find(u => u.email === emailClean) || null;
+  }
+}
+
+async function saveLoginOtp(emailClean, patch) {
+  try {
+    await User.updateOne({ email: emailClean }, patch);
+  } catch (e) {
+    const db = readLocalDb();
+    const localUser = (db.users || []).find(u => u.email === emailClean);
+    if (localUser) {
+      Object.assign(localUser, patch);
+      writeLocalDb(db);
+    }
+  }
+}
+
+/** Keeps the first two characters of the local part, so the UI can say where the code went. */
+function maskEmail(email) {
+  const [local, domain] = email.split('@');
+  return `${(local || '').slice(0, 2)}***@${domain || ''}`;
+}
 
 /**
  * Strips sensitive fields before sending user data to the client.
@@ -20,7 +65,8 @@ function safeUser(user) {
   // Callers that load a user with .select('+verificationOtp') must still not have
   // the hash handed back to the browser — it is crackable offline.
   ['resetToken', 'resetTokenExpiry', 'verificationToken', 'verificationTokenExpiry',
-    'verificationOtp', 'verificationOtpExpiry', 'phoneOtp', 'phoneOtpExpiry']
+    'verificationOtp', 'verificationOtpExpiry', 'phoneOtp', 'phoneOtpExpiry',
+    'loginOtp', 'loginOtpExpiry', 'loginOtpAttempts']
     .forEach(field => delete u[field]);
   return u;
 }
@@ -35,9 +81,9 @@ function parseCookies(cookieHeader) {
   return list;
 }
 
-function create30DaySession(res, user) {
-const sessionId = crypto.randomBytes(32).toString('hex');
-  const expiresAt = new Date(Date.now() + THIRTY_DAYS_MS).toISOString();
+function createSession(res, user, sessionMs = THIRTY_DAYS_MS) {
+  const sessionId = crypto.randomBytes(32).toString('hex');
+  const expiresAt = new Date(Date.now() + sessionMs).toISOString();
 
   const db = readLocalDb();
   if (!db.sessions) db.sessions = [];
@@ -55,7 +101,7 @@ const sessionId = crypto.randomBytes(32).toString('hex');
   const cookieOptions = [
     `velora_refresh_token=${sessionId}`,
     `Path=/`,
-    `Max-Age=${Math.floor(THIRTY_DAYS_MS / 1000)}`,
+    `Max-Age=${Math.floor(sessionMs / 1000)}`,
     `HttpOnly`,
     isProd ? `SameSite=None` : `SameSite=Lax`
   ];
@@ -305,7 +351,7 @@ exports.registerStudent = async (req, res) => {
       writeLocalDb(db);
     }
 
-    create30DaySession(res, savedUser);
+    createSession(res, savedUser);
 
     res.status(201).json({
       message: 'Account registered successfully! Welcome to Velora Global.',
@@ -367,7 +413,7 @@ exports.registerClient = async (req, res) => {
       writeLocalDb(db);
     }
 
-    create30DaySession(res, savedClient);
+    createSession(res, savedClient);
 
     res.status(201).json({
       message: 'Corporate client account registered successfully! Welcome to Velora Global.',
@@ -429,8 +475,12 @@ exports.registerAdmin = async (req, res) => {
       writeLocalDb(db);
     }
 
-    create30DaySession(res, newAdmin);
-    res.status(201).json({ message: 'Super Admin registered successfully', user: safeUser(savedAdmin) });
+    // No session here: signing a superadmin in from the registration endpoint would
+    // bypass the email code every other staff entry has to clear.
+    res.status(201).json({
+      message: 'Super Admin registered successfully. Sign in to receive a verification code.',
+      user: safeUser(savedAdmin)
+    });
   } catch (err) {
     console.error('registerAdmin error:', err);
     res.status(500).json({ error: 'Admin registration failed. Please try again.' });
@@ -441,8 +491,8 @@ exports.registerAdmin = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' });
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
     }
 
     const emailClean = email.toLowerCase().trim();
@@ -462,6 +512,32 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ error: 'Email or password is incorrect.' });
     }
 
+    // Staff sign-in is email + code only: no password is compared on this path.
+    if (STAFF_TYPES.includes(user.userType)) {
+      const otpCode = crypto.randomInt(100000, 999999).toString();
+      await saveLoginOtp(emailClean, {
+        loginOtp: hashOtp(otpCode),
+        loginOtpExpiry: new Date(Date.now() + LOGIN_OTP_MS),
+        loginOtpAttempts: 0
+      });
+
+      try {
+        await sendLoginOtpEmail(emailClean, otpCode, user.name);
+      } catch (emailErr) {
+        // Fail closed. The code is the only thing standing between a work email address
+        // and the portal, so a send that never left the server cannot be waved through.
+        await saveLoginOtp(emailClean, { loginOtp: null, loginOtpExpiry: null, loginOtpAttempts: null });
+        console.error('Staff login OTP email failed:', emailErr.message);
+        return res.status(503).json({ error: 'The verification code email could not be sent, so staff sign-in is blocked. Please try again shortly.' });
+      }
+
+      return res.json({ otpRequired: true, maskedEmail: maskEmail(emailClean) });
+    }
+
+    if (!password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+
     // Compare hashed password using bcrypt (bcrypt-only — no plaintext fallback)
     let passwordMatch = false;
     if (user.password) {
@@ -472,7 +548,7 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ error: 'Email or password is incorrect.' });
     }
 
-    create30DaySession(res, user);
+    createSession(res, user);
 
     res.json({
       message: 'Login successful',
@@ -480,6 +556,72 @@ exports.loginUser = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ error: 'Server error.' });
+  }
+};
+
+// ─── STAFF SIGN-IN EMAIL CODE (5-Minute Expiry) ───────────────────────────────
+// This is the whole staff authentication, not a second factor: the session cookie is
+// minted here and nowhere else for admin/superadmin accounts.
+exports.verifyLoginOtp = async (req, res) => {
+  try {
+    const { email, otpCode } = req.body;
+    if (!email || !otpCode) {
+      return res.status(400).json({ error: 'Email and 6-digit code are required.' });
+    }
+
+    const cleanOtp = otpCode.toString().trim();
+    if (!/^\d{6}$/.test(cleanOtp)) {
+      return res.status(400).json({ error: 'Enter the 6-digit code from your email.' });
+    }
+
+    const emailClean = email.toLowerCase().trim();
+    const user = await loadLoginOtp(emailClean);
+
+    // Same answer for "not staff" and "no code pending", so this cannot list staff accounts.
+    if (!user || !STAFF_TYPES.includes(user.userType) || !user.loginOtp) {
+      return res.status(400).json({ error: 'No pending code for this sign-in. Please sign in again.' });
+    }
+
+    if (new Date(user.loginOtpExpiry) < new Date()) {
+      await saveLoginOtp(emailClean, { loginOtp: null, loginOtpExpiry: null, loginOtpAttempts: null });
+      return res.status(400).json({ error: 'That code expired after 5 minutes. Please sign in again for a new one.' });
+    }
+
+    const attempts = user.loginOtpAttempts || 0;
+    if (attempts >= MAX_LOGIN_OTP_ATTEMPTS) {
+      await saveLoginOtp(emailClean, { loginOtp: null, loginOtpExpiry: null, loginOtpAttempts: null });
+      return res.status(400).json({ error: 'Too many incorrect codes. Please sign in again for a new one.' });
+    }
+
+    const hashedOtp = hashOtp(cleanOtp);
+    const expected = Buffer.from(user.loginOtp, 'hex');
+    const received = Buffer.from(hashedOtp, 'hex');
+    if (expected.length !== received.length || !crypto.timingSafeEqual(expected, received)) {
+      const next = attempts + 1;
+      const patch = { loginOtpAttempts: next };
+      if (next >= MAX_LOGIN_OTP_ATTEMPTS) {
+        patch.loginOtp = null;
+        patch.loginOtpExpiry = null;
+        patch.loginOtpAttempts = null;
+      }
+      await saveLoginOtp(emailClean, patch);
+      return res.status(400).json({
+        error: next >= MAX_LOGIN_OTP_ATTEMPTS
+          ? 'Too many incorrect codes. This code is cancelled — please sign in again.'
+          : `Incorrect 6-digit code. ${MAX_LOGIN_OTP_ATTEMPTS - next} attempts left before this code is cancelled.`
+      });
+    }
+
+    // Single use: cleared before the session exists, so a captured code cannot be replayed.
+    await saveLoginOtp(emailClean, { loginOtp: null, loginOtpExpiry: null, loginOtpAttempts: null });
+    createSession(res, user, STAFF_SESSION_MS);
+
+    res.json({
+      message: 'Staff sign-in verified.',
+      user: safeUser(user)
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Server error during code verification.' });
   }
 };
 
@@ -541,7 +683,7 @@ exports.verifyOtp = async (req, res) => {
     }
 
     user.isVerified = true;
-    create30DaySession(res, user);
+    createSession(res, user);
 
     res.json({
       message: 'Email verified successfully! Account activated.',
@@ -753,7 +895,7 @@ exports.verifyEmail = async (req, res) => {
     }
 
     user.isVerified = true;
-    create30DaySession(res, user);
+    createSession(res, user);
 
     res.json({
       message: 'Email verified successfully! Your account is now active.',

@@ -133,6 +133,18 @@ npm start
 ```
 *Frontend application launches at `http://localhost:3000`.*
 
+## Releases and Production CI/CD
+
+The application starts at version `1.0.0`. Every push to `main` runs the production
+validation pipeline. After tests and the frontend build pass, GitHub Actions creates
+the next patch version (`1.0.1`, `1.0.2`, and so on), commits it, creates a matching
+Git tag, and calls the configured production deployment hook.
+
+Create a repository environment named `production` and add the
+`PRODUCTION_DEPLOY_HOOK_URL` secret. The hook should accept a `POST` request with
+the release `version`, source `commit`, and `artifact` (`production-bundle.tar.gz`).
+The artifact contains the built frontend and backend source for that release.
+
 ---
 
 ## License & Ownership

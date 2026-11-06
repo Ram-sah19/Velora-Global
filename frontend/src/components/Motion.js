@@ -73,7 +73,7 @@ export function VeloraIntro({ onComplete }) {
         letterSpacing: '0.22em',
         textTransform: 'uppercase',
         fontWeight: '600',
-        fontFamily: "'Outfit', sans-serif",
+        fontFamily: 'var(--font-ui)',
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'translateY(0)' : 'translateY(10px)',
         transition: 'opacity 0.45s ease 0.22s, transform 0.45s ease 0.22s',
