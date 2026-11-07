@@ -527,7 +527,7 @@ exports.loginUser = async (req, res) => {
         // Fail closed. The code is the only thing standing between a work email address
         // and the portal, so a send that never left the server cannot be waved through.
         await saveLoginOtp(emailClean, { loginOtp: null, loginOtpExpiry: null, loginOtpAttempts: null });
-        console.error('Staff login OTP email failed:', emailErr.message);
+        console.error('Staff login OTP email failed:', emailErr.code || 'NO_CODE', '|', emailErr.command || 'CONN', '|', emailErr.message);
         return res.status(503).json({ error: 'The verification code email could not be sent, so staff sign-in is blocked. Please try again shortly.' });
       }
 

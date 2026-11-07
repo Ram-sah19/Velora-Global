@@ -253,6 +253,8 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`🌐 Velora Global Backend Server running on port ${PORT}`);
   console.log(`🔒 Security: Helmet ✓ | Rate Limiting ✓ | NoSQL Sanitize ✓ | CORS Strict ✓`);
+  // Presence only, never the values: this is the first line to read when a mail send fails.
+  console.log(`📧 SMTP: EMAIL_USER ${process.env.EMAIL_USER ? '✓' : '✗ MISSING'} | EMAIL_PASS ${process.env.EMAIL_PASS ? '✓' : '✗ MISSING'}`);
 
   // ─── 10. CRON HEARTBEAT — Self Keep-Alive Ping Every 14 Minutes ─────────────
   const https = require('https');
