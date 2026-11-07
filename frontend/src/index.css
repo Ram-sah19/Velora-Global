@@ -527,6 +527,12 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
     padding: 2.5rem 0 !important;
   }
 
+  /* The hero stage is exactly 100vh, so this padding pushed it below the top edge and
+     left a body-coloured strip showing through the transparent navbar. */
+  .home-page > section:first-child {
+    padding: 0 !important;
+  }
+
   .container {
     padding: 0 1rem !important;
   }
@@ -3219,26 +3225,298 @@ button:disabled {
   margin-bottom: 0;
 }
 
-/* What We Do band: the published service lines as a ruled index, so the
-   band reads as a service list rather than a second copy of the region picker. */
-.hp-svc {
-  margin: 0 0 2.3rem;
+/* ============================================================
+   What We Do band: the six service lines set as a letterpress menu —
+   a centred display head over a brass hairline, then numbered entries
+   in ordinal / name / description columns. Rules only, no shells.
+   ============================================================ */
+.hp-lux {
+  --lux-gold: #8f6a24;
 }
 
-.hp-svc__row {
+.hp-lux__head {
+  max-width: 780px;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+
+.hp-lux__eyebrow {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--lux-gold);
+}
+
+.hp-lux__title {
+  margin: 0.9rem 0 0;
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: clamp(2.35rem, 4.6vw, 3.4rem);
+  line-height: 1.06;
+  letter-spacing: -0.012em;
+  color: var(--svc-ink);
+}
+
+/* The band's only ornament: one brass rule, centred under the title. */
+.hp-lux__divider {
+  display: block;
+  width: 76px;
+  height: 1px;
+  margin: 1.35rem auto 1.4rem;
+  background: var(--lux-gold);
+}
+
+.hp-lux__lede {
+  margin: 0 auto;
+  max-width: 66ch;
+  font-size: 1rem;
+  line-height: 1.86;
+  letter-spacing: -0.011em;
+  color: var(--svc-body);
+}
+
+/* Brass opens and closes the index; the entries between carry neutral hairlines.
+   The measure is set here rather than on the prose so the rules end where the text does. */
+.hp-lux__index {
+  max-width: 920px;
+  margin: 0 auto;
+  border-top: 1px solid var(--lux-gold);
+  border-bottom: 1px solid var(--lux-gold);
+}
+
+.hp-lux__entry {
   display: grid;
-  grid-template-columns: minmax(0, 330px) minmax(0, 1fr);
-  gap: 0.2rem 2.2rem;
+  grid-template-columns: 3.4rem minmax(0, 300px) minmax(0, 1fr);
+  gap: 0 2rem;
   align-items: start;
-  padding: 1.4rem 0 1.5rem;
+  padding: 2.1rem 0 2.2rem;
 }
 
-.hp-svc__id .hp-cell__label {
-  margin-bottom: 0.5rem;
+.hp-lux__entry + .hp-lux__entry {
+  border-top: 1px solid var(--svc-hairline);
 }
 
-.hp-svc__id .hp-cell__title {
-  margin-bottom: 0;
+.hp-lux__num {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--lux-gold);
+}
+
+.hp-lux__cat {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--svc-muted);
+}
+
+.hp-lux__name {
+  margin: 0.55rem 0 0;
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: clamp(1.35rem, 2vw, 1.72rem);
+  line-height: 1.22;
+  letter-spacing: -0.006em;
+  color: var(--svc-ink);
+  text-wrap: balance;
+}
+
+.hp-lux__text {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.85;
+  letter-spacing: -0.011em;
+  color: var(--svc-body);
+}
+
+.hp-lux__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.6rem;
+}
+
+@media (max-width: 1023px) {
+  .hp-lux__head {
+    margin-bottom: 2.2rem;
+  }
+
+  .hp-lux__entry {
+    grid-template-columns: 2.6rem minmax(0, 1fr);
+    gap: 0 1.1rem;
+    padding: 1.5rem 0 1.6rem;
+  }
+
+  /* Without a third column the description drops under the name. */
+  .hp-lux__text {
+    grid-column: 2;
+    margin-top: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hp-lux__entry {
+    grid-template-columns: 2.2rem minmax(0, 1fr);
+    gap: 0 0.9rem;
+  }
+
+  .hp-lux__lede {
+    font-size: 0.95rem;
+  }
+}
+
+/* ============================================================
+   PREVIEW ONLY (/?whatwedo=v3): the same six lines as a dot-leader menu on
+   warm paper — letterspaced small-caps label, display name, dotted leader out
+   to the brass ordinal, description hanging under the name. No shells.
+   ============================================================ */
+.hp-menu {
+  /* #856020 on this paper is 5.2:1, so the small-caps label and ordinals pass AA. */
+  --menu-gold: #856020;
+  --menu-paper: #f8f5ef;
+  --menu-leader: #c9bda4;
+  --menu-edge: #e6dcc8;
+  background: var(--menu-paper);
+  border-top-color: var(--menu-edge);
+  border-bottom-color: var(--menu-edge);
+  /* The locked hero's capabilities row has a 4.5rem bottom margin that escapes the
+     section, leaving a 72px body-coloured strip above this band. Cancelling it keeps
+     the paper flush with the hero without touching the hero file. */
+  margin-top: -4.5rem;
+}
+
+.hp-menu__head {
+  max-width: 760px;
+  margin: 0 auto 2.9rem;
+  text-align: center;
+}
+
+.hp-menu__eyebrow {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--menu-gold);
+}
+
+.hp-menu__title {
+  margin: 0.85rem 0 0;
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: clamp(2.25rem, 4.4vw, 3.2rem);
+  line-height: 1.08;
+  letter-spacing: -0.012em;
+  color: var(--svc-ink);
+}
+
+.hp-menu__lede {
+  margin: 1.25rem auto 0;
+  max-width: 62ch;
+  font-size: 1rem;
+  line-height: 1.86;
+  letter-spacing: -0.011em;
+  color: var(--svc-body);
+}
+
+/* The leaders carry the separation, so the entries between need no rules of
+   their own — brass hairlines only open and close the index. */
+.hp-menu__index {
+  max-width: 880px;
+  margin: 0 auto;
+  border-top: 1px solid var(--menu-gold);
+  border-bottom: 1px solid var(--menu-gold);
+}
+
+.hp-menu__entry {
+  padding: 1.8rem 0 1.9rem;
+}
+
+.hp-menu__label {
+  margin: 0 0 0.55rem;
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--menu-gold);
+}
+
+/* A textless flex item bottoms out on the name's first baseline, which is
+   exactly where a menu leader belongs. */
+.hp-menu__line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+}
+
+.hp-menu__name {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: clamp(1.28rem, 1.95vw, 1.62rem);
+  line-height: 1.24;
+  letter-spacing: -0.008em;
+  color: var(--svc-ink);
+}
+
+.hp-menu__leader {
+  flex: 1 1 2rem;
+  min-width: 2rem;
+  border-bottom: 1px dotted var(--menu-leader);
+}
+
+.hp-menu__num {
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  font-variant-numeric: tabular-nums;
+  color: var(--menu-gold);
+}
+
+.hp-menu__text {
+  margin: 0.65rem 0 0;
+  max-width: 62ch;
+  font-size: 0.92rem;
+  line-height: 1.8;
+  letter-spacing: -0.011em;
+  color: var(--svc-body);
+}
+
+.hp-menu__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.4rem;
+}
+
+@media (max-width: 768px) {
+  /* A wrapping name leaves the leader high in the row, so it drops out and the
+     ordinal sits against the right edge of the measure instead. */
+  .hp-menu__leader {
+    display: none;
+  }
+
+  .hp-menu__line {
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .hp-menu__entry {
+    padding: 1.35rem 0 1.45rem;
+  }
+
+  .hp-menu__head {
+    margin-bottom: 2.1rem;
+  }
 }
 
 /* FAQ band: the same ruled Q&A rows as /services, held to a narrower reading column. */
@@ -3435,12 +3713,6 @@ button:disabled {
 
   .hp-cells {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .hp-svc__row {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.35rem;
-    padding: 1.15rem 0 1.25rem;
   }
 
   .hp-cell:nth-child(odd) {
@@ -4272,19 +4544,19 @@ textarea.svc-input {
     justify-content: space-between !important;
     gap: 0.5rem !important;
   }
+}
 
-  /* Never let the home-page transparent navbar overlap hero text on smaller screens */
-  .navbar-transparent {
-    background: rgba(255, 255, 255, 0.78) !important;
-    backdrop-filter: blur(14px) !important;
-    -webkit-backdrop-filter: blur(14px) !important;
-    border-bottom: 1px solid rgba(226, 232, 240, 0.7) !important;
-    box-shadow: 0 2px 12px rgba(11, 18, 32, 0.06) !important;
+/* The counseling CTA now sits beside the icon-only menu button, so it shrinks with the
+   viewport (clamp in its inline style) instead of vanishing at 520px. The arrow goes
+   first, then the whole button below 360px, where the row would overflow — the drawer
+   repeats the same action either way. */
+@media (max-width: 420px) {
+  .nav-cta svg {
+    display: none !important;
   }
 }
 
-/* Hide the counseling CTA on small phones; it stays available inside the menu drawer */
-@media (max-width: 520px) {
+@media (max-width: 359px) {
   .nav-cta {
     display: none !important;
   }
@@ -4791,7 +5063,7 @@ textarea.svc-input {
     visibility: visible;
   }
 
-  .cert-sheet {
+0  .cert-sheet {
     position: absolute;
     top: 0;
     left: 0;

@@ -29,6 +29,7 @@ import {
 const HomePage = lazy(() => import('./pages/HomePage'));
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
+const CareersPage = lazy(() => import('./pages/CareersPage'));
 const TeamPage = lazy(() => import('./pages/TeamPage'));
 const InternshipsPage = lazy(() => import('./pages/InternshipsPage'));
 const TrainingPage = lazy(() => import('./pages/TrainingPage'));
@@ -323,6 +324,8 @@ export default function App() {
                   onTeamClick={() => handleTabChange('team')}
                 />
               )}
+
+              {activeTab === 'careers' && <CareersPage />}
 
               {activeTab === 'team' && (
                 <TeamPage 

@@ -322,7 +322,7 @@ async function sendLoginOtpEmail(toEmail, otpCode, name = 'Staff Member') {
 async function sendInquiryEmail(inquiry) {
   const recipientEmail = (
     process.env.INQUIRY_RECIPIENT_EMAIL ||
-    'info@velora-global.online'
+    'veloraglobal.hr@gmail.com'
   ).trim();
 
   // The admin notification is awaited so the API can report a mail failure.

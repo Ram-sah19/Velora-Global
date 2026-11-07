@@ -317,8 +317,8 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
           <div className="container" style={{ width: '100%' }}>
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '3.5rem',
+              /* 568px is the width this column had beside the removed founder spotlight. */
+              gridTemplateColumns: 'minmax(0, 568px)',
               alignItems: 'center'
             }}>
               
@@ -443,69 +443,6 @@ export default function HeroSection({ onExploreClick, onTrainingClick, onService
                     >
                       Enterprise Solutions ➔
                     </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Hero Founder Image Spotlight */}
-              <div style={{ display: 'flex', justifyContent: 'center', width: '100%', ...reveal(180) }}>
-                <div style={{
-                  position: 'relative',
-                  width: '100%',
-                  maxWidth: '380px',
-                  height: '430px',
-                  borderRadius: '200px 200px 24px 24px',
-                  background: 'linear-gradient(180deg, #dbeafe 0%, #0a2540 100%)',
-                  display: 'flex',
-                  alignItems: 'flex-end',
-                  justifyContent: 'center',
-                  boxShadow: '0 20px 50px rgba(10, 37, 64, 0.18)',
-                  overflow: 'hidden'
-                }}>
-                  <img 
-                    src="/media/abhishek_sah.jpg" 
-                    alt="Abhishek Sah - Founder & CEO"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "/media/ram_sah.jpg";
-                    }}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover'
-                    }}
-                  />
-
-                  <div className="corporate-card" style={{
-                    position: 'absolute',
-                    bottom: '1.5rem',
-                    left: '1.25rem',
-                    right: '1.25rem',
-                    padding: '0.85rem 1.25rem',
-                    background: 'rgba(255, 255, 255, 0.88)',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    borderRadius: '14px',
-                    border: '1px solid rgba(255, 255, 255, 0.9)',
-                    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.12)'
-                  }}>
-                    <div>
-                      <h4 style={{ fontSize: '0.95rem', color: '#0b0f19', margin: 0, fontWeight: '800' }}>Abhishek Sah</h4>
-                      <span style={{ fontSize: '0.75rem', color: '#2563eb', fontWeight: '700' }}>Founder & CEO • Velora Global</span>
-                    </div>
-                    <span style={{
-                      fontSize: '0.72rem',
-                      fontWeight: '700',
-                      background: '#f1f5f9',
-                      color: '#334155',
-                      padding: '0.2rem 0.5rem',
-                      borderRadius: '6px'
-                    }}>
-                      Founding Team
-                    </span>
                   </div>
                 </div>
               </div>
