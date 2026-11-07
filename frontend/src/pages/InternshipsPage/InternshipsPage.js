@@ -120,8 +120,8 @@ export default function InternshipsPage({ activeRole, onApplySuccess, currentUse
         <SectionHead
           level={1}
           eyebrow="Practical Work Experience"
-          title="Project-Based Tech Internships in Nepal"
-          lede="Build real deliverables in the domain you choose, with 1-to-1 mentor reviews. You pick the length when you apply, from two weeks to six months."
+          title="Student Tech Internships in Nepal"
+          lede="Build real project deliverables, strengthen your portfolio and learn production workflows with 1-to-1 mentor reviews. Choose a remote internship duration from two weeks to six months."
         />
 
         <dl className="ip-facts">

@@ -14,6 +14,7 @@ export const TRAINING_APPLICATION_FORM_URL = "https://forms.gle/a4zqUUQ3eCP6141a
 
 // Company Support Email
 export const SUPPORT_EMAIL = "info@velora-global.online";
+export const INQUIRY_RECIPIENT_EMAIL = "veloraglobal.hr@gmail.com";
 
 // Production Website Base URL
 export const SITE_URL = "https://velora-global.online";

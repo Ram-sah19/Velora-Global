@@ -51,6 +51,41 @@ const ChevronIcon = ({ open }) => (
   </svg>
 );
 
+const ServiceIcon = ({ category }) => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c58a16" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+    {category === 'web' && (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M3 12h18M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.5-3.6-9S9.6 5.5 12 3Z" />
+      </>
+    )}
+    {category === 'marketing' && (
+      <>
+        <path d="M4 20V12M10 20V7M16 20V4M22 20H2" />
+        <path d="m4 8 6-4 6 1 5-3" />
+      </>
+    )}
+    {category === 'support' && (
+      <>
+        <path d="m14.7 6.3 3-3 3 3-3 3" />
+        <path d="m17.7 3.3-7.9 7.9M5 14l-2 2 5 5 2-2M9 10l5 5" />
+      </>
+    )}
+  </svg>
+);
+
+const MenuArrow = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c58a16" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+    <path d="m9 6 6 6-6 6" />
+  </svg>
+);
+
+const ExploreIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="#c58a16" aria-hidden="true" focusable="false">
+    <path d="m12 2 1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2Zm7 14 .8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16Z" />
+  </svg>
+);
+
 const MenuIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true" focusable="false">
     <line x1="3" y1="7" x2="21" y2="7" />
@@ -70,7 +105,7 @@ const CloseIcon = () => (
 // so the menu and the page advertise the same six offerings.
 const SERVICE_MENU_COLUMNS = [
   {
-    heading: 'Web Development',
+    heading: 'Software Solutions',
     category: 'web',
     items: [
       'Business & Corporate Sites',
@@ -159,6 +194,7 @@ export default function Navbar({
   const dropdownRef = useRef(null);
   const companyDropdownRef = useRef(null);
   const leaveTimerRef = useRef(null);
+  const companyLeaveTimerRef = useRef(null);
   const drawerCloseTimerRef = useRef(null);
 
   // Dynamic scroll listener for transparent navbar effect
@@ -189,18 +225,20 @@ export default function Navbar({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
+      if (companyLeaveTimerRef.current) clearTimeout(companyLeaveTimerRef.current);
     };
   }, []);
 
   const handleMouseEnter = () => {
     if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
+    if (companyLeaveTimerRef.current) clearTimeout(companyLeaveTimerRef.current);
+    setShowCompanyDropdown(false);
     setShowServicesDropdown(true);
   };
 
   const handleMouseLeave = () => {
     leaveTimerRef.current = setTimeout(() => {
       setShowServicesDropdown(false);
-      setShowCompanyDropdown(false);
     }, 150);
   };
 
@@ -331,9 +369,9 @@ export default function Navbar({
                   padding: '1.15rem 1.25rem',
                   boxShadow: '0 16px 40px -18px rgba(11, 18, 32, 0.28)'
                 }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: '1.5rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 0 }}>
                     {SERVICE_MENU_COLUMNS.map((column) => (
-                      <div key={column.heading}>
+                      <div key={column.heading} style={{ padding: '0 1.25rem', borderRight: '1px solid #d9d2c5' }}>
                         <a
                           href={tabToPathMap.services}
                           onClick={(event) => {
@@ -343,26 +381,36 @@ export default function Navbar({
                             }
                           }}
                           className="dropdown-menu-item"
-                          style={{ fontWeight: '700', color: '#0b0f19', padding: '0.35rem 0.9rem' }}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.65rem',
+                            fontWeight: '800',
+                            color: '#171717',
+                            padding: '0.1rem 0 0.75rem',
+                            fontSize: '0.93rem'
+                          }}
                         >
+                          <ServiceIcon category={column.category} />
                           {column.heading}
                         </a>
 
                         <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
                           {column.items.map((item) => (
-                            <li key={item} style={{ padding: '0.3rem 0.9rem', fontSize: '0.82rem', color: '#64748b', lineHeight: '1.35' }}>
-                              {item}
+                            <li key={item} style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', padding: '0.34rem 0', fontSize: '0.81rem', color: '#3f3f46', lineHeight: '1.35', whiteSpace: 'nowrap' }}>
+                              <MenuArrow />
+                              <span>{item}</span>
                             </li>
                           ))}
                         </ul>
                       </div>
                     ))}
 
-                    <div style={{ borderLeft: '1px solid #e2e8f0', paddingLeft: '1.5rem' }}>
-                      <span style={{ display: 'block', padding: '0.35rem 0.9rem', fontSize: '0.7rem', fontWeight: '700', letterSpacing: '0.07em', textTransform: 'uppercase', color: '#94a3b8' }}>
-                        Explore
+                    <div style={{ padding: '1rem 1.25rem 1.1rem', marginLeft: '1rem' }}>
+                      <span style={{ display: 'block', padding: '0 0 0.65rem', borderBottom: '2px solid #d9bd87', fontSize: '0.95rem', fontWeight: '800', color: '#171717' }}>
+                        Explore More
                       </span>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem', marginTop: '0.2rem' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.22rem', marginTop: '0.55rem' }}>
                         {SERVICE_MENU_LINKS.map((link) => (
                           <a
                             key={link.label}
@@ -374,8 +422,11 @@ export default function Navbar({
                               }
                             }}
                             className="dropdown-menu-item"
+                            style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', padding: '0.35rem 0', color: '#3f3f46', fontSize: '0.81rem', whiteSpace: 'nowrap' }}
                           >
+                            <ExploreIcon />
                             {link.label}
+                            <span style={{ marginLeft: 'auto', color: '#c58a16', fontSize: '1rem' }}>→</span>
                           </a>
                         ))}
                       </div>
@@ -387,13 +438,26 @@ export default function Navbar({
 
             <div
               ref={companyDropdownRef}
-              onMouseEnter={() => setShowCompanyDropdown(true)}
-              onMouseLeave={() => setShowCompanyDropdown(false)}
+              onMouseEnter={() => {
+                if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
+                if (companyLeaveTimerRef.current) clearTimeout(companyLeaveTimerRef.current);
+                setShowServicesDropdown(false);
+                setShowCompanyDropdown(true);
+              }}
+              onMouseLeave={() => {
+                companyLeaveTimerRef.current = setTimeout(() => {
+                  setShowCompanyDropdown(false);
+                }, 180);
+              }}
+              onFocusCapture={() => {
+                if (companyLeaveTimerRef.current) clearTimeout(companyLeaveTimerRef.current);
+                setShowCompanyDropdown(true);
+              }}
               style={{ position: 'relative' }}
             >
               <NavTab
                 href={tabToPathMap.about}
-                isActive={activeTab === 'about' || activeTab === 'internships'}
+                isActive={activeTab === 'about' || activeTab === 'careers'}
                 hasPopup
                 expanded={showCompanyDropdown}
                 onActivate={() => setShowCompanyDropdown((previous) => !previous)}
@@ -418,20 +482,39 @@ export default function Navbar({
               >
                 <div
                   style={{
-                    minWidth: '180px',
+                    minWidth: '250px',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '0.2rem',
-                    padding: '0.65rem',
+                    gap: '0.25rem',
+                    padding: '1rem 1.25rem 1.1rem',
                     background: '#ffffff',
                     border: '1px solid #e4e8ef',
-                    borderRadius: '10px',
+                    borderRadius: '12px',
                     boxShadow: '0 16px 40px -18px rgba(11, 18, 32, 0.28)'
                   }}
                 >
+                  <span style={{
+                    display: 'block',
+                    padding: '0 0 0.65rem',
+                    marginBottom: '0.25rem',
+                    borderBottom: '2px solid #d9d2c5',
+                    fontSize: '0.95rem',
+                    fontWeight: '800',
+                    color: '#171717'
+                  }}>
+                    Company
+                  </span>
                   <a
                     href={tabToPathMap.about}
                     className="dropdown-menu-item"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.65rem',
+                      padding: '0.4rem 0',
+                      color: '#3f3f46',
+                      fontSize: '0.84rem'
+                    }}
                     onClick={(event) => {
                       if (isPlainLeftClick(event)) {
                         event.preventDefault();
@@ -440,11 +523,20 @@ export default function Navbar({
                       }
                     }}
                   >
+                    <MenuArrow />
                     About Us
                   </a>
                   <a
                     href={tabToPathMap.careers}
                     className="dropdown-menu-item"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.65rem',
+                      padding: '0.4rem 0',
+                      color: '#3f3f46',
+                      fontSize: '0.84rem'
+                    }}
                     onClick={(event) => {
                       if (isPlainLeftClick(event)) {
                         event.preventDefault();
@@ -453,6 +545,7 @@ export default function Navbar({
                       }
                     }}
                   >
+                    <MenuArrow />
                     Careers
                   </a>
                 </div>

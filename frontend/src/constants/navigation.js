@@ -35,13 +35,13 @@ export const pathToTabMap = {
 };
 
 export const pageTitles = {
-  home: 'Velora Global | Software Solutions in Nepal',
-  services: 'IT Solutions & Software Development in Nepal | Velora Global',
-  about: 'About Velora Global | Company, Leadership & How We Work',
-  careers: 'Careers at Velora Global | Open Positions',
+  home: 'Software Solutions, Internships & Training in Nepal | Velora Global',
+  services: 'Software Solutions for Businesses in Nepal | Velora Global',
+  about: 'Velora Global | Software Solutions, Internships & Training',
+  careers: 'Careers & Open Jobs at Velora Global | Nepal',
   team: 'Executive Leadership & Mentors | Velora Global',
-  internships: 'Tech Internships in Nepal for Students | Velora Global',
-  training: 'Tech Training in Nepal | Velora Global',
+  internships: 'Student Tech Internships in Nepal | Real Project Experience',
+  training: 'Practical Tech Training in Nepal for Students | Velora Global',
   privacy: 'Privacy Policy | Velora Global',
   terms: 'Terms & Conditions | Velora Global',
   client: 'Corporate Client Workspace | Velora Global',
@@ -49,13 +49,13 @@ export const pageTitles = {
 };
 
 export const pageDescriptions = {
-  home: 'Custom websites, mobile apps and AI chatbots for businesses. Internships and tech training for students. Built in Kathmandu, Nepal, delivered remotely.',
-  services: 'IT solutions for businesses in Nepal: web platforms, mobile apps, AI tools, digital marketing and SEO. Published NPR fee bands, source code handed over.',
-  about: 'A Kathmandu technology company: one team builds web, mobile and AI software for clients, the other runs internships and training for students across Nepal.',
-  careers: 'Current open positions at Velora Global: Sales Intern, Business Development Intern and Code Instructor.',
+  home: 'Custom software solutions for businesses in Nepal, plus real-project internships and practical tech training for students. Built in Kathmandu and delivered remotely.',
+  services: 'Custom software solutions for Nepalese businesses: web platforms, mobile apps, AI chatbots, SEO and digital marketing with clear NPR pricing.',
+  about: 'Velora Global builds software for businesses and provides project-based internships and practical training for students in Nepal.',
+  careers: 'Apply for current Velora Global openings: Sales Intern, Business Development Intern and Code Instructor.',
   team: 'Meet the Velora Global leadership team: Abhishek Sah (Founder & CEO), Krishna Sah (Co-Founder & CTO), Rohit Sah (Co-Founder & COO) and Shivshankar Sah.',
-  internships: 'Internships where students ship real client work with 1-to-1 mentors. One-time mentorship fee from NPR 500. Pick 2 weeks to 6 months, fully remote.',
-  training: 'Instructor-led tech training in Nepal: frontend, backend, full stack, AI, machine learning, Python, Java, UI/UX, mobile and testing. From NPR 1,999.',
+  internships: 'Student internships in Nepal where you build real project deliverables with 1-to-1 mentors, code reviews and a verified certificate. Remote durations from 2 weeks to 6 months.',
+  training: 'Practical tech training in Nepal for students and working professionals: frontend, backend, full stack, AI, Python, Java, UI/UX, mobile and testing.',
   privacy: 'How Velora Global collects, stores, shares and deletes personal data for students, interns and corporate clients, and how to request access or removal.',
   terms: 'The terms that govern Velora Global internship and training enrolment, client project delivery, certificates, fees and refunds.',
   client: 'Private client workspace for reviewing ongoing software deliverables, milestones, source code repositories and project timelines.',

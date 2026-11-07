@@ -209,8 +209,8 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
         <SectionHead
           level={1}
           eyebrow="Solutions for Business Owners"
-          title="IT Solutions & Custom Software Development in Nepal"
-          lede="Velora Global builds digital systems that help businesses run better — custom web platforms, mobile applications, automated customer support, and the campaigns that bring customers to them. We also handle what comes after launch: making your business easier to find online, and keeping your systems current, secure, and dependable. Every service line below publishes an indicative NPR fee band for its usual scope."
+          title="Software Solutions for Businesses in Nepal"
+          lede="Velora Global builds custom web platforms, mobile apps, AI chatbots and digital growth systems for businesses in Nepal. We scope the work clearly, publish indicative NPR pricing, hand over your source code, and support your system after launch."
         />
 
         <div className="svc-toolbar" role="group" aria-label="Filter services by category">
@@ -361,6 +361,5 @@ export default function ServicesPage({ selectedCategory = 'all', currentUser }) 
     </section>
   );
 }
-
 
 

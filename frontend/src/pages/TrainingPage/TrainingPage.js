@@ -117,8 +117,8 @@ export default function TrainingPage({ activeRole, onApplySuccess, currentUser }
         <SectionHead
           level={1}
           eyebrow="Guided Skill Training"
-          title="Tech Training in Nepal"
-          lede="Instructor-led programs in high-demand stacks and languages, with live sessions, step-by-step builds and a full codebase walkthrough. Every program ends with a certificate carrying a verifiable ID."
+          title="Practical Tech Training in Nepal"
+          lede="Learn frontend, backend, full stack, AI and other in-demand skills through instructor-led sessions, step-by-step projects and full codebase walkthroughs. Built for students and working professionals."
         />
 
         <dl className="ip-facts">
