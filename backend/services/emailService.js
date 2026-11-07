@@ -1,34 +1,33 @@
-const nodemailer = require('nodemailer');
-
 /**
- * Creates a reusable nodemailer transporter using Gmail SMTP.
- * In production on Render, set EMAIL_USER and EMAIL_PASS as environment variables.
- * EMAIL_PASS should be a Gmail App Password (not your regular Gmail password).
- * Guide: https://support.google.com/accounts/answer/185833
+ * Mail goes out through the Resend HTTPS API on port 443. Render blocks outbound SMTP
+ * (25, 465, 587) on free web services, and the college network intercepts SMTP TLS, so
+ * a Gmail SMTP login can never connect from either place. 443 is open in both.
  */
-function createTransporter() {
-  const user = (process.env.EMAIL_USER || '').trim();
-  const pass = (process.env.EMAIL_PASS || '').replace(/\s+/g, '').trim();
+const MAIL_API = 'https://api.resend.com/emails';
 
-  if (!user || !pass) {
-    throw new Error('EMAIL_USER and EMAIL_PASS environment variables must be set.');
+/** True when no real send is possible, so callers may fall back to printing the secret. */
+function mailUnconfigured() {
+  return !(process.env.RESEND_API_KEY || '').trim() || !(process.env.MAIL_FROM || '').trim();
+}
+
+async function sendMail({ from, to, subject, html }) {
+  if (mailUnconfigured()) {
+    throw new Error('RESEND_API_KEY and MAIL_FROM environment variables must be set.');
   }
 
-  return nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: { user, pass },
-    requireTLS: true,
-    family: 4,
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 15000,
-    // Always verified: an untrusted chain means the SMTP login (and every message body)
-    // is handed to whoever holds the certificate, so a permissive dev mode would send
-    // real credentials into whatever network path the developer happens to be on.
-    tls: { rejectUnauthorized: true }
+  const res = await fetch(MAIL_API, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.RESEND_API_KEY.trim()}`,
+      'Content-Type': 'application/json'
+    },
+    // The From address has to sit on the domain verified in Resend, never gmail.com.
+    body: JSON.stringify({ from: `${from} <${process.env.MAIL_FROM.trim()}>`, to, subject, html })
   });
+
+  if (!res.ok) {
+    throw new Error(`Resend ${res.status} for ${to}: ${(await res.text()).slice(0, 200)}`);
+  }
 }
 
 /**
@@ -38,12 +37,7 @@ function createTransporter() {
  * @param {string} name     - Recipient's name
  */
 async function sendPasswordResetEmail(toEmail, resetUrl, name = 'Valued User') {
-  const isPlaceholder = !process.env.EMAIL_USER || 
-                        !process.env.EMAIL_PASS || 
-                        process.env.EMAIL_USER.includes('your-gmail') || 
-                        process.env.EMAIL_PASS.includes('your-gmail-app-password');
-
-  if (isPlaceholder) {
+  if (mailUnconfigured()) {
     console.log('\n================================================================');
     console.log('🔑 [DEV MODE] PASSWORD RESET LINK GENERATED:');
     console.log(`To: ${toEmail}`);
@@ -51,8 +45,6 @@ async function sendPasswordResetEmail(toEmail, resetUrl, name = 'Valued User') {
     console.log('================================================================\n');
     return; // Don't throw error in dev mode
   }
-
-  const transporter = createTransporter();
 
   const html = `
   <!DOCTYPE html>
@@ -140,8 +132,8 @@ async function sendPasswordResetEmail(toEmail, resetUrl, name = 'Valued User') {
   </html>
   `;
 
-  await transporter.sendMail({
-    from: `"Velora Global" <${process.env.EMAIL_USER}>`,
+  await sendMail({
+    from: 'Velora Global',
     to: toEmail,
     subject: '🔐 Reset Your Velora Global Password',
     html
@@ -155,12 +147,7 @@ async function sendPasswordResetEmail(toEmail, resetUrl, name = 'Valued User') {
  * @param {string} name      - Recipient's name
  */
 async function sendVerificationEmail(toEmail, verifyUrl, name = 'New User') {
-  const isPlaceholder = !process.env.EMAIL_USER || 
-                        !process.env.EMAIL_PASS || 
-                        process.env.EMAIL_USER.includes('your-gmail') || 
-                        process.env.EMAIL_PASS.includes('your-gmail-app-password');
-
-  if (isPlaceholder) {
+  if (mailUnconfigured()) {
     console.log('\n================================================================');
     console.log('✉️ [DEV MODE] EMAIL VERIFICATION LINK GENERATED:');
     console.log(`To: ${toEmail}`);
@@ -168,8 +155,6 @@ async function sendVerificationEmail(toEmail, verifyUrl, name = 'New User') {
     console.log('================================================================\n');
     return;
   }
-
-  const transporter = createTransporter();
 
   const html = `
   <!DOCTYPE html>
@@ -222,8 +207,8 @@ async function sendVerificationEmail(toEmail, verifyUrl, name = 'New User') {
   </html>
   `;
 
-  await transporter.sendMail({
-    from: `"Velora Global" <${process.env.EMAIL_USER}>`,
+  await sendMail({
+    from: 'Velora Global',
     to: toEmail,
     subject: '✉️ Confirm Your Velora Global Email',
     html
@@ -296,10 +281,9 @@ function logOtpInLocalDev(toEmail, otpCode, validityMinutes, purpose) {
 /** Sends the account-activation 6-digit code (10-min expiry). */
 async function sendOtpEmail(toEmail, otpCode, name = 'Valued User') {
   logOtpInLocalDev(toEmail, otpCode, 10, 'account activation');
-  const transporter = createTransporter();
 
-  await transporter.sendMail({
-    from: `"Velora Global Support" <${process.env.EMAIL_USER || 'veloraglobal.hr@gmail.com'}>`,
+  await sendMail({
+    from: 'Velora Global Support',
     to: toEmail,
     subject: `🔑 Your Verification Code: ${otpCode}`,
     html: otpEmailHtml(name, otpCode, 10, 'Use the 6-digit verification code below to activate your Velora Global account.')
@@ -308,25 +292,18 @@ async function sendOtpEmail(toEmail, otpCode, name = 'Valued User') {
 
 /**
  * Sends the staff sign-in code (5-min expiry). Deliberately not caught: a caller that
- * cannot deliver the code has to fail the login, otherwise a broken SMTP setup silently
- * drops the portal back to password-only. Placeholder credentials print the code outside
- * production so local portal testing does not depend on Gmail.
+ * cannot deliver the code has to fail the login, otherwise a broken mail setup silently
+ * drops the portal back to email-only. Missing credentials print the code outside
+ * production so local portal testing does not depend on a live provider.
  */
 async function sendLoginOtpEmail(toEmail, otpCode, name = 'Staff Member') {
-  const isPlaceholder = !process.env.EMAIL_USER ||
-                        !process.env.EMAIL_PASS ||
-                        process.env.EMAIL_USER.includes('your-gmail') ||
-                        process.env.EMAIL_PASS.includes('your-gmail-app-password');
-
-  if (isPlaceholder && process.env.NODE_ENV !== 'production') {
+  if (mailUnconfigured() && process.env.NODE_ENV !== 'production') {
     logOtpInLocalDev(toEmail, otpCode, 5, 'staff sign-in');
     return;
   }
 
-  const transporter = createTransporter();
-
-  await transporter.sendMail({
-    from: `"Velora Global Support" <${process.env.EMAIL_USER}>`,
+  await sendMail({
+    from: 'Velora Global Support',
     to: toEmail,
     // Code-free subject: it would otherwise sit in inbox previews and mail-gateway logs.
     subject: 'Your Velora staff sign-in code',
@@ -343,17 +320,14 @@ async function sendLoginOtpEmail(toEmail, otpCode, name = 'Staff Member') {
  * Sends notifications for new client inquiries and contact submissions.
  */
 async function sendInquiryEmail(inquiry) {
-  const transporter = createTransporter();
-  // Gmail only accepts the authenticated account (or a verified alias) as From.
-  const senderEmail = (process.env.EMAIL_USER || '').trim();
   const recipientEmail = (
     process.env.INQUIRY_RECIPIENT_EMAIL ||
     'info@velora-global.online'
   ).trim();
 
-  // The admin notification is awaited so the API can report an SMTP failure.
-  await transporter.sendMail({
-    from: `"Velora Global Inquiries" <${senderEmail}>`,
+  // The admin notification is awaited so the API can report a mail failure.
+  await sendMail({
+    from: 'Velora Global Inquiries',
     to: recipientEmail,
     subject: `New Inquiry: ${inquiry.projectType || 'General'} from ${inquiry.clientName}`,
     html: `
@@ -371,8 +345,8 @@ async function sendInquiryEmail(inquiry) {
 
   // A client auto-reply is useful, but must not hide a successful admin delivery.
   try {
-    await transporter.sendMail({
-      from: `"Velora Global" <${senderEmail}>`,
+    await sendMail({
+      from: 'Velora Global',
       to: inquiry.email,
       subject: 'We have received your inquiry — Velora Global',
       html: `
