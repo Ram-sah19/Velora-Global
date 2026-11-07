@@ -72,6 +72,14 @@ const ABOUT = {
   faq: "about"
 };
 
+const CAREERS = {
+  title: "Careers at Velora Global | Open Positions",
+  description:
+    "Current open positions at Velora Global: Sales Intern, Business Development Intern and Code Instructor.",
+  canonical: SITE + "/careers",
+  graph: "webpage"
+};
+
 const PRIVACY = {
   title: "Privacy Policy | Velora Global",
   description:
@@ -130,6 +138,7 @@ export const ROUTE_SEO = {
   "/training": TRAINING,
   "/team": TEAM,
   "/about": ABOUT,
+  "/careers": CAREERS,
   "/privacy-policy": PRIVACY,
   "/terms": TERMS,
   "/client": CLIENT,

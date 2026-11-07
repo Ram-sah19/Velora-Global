@@ -70,17 +70,11 @@ export default function ContactSection() {
       message: payload.description
     });
 
-    const recorded = api.submitClientInquiry(payload);
-    // Launched while the click gesture is still live, which is what lets the mail client open.
-    window.location.href = mailto;
-
     let saved = true;
     let failure = '';
     try {
-      await recorded;
+      await api.submitClientInquiry(payload);
     } catch (err) {
-      // 503 means the message is stored and only our own SMTP failed — the visitor's mail
-      // client is already opening with the same details, so nothing here is their problem.
       if (err.status !== 503) {
         saved = false;
         failure = err.name === 'AbortError'

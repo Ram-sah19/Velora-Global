@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import HeroSection from './HeroSection';
 import DomainSpecializationsSection from './DomainSpecializationsSection';
+import DomainSpecializationsMenuPreview from './DomainSpecializationsMenuPreview';
 import StudentJourneySection from './StudentJourneySection';
 import FeaturesSection from './FeaturesSection';
 import GlobalFootprintSection from './GlobalFootprintSection';
@@ -67,6 +68,9 @@ export default function HomePage({ onExploreClick, onTrainingClick, onServicesCl
   useHeroFreezeLock();
   useBandReveal();
 
+  // Hidden preview of the What We Do band: /?whatwedo=v3
+  const menuPreview = new URLSearchParams(window.location.search).get('whatwedo') === 'v3';
+
   return (
     <div className="home-page landing-page">
       {/* 1. Hero Section with Service-First Enterprise Positioning & Metrics */}
@@ -77,7 +81,11 @@ export default function HomePage({ onExploreClick, onTrainingClick, onServicesCl
       />
 
       {/* 2. What We Do: the published service lines and their business purpose */}
-      <DomainSpecializationsSection onServicesClick={onServicesClick} />
+      {menuPreview ? (
+        <DomainSpecializationsMenuPreview onServicesClick={onServicesClick} />
+      ) : (
+        <DomainSpecializationsSection onServicesClick={onServicesClick} />
+      )}
 
       {/* 3. Product Concepts: four concept builds in a plus grid, full-width teal band */}
       <ProductConceptsSection onConsultationClick={onConsultationClick} />

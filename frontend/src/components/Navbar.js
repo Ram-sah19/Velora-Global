@@ -151,11 +151,13 @@ export default function Navbar({
   onConsultationClick 
 }) {
   const [showServicesDropdown, setShowServicesDropdown] = useState(false);
+  const [showCompanyDropdown, setShowCompanyDropdown] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDrawerClosing, setIsDrawerClosing] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   const dropdownRef = useRef(null);
+  const companyDropdownRef = useRef(null);
   const leaveTimerRef = useRef(null);
   const drawerCloseTimerRef = useRef(null);
 
@@ -179,6 +181,9 @@ export default function Navbar({
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowServicesDropdown(false);
       }
+      if (companyDropdownRef.current && !companyDropdownRef.current.contains(event.target)) {
+        setShowCompanyDropdown(false);
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
@@ -195,6 +200,7 @@ export default function Navbar({
   const handleMouseLeave = () => {
     leaveTimerRef.current = setTimeout(() => {
       setShowServicesDropdown(false);
+      setShowCompanyDropdown(false);
     }, 150);
   };
 
@@ -226,24 +232,25 @@ export default function Navbar({
 
   // An overlay that only dismisses on a pointer click traps keyboard users.
   useEffect(() => {
-    if (!isMobileMenuOpen && !showServicesDropdown) return undefined;
+    if (!isMobileMenuOpen && !showServicesDropdown && !showCompanyDropdown) return undefined;
     const handleKeyDown = (event) => {
       if (event.key !== 'Escape') return;
       if (isMobileMenuOpen) {
         closeMobileMenu();
       } else {
         setShowServicesDropdown(false);
+        setShowCompanyDropdown(false);
       }
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMobileMenuOpen, showServicesDropdown]);
+  }, [isMobileMenuOpen, showServicesDropdown, showCompanyDropdown]);
 
   const isTransparent = activeTab === 'home' && !isScrolled;
 
   return (
-    <nav aria-label="Primary" className={isTransparent ? 'navbar-transparent' : undefined} style={{
+    <nav aria-label="Primary" style={{
       position: 'fixed',
       top: 0,
       left: 0,
@@ -378,9 +385,79 @@ export default function Navbar({
               </div>
             </div>
 
-            <NavTab href={tabToPathMap.about} isActive={activeTab === 'about'} onActivate={() => setActiveTab('about')}>
-              About Us
-            </NavTab>
+            <div
+              ref={companyDropdownRef}
+              onMouseEnter={() => setShowCompanyDropdown(true)}
+              onMouseLeave={() => setShowCompanyDropdown(false)}
+              style={{ position: 'relative' }}
+            >
+              <NavTab
+                href={tabToPathMap.about}
+                isActive={activeTab === 'about' || activeTab === 'internships'}
+                hasPopup
+                expanded={showCompanyDropdown}
+                onActivate={() => setShowCompanyDropdown((previous) => !previous)}
+              >
+                Company
+                <ChevronIcon open={showCompanyDropdown} />
+              </NavTab>
+
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: '-0.75rem',
+                  paddingTop: '0.4rem',
+                  zIndex: 600,
+                  opacity: showCompanyDropdown ? 1 : 0,
+                  visibility: showCompanyDropdown ? 'visible' : 'hidden',
+                  transform: showCompanyDropdown ? 'translateY(0)' : 'translateY(-6px)',
+                  transition: 'opacity 0.2s ease, transform 0.2s ease, visibility 0.2s',
+                  pointerEvents: showCompanyDropdown ? 'auto' : 'none'
+                }}
+              >
+                <div
+                  style={{
+                    minWidth: '180px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.2rem',
+                    padding: '0.65rem',
+                    background: '#ffffff',
+                    border: '1px solid #e4e8ef',
+                    borderRadius: '10px',
+                    boxShadow: '0 16px 40px -18px rgba(11, 18, 32, 0.28)'
+                  }}
+                >
+                  <a
+                    href={tabToPathMap.about}
+                    className="dropdown-menu-item"
+                    onClick={(event) => {
+                      if (isPlainLeftClick(event)) {
+                        event.preventDefault();
+                        setActiveTab('about');
+                        setShowCompanyDropdown(false);
+                      }
+                    }}
+                  >
+                    About Us
+                  </a>
+                  <a
+                    href={tabToPathMap.careers}
+                    className="dropdown-menu-item"
+                    onClick={(event) => {
+                      if (isPlainLeftClick(event)) {
+                        event.preventDefault();
+                        setActiveTab('careers');
+                        setShowCompanyDropdown(false);
+                      }
+                    }}
+                  >
+                    Careers
+                  </a>
+                </div>
+              </div>
+            </div>
 
             <NavTab
               href={tabToPathMap.internships}
@@ -406,8 +483,8 @@ export default function Navbar({
               color: '#ffffff',
               border: 'none',
               borderRadius: '9999px',
-              padding: '0.52rem 1.35rem',
-              fontSize: '0.88rem',
+              padding: '0.5rem clamp(0.7rem, 3.2vw, 1.35rem)',
+              fontSize: 'clamp(0.72rem, 2.6vw, 0.88rem)',
               fontWeight: '800',
               cursor: 'pointer',
               boxShadow: '0 4px 14px rgba(255, 84, 84, 0.35)',
@@ -444,23 +521,21 @@ export default function Navbar({
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-nav-drawer"
             style={{
-              padding: '0.45rem 0.9rem',
+              width: '2.5rem',
+              height: '2.5rem',
               borderRadius: '9999px',
               border: '1px solid #cbd5e1',
               background: '#ffffff',
               color: '#0b0f19',
-              fontSize: '1rem',
-              fontWeight: '700',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.4rem',
+              justifyContent: 'center',
               boxShadow: 'var(--shadow-sm)'
             }}
-            title="Toggle Navigation Menu"
+            aria-label="Toggle navigation menu"
           >
             {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-            <span style={{ fontSize: '0.75rem', fontWeight: '500', letterSpacing: '0.14em', textTransform: 'uppercase' }}>Menu</span>
           </button>
         </div>
 
@@ -496,8 +571,31 @@ export default function Navbar({
               Enterprise Services
             </DrawerLink>
 
-            <DrawerLink href={tabToPathMap.about} isActive={activeTab === 'about'} onActivate={() => { setActiveTab('about'); closeMobileMenu(); }}>
+            <div style={{
+              padding: '0.35rem 1rem 0.1rem',
+              color: '#64748b',
+              fontSize: '0.7rem',
+              fontWeight: '700',
+              letterSpacing: '0.13em',
+              textTransform: 'uppercase'
+            }}>
+              Company
+            </div>
+
+            <DrawerLink
+              href={tabToPathMap.about}
+              isActive={activeTab === 'about'}
+              onActivate={() => { setActiveTab('about'); closeMobileMenu(); }}
+            >
               About Us
+            </DrawerLink>
+
+            <DrawerLink
+              href={tabToPathMap.careers}
+              isActive={activeTab === 'careers'}
+              onActivate={() => { setActiveTab('careers'); closeMobileMenu(); }}
+            >
+              Careers
             </DrawerLink>
 
             <DrawerLink

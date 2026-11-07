@@ -6,7 +6,12 @@ backend/node_modules/
 # Environment variables & secrets
 .env
 *.env
-backend/.env
+**/.env
+**/.env.*
+*.secret
+*.secrets
+**/*secret*
+**/*credential*
 .env.local
 .env.development.local
 .env.test.local
