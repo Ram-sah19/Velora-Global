@@ -4,9 +4,9 @@ import { buildInquiryMailto } from '../services/inquiryMailto';
 import DialogShell from './DialogShell';
 import SelectField from './SelectField';
 
-import { SUPPORT_EMAIL } from '../constants';
+import { INQUIRY_RECIPIENT_EMAIL } from '../constants';
 
-const TARGET_EMAIL = SUPPORT_EMAIL;
+const TARGET_EMAIL = INQUIRY_RECIPIENT_EMAIL;
 
 const SERVICE_OPTIONS = [
   'Custom Web Application Development',
@@ -83,16 +83,10 @@ export default function ClientInquiryModal({ defaultService = 'Custom Web Applic
       message: payload.description
     });
 
-    const recorded = api.submitClientInquiry(payload);
-    // Launched while the click gesture is still live, which is what lets the mail client open.
-    window.location.href = mailto;
-
     try {
-      await recorded;
+      await api.submitClientInquiry(payload);
       setResult({ sent: true, mailto, message: SAVED_MESSAGE });
     } catch (err) {
-      // 503 means the inquiry is stored and only our own SMTP failed. The visitor's mail
-      // client is already opening with the same details, so there is nothing for them to fix.
       if (err.status === 503) {
         setResult({ sent: true, mailto, message: SAVED_MESSAGE });
       } else {

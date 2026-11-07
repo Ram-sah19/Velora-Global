@@ -20,36 +20,36 @@ const SITE = "https://velora-global.online";
 const VERIFY_PATH = /^\/verify\/([A-Za-z0-9][A-Za-z0-9-]{3,31})$/;
 
 const HOMEPAGE = {
-  title: "Velora Global | Software Solutions in Nepal",
+  title: "Software Solutions, Internships & Training in Nepal | Velora Global",
   description:
-    "Custom websites, mobile apps and AI chatbots for businesses. Internships and tech training for students. Built in Kathmandu, Nepal, delivered remotely.",
+    "Custom software solutions for businesses in Nepal, plus real-project internships and practical tech training for students. Built in Kathmandu and delivered remotely.",
   canonical: SITE + "/",
   graph: "home",
   faq: "home"
 };
 
 const SERVICES = {
-  title: "IT Solutions & Software Development in Nepal | Velora Global",
+  title: "Software Solutions for Businesses in Nepal | Velora Global",
   description:
-    "IT solutions for businesses in Nepal: web platforms, mobile apps, AI tools, digital marketing and SEO. Published NPR fee bands, source code handed over.",
+    "Custom software solutions for Nepalese businesses: web platforms, mobile apps, AI chatbots, SEO and digital marketing with clear NPR pricing.",
   canonical: SITE + "/services",
   graph: "service",
   faq: "services"
 };
 
 const INTERNSHIPS = {
-  title: "Tech Internships in Nepal for Students | Velora Global",
+  title: "Student Tech Internships in Nepal | Real Project Experience",
   description:
-    "Internships where students ship real client work with 1-to-1 mentors. One-time mentorship fee from NPR 500. Pick 2 weeks to 6 months, fully remote.",
+    "Student internships in Nepal where you build real project deliverables with 1-to-1 mentors, code reviews and a verified certificate. Remote durations from 2 weeks to 6 months.",
   canonical: SITE + "/internships",
   graph: "program",
   faq: "internships"
 };
 
 const TRAINING = {
-  title: "Tech Training in Nepal | Velora Global",
+  title: "Practical Tech Training in Nepal for Students | Velora Global",
   description:
-    "Instructor-led tech training in Nepal: frontend, backend, full stack, AI, machine learning, Python, Java, UI/UX, mobile and testing. From NPR 1,999.",
+    "Practical tech training in Nepal for students and working professionals: frontend, backend, full stack, AI, Python, Java, UI/UX, mobile and testing.",
   canonical: SITE + "/training",
   graph: "course",
   faq: "training"
@@ -64,18 +64,18 @@ const TEAM = {
 };
 
 const ABOUT = {
-  title: "About Velora Global | Company, Leadership & How We Work",
+  title: "Velora Global | Software Solutions, Internships & Training",
   description:
-    "A Kathmandu technology company: one team builds web, mobile and AI software for clients, the other runs internships and training for students across Nepal.",
+    "Velora Global builds software for businesses and provides project-based internships and practical training for students in Nepal.",
   canonical: SITE + "/about",
   graph: "about",
   faq: "about"
 };
 
 const CAREERS = {
-  title: "Careers at Velora Global | Open Positions",
+  title: "Careers & Open Jobs at Velora Global | Nepal",
   description:
-    "Current open positions at Velora Global: Sales Intern, Business Development Intern and Code Instructor.",
+    "Apply for current Velora Global openings: Sales Intern, Business Development Intern and Code Instructor.",
   canonical: SITE + "/careers",
   graph: "webpage"
 };

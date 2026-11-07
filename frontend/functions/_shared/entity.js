@@ -24,7 +24,7 @@ export const ORG = {
   logo: `${SITE}/logo.png`,
   image: `${SITE}/og-image.png`,
   description:
-    "Technology company in Kathmandu, Nepal building custom web applications, cross-platform mobile apps and AI chatbots, and running project-driven internships and guided training programs.",
+    "Technology company in Kathmandu, Nepal building software solutions for businesses and running project-based internships and practical tech training for students and working professionals.",
   email: "info@velora-global.online",
   telephone: "+977-9826031419",
   founded: "2026",
