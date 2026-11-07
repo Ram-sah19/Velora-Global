@@ -47,7 +47,7 @@ graph TD
         end
         
         subgraph Services ["External Services"]
-            EmailService[emailService.js - Gmail SMTP]
+            EmailService[emailService.js - Resend HTTPS mail API]
         end
     end
 
@@ -72,7 +72,7 @@ graph TD
 Company/
 ├── info.md                      # System Mental Map & Complete Documentation
 ├── backend/                     # Node.js + Express REST API
-│   ├── .env                     # Environment variables (DB, Secrets, SMTP)
+│   ├── .env                     # Environment variables (DB, Secrets, mail API key)
 │   ├── server.js                # Express entry point & middleware initialization
 │   ├── db.js                    # Database connection manager (MongoDB Atlas + Local Fallback)
 │   ├── controllers/             # Business logic handlers
@@ -95,7 +95,7 @@ Company/
 │   │   ├── taskRoutes.js         # /api/tasks
 │   │   └── clientInquiryRoutes.js # /api/client-inquiries
 │   └── services/
-│       └── emailService.js      # Nodemailer SMTP engine (Branded HTML Reset Emails)
+│       └── emailService.js      # Resend HTTPS sender (branded HTML reset, verification, OTP, inquiry emails)
 │
 └── frontend/                    # React 19 Single-Page Application
     ├── public/
@@ -131,7 +131,7 @@ Company/
 | **Password Protection** | `bcryptjs` (12 rounds) | All user passwords hashed before DB storage. Legacy plain-text passwords auto-upgrade upon successful login. |
 | **Session Cookies** | `HttpOnly`, `SameSite=Lax` | Session stored in `velora_refresh_token` cookie — 30 days for students and clients, 8 hours for staff accounts signed in through the emailed code. JavaScript cannot access token (prevents XSS theft). |
 | **LocalStorage Cleanliness** | Minimal profile data only | Stripped all sensitive tokens from `localStorage`. Stores only safe public fields (`name`, `email`, `role`). |
-| **Password Reset** | Crypto + Nodemailer | Generates 32-byte crypto token. Stores SHA-256 hash in DB with 1-hr expiration. Raw token sent via branded Gmail HTML email. |
+| **Password Reset** | Crypto + Resend HTTPS API | Generates 32-byte crypto token. Stores SHA-256 hash in DB with 1-hr expiration. Raw token sent via a branded HTML email through `api.resend.com` (port 443; Render's free tier blocks outbound SMTP). |
 | **API Rate Limiting** | `express-rate-limit` | Strict rate limit on sensitive endpoints (`/api/users/login`, `/api/users/forgot-password`). |
 | **NoSQL Injection Defense** | `express-mongo-sanitize` | Strips `$` and `.` operators from user input in body/query. Sanitizes all search regex inputs. |
 | **HTTP Security Headers** | `helmet` | Sets `X-Content-Type-Options`, `X-Frame-Options`, `X-XSS-Protection`, Strict Referrer Policies. |
@@ -195,9 +195,9 @@ ADMIN_SECRET_KEY=VELORA_SUPER_ADMIN_2026
 NODE_ENV=production
 CLIENT_ORIGIN=https://velora-global.pages.dev
 
-# Password Reset (Gmail SMTP)
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-16-char-app-password
+# Transactional email (Resend HTTPS API)
+RESEND_API_KEY=re_your_resend_api_key
+MAIL_FROM=no-reply@velora-global.online
 ```
 
 ---

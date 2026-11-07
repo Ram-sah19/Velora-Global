@@ -527,7 +527,7 @@ exports.loginUser = async (req, res) => {
         // Fail closed. The code is the only thing standing between a work email address
         // and the portal, so a send that never left the server cannot be waved through.
         await saveLoginOtp(emailClean, { loginOtp: null, loginOtpExpiry: null, loginOtpAttempts: null });
-        console.error('Staff login OTP email failed:', emailErr.code || 'NO_CODE', '|', emailErr.command || 'CONN', '|', emailErr.message);
+        console.error('Staff login OTP email failed:', emailErr.message);
         return res.status(503).json({ error: 'The verification code email could not be sent, so staff sign-in is blocked. Please try again shortly.' });
       }
 
@@ -1013,7 +1013,7 @@ exports.forgotPassword = async (req, res) => {
       console.log(`📧 Password reset email sent to ${emailClean}`);
     } catch (emailErr) {
       console.error('Email send failed:', emailErr.message);
-      // In development mode, return success so testing isn't blocked by missing SMTP setup
+      // In development mode, return success so testing isn't blocked by a missing mail API key
       if (process.env.NODE_ENV !== 'production') {
         return res.json({ message: 'If that email is registered, a reset link has been sent.' });
       }
